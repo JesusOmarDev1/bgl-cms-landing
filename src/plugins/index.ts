@@ -15,7 +15,7 @@ import { Page, Post } from '@/payload-types'
 import { getServerSideURL } from '@/utilities/getURL'
 
 const generateTitle: GenerateTitle<Post | Page> = ({ doc }) => {
-  return doc?.title ? `${doc.title} | Payload Website Template` : 'Payload Website Template'
+  return doc?.title ? `${doc.title} | BGL BASCULAS INDUSTRIALES` : 'BGL BASCULAS INDUSTRIALES'
 }
 
 const generateURL: GenerateURL<Post | Page> = ({ doc }) => {
@@ -35,7 +35,7 @@ export const plugins: Plugin[] = [
             return {
               ...field,
               admin: {
-                description: 'You will need to rebuild the website when changing this field.',
+                description: 'Necesitará reconstruir el sitio web cuando cambie este campo.',
               },
             }
           }

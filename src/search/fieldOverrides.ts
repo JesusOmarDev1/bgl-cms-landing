@@ -4,6 +4,10 @@ export const searchFields: Field[] = [
   {
     name: 'slug',
     type: 'text',
+    label: {
+      en: 'Slug',
+      es: 'Slug',
+    },
     index: true,
     admin: {
       readOnly: true,
@@ -11,7 +15,10 @@ export const searchFields: Field[] = [
   },
   {
     name: 'meta',
-    label: 'Meta',
+    label: {
+      en: 'Meta',
+      es: 'Metadatos',
+    },
     type: 'group',
     index: true,
     admin: {
@@ -21,16 +28,25 @@ export const searchFields: Field[] = [
       {
         type: 'text',
         name: 'title',
-        label: 'Title',
+        label: {
+          en: 'Title',
+          es: 'Título',
+        },
       },
       {
         type: 'text',
         name: 'description',
-        label: 'Description',
+        label: {
+          en: 'Description',
+          es: 'Descripción',
+        },
       },
       {
         name: 'image',
-        label: 'Image',
+        label: {
+          en: 'Media',
+          es: 'Archivo',
+        },
         type: 'upload',
         relationTo: 'media',
       },
@@ -40,6 +56,16 @@ export const searchFields: Field[] = [
     label: 'Categories',
     name: 'categories',
     type: 'array',
+    labels: {
+      singular: {
+        en: 'Category',
+        es: 'Categoría',
+      },
+      plural: {
+        en: 'Categories',
+        es: 'Categorías',
+      },
+    },
     admin: {
       readOnly: true,
     },
@@ -47,14 +73,26 @@ export const searchFields: Field[] = [
       {
         name: 'relationTo',
         type: 'text',
+        label: {
+          en: 'Relation To',
+          es: 'Relación Con',
+        },
       },
       {
         name: 'categoryID',
         type: 'text',
+        label: {
+          en: 'Category ID',
+          es: 'ID de Categoría',
+        },
       },
       {
         name: 'title',
         type: 'text',
+        label: {
+          en: 'Title',
+          es: 'Título',
+        },
       },
     ],
   },

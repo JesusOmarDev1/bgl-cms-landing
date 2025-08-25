@@ -15,6 +15,10 @@ export const slugField: Slug = (fieldToUse = 'title', overrides = {}) => {
   const checkBoxField: CheckboxField = {
     name: 'slugLock',
     type: 'checkbox',
+    label: {
+      en: 'Locked Slug',
+      es: 'Slug Bloqueado',
+    },
     defaultValue: true,
     admin: {
       hidden: true,
@@ -28,7 +32,10 @@ export const slugField: Slug = (fieldToUse = 'title', overrides = {}) => {
     name: 'slug',
     type: 'text',
     index: true,
-    label: 'Slug',
+    label: {
+      en: 'Slug',
+      es: 'Slug',
+    },
     ...(slugOverrides || {}),
     hooks: {
       // Kept this in for hook or API based updates

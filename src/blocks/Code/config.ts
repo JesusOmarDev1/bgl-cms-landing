@@ -2,6 +2,16 @@ import type { Block } from 'payload'
 
 export const Code: Block = {
   slug: 'code',
+  labels: {
+    singular: {
+      en: 'Code',
+      es: 'Código',
+    },
+    plural: {
+      en: 'Code Blocks',
+      es: 'Bloques de Código',
+    },
+  },
   interfaceName: 'CodeBlock',
   fields: [
     {
@@ -10,15 +20,24 @@ export const Code: Block = {
       defaultValue: 'typescript',
       options: [
         {
-          label: 'Typescript',
+          label: {
+            en: 'Typescript',
+            es: 'Typescript',
+          },
           value: 'typescript',
         },
         {
-          label: 'Javascript',
+          label: {
+            en: 'JavaScript',
+            es: 'JavaScript',
+          },
           value: 'javascript',
         },
         {
-          label: 'CSS',
+          label: {
+            en: 'CSS',
+            es: 'CSS',
+          },
           value: 'css',
         },
       ],

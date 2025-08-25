@@ -17,22 +17,37 @@ export const hero: Field = {
       name: 'type',
       type: 'select',
       defaultValue: 'lowImpact',
-      label: 'Type',
+      label: {
+        en: 'Type',
+        es: 'Tipo',
+      },
       options: [
         {
-          label: 'None',
+          label: {
+            en: 'None',
+            es: 'Ninguno',
+          },
           value: 'none',
         },
         {
-          label: 'High Impact',
+          label: {
+            en: 'High Impact',
+            es: 'Alto Impacto',
+          },
           value: 'highImpact',
         },
         {
-          label: 'Medium Impact',
+          label: {
+            en: 'Medium Impact',
+            es: 'Impacto Medio',
+          },
           value: 'mediumImpact',
         },
         {
-          label: 'Low Impact',
+          label: {
+            en: 'Low Impact',
+            es: 'Bajo Impacto',
+          },
           value: 'lowImpact',
         },
       ],
@@ -51,7 +66,10 @@ export const hero: Field = {
           ]
         },
       }),
-      label: false,
+      label: {
+        en: 'Content',
+        es: 'Contenido',
+      },
     },
     linkGroup({
       overrides: {
@@ -61,6 +79,10 @@ export const hero: Field = {
     {
       name: 'media',
       type: 'upload',
+      label: {
+        en: 'Media',
+        es: 'Archivo',
+      },
       admin: {
         condition: (_, { type } = {}) => ['highImpact', 'mediumImpact'].includes(type),
       },

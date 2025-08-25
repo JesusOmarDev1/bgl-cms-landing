@@ -7,12 +7,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+
 import React, { useState } from 'react'
 
 import type { Theme } from './types'
 
 import { useTheme } from '..'
 import { themeLocalStorageKey } from './types'
+import { Monitor, Moon, Sun } from 'lucide-react'
 
 export const ThemeSelector: React.FC = () => {
   const { setTheme } = useTheme()
@@ -42,9 +44,18 @@ export const ThemeSelector: React.FC = () => {
         <SelectValue placeholder="Theme" />
       </SelectTrigger>
       <SelectContent>
-        <SelectItem value="auto">Auto</SelectItem>
-        <SelectItem value="light">Light</SelectItem>
-        <SelectItem value="dark">Dark</SelectItem>
+        <SelectItem value="auto">
+          <Monitor />
+          <span>Sistema</span>
+        </SelectItem>
+        <SelectItem value="light">
+          <Sun />
+          <span>Claro</span>
+        </SelectItem>
+        <SelectItem value="dark">
+          <Moon />
+          <span>Oscuro</span>
+        </SelectItem>
       </SelectContent>
     </Select>
   )

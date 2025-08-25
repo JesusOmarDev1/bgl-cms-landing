@@ -23,6 +23,16 @@ import {
 
 export const Pages: CollectionConfig<'pages'> = {
   slug: 'pages',
+  labels: {
+    singular: {
+      en: 'Page',
+      es: 'Páginas',
+    },
+    plural: {
+      en: 'Pages',
+      es: 'Página',
+    },
+  },
   access: {
     create: authenticated,
     delete: authenticated,
@@ -37,7 +47,7 @@ export const Pages: CollectionConfig<'pages'> = {
     slug: true,
   },
   admin: {
-    defaultColumns: ['title', 'slug', 'updatedAt'],
+    defaultColumns: ['title', 'slug', 'updatedAt', 'publishedAt'],
     livePreview: {
       url: ({ data, req }) => {
         const path = generatePreviewPath({
@@ -61,6 +71,10 @@ export const Pages: CollectionConfig<'pages'> = {
     {
       name: 'title',
       type: 'text',
+      label: {
+        en: 'Title',
+        es: 'Título',
+      },
       required: true,
     },
     {
@@ -68,7 +82,10 @@ export const Pages: CollectionConfig<'pages'> = {
       tabs: [
         {
           fields: [hero],
-          label: 'Hero',
+          label: {
+            en: 'Hero',
+            es: 'Portada',
+          },
         },
         {
           fields: [
@@ -80,13 +97,23 @@ export const Pages: CollectionConfig<'pages'> = {
               admin: {
                 initCollapsed: true,
               },
+              label: {
+                en: 'Layout',
+                es: 'Diseño de Página',
+              },
             },
           ],
-          label: 'Content',
+          label: {
+            en: 'Content',
+            es: 'Contenido',
+          },
         },
         {
           name: 'meta',
-          label: 'SEO',
+          label: {
+            en: 'SEO & Metadata',
+            es: 'SEO y Metadatos',
+          },
           fields: [
             OverviewField({
               titlePath: 'meta.title',
@@ -118,6 +145,10 @@ export const Pages: CollectionConfig<'pages'> = {
       type: 'date',
       admin: {
         position: 'sidebar',
+      },
+      label: {
+        en: 'Published Date',
+        es: 'Fecha de Publicación',
       },
     },
     ...slugField(),

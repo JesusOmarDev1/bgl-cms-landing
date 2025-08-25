@@ -16,6 +16,16 @@ const dirname = path.dirname(filename)
 
 export const Media: CollectionConfig = {
   slug: 'media',
+  labels: {
+    singular: {
+      en: 'Media',
+      es: 'Archivos',
+    },
+    plural: {
+      en: 'Media',
+      es: 'Archivo',
+    },
+  },
   access: {
     create: authenticated,
     delete: authenticated,
@@ -26,11 +36,19 @@ export const Media: CollectionConfig = {
     {
       name: 'alt',
       type: 'text',
-      //required: true,
+      label: {
+        en: 'Alt Text',
+        es: 'Texto Alternativo',
+      },
+      required: true,
     },
     {
       name: 'caption',
       type: 'richText',
+      label: {
+        en: 'Caption',
+        es: 'Subtítulo',
+      },
       editor: lexicalEditor({
         features: ({ rootFeatures }) => {
           return [...rootFeatures, FixedToolbarFeature(), InlineToolbarFeature()]
@@ -43,6 +61,12 @@ export const Media: CollectionConfig = {
     staticDir: path.resolve(dirname, '../../public/media'),
     adminThumbnail: 'thumbnail',
     focalPoint: true,
+    formatOptions: {
+      format: 'png',
+      options: {
+        quality: 80,
+      },
+    },
     imageSizes: [
       {
         name: 'thumbnail',

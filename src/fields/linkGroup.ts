@@ -14,6 +14,16 @@ export const linkGroup: LinkGroupType = ({ appearances, overrides = {} } = {}) =
   const generatedLinkGroup: Field = {
     name: 'links',
     type: 'array',
+    labels: {
+      singular: {
+        en: 'Link',
+        es: 'Enlace',
+      },
+      plural: {
+        en: 'Links',
+        es: 'Enlaces',
+      },
+    },
     fields: [
       link({
         appearances,

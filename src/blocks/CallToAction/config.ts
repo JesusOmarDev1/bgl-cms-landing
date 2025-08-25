@@ -26,17 +26,26 @@ export const CallToAction: Block = {
           ]
         },
       }),
-      label: false,
+      label: {
+        en: 'Content',
+        es: 'Contenido',
+      },
     },
     linkGroup({
-      appearances: ['default', 'outline'],
+      appearances: ['default', 'outline-solid'],
       overrides: {
         maxRows: 2,
       },
     }),
   ],
   labels: {
-    plural: 'Calls to Action',
-    singular: 'Call to Action',
+    plural: {
+      en: 'Call to Actions',
+      es: 'Llamadas a la Acción',
+    },
+    singular: {
+      en: 'Call to Action',
+      es: 'Llamada a la Acción',
+    },
   },
 }

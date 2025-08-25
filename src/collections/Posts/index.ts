@@ -29,6 +29,16 @@ import { slugField } from '@/fields/slug'
 
 export const Posts: CollectionConfig<'posts'> = {
   slug: 'posts',
+  labels: {
+    singular: {
+      en: 'Post',
+      es: 'Publicaciónes',
+    },
+    plural: {
+      en: 'Posts',
+      es: 'Publicacion',
+    },
+  },
   access: {
     create: authenticated,
     delete: authenticated,
@@ -48,7 +58,7 @@ export const Posts: CollectionConfig<'posts'> = {
     },
   },
   admin: {
-    defaultColumns: ['title', 'slug', 'updatedAt'],
+    defaultColumns: ['title', 'slug', 'updatedAt', 'publishedAt'],
     livePreview: {
       url: ({ data, req }) => {
         const path = generatePreviewPath({
@@ -73,6 +83,10 @@ export const Posts: CollectionConfig<'posts'> = {
       name: 'title',
       type: 'text',
       required: true,
+      label: {
+        en: 'Title',
+        es: 'Título',
+      },
     },
     {
       type: 'tabs',
@@ -83,6 +97,10 @@ export const Posts: CollectionConfig<'posts'> = {
               name: 'heroImage',
               type: 'upload',
               relationTo: 'media',
+              label: {
+                en: 'Hero Image',
+                es: 'Imagen de Portada',
+              },
             },
             {
               name: 'content',
@@ -99,17 +117,27 @@ export const Posts: CollectionConfig<'posts'> = {
                   ]
                 },
               }),
-              label: false,
+              label: {
+                en: 'Media block',
+                es: 'Bloque de Medias',
+              },
               required: true,
             },
           ],
-          label: 'Content',
+          label: {
+            en: 'Post Content',
+            es: 'Contenido de la Publicación',
+          },
         },
         {
           fields: [
             {
               name: 'relatedPosts',
               type: 'relationship',
+              label: {
+                en: 'Related Posts',
+                es: 'Publicaciones Relacionadas',
+              },
               admin: {
                 position: 'sidebar',
               },
@@ -126,6 +154,10 @@ export const Posts: CollectionConfig<'posts'> = {
             {
               name: 'categories',
               type: 'relationship',
+              label: {
+                en: 'Categories',
+                es: 'Categorías',
+              },
               admin: {
                 position: 'sidebar',
               },
@@ -133,11 +165,17 @@ export const Posts: CollectionConfig<'posts'> = {
               relationTo: 'categories',
             },
           ],
-          label: 'Meta',
+          label: {
+            en: 'Post Details',
+            es: 'Detalles de la Publicación',
+          },
         },
         {
           name: 'meta',
-          label: 'SEO',
+          label: {
+            en: 'SEO & Metadata',
+            es: 'SEO y Metadatos',
+          },
           fields: [
             OverviewField({
               titlePath: 'meta.title',
@@ -166,6 +204,10 @@ export const Posts: CollectionConfig<'posts'> = {
     },
     {
       name: 'publishedAt',
+      label: {
+        en: 'Published Date',
+        es: 'Fecha de Publicación',
+      },
       type: 'date',
       admin: {
         date: {
@@ -186,6 +228,10 @@ export const Posts: CollectionConfig<'posts'> = {
     },
     {
       name: 'authors',
+      label: {
+        en: 'Authors',
+        es: 'Autores',
+      },
       type: 'relationship',
       admin: {
         position: 'sidebar',

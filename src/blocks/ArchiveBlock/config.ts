@@ -24,19 +24,32 @@ export const Archive: Block = {
           ]
         },
       }),
-      label: 'Intro Content',
+      label: {
+        en: 'Intro Content',
+        es: 'Contenido de Introducción',
+      },
     },
     {
       name: 'populateBy',
       type: 'select',
+      label: {
+        en: 'Populate By',
+        es: 'Rellenar Por',
+      },
       defaultValue: 'collection',
       options: [
         {
-          label: 'Collection',
+          label: {
+            en: 'Collection',
+            es: 'Colección',
+          },
           value: 'collection',
         },
         {
-          label: 'Individual Selection',
+          label: {
+            en: 'Selection',
+            es: 'Selección',
+          },
           value: 'selection',
         },
       ],
@@ -48,7 +61,10 @@ export const Archive: Block = {
         condition: (_, siblingData) => siblingData.populateBy === 'collection',
       },
       defaultValue: 'posts',
-      label: 'Collections To Show',
+      label: {
+        en: 'Relation To',
+        es: 'Relación Con',
+      },
       options: [
         {
           label: 'Posts',
@@ -63,7 +79,10 @@ export const Archive: Block = {
         condition: (_, siblingData) => siblingData.populateBy === 'collection',
       },
       hasMany: true,
-      label: 'Categories To Show',
+      label: {
+        en: 'Categories',
+        es: 'Categorías',
+      },
       relationTo: 'categories',
     },
     {
@@ -74,7 +93,10 @@ export const Archive: Block = {
         step: 1,
       },
       defaultValue: 10,
-      label: 'Limit',
+      label: {
+        en: 'Number of Documents to Show',
+        es: 'Número de Documentos a Mostrar',
+      },
     },
     {
       name: 'selectedDocs',
@@ -83,12 +105,21 @@ export const Archive: Block = {
         condition: (_, siblingData) => siblingData.populateBy === 'selection',
       },
       hasMany: true,
-      label: 'Selection',
+      label: {
+        en: 'Selected Documents',
+        es: 'Documentos Seleccionados',
+      },
       relationTo: ['posts'],
     },
   ],
   labels: {
-    plural: 'Archives',
-    singular: 'Archive',
+    singular: {
+      en: 'Archive',
+      es: 'Archivo',
+    },
+    plural: {
+      en: 'Archives',
+      es: 'Archivos',
+    },
   },
 }

@@ -13,22 +13,38 @@ const columnFields: Field[] = [
   {
     name: 'size',
     type: 'select',
+    label: {
+      en: 'Size',
+      es: 'Tamaño',
+    },
     defaultValue: 'oneThird',
     options: [
       {
-        label: 'One Third',
+        label: {
+          en: 'One Third',
+          es: 'Un Tercio',
+        },
         value: 'oneThird',
       },
       {
-        label: 'Half',
+        label: {
+          en: 'Half',
+          es: 'Mitad',
+        },
         value: 'half',
       },
       {
-        label: 'Two Thirds',
+        label: {
+          en: 'Two Thirds',
+          es: 'Dos Tercios',
+        },
         value: 'twoThirds',
       },
       {
-        label: 'Full',
+        label: {
+          en: 'Full',
+          es: 'Completo',
+        },
         value: 'full',
       },
     ],
@@ -46,11 +62,18 @@ const columnFields: Field[] = [
         ]
       },
     }),
-    label: false,
+    label: {
+      en: 'Content',
+      es: 'Contenido',
+    },
   },
   {
     name: 'enableLink',
     type: 'checkbox',
+    label: {
+      en: 'Enable Link',
+      es: 'Habilitar Enlace',
+    },
   },
   link({
     overrides: {
@@ -65,6 +88,16 @@ const columnFields: Field[] = [
 
 export const Content: Block = {
   slug: 'content',
+  labels: {
+    singular: {
+      en: 'Content',
+      es: 'Contenido',
+    },
+    plural: {
+      en: 'Content Blocks',
+      es: 'Bloques de Contenido',
+    },
+  },
   interfaceName: 'ContentBlock',
   fields: [
     {

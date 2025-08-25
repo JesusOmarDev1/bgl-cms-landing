@@ -15,12 +15,19 @@ export const FormBlock: Block = {
       name: 'form',
       type: 'relationship',
       relationTo: 'forms',
+      label: {
+        en: 'Form',
+        es: 'Formulario',
+      },
       required: true,
     },
     {
       name: 'enableIntro',
       type: 'checkbox',
-      label: 'Enable Intro Content',
+      label: {
+        en: 'Enable Intro Content',
+        es: 'Habilitar Contenido de Introducción',
+      },
     },
     {
       name: 'introContent',
@@ -38,14 +45,23 @@ export const FormBlock: Block = {
           ]
         },
       }),
-      label: 'Intro Content',
+      label: {
+        en: 'Intro Content',
+        es: 'Contenido de Introducción',
+      },
     },
   ],
   graphQL: {
     singularName: 'FormBlock',
   },
   labels: {
-    plural: 'Form Blocks',
-    singular: 'Form Block',
+    plural: {
+      en: 'Form Blocks',
+      es: 'Bloques de Formulario',
+    },
+    singular: {
+      en: 'Form Block',
+      es: 'Bloque de Formulario',
+    },
   },
 }
