@@ -1,9 +1,19 @@
-import type { CollectionConfig } from 'payload'
+import { User } from '@/payload-types'
+import type { CollectionConfig, FieldAccess } from 'payload'
 
-import { authenticated } from '../../access/authenticated'
+const adminOnly: FieldAccess = ({ req: { user } }) => {
+  return user?.customRole === 'admin'
+}
+
+const authenticated: FieldAccess<User> = ({ req: { user } }) => {
+  return Boolean(user)
+}
 
 export const Users: CollectionConfig = {
   slug: 'users',
+  access: {
+    read: () => true,
+  },
   labels: {
     singular: {
       en: 'User',
@@ -13,13 +23,6 @@ export const Users: CollectionConfig = {
       en: 'Users',
       es: 'Usuarios',
     },
-  },
-  access: {
-    admin: authenticated,
-    create: authenticated,
-    delete: authenticated,
-    read: authenticated,
-    update: authenticated,
   },
   admin: {
     defaultColumns: ['name', 'email'],
@@ -36,5 +39,21 @@ export const Users: CollectionConfig = {
       },
     },
   ],
+
   timestamps: true,
+}
+
+{
+  /*
+
+  {
+      name: 'role',
+      type: 'select',
+      options: ['customer', 'editor', 'admin'],
+      access: {
+        create: adminOnly,
+        read: authenticated,
+        update: adminOnly,
+      },
+    },*/
 }

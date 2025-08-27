@@ -10,8 +10,6 @@ import {
 } from '@payloadcms/richtext-lexical'
 
 import { MediaBlock } from '../../blocks/MediaBlock/config'
-import { authenticated } from '@/access/authenticated'
-import { authenticatedOrPublished } from '@/access/authenticatedOrPublished'
 
 export const Products: CollectionConfig = {
   slug: 'products',
@@ -24,12 +22,6 @@ export const Products: CollectionConfig = {
       en: 'Products',
       es: 'Productos',
     },
-  },
-  access: {
-    create: authenticated,
-    delete: authenticated,
-    read: authenticatedOrPublished,
-    update: authenticated,
   },
   defaultPopulate: {
     name: true,

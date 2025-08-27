@@ -68,12 +68,12 @@ export const SlugComponent: React.FC<SlugComponentProps> = ({
       <div className="label-wrapper">
         <FieldLabel htmlFor={`field-${path}`} label={label} />
         {!isLocked && (
-          <Button className="lock-button" buttonStyle="none" onClick={handleGenerate}>
-            Generate
+          <Button className="lock-button" buttonStyle="primary" onClick={handleGenerate}>
+            Generar
           </Button>
         )}
-        <Button className="lock-button" buttonStyle="none" onClick={handleLock}>
-          {isLocked ? 'Unlock' : 'Lock'}
+        <Button className="lock-button" buttonStyle="pill" onClick={handleLock}>
+          {isLocked ? 'Desbloquear' : 'Bloquear'}
         </Button>
       </div>
       <TextInput

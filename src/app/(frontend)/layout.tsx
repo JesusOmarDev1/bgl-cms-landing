@@ -20,7 +20,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
     <ViewTransitions>
       <html
         className={cn(GeistSans.variable, GeistMono.variable)}
-        lang="en"
+        lang="es"
         suppressHydrationWarning
       >
         <head>
@@ -44,6 +44,6 @@ export const metadata: Metadata = {
   openGraph: mergeOpenGraph(),
   twitter: {
     card: 'summary_large_image',
-    creator: '@payloadcms',
+    creator: 'BGL BASCULAS INDUSTRIALES',
   },
 }

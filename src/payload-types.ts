@@ -374,6 +374,7 @@ export interface Category {
 export interface User {
   id: string;
   name?: string | null;
+  customRole: string;
   updatedAt: string;
   createdAt: string;
   email: string;

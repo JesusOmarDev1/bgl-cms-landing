@@ -2,6 +2,7 @@
 import { sqliteAdapter } from '@payloadcms/db-sqlite'
 import { nodemailerAdapter } from '@payloadcms/email-nodemailer'
 import nodemailer from 'nodemailer'
+import payloadSimpleRBAC from '@nouance/payload-simple-rbac'
 
 import sharp from 'sharp' // sharp-import
 import path from 'path'
@@ -21,10 +22,11 @@ import { getServerSideURL } from './utilities/getURL'
 import { en } from '@payloadcms/translations/languages/en'
 import { es } from '@payloadcms/translations/languages/es'
 import { s3Storage } from '@payloadcms/storage-s3'
-import { Products } from './collections/Products'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
+
+export const myRoles = ['customer', 'editor', 'admin']
 
 export default buildConfig({
   email: nodemailerAdapter({
@@ -44,13 +46,11 @@ export default buildConfig({
     translations: { en: en, es: es },
   },
   admin: {
+    suppressHydrationWarning: true,
+    avatar: 'default',
     components: {
       beforeLogin: ['@/components/BeforeLogin'],
       beforeDashboard: ['@/components/BeforeDashboard'],
-    },
-    timezones: {
-      supportedTimezones: [],
-      defaultTimezone: '',
     },
     importMap: {
       baseDir: path.resolve(dirname),
@@ -104,6 +104,58 @@ export default buildConfig({
         region: process.env.S3_REGION || '',
         endpoint: process.env.S3_ENDPOINT || '',
       },
+    }),
+    payloadSimpleRBAC({
+      roles: myRoles,
+      users: [Users.slug],
+      defaultRole: 'customer',
+      globals: [
+        {
+          slug: Header.slug,
+          permissions: {
+            read: 'public',
+            update: 'editor',
+          },
+        },
+      ],
+      collections: [
+        {
+          slug: Posts.slug,
+          permissions: {
+            read: 'publishedOnly',
+            update: 'editor',
+            create: 'editor',
+            delete: 'admin',
+          },
+        },
+        {
+          slug: Users.slug,
+          permissions: {
+            read: 'admin',
+            update: 'admin',
+            create: 'admin',
+            delete: 'admin',
+          },
+        },
+        {
+          slug: Categories.slug,
+          permissions: {
+            read: 'public',
+            update: 'editor',
+            create: 'editor',
+            delete: 'admin',
+          },
+        },
+        {
+          slug: Media.slug,
+          permissions: {
+            read: 'public',
+            update: 'editor',
+            create: 'editor',
+            delete: 'admin',
+          },
+        },
+      ],
     }),
   ],
   secret: process.env.PAYLOAD_SECRET,

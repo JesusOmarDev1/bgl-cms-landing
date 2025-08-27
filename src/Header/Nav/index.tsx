@@ -7,12 +7,9 @@ import type { Header as HeaderType } from '@/payload-types'
 import {
   NavigationMenu,
   NavigationMenuContent,
-  NavigationMenuIndicator,
   NavigationMenuItem,
-  NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
-  NavigationMenuViewport,
 } from '@/components/ui/navigation-menu'
 
 import { CMSLink } from '@/components/Link'
@@ -24,15 +21,16 @@ export const HeaderNav: React.FC<{ data: HeaderType }> = ({ data }) => {
 
   return (
     <header className="flex gap-3 items-center">
-      {/*       {navItems.map(({ link }, i) => {
-        return <CMSLink key={i} {...link} />
-      })}*/}
       <NavigationMenu>
         <NavigationMenuList>
           <NavigationMenuItem>
-            <NavigationMenuTrigger>Item One</NavigationMenuTrigger>
-            <NavigationMenuContent>
-              <NavigationMenuLink>Link</NavigationMenuLink>
+            <NavigationMenuTrigger>Recursos</NavigationMenuTrigger>
+            <NavigationMenuContent className="min-w-[250px]">
+              {navItems.map(({ link }, i) => {
+                return (
+                  <CMSLink className="text-sm space-y-2.5 hover:text-red-600" key={i} {...link} />
+                )
+              })}
             </NavigationMenuContent>
           </NavigationMenuItem>
         </NavigationMenuList>

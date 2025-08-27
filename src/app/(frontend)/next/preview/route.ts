@@ -24,9 +24,12 @@ export async function GET(req: NextRequest): Promise<Response> {
   }
 
   if (!path || !collection || !slug) {
-    return new Response('Parámetros de búsqueda insuficientes. Recarga la pagina de nuevo.', {
-      status: 404,
-    })
+    return new Response(
+      'Parámetros de búsqueda insuficientes, debes de llenar el campo SLUG. Recarga la pagina de nuevo.',
+      {
+        status: 404,
+      },
+    )
   }
 
   if (!path.startsWith('/')) {

@@ -7,6 +7,8 @@ import React, { Fragment } from 'react'
 import type { Post } from '@/payload-types'
 
 import { Media } from '@/components/Media'
+import { Skeleton } from '../ui/skeleton'
+import { Badge } from '../ui/badge'
 
 export type CardPostData = Pick<Post, 'slug' | 'categories' | 'meta' | 'title'>
 
@@ -38,8 +40,10 @@ export const Card: React.FC<{
       ref={card.ref}
     >
       <div className="relative w-full ">
-        {!metaImage && <div className="">No image</div>}
-        {metaImage && typeof metaImage !== 'string' && <Media resource={metaImage} size="33vw" />}
+        {!metaImage && <Skeleton className="size-56 w-full aspect-auto" />}
+        {metaImage && typeof metaImage !== 'string' && (
+          <Media resource={metaImage} size="size-56 w-full aspect-auto" />
+        )}
       </div>
       <div className="p-4">
         {showCategories && hasCategories && (
@@ -50,13 +54,13 @@ export const Card: React.FC<{
                   if (typeof category === 'object') {
                     const { title: titleFromCategory } = category
 
-                    const categoryTitle = titleFromCategory || 'Untitled category'
+                    const categoryTitle = titleFromCategory || 'Sin categoria'
 
                     const isLast = index === categories.length - 1
 
                     return (
                       <Fragment key={index}>
-                        {categoryTitle}
+                        <Badge>{categoryTitle}</Badge>
                         {!isLast && <Fragment>, &nbsp;</Fragment>}
                       </Fragment>
                     )
