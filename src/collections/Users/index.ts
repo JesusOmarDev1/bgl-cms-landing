@@ -1,13 +1,4 @@
-import { User } from '@/payload-types'
-import type { CollectionConfig, FieldAccess } from 'payload'
-
-const adminOnly: FieldAccess = ({ req: { user } }) => {
-  return user?.customRole === 'admin'
-}
-
-const authenticated: FieldAccess<User> = ({ req: { user } }) => {
-  return Boolean(user)
-}
+import type { CollectionConfig } from 'payload'
 
 export const Users: CollectionConfig = {
   slug: 'users',
@@ -41,19 +32,4 @@ export const Users: CollectionConfig = {
   ],
 
   timestamps: true,
-}
-
-{
-  /*
-
-  {
-      name: 'role',
-      type: 'select',
-      options: ['customer', 'editor', 'admin'],
-      access: {
-        create: adminOnly,
-        read: authenticated,
-        update: adminOnly,
-      },
-    },*/
 }

@@ -18,8 +18,6 @@ import {
   OverviewField,
   PreviewField,
 } from '@payloadcms/plugin-seo/fields'
-import { authenticated } from '@/access/authenticated'
-import { authenticatedOrPublished } from '@/access/authenticatedOrPublished'
 
 export const Pages: CollectionConfig<'pages'> = {
   slug: 'pages',

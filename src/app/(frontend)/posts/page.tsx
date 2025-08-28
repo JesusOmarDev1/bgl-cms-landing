@@ -32,7 +32,7 @@ export default async function Page() {
       <PageClient />
       <div className="container mb-16">
         <div className="prose dark:prose-invert max-w-none">
-          <h1 className="bg-gradient-to-tl from-[#555] to-[#000] text-transparent bg-clip-text text-6xl font-black">
+          <h1 className="bg-gradient-to-br from-[#555] to-[#000] dark:from-[#e1e1e1] dark:to-[#fff] text-transparent bg-clip-text text-6xl font-black">
             Publicaciones
           </h1>
         </div>

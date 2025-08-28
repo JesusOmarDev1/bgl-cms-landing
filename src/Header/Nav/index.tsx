@@ -15,6 +15,7 @@ import {
 import { CMSLink } from '@/components/Link'
 import { Link } from 'next-view-transitions'
 import { SearchIcon } from 'lucide-react'
+import { ThemeSelector } from '@/providers/Theme/ThemeSelector'
 
 export const HeaderNav: React.FC<{ data: HeaderType }> = ({ data }) => {
   const navItems = data?.navItems || []
@@ -35,6 +36,7 @@ export const HeaderNav: React.FC<{ data: HeaderType }> = ({ data }) => {
           </NavigationMenuItem>
         </NavigationMenuList>
       </NavigationMenu>
+      <ThemeSelector />
       <Link href="/search">
         <span className="sr-only">Search</span>
         <SearchIcon className="w-5 text-primary" />

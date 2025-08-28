@@ -63,9 +63,12 @@ export default async function Page({ searchParams: searchParamsPromise }: Args) 
     <div className="pt-24 pb-24">
       <PageClient />
       <div className="container mb-16">
-        <div className="prose dark:prose-invert max-w-none text-center">
-          <h1 className="mb-8 lg:mb-16">Buscar</h1>
-
+        <div className="prose dark:prose-invert max-w-7xl text-center">
+          <h1 className="text-6xl font-bold">¿No encontraste lo que buscabas?</h1>
+          <p className="text-zinc-500 lg:mb-16 mb-8">
+            ¡No te preocupes! Estamos aquí para ayudarte. Cuéntanos qué necesitas y haremos lo
+            posible por asistirte.
+          </p>
           <div className="max-w-200 mx-auto">
             <Search />
           </div>
@@ -83,6 +86,6 @@ export default async function Page({ searchParams: searchParamsPromise }: Args) 
 
 export function generateMetadata(): Metadata {
   return {
-    title: `BGL BASCULAS INDUSTRIALES`,
+    title: `Buscador global | BGL BASCULAS INDUSTRIALES`,
   }
 }

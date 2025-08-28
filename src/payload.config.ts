@@ -26,7 +26,7 @@ import { s3Storage } from '@payloadcms/storage-s3'
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
-export const myRoles = ['customer', 'editor', 'admin']
+export const myRoles = ['editor', 'admin']
 
 export default buildConfig({
   email: nodemailerAdapter({
@@ -108,10 +108,17 @@ export default buildConfig({
     payloadSimpleRBAC({
       roles: myRoles,
       users: [Users.slug],
-      defaultRole: 'customer',
+      defaultRole: 'editor',
       globals: [
         {
           slug: Header.slug,
+          permissions: {
+            read: 'public',
+            update: 'editor',
+          },
+        },
+        {
+          slug: Footer.slug,
           permissions: {
             read: 'public',
             update: 'editor',
