@@ -11,9 +11,6 @@ importers:
       '@hookform/resolvers':
         specifier: ^5.2.1
         version: 5.2.1(react-hook-form@7.45.4(react@19.1.0))
-      '@nouance/payload-simple-rbac':
-        specifier: ^0.2.0
-        version: 0.2.0(payload@3.53.0(graphql@16.11.0)(typescript@5.7.3))(react@19.1.0)
       '@payloadcms/admin-bar':
         specifier: 3.53.0
         version: 3.53.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
@@ -1729,12 +1726,6 @@ packages:
   '@nolyfill/is-core-module@1.0.39':
     resolution: {integrity: sha512-nn5ozdjYQpUCZlWGuxcJY/KpxkWQs4DcbMCmKojjyrYDEAGy4Ce19NN4v5MduafTwJlbKc99UA8YhSVqq9yPZA==}
     engines: {node: '>=12.4.0'}
-
-  '@nouance/payload-simple-rbac@0.2.0':
-    resolution: {integrity: sha512-gcEnkbBllNEEIySKGBz2aW9GFMal9Lu91NIk3r9pje2TQbjYiktQYGrQpSpuczlLFxNVOC3zk8ubjM0+nerStg==}
-    peerDependencies:
-      payload: ^1.6.22
-      react: ^18.2.0
 
   '@payloadcms/admin-bar@3.53.0':
     resolution: {integrity: sha512-BBCaaTLPF2AqG6NXNk/RuBKmC2+r3na6uOM/WENOW3z1Hi3PmCQ1Gmh5t2CJLrvIaXCXk4OBSoI1ljbUV0z4Ug==}
@@ -7909,11 +7900,6 @@ snapshots:
       fastq: 1.19.1
 
   '@nolyfill/is-core-module@1.0.39': {}
-
-  '@nouance/payload-simple-rbac@0.2.0(payload@3.53.0(graphql@16.11.0)(typescript@5.7.3))(react@19.1.0)':
-    dependencies:
-      payload: 3.53.0(graphql@16.11.0)(typescript@5.7.3)
-      react: 19.1.0
 
   '@payloadcms/admin-bar@3.53.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)':
     dependencies:

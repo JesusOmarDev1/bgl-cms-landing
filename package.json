@@ -23,7 +23,6 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.1",
-    "@nouance/payload-simple-rbac": "^0.2.0",
     "@payloadcms/admin-bar": "3.53.0",
     "@payloadcms/db-sqlite": "3.53.0",
     "@payloadcms/email-nodemailer": "^3.53.0",

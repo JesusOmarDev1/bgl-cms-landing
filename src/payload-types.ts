@@ -184,7 +184,7 @@ export interface Page {
             /**
              * Choose how the link should be rendered.
              */
-            appearance?: ('default' | 'outline-solid') | null;
+            appearance?: 'default' | 'outline-solid' | null;
           };
           id?: string | null;
         }[]
@@ -374,7 +374,9 @@ export interface Category {
 export interface User {
   id: string;
   name?: string | null;
-  role: string;
+  firstName: string | null;
+  lastName?: string | null;
+  roles: string[] | null;
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -432,7 +434,7 @@ export interface CallToActionBlock {
           /**
            * Choose how the link should be rendered.
            */
-          appearance?: ('default' | 'outline-solid') | null;
+          appearance?: 'default' | 'outline-solid' | null;
         };
         id?: string | null;
       }[]
@@ -482,7 +484,7 @@ export interface ContentBlock {
           /**
            * Choose how the link should be rendered.
            */
-          appearance?: ('default' | 'outline-solid') | null;
+          appearance?: 'default' | 'outline-solid' | null;
         };
         id?: string | null;
       }[]
