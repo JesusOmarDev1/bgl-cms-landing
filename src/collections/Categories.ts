@@ -1,11 +1,14 @@
 import type { CollectionConfig } from 'payload'
 
 import { slugField } from '@/fields/slug'
+import { isAdminOrEditor } from '@/access/isAdminOrEditor'
 
 export const Categories: CollectionConfig = {
   slug: 'categories',
   access: {
-    read: () => true,
+    create: isAdminOrEditor,
+    update: isAdminOrEditor,
+    delete: isAdminOrEditor,
   },
   labels: {
     singular: {

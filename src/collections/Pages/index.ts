@@ -18,6 +18,9 @@ import {
   OverviewField,
   PreviewField,
 } from '@payloadcms/plugin-seo/fields'
+import { isAdminOrEditor } from '@/access/isAdminOrEditor'
+import { isAdmin } from '@/access/isAdmin'
+import { isAuthenticatedOrPublished } from '@/access/isLoggedInOrPublished'
 
 export const Pages: CollectionConfig<'pages'> = {
   slug: 'pages',
@@ -32,7 +35,11 @@ export const Pages: CollectionConfig<'pages'> = {
     },
   },
   access: {
-    read: () => true,
+    read: isAuthenticatedOrPublished,
+    create: isAdminOrEditor,
+    update: isAdminOrEditor,
+    delete: isAdmin,
+    readVersions: isAdminOrEditor,
   },
   // This config controls what's populated by default when a page is referenced
   // https://payloadcms.com/docs/queries/select#defaultpopulate-collection-config-property

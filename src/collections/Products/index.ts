@@ -10,8 +10,17 @@ import {
 } from '@payloadcms/richtext-lexical'
 
 import { MediaBlock } from '../../blocks/MediaBlock/config'
+import { isAdminOrEditor } from '@/access/isAdminOrEditor'
+import { isAdmin } from '@/access/isAdmin'
+import { isAuthenticatedOrPublished } from '@/access/isLoggedInOrPublished'
 
 export const Products: CollectionConfig = {
+  access: {
+    read: isAuthenticatedOrPublished,
+    create: isAdminOrEditor,
+    update: isAdminOrEditor,
+    delete: isAdmin,
+  },
   slug: 'products',
   labels: {
     singular: {

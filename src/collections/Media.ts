@@ -5,27 +5,23 @@ import {
   InlineToolbarFeature,
   lexicalEditor,
 } from '@payloadcms/richtext-lexical'
-import path from 'path'
-import { fileURLToPath } from 'url'
-import { anyone } from '@/access/anyone'
-import { authenticated } from '@/access/authenticated'
-
-const filename = fileURLToPath(import.meta.url)
-const dirname = path.dirname(filename)
+import { isAdminOrEditor } from '@/access/isAdminOrEditor'
 
 export const Media: CollectionConfig = {
   slug: 'media',
   access: {
-    read: () => true,
+    create: isAdminOrEditor,
+    update: isAdminOrEditor,
+    delete: isAdminOrEditor,
   },
   labels: {
     singular: {
       en: 'Media',
-      es: 'Archivos',
+      es: 'Almacenamiento',
     },
     plural: {
       en: 'Media',
-      es: 'Archivo',
+      es: 'Almacenamiento',
     },
   },
   fields: [
@@ -53,8 +49,6 @@ export const Media: CollectionConfig = {
     },
   ],
   upload: {
-    // Upload to the public/media directory in Next.js making them publicly accessible even outside of Payload
-    staticDir: path.resolve(dirname, '../../public/media'),
     adminThumbnail: 'thumbnail',
     focalPoint: true,
     formatOptions: {

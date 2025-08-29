@@ -18,7 +18,6 @@ import { Header } from './Header/config'
 import { plugins } from './plugins'
 import { defaultLexical } from '@/fields/defaultLexical'
 import { getServerSideURL } from './utilities/getURL'
-import { en } from '@payloadcms/translations/languages/en'
 import { es } from '@payloadcms/translations/languages/es'
 import { s3Storage } from '@payloadcms/storage-s3'
 
@@ -39,15 +38,11 @@ export default buildConfig({
     }),
   }),
   i18n: {
-    supportedLanguages: { en, es },
-    translations: { en: en, es: es },
+    supportedLanguages: { es },
+    translations: { es: es },
   },
   admin: {
     suppressHydrationWarning: true,
-    routes: {
-      account: '/my-account',
-      unauthorized: '/forbidden',
-    },
     avatar: 'default',
     components: {
       beforeLogin: ['@/components/BeforeLogin'],
@@ -127,5 +122,4 @@ export default buildConfig({
     },
     tasks: [],
   },
-  logger: 'sync',
 })
