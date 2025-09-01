@@ -35,7 +35,7 @@ export const contactForm: RequiredDataFromCollectionSlug<'forms'> = {
   createdAt: '2023-01-12T21:47:41.374Z',
   emails: [
     {
-      emailFrom: '"Payload" \u003Cdemo@payloadcms.com\u003E',
+      emailFrom: '"BGL BASCULAS INDUSTRIALES" \u003Cbglbasculas@gmail.com\u003E',
       emailTo: '{{email}}',
       message: {
         root: {
@@ -50,7 +50,7 @@ export const contactForm: RequiredDataFromCollectionSlug<'forms'> = {
                   format: 0,
                   mode: 'normal',
                   style: '',
-                  text: 'Your contact form submission was successfully received.',
+                  text: 'Su formulario de contacto fue enviado exitosamente.',
                   version: 1,
                 },
               ],
@@ -67,7 +67,7 @@ export const contactForm: RequiredDataFromCollectionSlug<'forms'> = {
           version: 1,
         },
       },
-      subject: "You've received a new message.",
+      subject: 'Recibiste un nuevo mensaje.',
     },
   ],
   fields: [
@@ -105,7 +105,7 @@ export const contactForm: RequiredDataFromCollectionSlug<'forms'> = {
     },
   ],
   redirect: undefined,
-  submitButtonLabel: 'Submit',
-  title: 'Contact Form',
+  submitButtonLabel: 'Enviar',
+  title: 'Formulario de contacto',
   updatedAt: '2023-01-12T21:47:41.374Z',
 }

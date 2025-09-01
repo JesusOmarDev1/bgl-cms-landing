@@ -82,7 +82,7 @@ export const FormBlock: React.FC<
             setIsLoading(false)
 
             setError({
-              message: res.errors?.[0]?.message || 'Internal Server Error',
+              message: res.errors?.[0]?.message || 'Error Interno del Servidor',
               status: res.status,
             })
 
@@ -103,7 +103,7 @@ export const FormBlock: React.FC<
           console.warn(err)
           setIsLoading(false)
           setError({
-            message: 'Something went wrong.',
+            message: 'Algo salio mal. Intenta de nuevo mas tarde',
           })
         }
       }

@@ -38,7 +38,7 @@ export const HeaderNav: React.FC<{ data: HeaderType }> = ({ data }) => {
       </NavigationMenu>
       <ThemeSelector />
       <Link href="/search">
-        <span className="sr-only">Search</span>
+        <span className="sr-only">Buscar</span>
         <SearchIcon className="w-5 text-primary" />
       </Link>
     </header>

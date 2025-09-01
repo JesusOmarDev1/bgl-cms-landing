@@ -82,6 +82,8 @@
     "next-view-transitions": "^0.3.4",
     "nodemailer": "^7.0.5",
     "payload": "3.53.0",
+    "payload-email-template": "^1.2.1",
+    "payload-plugin-phone-field": "^1.0.6",
     "prism-react-renderer": "^2.3.1",
     "react": "19.1.0",
     "react-day-picker": "^9.9.0",

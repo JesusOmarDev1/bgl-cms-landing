@@ -72,7 +72,7 @@ export const post2: (args: PostArgs) => RequiredDataFromCollectionSlug<'posts'> 
                               format: 0,
                               mode: 'normal',
                               style: '',
-                              text: 'navigate to the admin dashboard.',
+                              text: 'navigate to the Panel de administrador de contenidos.',
                               version: 1,
                             },
                           ],

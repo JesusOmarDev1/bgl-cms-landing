@@ -110,14 +110,14 @@ export const CardPosts: React.FC<{
             </Button>
           </Link>
           <DropdownMenu>
-            <DropdownMenuTrigger>
+            <DropdownMenuTrigger asChild>
               <Button>
                 <Share />
                 <span>Compartir</span>
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
-              <DropdownMenuItem>
+              <DropdownMenuItem asChild>
                 <EmailShareButton
                   url={sanitizedHref}
                   subject="BGL BASCULAS INDUSTRIALES te compartio una publicacion."
@@ -129,7 +129,7 @@ export const CardPosts: React.FC<{
                   </div>
                 </EmailShareButton>
               </DropdownMenuItem>
-              <DropdownMenuItem>
+              <DropdownMenuItem asChild>
                 <WhatsappShareButton url={sanitizedHref}>
                   <div className="flex items-center justify-start gap-1">
                     <WhatsappIcon size={32} round />
