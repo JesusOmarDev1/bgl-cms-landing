@@ -14,8 +14,6 @@ import {
 
 import { CMSLink } from '@/components/Link'
 import { Link } from 'next-view-transitions'
-import { SearchIcon } from 'lucide-react'
-import { ThemeSelector } from '@/providers/Theme/ThemeSelector'
 
 export const HeaderNav: React.FC<{ data: HeaderType }> = ({ data }) => {
   const navItems = data?.navItems || []
@@ -23,24 +21,20 @@ export const HeaderNav: React.FC<{ data: HeaderType }> = ({ data }) => {
   return (
     <header className="flex gap-3 items-center">
       <NavigationMenu>
-        <NavigationMenuList>
+        <NavigationMenuList className="flex gap-4">
           <NavigationMenuItem>
-            <NavigationMenuTrigger>Recursos</NavigationMenuTrigger>
+            <Link href="/">Inicio</Link>
+          </NavigationMenuItem>
+          <NavigationMenuItem>
+            <NavigationMenuTrigger>Navegacion</NavigationMenuTrigger>
             <NavigationMenuContent className="min-w-[250px]">
               {navItems.map(({ link }, i) => {
-                return (
-                  <CMSLink className="text-sm space-y-2.5 hover:text-red-600" key={i} {...link} />
-                )
+                return <CMSLink className="space-y-2.5 hover:text-red-600" key={i} {...link} />
               })}
             </NavigationMenuContent>
           </NavigationMenuItem>
         </NavigationMenuList>
       </NavigationMenu>
-      <ThemeSelector />
-      <Link href="/search">
-        <span className="sr-only">Buscar</span>
-        <SearchIcon className="w-5 text-primary" />
-      </Link>
     </header>
   )
 }

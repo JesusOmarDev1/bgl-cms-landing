@@ -103,6 +103,7 @@ export const Posts: CollectionConfig<'posts'> = {
                 en: 'Hero Image',
                 es: 'Imagen de Portada',
               },
+              required: true,
             },
             {
               name: 'content',

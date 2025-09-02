@@ -1,22 +1,45 @@
 'use client'
-import { cn } from '@/utilities/ui'
 import useClickableCard from '@/utilities/useClickableCard'
 import { Link } from 'next-view-transitions'
-import React, { Fragment } from 'react'
+import React from 'react'
+import { readingTime } from 'reading-time-estimator'
 
 import type { Post } from '@/payload-types'
 
 import { Media } from '@/components/Media'
 import { Skeleton } from '../ui/skeleton'
-import { Badge } from '../ui/badge'
-import { Card, CardAction, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '../ui/dropdown-menu'
 import { Button } from '../ui/button'
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem } from '../ui/dropdown-menu'
-import { DropdownMenuTrigger } from '@radix-ui/react-dropdown-menu'
 import { Share } from 'lucide-react'
-import { EmailShareButton, EmailIcon, WhatsappShareButton, WhatsappIcon } from 'next-share'
+import {
+  WhatsappIcon,
+  WhatsappShareButton,
+  FacebookShareButton,
+  FacebookIcon,
+  TwitterShareButton,
+  TwitterIcon,
+  TelegramShareButton,
+  TelegramIcon,
+} from 'next-share'
 
-export type CardPostData = Pick<Post, 'slug' | 'categories' | 'meta' | 'title'>
+export type CardPostData = Pick<
+  Post,
+  | 'slug'
+  | 'categories'
+  | 'meta'
+  | 'title'
+  | 'publishedAt'
+  | 'content'
+  | 'authors'
+  | 'populatedAuthors'
+  | 'heroImage'
+>
 
 export const CardPosts: React.FC<{
   alignItems?: 'center'
@@ -25,122 +48,130 @@ export const CardPosts: React.FC<{
   relationTo?: 'posts'
   showCategories?: boolean
   title?: string
+  publishedAt?: string
+  content?: string
 }> = (props) => {
-  const { card, link } = useClickableCard({})
-  const { className, doc, relationTo, showCategories, title: titleFromProps } = props
+  const { link } = useClickableCard({})
+  const { doc, relationTo, title: titleFromProps, content } = props
 
-  const { slug, categories, meta, title } = doc || {}
+  const { slug, categories, meta, title, authors, populatedAuthors, heroImage } = doc || {}
   const { description, image: metaImage } = meta || {}
 
-  const hasCategories = categories && Array.isArray(categories) && categories.length > 0
   const titleToUse = titleFromProps || title
   const sanitizedDescription = description?.replace(/\s/g, ' ') // replace non-breaking space with white space
-  const href = `/${relationTo}/${slug}`
+  const href = `/${relationTo || 'posts'}/${slug}`
   const sanitizedHref = `${process.env.NEXT_PUBLIC_SERVER_URL}${href}`.replace(/\s/g, ' ')
 
+  // Extract authors
+  const authorsList = populatedAuthors || authors || []
+  const authorNames = authorsList
+    .map((author: any) => {
+      if (typeof author === 'object' && author?.name) {
+        return author.name
+      }
+      return null
+    })
+    .filter(Boolean)
+    .join(', ')
+
+  // Extract plain text from content structure
+  const extractTextFromContent = (contentObj: any): string => {
+    if (!contentObj) return ''
+
+    // Handle direct string content
+    if (typeof contentObj === 'string') return contentObj
+
+    // Handle Lexical/Slate structure
+    if (contentObj.root && contentObj.root.children) {
+      return contentObj.root.children
+        .map((child: any) => {
+          if (child.text) return child.text
+          if (child.children) {
+            return child.children.map((grandchild: any) => grandchild.text || '').join('')
+          }
+          return ''
+        })
+        .join(' ')
+        .trim()
+    }
+
+    return ''
+  }
+
+  const contentText = content || extractTextFromContent(doc?.content)
+  const readingTimeResult = contentText ? readingTime(contentText) : null
+  const readingTimeToUse = readingTimeResult ? `${readingTimeResult.minutes} min` : 'No disponible'
+
+  // Use heroImage first, fallback to metaImage
+  const imageToUse = heroImage || metaImage
+
   return (
-    <Card
-      role="article"
-      className={cn(
-        'border border-border rounded-lg overflow-hidden bg-card hover:cursor-pointer',
-        className,
-      )}
-    >
-      <CardContent>
-        <CardHeader>
-          <CardAction>
-            {showCategories && hasCategories && (
-              <div className="uppercase text-sm mb-4">
-                {showCategories && hasCategories && (
-                  <div>
-                    {categories?.map((category, index) => {
-                      if (typeof category === 'object') {
-                        const { title: titleFromCategory } = category
-
-                        const categoryTitle = titleFromCategory || 'Sin categoria'
-
-                        const isLast = index === categories.length - 1
-
-                        return (
-                          <Fragment key={index}>
-                            <Badge>{categoryTitle}</Badge>
-                            {!isLast && <Fragment>, &nbsp;</Fragment>}
-                            {description}
-                          </Fragment>
-                        )
-                      }
-
-                      return null
-                    })}
-                  </div>
-                )}
-              </div>
-            )}
-          </CardAction>
-        </CardHeader>
-        <div className="relative w-full ">
-          {!metaImage && <Skeleton className="size-56 w-full aspect-auto" />}
-          {metaImage && typeof metaImage !== 'string' && (
-            <Media resource={metaImage} size="size-56 w-full aspect-auto" />
+    <article>
+      <div className="flex flex-col gap-2.5 max-w-96">
+        <div className="flex gap-2.5 truncate line-clamp-1">
+          {authorNames && (
+            <p>
+              Autores: <span className="font-semibold">{authorNames}</span>
+            </p>
+          )}
+        </div>
+        <div className="relative w-full">
+          {!metaImage && <div className="">No image</div>}
+          {metaImage && typeof metaImage !== 'string' && <Media resource={metaImage} size="33vw" />}
+        </div>
+        <div className="flex gap-1 flex-col">
+          {titleToUse && (
+            <div className="prose py-2">
+              <h2 className="truncate line-clamp-2">
+                <Link className="not-prose hover:underline" href={href} ref={link.ref}>
+                  {titleToUse}
+                </Link>
+              </h2>
+            </div>
+          )}
+          {description && (
+            <p className="prose text-zinc-500">
+              {description && <span className="truncate line-clamp-2">{sanitizedDescription}</span>}
+            </p>
           )}
         </div>
 
-        <CardTitle>
-          {titleToUse && (
-            <div className="prose py-2">
-              <h3 className="truncate">
-                <Link className="not-prose" href={href} ref={link.ref}>
-                  {titleToUse}
-                </Link>
-              </h3>
-            </div>
-          )}
-        </CardTitle>
-        <CardDescription>
-          <div className="truncate">
-            {description && (
-              <div className="py-2">{description && <p>{sanitizedDescription}</p>}</div>
-            )}
-          </div>
-        </CardDescription>
-        <div className="w-full flex items-center justify-center gap-4">
-          <Link className="flex-1" href={href} passHref>
-            <Button className="w-full" variant={'outline'}>
-              Abrir
-            </Button>
-          </Link>
+        <div className="flex justify-between items-center gap-4">
+          <span>{readingTimeToUse}</span>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button>
+              <Button size={'sm'} variant={'outline'}>
                 <Share />
                 <span>Compartir</span>
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent>
-              <DropdownMenuItem asChild>
-                <EmailShareButton
-                  url={sanitizedHref}
-                  subject="BGL BASCULAS INDUSTRIALES te compartio una publicacion."
-                  body={`Te comparto esta publicación de BGL Básculas Industriales: "${titleToUse}".\n\n¿Necesitas más información? Estamos a tu disposición.\n\nAccede al contenido completo aquí:`}
-                >
-                  <div className="flex items-center justify-start gap-1">
-                    <EmailIcon size={32} round />
-                    <span className="font-semibold">Correo electronico</span>
-                  </div>
-                </EmailShareButton>
-              </DropdownMenuItem>
-              <DropdownMenuItem asChild>
-                <WhatsappShareButton url={sanitizedHref}>
-                  <div className="flex items-center justify-start gap-1">
-                    <WhatsappIcon size={32} round />
-                    <span className="font-semibold">Whatsapp</span>
-                  </div>
-                </WhatsappShareButton>
-              </DropdownMenuItem>
+            <DropdownMenuContent className="w-fit">
+              <DropdownMenuGroup className="flex flex-wrap gap-2.5">
+                <DropdownMenuItem asChild>
+                  <WhatsappShareButton url={sanitizedHref}>
+                    <WhatsappIcon size={24} round />
+                  </WhatsappShareButton>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <FacebookShareButton url={sanitizedHref}>
+                    <FacebookIcon size={24} round />
+                  </FacebookShareButton>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <TwitterShareButton url={sanitizedHref}>
+                    <TwitterIcon size={24} round />
+                  </TwitterShareButton>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <TelegramShareButton url={sanitizedHref}>
+                    <TelegramIcon size={24} round />
+                  </TelegramShareButton>
+                </DropdownMenuItem>
+              </DropdownMenuGroup>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
-      </CardContent>
-    </Card>
+      </div>
+    </article>
   )
 }
