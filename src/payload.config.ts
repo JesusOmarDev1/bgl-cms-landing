@@ -20,6 +20,7 @@ import { defaultLexical } from '@/fields/defaultLexical'
 import { getServerSideURL } from './utilities/getURL'
 import { es } from '@payloadcms/translations/languages/es'
 import { s3Storage } from '@payloadcms/storage-s3'
+import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -83,23 +84,16 @@ export default buildConfig({
     },
   }),
   collections: [Pages, Posts, Media, Categories, Users],
-  cors: [getServerSideURL()].filter(Boolean),
+  //cors: [getServerSideURL()].filter(Boolean),
+  cors: ['*'],
   globals: [Header, Footer],
   plugins: [
     ...plugins,
-    s3Storage({
+    vercelBlobStorage({
       collections: {
-        media: true,
+        [Media.slug]: true,
       },
-      bucket: process.env.S3_BUCKET || '',
-      config: {
-        credentials: {
-          accessKeyId: process.env.S3_ACCESS_KEY_ID || '',
-          secretAccessKey: process.env.S3_SECRET || '',
-        },
-        region: process.env.S3_REGION || '',
-        endpoint: process.env.S3_ENDPOINT || '',
-      },
+      token: process.env.BLOB_READ_WRITE_TOKEN || '',
     }),
   ],
   secret: process.env.PAYLOAD_SECRET,
@@ -123,3 +117,20 @@ export default buildConfig({
     tasks: [],
   },
 })
+
+/* 
+s3Storage({
+      collections: {
+        media: true,
+      },
+      bucket: process.env.S3_BUCKET || '',
+      config: {
+        credentials: {
+          accessKeyId: process.env.S3_ACCESS_KEY_ID || '',
+          secretAccessKey: process.env.S3_SECRET || '',
+        },
+        region: 'auto',
+        endpoint: process.env.S3_ENDPOINT || '',
+      },
+    }),
+*/

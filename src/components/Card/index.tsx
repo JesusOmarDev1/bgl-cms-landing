@@ -7,7 +7,6 @@ import { readingTime } from 'reading-time-estimator'
 import type { Post } from '@/payload-types'
 
 import { Media } from '@/components/Media'
-import { Skeleton } from '../ui/skeleton'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -81,13 +80,41 @@ export const CardPosts: React.FC<{
     // Handle direct string content
     if (typeof contentObj === 'string') return contentObj
 
-    // Handle Lexical/Slate structure
+    // Handle Lexical editor structure
     if (contentObj.root && contentObj.root.children) {
       return contentObj.root.children
         .map((child: any) => {
+          // Handle text nodes
           if (child.text) return child.text
-          if (child.children) {
-            return child.children.map((grandchild: any) => grandchild.text || '').join('')
+
+          // Handle paragraph and other block elements
+          if (child.children && Array.isArray(child.children)) {
+            return child.children
+              .map((grandchild: any) => {
+                if (grandchild.text) return grandchild.text
+                if (typeof grandchild === 'string') return grandchild
+                return ''
+              })
+              .join('')
+          }
+
+          // Handle direct text content
+          if (typeof child === 'string') return child
+
+          return ''
+        })
+        .join(' ')
+        .trim()
+    }
+
+    // Handle array of content blocks
+    if (Array.isArray(contentObj)) {
+      return contentObj
+        .map((block: any) => {
+          if (typeof block === 'string') return block
+          if (block.text) return block.text
+          if (block.children) {
+            return extractTextFromContent({ root: { children: block.children } })
           }
           return ''
         })
@@ -100,7 +127,9 @@ export const CardPosts: React.FC<{
 
   const contentText = content || extractTextFromContent(doc?.content)
   const readingTimeResult = contentText ? readingTime(contentText) : null
-  const readingTimeToUse = readingTimeResult ? `${readingTimeResult.minutes} min` : 'No disponible'
+  const readingTimeToUse = readingTimeResult
+    ? `${readingTimeResult.minutes} min de lectura`
+    : 'Tiempo no disponible'
 
   // Use heroImage first, fallback to metaImage
   const imageToUse = heroImage || metaImage
@@ -115,15 +144,21 @@ export const CardPosts: React.FC<{
             </p>
           )}
         </div>
-        <div className="relative w-full">
-          {!metaImage && <div className="">No image</div>}
-          {metaImage && typeof metaImage !== 'string' && <Media resource={metaImage} size="33vw" />}
+        <div className="relative w-full aspect-video bg-gray-100 rounded-lg overflow-hidden">
+          {imageToUse && typeof imageToUse !== 'string' && (
+            <Media fill priority resource={imageToUse} className="object-cover" />
+          )}
+          {!imageToUse && (
+            <div className="flex items-center justify-center h-full text-gray-500">
+              Sin imagen disponible
+            </div>
+          )}
         </div>
         <div className="flex gap-1 flex-col">
           {titleToUse && (
             <div className="prose py-2">
               <h2 className="truncate line-clamp-2">
-                <Link className="not-prose hover:underline" href={href} ref={link.ref}>
+                <Link className="not-prose hover:underline" href={href as any} ref={link.ref}>
                   {titleToUse}
                 </Link>
               </h2>
@@ -175,3 +210,5 @@ export const CardPosts: React.FC<{
     </article>
   )
 }
+
+export const Card = CardPosts

@@ -6,68 +6,137 @@ import type { Post } from '@/payload-types'
 import { Media } from '@/components/Media'
 import { formatAuthors } from '@/utilities/formatAuthors'
 import { Badge } from '@/components/ui/badge'
+import { Avatar, AvatarFallback } from '@/components/ui/avatar'
+import { Separator } from '@/components/ui/separator'
+import { readingTime } from 'reading-time-estimator'
 
 export const PostHero: React.FC<{
   post: Post
 }> = ({ post }) => {
-  const { categories, heroImage, populatedAuthors, publishedAt, title } = post
+  const { categories, heroImage, populatedAuthors, publishedAt, content, title, meta } = post
+
+  // Extract plain text from content structure
+  const extractTextFromContent = (contentObj: any): string => {
+    if (!contentObj) return ''
+
+    // Handle direct string content
+    if (typeof contentObj === 'string') return contentObj
+
+    // Handle Lexical editor structure
+    if (contentObj.root && contentObj.root.children) {
+      return contentObj.root.children
+        .map((child: any) => {
+          // Handle text nodes
+          if (child.text) return child.text
+
+          // Handle paragraph and other block elements
+          if (child.children && Array.isArray(child.children)) {
+            return child.children
+              .map((grandchild: any) => {
+                if (grandchild.text) return grandchild.text
+                if (typeof grandchild === 'string') return grandchild
+                return ''
+              })
+              .join('')
+          }
+
+          // Handle direct text content
+          if (typeof child === 'string') return child
+
+          return ''
+        })
+        .join(' ')
+        .trim()
+    }
+
+    // Handle array of content blocks
+    if (Array.isArray(contentObj)) {
+      return contentObj
+        .map((block: any) => {
+          if (typeof block === 'string') return block
+          if (block.text) return block.text
+          if (block.children) {
+            return extractTextFromContent({ root: { children: block.children } })
+          }
+          return ''
+        })
+        .join(' ')
+        .trim()
+    }
+
+    return ''
+  }
+
+  const contentText = extractTextFromContent(content)
+  const readingTimeResult = contentText ? readingTime(contentText) : null
+  const readingTimeToUse = readingTimeResult
+    ? `${readingTimeResult.minutes} min de lectura`
+    : 'Tiempo no disponible'
 
   const hasAuthors =
     populatedAuthors && populatedAuthors.length > 0 && formatAuthors(populatedAuthors) !== ''
 
+  const authorName = hasAuthors ? formatAuthors(populatedAuthors) : 'Autor Anónimo'
+  const description = meta?.description || ''
+
   return (
-    <div className="relative flex flex-col">
-      <div className="container z-10 relative lg:grid lg:grid-cols-[1fr_48rem_1fr] pb-8">
-        <div className="col-start-1 col-span-1 md:col-start-2 md:col-span-2">
-          {heroImage && typeof heroImage !== 'string' && (
-            <div className="relative w-full h-96 mb-6 rounded-lg overflow-hidden">
-              <Media fill priority imgClassName="object-cover" resource={heroImage} />
+    <section>
+      <div className="container">
+        <div className="mx-auto flex max-w-5xl flex-col items-center justify-center gap-2.5 text-center">
+          {/* Categories */}
+          {categories && categories.length > 0 && (
+            <div className="flex flex-wrap justify-center gap-2 mb-2">
+              {categories.map((category, index) => {
+                if (typeof category === 'object' && category !== null) {
+                  const { title: categoryTitle } = category
+                  const titleToUse = categoryTitle || 'Sin Categoria'
+
+                  return (
+                    <Badge
+                      key={index}
+                      variant="secondary"
+                      className="text-xs font-medium px-3 py-1 bg-primary/10 text-primary hover:bg-primary/20 transition-colors"
+                    >
+                      {titleToUse}
+                    </Badge>
+                  )
+                }
+                return null
+              })}
             </div>
           )}
-          <div className="uppercase text-sm mb-6">
-            {categories?.map((category, index) => {
-              if (typeof category === 'object' && category !== null) {
-                const { title: categoryTitle } = category
 
-                const titleToUse = categoryTitle || 'Sin Categoria'
-
-                const isLast = index === categories.length - 1
-
-                return (
-                  <React.Fragment key={index}>
-                    <Badge>{titleToUse}</Badge>
-                    {!isLast && <React.Fragment>, &nbsp;</React.Fragment>}
-                  </React.Fragment>
-                )
-              }
-              return null
-            })}
+          <div className="flex justify-center items-center gap-2.5">
+            {publishedAt && <span>{formatDateTime(publishedAt)}</span>}
+            <Separator className="size-4" orientation="vertical" />
+            {readingTimeToUse && <span>{readingTimeToUse}</span>}
           </div>
 
-          <div className="">
-            <h1 className="mb-6 text-3xl md:text-5xl lg:text-6xl">{title}</h1>
+          {/* Title */}
+          <h1 className="max-w-3xl text-pretty text-5xl font-semibold md:text-6xl">{title}</h1>
+
+          {/* Description */}
+          {description && (
+            <h3 className="text-muted-foreground max-w-3xl text-lg md:text-xl">{description}</h3>
+          )}
+
+          {/* Author and Date */}
+          <div className="flex items-center gap-3 text-sm md:text-base">
+            <Avatar className="h-8 w-8 border">
+              <AvatarFallback className="bg-primary/10 text-primary font-semibold">
+                {authorName?.charAt(0)?.toUpperCase() || 'A'}
+              </AvatarFallback>
+            </Avatar>
+            <span>{authorName}</span>
           </div>
 
-          <div className="flex flex-col md:flex-row gap-4 md:gap-16">
-            {hasAuthors && (
-              <div className="flex flex-col gap-4">
-                <div className="flex flex-col gap-1">
-                  <p className="text-sm">Autores</p>
-
-                  <p>{formatAuthors(populatedAuthors)}</p>
-                </div>
-              </div>
-            )}
-            {publishedAt && (
-              <div className="flex flex-col gap-1">
-                <p className="text-sm">Fecha de publicación</p>
-
-                <time dateTime={publishedAt}>{formatDateTime(publishedAt)}</time>
-              </div>
-            )}
-          </div>
+          {heroImage && typeof heroImage !== 'string' && (
+            <div className="relative mb-8 mt-4 aspect-video w-full rounded-lg border overflow-hidden">
+              <Media fill priority resource={heroImage} className="object-cover" />
+            </div>
+          )}
         </div>
       </div>
-    </div>
+    </section>
   )
 }

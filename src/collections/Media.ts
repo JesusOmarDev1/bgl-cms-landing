@@ -6,10 +6,12 @@ import {
   lexicalEditor,
 } from '@payloadcms/richtext-lexical'
 import { isAdminOrEditor } from '@/access/isAdminOrEditor'
+import { anyone } from '@/access/anyone'
 
 export const Media: CollectionConfig = {
   slug: 'media',
   access: {
+    read: anyone,
     create: isAdminOrEditor,
     update: isAdminOrEditor,
     delete: isAdminOrEditor,
@@ -49,14 +51,8 @@ export const Media: CollectionConfig = {
     },
   ],
   upload: {
-    adminThumbnail: 'thumbnail',
+    adminThumbnail: 'small',
     focalPoint: true,
-    formatOptions: {
-      format: 'png',
-      options: {
-        quality: 80,
-      },
-    },
     imageSizes: [
       {
         name: 'thumbnail',

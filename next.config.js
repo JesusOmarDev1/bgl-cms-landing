@@ -21,7 +21,37 @@ const nextConfig = {
           protocol: url.protocol.replace(':', ''),
         }
       }),
+      // Cloudflare R2 patterns
+      {
+        protocol: 'https',
+        hostname: '*.r2.cloudflarestorage.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'ba007b81d290843abbf69608000771d9.r2.cloudflarestorage.com',
+      },
+      {
+        protocol: 'https',
+        hostname: '*.r2.dev',
+      },
+      // Dynamic S3 endpoint if configured
+      ...(process.env.S3_ENDPOINT
+        ? [
+            {
+              protocol: 'https',
+              hostname: new URL(process.env.S3_ENDPOINT).hostname,
+            },
+          ]
+        : []),
     ],
+    // More permissive domains for fallback
+    domains: [
+      '*.r2.cloudflarestorage.com',
+      'ba007b81d290843abbf69608000771d9.r2.cloudflarestorage.com',
+      '*.r2.dev',
+    ],
+    // Disable image optimization temporarily for debugging
+    unoptimized: process.env.NODE_ENV === 'development',
   },
   webpack: (webpackConfig) => {
     webpackConfig.resolve.extensionAlias = {

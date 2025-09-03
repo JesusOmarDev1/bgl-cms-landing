@@ -9,6 +9,7 @@ declare global {
       S3_ACCESS_KEY_ID: string
       S3_SECRET: string
       S3_ENDPOINT: string
+      S3_PUBLIC_URL: string
       S3_REGION: string
       GMAIL_USER: string
       GMAIL_PASS: string
