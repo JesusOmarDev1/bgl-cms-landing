@@ -98,6 +98,7 @@ const queryPostBySlug = cache(async ({ slug }: { slug: string }) => {
         equals: slug,
       },
     },
+    depth: 2,
   })
 
   return result.docs?.[0] || null

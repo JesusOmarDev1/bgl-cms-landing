@@ -7,9 +7,100 @@ export const beforeSyncWithSearch: BeforeSync = async ({ req, originalDoc, searc
 
   const { slug, id, categories, title, meta } = originalDoc
 
+  // Dynamic content extraction function
+  const extractContent = (doc: any, collection: string) => {
+    // Define possible field names for different content types
+    const contentFields = ['content', 'description', 'bio', 'summary', 'excerpt']
+    const imageFields = ['heroImage', 'image', 'logo', 'thumbnail', 'photo']
+    const dateFields = ['publishedAt', 'createdAt', 'updatedAt', 'date']
+
+    // Special handling for pages collection with complex layout
+    if (collection === 'pages' && (doc.hero || doc.layout)) {
+      const hero = doc.hero
+      const layout = doc.layout
+      
+      let combinedText = ''
+      let heroImage: any = null
+
+      // Extract text from hero
+      if (hero?.richText) {
+        combinedText += extractTextFromRichText(hero.richText) + ' '
+      }
+
+      // Extract text and images from layout blocks
+      if (layout && Array.isArray(layout)) {
+        layout.forEach((block: any) => {
+          if (block.blockType === 'content' && block.richText) {
+            combinedText += extractTextFromRichText(block.richText) + ' '
+          }
+          if (block.blockType === 'mediaBlock' && block.media && !heroImage) {
+            heroImage = block.media
+          }
+        })
+      }
+
+      // Create structured content if we have text
+      const content = combinedText.trim() ? {
+        root: {
+          children: [{
+            children: [{
+              text: combinedText.trim(),
+              type: 'text',
+            }],
+            type: 'paragraph',
+          }],
+          type: 'root',
+        },
+      } : null
+
+      return {
+        content,
+        heroImage,
+        publishedAt: doc.publishedAt || doc.createdAt,
+      }
+    }
+
+    // Dynamic field extraction for any collection
+    const findField = (fields: string[]) => {
+      for (const field of fields) {
+        if (doc[field] !== undefined && doc[field] !== null) {
+          return doc[field]
+        }
+      }
+      return null
+    }
+
+    return {
+      content: findField(contentFields),
+      heroImage: findField(imageFields),
+      publishedAt: findField(dateFields),
+    }
+  }
+
+  // Helper function to extract text from rich text structure
+  function extractTextFromRichText(richText: any): string {
+    if (!richText || !richText.root || !richText.root.children) return ''
+
+    return richText.root.children
+      .map((child: any) => {
+        if (child.children && Array.isArray(child.children)) {
+          return child.children.map((grandchild: any) => grandchild.text || '').join('')
+        }
+        return child.text || ''
+      })
+      .join(' ')
+      .trim()
+  }
+
+  // Extract content based on collection type
+  const { content, heroImage, publishedAt } = extractContent(originalDoc, collection)
+
   const modifiedDoc: DocToSync = {
     ...searchDoc,
     slug,
+    content,
+    heroImage,
+    publishedAt,
     meta: {
       ...meta,
       title: meta?.title || title,

@@ -30,6 +30,7 @@ import { isAuthenticatedOrPublished } from '@/access/isLoggedInOrPublished'
 
 export const Posts: CollectionConfig<'posts'> = {
   slug: 'posts',
+  trash: true,
   labels: {
     singular: {
       en: 'Post',

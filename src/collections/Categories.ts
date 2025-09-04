@@ -6,6 +6,7 @@ import { anyone } from '@/access/anyone'
 
 export const Categories: CollectionConfig = {
   slug: 'categories',
+  trash: true,
   access: {
     read: anyone,
     create: isAdminOrEditor,

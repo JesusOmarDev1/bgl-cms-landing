@@ -14,6 +14,40 @@ export const searchFields: Field[] = [
     },
   },
   {
+    name: 'content',
+    type: 'richText',
+    label: {
+      en: 'Content',
+      es: 'Contenido',
+    },
+    admin: {
+      readOnly: true,
+    },
+  },
+  {
+    name: 'heroImage',
+    type: 'upload',
+    relationTo: 'media',
+    label: {
+      en: 'Hero Image',
+      es: 'Imagen Principal',
+    },
+    admin: {
+      readOnly: true,
+    },
+  },
+  {
+    name: 'publishedAt',
+    type: 'date',
+    label: {
+      en: 'Published Date',
+      es: 'Fecha de Publicación',
+    },
+    admin: {
+      readOnly: true,
+    },
+  },
+  {
     name: 'meta',
     label: {
       en: 'Meta',

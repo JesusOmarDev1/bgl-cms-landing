@@ -10,6 +10,7 @@ import { anyone } from '@/access/anyone'
 
 export const Media: CollectionConfig = {
   slug: 'media',
+  trash: true,
   access: {
     read: anyone,
     create: isAdminOrEditor,

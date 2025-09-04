@@ -1,12 +1,8 @@
-// storage-adapter-import-placeholder
 import { sqliteAdapter } from '@payloadcms/db-sqlite'
-import { nodemailerAdapter } from '@payloadcms/email-nodemailer'
-import nodemailer from 'nodemailer'
-
-import sharp from 'sharp' // sharp-import
 import path from 'path'
 import { buildConfig, PayloadRequest } from 'payload'
 import { fileURLToPath } from 'url'
+import sharp from 'sharp'
 
 import { Categories } from './collections/Categories'
 import { Media } from './collections/Media'
@@ -19,25 +15,15 @@ import { plugins } from './plugins'
 import { defaultLexical } from '@/fields/defaultLexical'
 import { getServerSideURL } from './utilities/getURL'
 import { es } from '@payloadcms/translations/languages/es'
-import { s3Storage } from '@payloadcms/storage-s3'
-import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob'
+import { getEmailAdapter } from './lib/email'
+import { getStorageAdapter } from './lib/storage'
+import { adminMetadata } from './lib/adminMetadata'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
 export default buildConfig({
-  email: nodemailerAdapter({
-    defaultFromAddress: process.env.GMAIL_USER || '',
-    defaultFromName: process.env.GMAIL_NAME || '',
-    // Any Nodemailer transport
-    transport: await nodemailer.createTransport({
-      service: 'gmail',
-      auth: {
-        user: process.env.GMAIL_USER,
-        pass: process.env.GMAIL_PASS,
-      },
-    }),
-  }),
+  email: getEmailAdapter(),
   i18n: {
     supportedLanguages: { es },
     translations: { es: es },
@@ -75,6 +61,7 @@ export default buildConfig({
         },
       ],
     },
+    meta: adminMetadata,
   },
   // This config helps us configure global or default features that the other editors can inherit
   editor: defaultLexical,
@@ -84,18 +71,9 @@ export default buildConfig({
     },
   }),
   collections: [Pages, Posts, Media, Categories, Users],
-  //cors: [getServerSideURL()].filter(Boolean),
-  cors: ['*'],
+  cors: [getServerSideURL()].filter(Boolean),
   globals: [Header, Footer],
-  plugins: [
-    ...plugins,
-    vercelBlobStorage({
-      collections: {
-        [Media.slug]: true,
-      },
-      token: process.env.BLOB_READ_WRITE_TOKEN || '',
-    }),
-  ],
+  plugins: [...plugins, getStorageAdapter()],
   secret: process.env.PAYLOAD_SECRET,
   sharp,
   typescript: {
@@ -117,20 +95,3 @@ export default buildConfig({
     tasks: [],
   },
 })
-
-/* 
-s3Storage({
-      collections: {
-        media: true,
-      },
-      bucket: process.env.S3_BUCKET || '',
-      config: {
-        credentials: {
-          accessKeyId: process.env.S3_ACCESS_KEY_ID || '',
-          secretAccessKey: process.env.S3_SECRET || '',
-        },
-        region: 'auto',
-        endpoint: process.env.S3_ENDPOINT || '',
-      },
-    }),
-*/

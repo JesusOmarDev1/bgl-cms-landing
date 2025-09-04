@@ -1,190 +1,474 @@
-# BGL BASCULAS INDUSTRIALES
+# BGL BASCULAS INDUSTRIALES - Sistema de Gestión de Contenidos
 
-This is the official [BGL BASCULAS INDUSTRIALES](https://github.com/payloadcms/payload/blob/main/templates/website). Use it to power websites, blogs, or portfolios from small to enterprise. This repo includes a fully-working backend, enterprise-grade admin panel, and a beautifully designed, production-ready website.
+Sistema de gestión de contenidos (CMS) corporativo desarrollado específicamente para **BGL BASCULAS INDUSTRIALES**, empresa líder en soluciones de pesaje industrial y básculas de alta precisión.
 
-This template is right for you if you are working on:
+## Acerca del Proyecto
 
-- A personal or enterprise-grade website, blog, or portfolio
-- A content publishing platform with a fully featured publication workflow
-- Exploring the capabilities of Payload
+Este CMS está diseñado para gestionar el contenido digital de BGL BASCULAS INDUSTRIALES, permitiendo la administración eficiente de:
 
-Core features:
+- **Catálogo de productos**: Básculas industriales, sistemas de pesaje, y equipos de medición
+- **Contenido técnico**: Especificaciones, manuales, y documentación técnica
+- **Noticias corporativas**: Actualizaciones de la empresa, lanzamientos de productos
+- **Casos de éxito**: Proyectos implementados y testimonios de clientes
+- **Información de servicios**: Mantenimiento, calibración, y soporte técnico
 
-- [Pre-configured Payload Config](#how-it-works)
-- [Authentication](#users-authentication)
-- [Access Control](#access-control)
-- [Layout Builder](#layout-builder)
-- [Draft Preview](#draft-preview)
-- [Live Preview](#live-preview)
-- [On-demand Revalidation](#on-demand-revalidation)
-- [SEO](#seo)
-- [Search](#search)
-- [Redirects](#redirects)
-- [Jobs and Scheduled Publishing](#jobs-and-scheduled-publish)
-- [Website](#website)
+## Características Principales
 
-## Quick Start
+Este sistema está optimizado para las necesidades específicas de una empresa industrial:
 
-To spin up this example locally, follow these steps:
+### Funcionalidades Técnicas
 
-### Clone
+- **🔐 Autenticación y Control de Acceso**: Sistema seguro de usuarios con roles específicos
+- **📝 Editor Avanzado**: Editor Lexical para contenido rico con soporte para bloques personalizados
+- **🎨 Constructor de Layouts**: Creación de páginas dinámicas con bloques reutilizables
+- **👀 Vista Previa en Vivo**: Previsualización de contenido antes de publicar
+- **🔍 SEO Optimizado**: Herramientas integradas para optimización en motores de búsqueda
+- **📱 Responsive Design**: Interfaz adaptable a todos los dispositivos
+- **🌐 Multiidioma**: Soporte para contenido en múltiples idiomas
+- **📊 Gestión de Medios**: Almacenamiento optimizado con Cloudflare R2
+- **🔄 Revalidación Automática**: Actualización automática del contenido publicado
+- **📈 Analytics Integrado**: Seguimiento de rendimiento y métricas
 
-If you have not done so already, you need to have standalone copy of this repo on your machine. If you've already cloned this repo, skip to [Development](#development).
+### Módulos Específicos para BGL
 
-#### Method 1 (recommended)
+- **Catálogo de Básculas**: Gestión completa de productos con especificaciones técnicas
+- **Centro de Documentación**: Manuales, certificaciones y documentos técnicos
+- **Blog Corporativo**: Noticias, actualizaciones y contenido educativo
+- **Galería de Proyectos**: Casos de éxito e instalaciones realizadas
+- **Formularios de Contacto**: Solicitudes de cotización y soporte técnico
 
-Go to Payload Cloud and [clone this template](https://payloadcms.com/new/clone/website). This will create a new repository on your GitHub account with this template's code which you can then clone to your own machine.
+## Tecnologías Utilizadas
 
-#### Method 2
+### Backend
 
-Use the `create-payload-app` CLI to clone this template directly to your machine:
+- **Payload CMS**: Sistema de gestión de contenidos headless
+- **Node.js**: Entorno de ejecución del servidor
+- **TypeScript**: Lenguaje de programación tipado
+- **PostgreSQL**: Base de datos relacional
+- **Cloudflare R2**: Almacenamiento de archivos multimedia
+
+### Frontend
+
+- **Next.js 14**: Framework de React con App Router
+- **React 18**: Biblioteca de interfaz de usuario
+- **Tailwind CSS**: Framework de estilos utilitarios
+- **shadcn/ui**: Componentes de interfaz de usuario
+- **Lexical Editor**: Editor de texto enriquecido
+
+### Infraestructura
+
+- **Docker**: Contenedorización de la aplicación
+- **Vercel**: Plataforma de despliegue (opcional)
+- **Cloudflare**: CDN y hosting especializado (seguridad, velocidad, escalabilidad)
+- **PostgreSQL**: Base de datos relacional
+- **Cloudflare R2**: Almacenamiento de archivos multimedia
+- **Payload CMS**: Sistema de gestión de contenidos headless
+
+## Instalación y Configuración
+
+### Prerrequisitos
+
+- Node.js 18+
+- pnpm (recomendado) o npm
+- PostgreSQL 14+
+- Git
+
+### Configuración Local
+
+1. **Clonar el repositorio**
+
+   ```bash
+   git clone [URL_DEL_REPOSITORIO]
+   cd bgl-cms
+   ```
+
+2. **Instalar dependencias**
+
+   ```bash
+   pnpm install
+   ```
+
+3. **Configurar variables de entorno**
+
+   ```bash
+   cp .env.example .env
+   ```
+
+   Editar el archivo `.env` con las configuraciones específicas:
+
+   ```env
+   DATABASE_URI=postgresql://usuario:contraseña@localhost:5432/bgl_cms
+   PAYLOAD_SECRET=tu_clave_secreta_aqui
+   NEXT_PUBLIC_SERVER_URL=http://localhost:3000
+   S3_ENDPOINT=https://tu-cuenta.r2.cloudflarestorage.com
+   S3_ACCESS_KEY_ID=tu_access_key
+   S3_SECRET_ACCESS_KEY=tu_secret_key
+   S3_BUCKET=bgl-cms-media
+   ```
+
+4. **Inicializar la base de datos**
+
+   ```bash
+   pnpm payload migrate
+   ```
+
+5. **Iniciar el servidor de desarrollo**
+
+   ```bash
+   pnpm dev
+   ```
+
+6. **Acceder a la aplicación**
+   - Frontend: `http://localhost:3000`
+   - Panel de administración: `http://localhost:3000/admin`
+
+### Primer Usuario Administrador
+
+Al acceder por primera vez al panel de administración, se te solicitará crear el primer usuario administrador para BGL BASCULAS INDUSTRIALES.
+
+## Arquitectura del Sistema
+
+El CMS está configurado específicamente para las necesidades de BGL BASCULAS INDUSTRIALES con las siguientes colecciones:
+
+### Colecciones Principales
+
+#### 👥 Usuarios (Autenticación)
+
+- **Administradores**: Acceso completo al sistema
+- **Editores**: Gestión de contenido y productos
+- **Colaboradores**: Creación de contenido con revisión
+- Control de acceso basado en roles específicos para la empresa
+
+#### 📄 Páginas Institucionales
+
+- Páginas estáticas con constructor de layouts dinámico
+- Información corporativa de BGL BASCULAS INDUSTRIALES
+- Páginas de servicios y soporte técnico
+- Sistema de borradores y previsualización
+
+#### 📝 Artículos y Noticias
+
+- Blog corporativo con noticias de la industria
+- Actualizaciones de productos y servicios
+- Casos de éxito y testimonios de clientes
+- Contenido educativo sobre pesaje industrial
+
+#### 🏭 Catálogo de Productos
+
+- **Básculas Industriales**: Especificaciones técnicas completas
+- **Sistemas de Pesaje**: Soluciones integradas
+- **Equipos de Medición**: Instrumentos de precisión
+- **Accesorios**: Componentes y repuestos
+- Fichas técnicas, manuales y certificaciones
+
+#### 📊 Proyectos y Casos de Éxito
+
+- Galería de instalaciones realizadas
+- Testimonios de clientes industriales
+- Especificaciones de proyectos implementados
+- Imágenes y documentación técnica
+
+#### 📁 Gestión de Medios
+
+- Almacenamiento optimizado con Cloudflare R2
+- Imágenes de productos con múltiples tamaños
+- Documentos técnicos y manuales
+- Videos demostrativos y tutoriales
+- Certificaciones y documentos legales
+
+#### 🏷️ Categorías y Taxonomías
+
+- **Tipos de Básculas**: Camioneras, de piso, colgantes, etc.
+- **Industrias**: Alimentaria, química, logística, etc.
+- **Servicios**: Instalación, mantenimiento, calibración
+- **Regiones**: Cobertura geográfica de servicios
+
+### Configuraciones Globales
+
+#### 🔝 Header Corporativo
+
+- Logo de BGL BASCULAS INDUSTRIALES
+- Menú de navegación principal
+- Información de contacto
+- Enlaces a redes sociales corporativas
+
+#### 🔻 Footer Empresarial
+
+- Información de contacto completa
+- Direcciones de sucursales
+- Certificaciones y acreditaciones
+- Enlaces legales y políticas de privacidad
+
+## Control de Acceso y Seguridad
+
+El sistema implementa un control de acceso robusto diseñado para las necesidades corporativas de BGL BASCULAS INDUSTRIALES:
+
+### Roles de Usuario
+
+- **👑 Super Administrador**: Acceso completo al sistema, gestión de usuarios y configuraciones
+- **🔧 Administrador Técnico**: Gestión de productos, especificaciones y documentación técnica
+- **✏️ Editor de Contenido**: Creación y edición de artículos, noticias y páginas informativas
+- **👀 Revisor**: Revisión y aprobación de contenido antes de publicación
+- **📊 Analista**: Acceso de solo lectura para reportes y métricas
+
+### Permisos por Colección
+
+- **Productos**: Solo administradores técnicos pueden modificar especificaciones
+- **Artículos**: Editores pueden crear, revisores aprueban, administradores publican
+- **Páginas**: Requieren aprobación de administrador para cambios estructurales
+- **Medios**: Control de subida basado en tipo de archivo y tamaño
+- **Usuarios**: Solo super administradores pueden gestionar cuentas de usuario
+
+### Seguridad Adicional
+
+- **Autenticación de dos factores** para cuentas administrativas
+- **Registro de auditoría** de todas las acciones realizadas
+- **Backup automático** de contenido crítico
+- **Validación de contenido** antes de publicación
+
+## Constructor de Layouts
+
+Sistema de construcción de páginas dinámicas optimizado para el contenido industrial de BGL BASCULAS INDUSTRIALES:
+
+### Bloques Disponibles
+
+#### 🎯 Hero Corporativo
+
+- Banners principales con información de productos
+- Llamadas a la acción para cotizaciones
+- Imágenes de alta calidad de básculas industriales
+
+#### 📄 Contenido Técnico
+
+- Especificaciones detalladas de productos
+- Tablas de capacidades y precisiones
+- Documentación técnica estructurada
+
+#### 🖼️ Galería de Medios
+
+- Imágenes de productos en funcionamiento
+- Videos demostrativos de instalaciones
+- Documentos descargables (manuales, certificados)
+
+#### 📞 Llamadas a la Acción
+
+- Formularios de cotización personalizados
+- Contacto directo con especialistas
+- Solicitudes de servicio técnico
+
+#### 📚 Archivo de Contenido
+
+- Listados de productos por categoría
+- Casos de éxito organizados por industria
+- Centro de recursos y documentación
+
+#### 🏭 Bloques Especializados para BGL
+
+- **Comparador de Productos**: Tabla comparativa de especificaciones
+- **Calculadora de Capacidad**: Herramienta para selección de básculas
+- **Mapa de Cobertura**: Ubicaciones de servicio técnico
+- **Testimonios Industriales**: Casos de éxito por sector
+
+## Editor de Contenido Avanzado
+
+### Editor Lexical Personalizado
+
+Editor de texto enriquecido optimizado para contenido técnico e industrial:
+
+- **📝 Edición WYSIWYG**: Interfaz intuitiva para creación de contenido
+- **🔗 Enlaces Inteligentes**: Vinculación automática entre productos relacionados
+- **📊 Tablas Técnicas**: Creación de especificaciones y comparativas
+- **🖼️ Inserción de Medios**: Integración directa con la galería de imágenes
+- **📋 Bloques Personalizados**: Elementos específicos para contenido industrial
+- **✅ Validación de Contenido**: Verificación automática de información técnica
+
+## Flujo de Trabajo Editorial
+
+### Sistema de Borradores y Publicación
+
+Proceso de revisión diseñado para garantizar la calidad del contenido técnico:
+
+#### 📝 Creación de Contenido
+
+- Los editores crean borradores de artículos y páginas
+- Autoguardado automático para prevenir pérdida de información
+- Historial de versiones para seguimiento de cambios
+
+#### 👀 Revisión Técnica
+
+- Los administradores técnicos revisan especificaciones de productos
+- Validación de información técnica y certificaciones
+- Aprobación de contenido antes de publicación
+
+#### 🌐 Previsualización
+
+- Vista previa exacta del contenido antes de publicar
+- Pruebas de responsive design en diferentes dispositivos
+- Verificación de enlaces y recursos multimedia
+
+#### 🚀 Publicación Programada
+
+- Programación de publicaciones para lanzamientos de productos
+- Coordinación con campañas de marketing
+- Revalidación automática del contenido en el sitio web
+
+## Optimización y Rendimiento
+
+### SEO Corporativo
+
+- **Meta tags automáticos** para productos y servicios
+- **Schema markup** para básculas industriales
+- **Sitemap dinámico** con productos y categorías
+- **URLs amigables** optimizadas para búsquedas industriales
+- **Open Graph** para redes sociales corporativas
+
+### Búsqueda Avanzada
+
+- **Búsqueda por especificaciones** técnicas
+- **Filtros por capacidad** y precisión
+- **Búsqueda por industria** de aplicación
+- **Autocompletado inteligente** de productos
+- **Resultados ponderados** por relevancia comercial
+
+### Rendimiento Web
+
+- **Revalidación automática** de contenido actualizado
+- **Caché optimizado** para imágenes de productos
+- **Lazy loading** de recursos multimedia
+- **Compresión automática** de imágenes técnicas
+- **CDN global** con Cloudflare
+
+## Despliegue y Producción
+
+### Entornos Recomendados
+
+#### 🚀 Payload Cloud (Recomendado)
+
+- Hosting especializado para aplicaciones Payload CMS
+- Escalabilidad automática según demanda
+- Backups automáticos y recuperación de desastres
+- Soporte técnico especializado
+
+#### ⚡ Vercel
+
+- Despliegue automático desde repositorio Git
+- Edge functions para mejor rendimiento global
+- Integración con bases de datos PostgreSQL
+- CDN global incluido
+
+#### 🐳 Docker Self-Hosting
+
+- Control total sobre la infraestructura
+- Ideal para empresas con políticas de datos estrictas
+- Escalabilidad horizontal personalizada
+- Integración con sistemas internos de BGL
+
+### Configuración de Producción
 
 ```bash
-pnpx create-payload-app my-project -t website
+# Construcción para producción
+pnpm build
+
+# Ejecución en producción
+pnpm start
 ```
 
-#### Method 3
+### Variables de Entorno de Producción
 
-Use the `git` CLI to clone this template directly to your machine:
-
-```bash
-git clone -n --depth=1 --filter=tree:0 https://github.com/payloadcms/payload my-project && cd my-project && git sparse-checkout set --no-cone templates/website && git checkout && rm -rf .git && git init && git add . && git mv -f templates/website/{.,}* . && git add . && git commit -m "Initial commit"
+```env
+NODE_ENV=production
+DATABASE_URI=postgresql://usuario:contraseña@servidor:5432/bgl_cms_prod
+PAYLOAD_SECRET=clave_secreta_produccion_muy_segura
+NEXT_PUBLIC_SERVER_URL=https://cms.bglbasculas.com
+S3_ENDPOINT=https://cuenta-prod.r2.cloudflarestorage.com
+S3_BUCKET=bgl-cms-production
 ```
 
-### Development
+## Mantenimiento y Soporte
 
-1. First [clone the repo](#clone) if you have not done so already
-1. `cd my-project && cp .env.example .env` to copy the example environment variables
-1. `pnpm install && pnpm dev` to install dependencies and start the dev server
-1. open `http://localhost:3000` to open the app in your browser
+### Actualizaciones del Sistema
 
-That's it! Changes made in `./src` will be reflected in your app. Follow the on-screen instructions to login and create your first admin user. Then check out [Production](#production) once you're ready to build and serve your app, and [Deployment](#deployment) when you're ready to go live.
+- **Actualizaciones automáticas** de seguridad
+- **Versionado semántico** para control de cambios
+- **Testing automatizado** antes de despliegues
+- **Rollback rápido** en caso de problemas
 
-## How it works
+### Monitoreo y Analytics
 
-The Payload config is tailored specifically to the needs of most websites. It is pre-configured in the following ways:
+- **Métricas de rendimiento** del sitio web
+- **Análisis de contenido** más visitado
+- **Reportes de búsquedas** de productos
+- **Estadísticas de conversión** de formularios
 
-### Collections
+### Soporte Técnico
 
-See the [Collections](https://payloadcms.com/docs/configuration/collections) docs for details on how to extend this functionality.
+- **Documentación completa** para usuarios
+- **Videos tutoriales** para administradores
+- **Soporte por email** para issues técnicos
+- **Capacitación** para el equipo de BGL
 
-- #### Users (Authentication)
+## Migración y Redirects
 
-  Users are auth-enabled collections that have access to the admin panel and unpublished content. See [Access Control](#access-control) for more details.
+Sistema de redirecciones para migración desde sitios web existentes:
 
-  For additional help, see the official [Auth Example](https://github.com/payloadcms/payload/tree/main/examples/auth) or the [Authentication](https://payloadcms.com/docs/authentication/overview#authentication-overview) docs.
+- **Mapeo automático** de URLs antiguas
+- **Códigos de estado HTTP** correctos para SEO
+- **Preservación del ranking** en motores de búsqueda
+- **Análisis de tráfico** durante la migración
 
-- #### Posts
+## Automatización y Tareas Programadas
 
-  Posts are used to generate blog posts, news articles, or any other type of content that is published over time. All posts are layout builder enabled so you can generate unique layouts for each post using layout-building blocks, see [Layout Builder](#layout-builder) for more details. Posts are also draft-enabled so you can preview them before publishing them to your website, see [Draft Preview](#draft-preview) for more details.
+### Publicación Programada
 
-- #### Pages
+- **Lanzamientos coordinados** de productos
+- **Campañas de marketing** automatizadas
+- **Actualizaciones de precios** programadas
+- **Contenido estacional** automático
 
-  All pages are layout builder enabled so you can generate unique layouts for each page using layout-building blocks, see [Layout Builder](#layout-builder) for more details. Pages are also draft-enabled so you can preview them before publishing them to your website, see [Draft Preview](#draft-preview) for more details.
+### Tareas de Mantenimiento
 
-- #### Media
+- **Backup automático** de base de datos
+- **Limpieza de archivos** temporales
+- **Optimización de imágenes** batch
+- **Reportes periódicos** de sistema
 
-  This is the uploads enabled collection used by pages, posts, and projects to contain media like images, videos, downloads, and other assets. It features pre-configured sizes, focal point and manual resizing to help you manage your pictures.
+## Sitio Web Corporativo
 
-- #### Categories
+Sitio web corporativo diseñado específicamente para **BGL BASCULAS INDUSTRIALES**, integrado completamente con el sistema CMS:
 
-  A taxonomy used to group posts together. Categories can be nested inside of one another, for example "News > Technology". See the official [Payload Nested Docs Plugin](https://payloadcms.com/docs/plugins/nested-docs) for more details.
+### Características del Frontend
 
-### Globals
+#### 🎨 Diseño Corporativo
 
-See the [Globals](https://payloadcms.com/docs/configuration/globals) docs for details on how to extend this functionality.
+- **Identidad visual** de BGL BASCULAS INDUSTRIALES
+- **Colores corporativos** y tipografía oficial
+- **Responsive design** optimizado para dispositivos industriales
+- **Modo oscuro/claro** para diferentes entornos de trabajo
 
-- `Header`
+#### 🏭 Secciones Especializadas
 
-  The data required by the header on your front-end like nav links.
+- **Catálogo interactivo** de básculas industriales
+- **Calculadora de capacidades** para selección de productos
+- **Centro de descargas** con manuales y certificaciones
+- **Formularios de cotización** personalizados por industria
+- **Mapa de servicios** con cobertura geográfica
 
-- `Footer`
+#### ⚡ Tecnologías Frontend
 
-  Same as above but for the footer of your site.
+- **Next.js 14** con App Router para máximo rendimiento
+- **TypeScript** para código robusto y mantenible
+- **Tailwind CSS** para estilos consistentes y responsive
+- **shadcn/ui** para componentes de interfaz profesionales
+- **React Hook Form** para formularios optimizados
+- **Framer Motion** para animaciones suaves
 
-## Access control
+#### 🔧 Funcionalidades Avanzadas
 
-Basic access control is setup to limit access to various content based based on publishing status.
-
-- `users`: Users can access the admin panel and create or edit content.
-- `posts`: Everyone can access published posts, but only users can create, update, or delete them.
-- `pages`: Everyone can access published pages, but only users can create, update, or delete them.
-
-For more details on how to extend this functionality, see the [Payload Access Control](https://payloadcms.com/docs/access-control/overview#access-control) docs.
-
-## Layout Builder
-
-Create unique page layouts for any type of content using a powerful layout builder. This template comes pre-configured with the following layout building blocks:
-
-- Hero
-- Content
-- Media
-- Call To Action
-- Archive
-
-Each block is fully designed and built into the front-end website that comes with this template. See [Website](#website) for more details.
-
-## Lexical editor
-
-A deep editorial experience that allows complete freedom to focus just on writing content without breaking out of the flow with support for Payload blocks, media, links and other features provided out of the box. See [Lexical](https://payloadcms.com/docs/rich-text/overview) docs.
-
-## Draft Preview
-
-All posts and pages are draft-enabled so you can preview them before publishing them to your website. To do this, these collections use [Versions](https://payloadcms.com/docs/configuration/collections#versions) with `drafts` set to `true`. This means that when you create a new post, project, or page, it will be saved as a draft and will not be visible on your website until you publish it. This also means that you can preview your draft before publishing it to your website. To do this, we automatically format a custom URL which redirects to your front-end to securely fetch the draft version of your content.
-
-Since the front-end of this template is statically generated, this also means that pages, posts, and projects will need to be regenerated as changes are made to published documents. To do this, we use an `afterChange` hook to regenerate the front-end when a document has changed and its `_status` is `published`.
-
-For more details on how to extend this functionality, see the official [Draft Preview Example](https://github.com/payloadcms/payload/tree/examples/draft-preview).
-
-## Live preview
-
-In addition to draft previews you can also enable live preview to view your end resulting page as you're editing content with full support for SSR rendering. See [Live preview docs](https://payloadcms.com/docs/live-preview/overview) for more details.
-
-## On-demand Revalidation
-
-We've added hooks to collections and globals so that all of your pages, posts, footer, or header changes will automatically be updated in the frontend via on-demand revalidation supported by Nextjs.
-
-> Note: if an image has been changed, for example it's been cropped, you will need to republish the page it's used on in order to be able to revalidate the Nextjs image cache.
-
-## SEO
-
-This template comes pre-configured with the official [Payload SEO Plugin](https://payloadcms.com/docs/plugins/seo) for complete SEO control from the admin panel. All SEO data is fully integrated into the front-end website that comes with this template. See [Website](#website) for more details.
-
-## Search
-
-This template also pre-configured with the official [Payload Search Plugin](https://payloadcms.com/docs/plugins/search) to showcase how SSR search features can easily be implemented into Next.js with Payload. See [Website](#website) for more details.
-
-## Redirects
-
-If you are migrating an existing site or moving content to a new URL, you can use the `redirects` collection to create a proper redirect from old URLs to new ones. This will ensure that proper request status codes are returned to search engines and that your users are not left with a broken link. This template comes pre-configured with the official [Payload Redirects Plugin](https://payloadcms.com/docs/plugins/redirects) for complete redirect control from the admin panel. All redirects are fully integrated into the front-end website that comes with this template. See [Website](#website) for more details.
-
-## Jobs and Scheduled Publish
-
-We have configured [Scheduled Publish](https://payloadcms.com/docs/versions/drafts#scheduled-publish) which uses the [jobs queue](https://payloadcms.com/docs/jobs-queue/jobs) in order to publish or unpublish your content on a scheduled time. The tasks are run on a cron schedule and can also be run as a separate instance if needed.
-
-> Note: When deployed on Vercel, depending on the plan tier, you may be limited to daily cron only.
-
-## Website
-
-This template includes a beautifully designed, production-ready front-end built with the [Next.js App Router](https://nextjs.org), served right alongside your Payload app in a instance. This makes it so that you can deploy both your backend and website where you need it.
-
-Core features:
-
-- [Next.js App Router](https://nextjs.org)
-- [TypeScript](https://www.typescriptlang.org)
-- [React Hook Form](https://react-hook-form.com)
-- [Payload Admin Bar](https://github.com/payloadcms/payload/tree/main/packages/admin-bar)
-- [TailwindCSS styling](https://tailwindcss.com/)
-- [shadcn/ui components](https://ui.shadcn.com/)
-- User Accounts and Authentication
-- Fully featured blog
-- Publication workflow
-- Dark mode
-- Pre-made layout building blocks
-- SEO
-- Search
-- Redirects
-- Live preview
+- **Búsqueda inteligente** de productos por especificaciones
+- **Comparador de básculas** lado a lado
+- **Sistema de favoritos** para productos de interés
+- **Calculadoras técnicas** integradas
+- **Chat en vivo** para soporte técnico inmediato
 
 ### Cache
 
@@ -319,3 +603,233 @@ You can also deploy your app manually, check out the [deployment documentation](
 ## Questions
 
 If you have any issues or questions, reach out to us on [Discord](https://discord.com/invite/payload) or start a [GitHub discussion](https://github.com/payloadcms/payload/discussions).
+
+---
+
+## Términos de Servicio
+
+**Última Modificación:** 4 de Septiembre de 2025
+
+Estos Términos de Servicio ("Acuerdo") constituyen un contrato vinculante entre usted ("Usuario," "usted," o "su") y BGL Básculas Industriales ("BGL," "nosotros," "nos," o "nuestro"). Este Acuerdo rige su acceso y uso de la plataforma BGL CMS y servicios relacionados (colectivamente, los "Servicios").
+
+### 1. Aceptación del Acuerdo
+
+**AL ACCEDER O USAR LOS SERVICIOS, USTED ACEPTA ESTAR SUJETO A ESTOS TÉRMINOS.** Si no está de acuerdo con estos términos, no acceda ni use los Servicios.
+
+Este acuerdo se aplica a todos los usuarios de la plataforma BGL CMS, incluyendo:
+- Visitantes que consultan contenido público
+- Administradores y editores del sistema de gestión de contenidos
+- Personal técnico y de soporte
+
+### 2. Definiciones Detalladas
+
+#### 2.1 Términos Generales
+- **Servicios:** La plataforma BGL CMS, incluyendo el sitio web público, el panel de administración, APIs, y todas las funcionalidades relacionadas
+- **Contenido:** Toda información, datos, texto, imágenes, videos, documentos técnicos, especificaciones de productos, y otros materiales disponibles a través de los Servicios
+- **Cuenta:** Su registro en BGL CMS que permite acceso a funcionalidades específicas según su rol de usuario
+
+#### 2.2 Roles de Usuario
+- **Editor:** Usuario autorizado para crear y modificar contenido
+- **Administrador:** Usuario con acceso completo al sistema de gestión
+
+### 3. Acceso y Uso de los Servicios
+
+#### 3.1 Para Visitantes y Usuarios de Contenido
+
+**Navegación del Sitio Web**
+- Puede navegar libremente por las secciones públicas del sitio
+- El contenido está disponible para consulta e información sobre productos industriales
+- Puede descargar catálogos y documentación técnica marcada como pública
+- Debe respetar los derechos de autor y propiedad intelectual del contenido
+
+**Uso Permitido del Contenido**
+- **Consulta Personal:** Puede revisar especificaciones técnicas para evaluación de productos
+- **Uso Comercial Limitado:** Puede usar información técnica para cotizaciones y evaluaciones comerciales
+- **Compartir Información:** Puede compartir enlaces a páginas específicas, pero no redistribuir contenido completo
+
+**Restricciones para Visitantes**
+- No puede copiar, reproducir o distribuir contenido protegido por derechos de autor
+- No puede usar información técnica para desarrollar productos competidores
+- No puede acceder a áreas restringidas sin autorización
+- No puede intentar vulnerar la seguridad del sistema
+
+#### 3.2 Para Administradores y Editores del CMS
+
+**Responsabilidades de Gestión de Contenido**
+- **Precisión:** Debe asegurar que toda información técnica sea precisa y actualizada
+- **Calidad:** Debe mantener estándares de calidad en redacción, imágenes y documentación
+- **Consistencia:** Debe seguir las guías de estilo y formato establecidas
+- **Revisión:** Debe revisar y aprobar contenido antes de su publicación
+
+**Funcionalidades del Panel de Administración**
+- **Gestión de Productos:** Crear, editar y organizar fichas técnicas de básculas industriales
+- **Biblioteca de Medios:** Subir y organizar imágenes, videos y documentos técnicos
+- **Gestión de Usuarios:** Administrar cuentas y permisos de acceso
+- **Configuración del Sistema:** Ajustar parámetros de funcionamiento de la plataforma
+- **Análisis y Reportes:** Acceder a estadísticas de uso y rendimiento
+
+**Políticas de Seguridad para Administradores**
+- Debe usar contraseñas seguras y cambiarlas regularmente
+- Debe cerrar sesión al terminar de trabajar, especialmente en equipos compartidos
+- No debe compartir credenciales de acceso con terceros
+- Debe reportar inmediatamente cualquier actividad sospechosa
+- Debe realizar copias de seguridad antes de cambios importantes
+
+### 4. Políticas de Contenido y Propiedad Intelectual
+
+#### 4.1 Contenido Técnico y Comercial
+- **Especificaciones de Productos:** Toda información técnica debe ser verificada y actualizada
+- **Imágenes y Videos:** Deben ser de alta calidad y representar fielmente los productos
+- **Documentación:** Manuales, catálogos y guías deben estar actualizados y ser precisos
+- **Precios y Disponibilidad:** Información comercial debe mantenerse actualizada
+
+#### 4.2 Derechos de Propiedad
+- **Contenido Original:** BGL retiene todos los derechos sobre contenido creado internamente
+- **Contenido de Terceros:** Debe tener licencias apropiadas para uso comercial
+- **Marcas Registradas:** Logos y marcas de BGL están protegidos por derechos de autor
+- **Patentes:** Información sobre tecnologías patentadas debe manejarse con cuidado
+
+#### 4.3 Licencias de Uso
+- **Para Usuarios:** Licencia limitada para consulta y uso comercial legítimo
+- **Para Distribuidores:** Licencia extendida para materiales de marketing autorizados
+- **Para Competidores:** Prohibido el uso de información técnica para desarrollo de productos similares
+
+### 5. Registro de Cuenta y Seguridad
+
+#### 5.1 Proceso de Registro
+- Debe proporcionar información precisa y completa al crear una cuenta
+- Debe verificar su dirección de correo electrónico
+- Puede requerir aprobación manual para cuentas con acceso administrativo
+- Debe aceptar políticas adicionales según el nivel de acceso solicitado
+
+#### 5.2 Seguridad de Cuentas
+- **Contraseñas:** Deben tener al menos 8 caracteres con combinación de letras, números y símbolos
+- **Autenticación de Dos Factores:** Requerida para cuentas administrativas
+- **Sesiones:** Se cerrarán automáticamente después de períodos de inactividad
+- **Monitoreo:** Actividad sospechosa será monitoreada y puede resultar en suspensión temporal
+
+#### 5.3 Responsabilidades del Usuario
+- Mantener la confidencialidad de credenciales de acceso
+- Notificar inmediatamente cualquier uso no autorizado de su cuenta
+- Actualizar información de contacto cuando sea necesario
+- Cumplir con políticas de seguridad establecidas por BGL
+
+### 6. Términos de Pago
+
+#### 6.1 Planes de Servicio
+- **Acceso Básico:** Gratuito para consulta de contenido público
+
+### 7. Privacidad y Protección de Datos
+
+#### 7.1 Recopilación de Información
+- **Datos de Navegación:** Páginas visitadas, tiempo de permanencia, dispositivo usado
+- **Información de Contacto:** Nombre, email, teléfono, empresa (para usuarios registrados)
+- **Datos Técnicos:** Dirección IP, navegador, sistema operativo
+- **Preferencias:** Configuraciones personalizadas y historial de búsquedas
+
+#### 7.2 Uso de la Información
+- Mejorar la experiencia del usuario y personalizar contenido
+- Proporcionar soporte técnico y atención al cliente
+- Enviar comunicaciones relevantes sobre productos y servicios
+- Generar estadísticas agregadas para análisis de rendimiento
+
+#### 7.3 Protección y Seguridad
+- Implementamos medidas de seguridad técnicas y organizacionales
+- Los datos se almacenan en servidores seguros con cifrado
+- El acceso a información personal está restringido al personal autorizado
+- Cumplimos con regulaciones aplicables de protección de datos
+
+### 8. Disponibilidad del Servicio y Soporte Técnico
+
+#### 8.1 Disponibilidad
+- Nos esforzamos por mantener el servicio disponible 24/7
+- Puede haber interrupciones programadas para mantenimiento
+- Se notificarán interrupciones planificadas con anticipación
+- Tiempo de actividad objetivo del 99.5% mensual
+
+#### 8.2 Soporte Técnico
+- **Usuarios Básicos:** Soporte por email durante horario comercial
+- **Usuarios Premium:** Soporte prioritario con tiempo de respuesta garantizado
+- **Administradores:** Soporte técnico especializado y capacitación
+- **Emergencias:** Línea de soporte para problemas críticos del sistema
+
+#### 8.3 Mantenimiento y Actualizaciones
+- Actualizaciones regulares de seguridad y funcionalidad
+- Nuevas características se implementan según roadmap del producto
+- Los usuarios serán notificados de cambios importantes
+- Documentación y capacitación para nuevas funcionalidades
+
+### 9. Terminación y Suspensión
+
+#### 9.1 Suspensión por BGL
+- Podemos suspender cuentas por violación de términos
+- Se proporcionará notificación y oportunidad de corrección cuando sea posible
+- Suspensión inmediata en casos de actividad maliciosa o ilegal
+- Los datos se conservan durante el período de suspensión
+
+#### 9.3 Efectos de la Terminación
+- Cesa el derecho a usar los Servicios
+- Se eliminan credenciales de acceso
+- Los datos pueden conservarse según políticas de retención
+- Las obligaciones de confidencialidad continúan vigentes
+
+### 10. Limitaciones de Responsabilidad y Garantías
+
+#### 10.1 Descargo de Responsabilidad
+- Los Servicios se proporcionan "tal como están"
+- No garantizamos disponibilidad ininterrumpida
+- La información técnica se proporciona con fines informativos
+- Los usuarios deben verificar especificaciones antes de decisiones de compra
+
+#### 10.2 Limitación de Responsabilidad
+- BGL no será responsable por daños indirectos o consecuenciales
+- La responsabilidad total está limitada al monto pagado por los Servicios
+- No somos responsables por decisiones basadas en información del sitio
+- Los usuarios asumen riesgo por el uso de información técnica
+
+#### 10.3 Indemnización
+- Los usuarios acuerdan indemnizar a BGL por uso indebido de los Servicios
+- Esto incluye violaciones de derechos de autor o uso no autorizado
+- BGL se reserva el derecho de defensa en reclamaciones relacionadas
+
+### 11. Ley Aplicable y Resolución de Disputas
+
+#### 11.1 Jurisdicción
+- Estos términos se rigen por las leyes de México
+- Se aplicarán leyes locales de protección al consumidor cuando corresponda
+
+#### 11.2 Resolución de Conflictos
+- Preferimos resolver disputas de manera amigable
+- Mediación disponible antes de procedimientos legales
+- Arbitraje vinculante para disputas comerciales según acuerdo
+- Los usuarios conservan derechos bajo leyes de protección al consumidor
+
+### 12. Modificaciones y Actualizaciones
+
+#### 12.1 Cambios a los Términos
+- Podemos modificar estos términos con aviso previo
+- Los cambios importantes se notificarán por email y en el sitio
+- El uso continuado constituye aceptación de términos modificados
+- Los usuarios pueden cancelar si no aceptan cambios
+
+#### 12.2 Actualizaciones del Servicio
+- Mejoras continuas en funcionalidad y seguridad
+- Nuevas características pueden requerir términos adicionales
+- Los usuarios serán informados de cambios significativos
+- Capacitación disponible para nuevas funcionalidades
+
+### 13. Información de Contacto
+
+#### 13.1 Soporte General
+- **Email:** soporte@bglbasculas.com
+- **Teléfono:** 3325062280
+- **Horario:** Lunes a Viernes, 8:00 AM - 6:00 PM
+
+#### 13.2 Asuntos Legales o de Facturación
+- **Email Legal:** facturacion@bglbasculas.com
+- **Dirección:** Av. Federalistas #815 int. 23A
+- **Representante Legal:** BGL BASCULAS INDUSTRIALES
+
+---
+
+**Nota Importante:** Este documento constituye el acuerdo completo entre las partes. Si tiene preguntas sobre estos términos, por favor contáctenos antes de usar los Servicios. Su uso de los Servicios indica su aceptación de estos términos en su totalidad.

@@ -24,6 +24,7 @@ import { isAuthenticatedOrPublished } from '@/access/isLoggedInOrPublished'
 
 export const Pages: CollectionConfig<'pages'> = {
   slug: 'pages',
+  trash: true,
   labels: {
     singular: {
       en: 'Page',

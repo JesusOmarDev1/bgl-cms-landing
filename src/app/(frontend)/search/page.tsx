@@ -1,12 +1,12 @@
 import type { Metadata } from 'next/types'
 
-import { CollectionArchive } from '@/components/CollectionArchive'
+import { SearchArchive } from '@/components/CollectionArchive/SearchArchive'
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 import React from 'react'
 import { Search } from '@/search/Component'
 import PageClient from './page.client'
-import { CardPostData } from '@/components/Card'
+import { SearchResultData } from '@/components/Card/SearchCard'
 
 type Args = {
   searchParams: Promise<{
@@ -21,12 +21,7 @@ export default async function Page({ searchParams: searchParamsPromise }: Args) 
     collection: 'search',
     depth: 1,
     limit: 12,
-    select: {
-      title: true,
-      slug: true,
-      categories: true,
-      meta: true,
-    },
+    overrideAccess: false,
     // pagination: false reduces overhead if you don't need totalDocs
     pagination: false,
     ...(query
@@ -76,7 +71,7 @@ export default async function Page({ searchParams: searchParamsPromise }: Args) 
       </div>
 
       {posts.totalDocs > 0 ? (
-        <CollectionArchive posts={posts.docs as CardPostData[]} />
+        <SearchArchive results={posts.docs as SearchResultData[]} />
       ) : (
         <div className="container">No hay resultados.</div>
       )}
