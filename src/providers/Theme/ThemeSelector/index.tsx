@@ -27,7 +27,7 @@ export const ThemeSelector: React.FC = () => {
   const { setTheme } = useTheme()
   const [value, setValue] = useState('')
 
-  const onThemeChange = (themeToSet: Theme & 'auto') => {
+  const onThemeChange = (themeToSet: Theme | 'auto') => {
     if (themeToSet === 'auto') {
       setTheme(null)
       setValue('auto')
@@ -48,12 +48,22 @@ export const ThemeSelector: React.FC = () => {
         <Button variant="ghost" size="icon">
           <Sun className="h-[1.2rem] w-[1.2rem] scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" />
           <Moon className="absolute h-[1.2rem] w-[1.2rem] scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0" />
-          <span className="sr-only">Toggle theme</span>
+          <span className="sr-only">Cambiar tema</span>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuItem onClick={() => setTheme('light')}>Light</DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme('dark')}>Dark</DropdownMenuItem>
+        <DropdownMenuItem onClick={() => onThemeChange('light')}>
+          <Sun className="h-[1.2rem] w-[1.2rem]" />
+          <span>Claro</span>
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={() => onThemeChange('dark')}>
+          <Moon className="h-[1.2rem] w-[1.2rem]" />
+          <span>Oscuro</span>
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={() => onThemeChange('auto')}>
+          <Monitor className="h-[1.2rem] w-[1.2rem]" />
+          <span>Sistema</span>
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   )

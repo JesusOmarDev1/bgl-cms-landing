@@ -145,10 +145,10 @@ export const CardPosts: React.FC<{
           )}
         </div>
         <div className="relative w-full aspect-video bg-gray-100 rounded-lg overflow-hidden">
-          {imageToUse && typeof imageToUse !== 'string' && (
+          {imageToUse && typeof imageToUse !== 'string' && typeof imageToUse !== 'number' && (
             <Media fill priority resource={imageToUse} className="object-cover" />
           )}
-          {!imageToUse && (
+          {(!imageToUse || typeof imageToUse === 'string' || typeof imageToUse === 'number') && (
             <div className="flex items-center justify-center h-full text-gray-500">
               Sin imagen disponible
             </div>
