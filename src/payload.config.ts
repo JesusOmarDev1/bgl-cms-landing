@@ -18,6 +18,9 @@ import { es } from '@payloadcms/translations/languages/es'
 import { getEmailAdapter } from './lib/email'
 import { getStorageAdapter } from './lib/storage'
 import { adminMetadata } from './lib/adminMetadata'
+import { Products } from './collections/Products'
+import { Brands } from './collections/Brands'
+import { Models } from './collections/Models'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -34,6 +37,10 @@ export default buildConfig({
     components: {
       beforeLogin: ['@/components/BeforeLogin'],
       beforeDashboard: ['@/components/BeforeDashboard'],
+      graphics: {
+        Logo: '/graphics/Logo/index.tsx#Logo',
+        Icon: '/graphics/Icon/index.tsx#Icon',
+      },
     },
     importMap: {
       baseDir: path.resolve(dirname),
@@ -70,7 +77,7 @@ export default buildConfig({
       url: process.env.DATABASE_URI || '',
     },
   }),
-  collections: [Pages, Posts, Media, Categories, Users],
+  collections: [Pages, Posts, Media, Categories, Users, Products, Brands, Models],
   cors: [getServerSideURL()].filter(Boolean),
   globals: [Header, Footer],
   plugins: [...plugins, getStorageAdapter()],

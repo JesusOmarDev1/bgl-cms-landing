@@ -1,0 +1,114 @@
+:root {
+  --background: 223.8136 -172.5242% 100%;
+  --foreground: 223.8136 0% 3.9388%;
+  --card: 223.8136 -172.5242% 100%;
+  --card-foreground: 223.8136 0% 3.9388%;
+  --popover: 223.8136 -172.5242% 100%;
+  --popover-foreground: 223.8136 0% 3.9388%;
+  --primary: 223.8136 0% 9.0527%;
+  --primary-foreground: 223.8136 0.0004% 98.0256%;
+  --secondary: 223.8136 0.0002% 96.0587%;
+  --secondary-foreground: 223.8136 0% 9.0527%;
+  --muted: 223.8136 0.0002% 96.0587%;
+  --muted-foreground: 223.8136 0% 45.1519%;
+  --accent: 223.8136 0.0002% 96.0587%;
+  --accent-foreground: 223.8136 0% 9.0527%;
+  --destructive: 351.7303 123.6748% 40.5257%;
+  --destructive-foreground: 223.8136 -172.5242% 100%;
+  --border: 223.8136 0.0001% 89.8161%;
+  --input: 223.8136 0.0001% 89.8161%;
+  --ring: 223.8136 0% 63.0163%;
+  --radius: 0.625rem;
+  --font-sans: Geist, ui-sans-serif, sans-serif, system-ui;
+  --font-serif: ui-serif, Georgia, Cambria, 'Times New Roman', Times, serif;
+  --font-mono: Geist Mono, ui-monospace, monospace;
+}
+
+[data-theme='dark'] {
+  --background: 223.8136 0% 3.9388%;
+  --foreground: 223.8136 0.0004% 98.0256%;
+  --card: 223.8136 0% 9.0527%;
+  --card-foreground: 223.8136 0.0004% 98.0256%;
+  --popover: 223.8136 0% 14.9382%;
+  --popover-foreground: 223.8136 0.0004% 98.0256%;
+  --primary: 223.8136 0.0001% 89.8161%;
+  --primary-foreground: 223.8136 0% 9.0527%;
+  --secondary: 223.8136 0% 14.9382%;
+  --secondary-foreground: 223.8136 0.0004% 98.0256%;
+  --muted: 223.8136 0% 14.9382%;
+  --muted-foreground: 223.8136 0% 63.0163%;
+  --accent: 223.8136 0% 25.0471%;
+  --accent-foreground: 223.8136 0.0004% 98.0256%;
+  --destructive: 358.7594 101.8439% 69.8357%;
+  --destructive-foreground: 223.8136 0.0004% 98.0256%;
+  --border: 223.8136 0% 15.5096%;
+  --input: 223.8136 0% 20.3885%;
+  --ring: 223.8136 0% 45.1519%;
+}
+
+/* Base Button Styles */
+.btn {
+  border-radius: 0.625rem;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+  border: none;
+  text-decoration: none;
+  white-space: nowrap;
+  outline: none;
+}
+
+.btn--size-small {
+  background-color: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
+}
+
+.pill {
+  background-color: hsl(var(--secondary));
+  color: hsl(var(--secondary-foreground));
+}
+
+.login__brand {
+  margin-bottom: 0;
+}
+
+.step-nav__home {
+  width: 35px;
+  height: 35px;
+}
+
+.app-header__content {
+  margin-bottom: 1rem;
+}
+
+.hamburger {
+  background-color: hsl(var(--secondary));
+  color: hsl(var(--secondary-foreground));
+  border: 0;
+  box-shadow: 1px 1px 1px 1px hsl(var(--secondary-foreground) / 0.2);
+
+  &:hover {
+    background-color: hsl(var(--secondary-foreground) / 0.9);
+    color: hsl(var(--secondary));
+    border: 0;
+    box-shadow: 1px 1px 1px 1px hsl(var(--secondary-foreground) / 0.2);
+  }
+}
+
+body {
+  font-family: var(--font-sans);
+}
+
+.checkbox-input__input {
+  border-radius: 0.825rem;
+}
+
+.search-filter__input {
+  background-color: hsl(var(--secondary));
+  border-radius: 1rem;
+}
+
+.list-controls .list-controls__wrap {
+  border-radius: 0.825rem;
+}

@@ -2,13 +2,9 @@ import React from 'react'
 
 const BeforeLogin = () => {
   return (
-    <div>
-      <p>
-        <b>¡Bienvenido a tu panel de control!</b>
-        {
-          'Aquí es donde los administradores del sitio iniciarán sesión para administrar tu sitio web.'
-        }
-      </p>
+    <div style={{ padding: '1rem', marginBottom: '1rem', textAlign: 'center' }}>
+      <h1>Bienvenido de vuelta</h1>
+      <p>Inicia sesión en tu cuenta para continuar.</p>
     </div>
   )
 }

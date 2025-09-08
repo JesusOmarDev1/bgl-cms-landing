@@ -14,6 +14,8 @@ import {
   TextStateFeature,
   UploadFeature,
   defaultColors,
+  ChecklistFeature,
+  BlockquoteFeature,
   type LinkFields,
 } from '@payloadcms/richtext-lexical'
 
@@ -59,8 +61,118 @@ export const defaultLexical = lexicalEditor({
     TextStateFeature({
       state: {
         color: {
-          ...defaultColors.background,
-          ...defaultColors.text,
+          'bg-red': {
+            css: {
+              'background-color': 'red',
+              color: 'white',
+            },
+            label: 'Rojo',
+          },
+          'bg-orange': {
+            css: {
+              'background-color': 'orange',
+              color: 'white',
+            },
+            label: 'Naranja',
+          },
+          'bg-yellow': {
+            css: {
+              'background-color': 'yellow',
+              color: 'black',
+            },
+            label: 'Amarillo',
+          },
+          'bg-green': {
+            css: {
+              'background-color': 'green',
+              color: 'white',
+            },
+            label: 'Verde',
+          },
+          'bg-blue': {
+            css: {
+              'background-color': 'blue',
+              color: 'white',
+            },
+            label: 'Azul',
+          },
+          'bg-purple': {
+            css: {
+              'background-color': 'purple',
+              color: 'white',
+            },
+            label: 'Morado',
+          },
+          'bg-pink': {
+            css: {
+              'background-color': 'pink',
+              color: 'black',
+            },
+            label: 'Rosa',
+          },
+          'bg-gray': {
+            css: {
+              'background-color': 'gray',
+              color: 'white',
+            },
+            label: 'Gris',
+          },
+          'bg-black': {
+            css: {
+              'background-color': 'black',
+              color: 'white',
+            },
+            label: 'Negro',
+          },
+          'bg-white': {
+            css: {
+              'background-color': 'white',
+              color: 'black',
+            },
+            label: 'Blanco',
+          },
+          'text-red': {
+            css: {
+              color: 'red',
+            },
+            label: 'Rojo',
+          },
+          'text-orange': {
+            css: {
+              color: 'orange',
+            },
+            label: 'Naranja',
+          },
+          'text-yellow': {
+            css: {
+              color: 'yellow',
+            },
+            label: 'Amarillo',
+          },
+          'text-green': {
+            css: {
+              color: 'green',
+            },
+            label: 'Verde',
+          },
+          'text-blue': {
+            css: {
+              color: 'blue',
+            },
+            label: 'Azul',
+          },
+          'text-purple': {
+            css: {
+              color: 'purple',
+            },
+            label: 'Púrpura',
+          },
+          'text-pink': {
+            css: {
+              color: 'pink',
+            },
+            label: 'Rosa',
+          },
         },
         // Estados de subrayado
         underline: {
@@ -138,5 +250,7 @@ export const defaultLexical = lexicalEditor({
       },
     }),
     UploadFeature(),
+    ChecklistFeature(),
+    BlockquoteFeature(),
   ],
 })
