@@ -18,7 +18,13 @@
   --border: 223.8136 0.0001% 89.8161%;
   --input: 223.8136 0.0001% 89.8161%;
   --ring: 223.8136 0% 63.0163%;
+
+  /* Border radius variables */
   --radius: 0.625rem;
+  --radius-lg: 0.825rem;
+  --radius-xl: 1rem;
+
+  /* Font variables */
   --font-sans: Geist, ui-sans-serif, sans-serif, system-ui;
   --font-serif: ui-serif, Georgia, Cambria, 'Times New Roman', Times, serif;
   --font-mono: Geist Mono, ui-monospace, monospace;
@@ -46,9 +52,32 @@
   --ring: 223.8136 0% 45.1519%;
 }
 
-/* Base Button Styles */
+/* Base styles */
+body {
+  font-family: var(--font-sans);
+}
+
+/* Mixins for common patterns */
+%secondary-colors {
+  background-color: hsl(var(--secondary));
+  color: hsl(var(--secondary-foreground));
+}
+
+%secondary-hover {
+  &:hover {
+    background-color: hsl(var(--secondary-foreground) / 0.9);
+    color: hsl(var(--secondary));
+    border: 0;
+  }
+}
+
+%border-radius-lg {
+  border-radius: var(--radius-lg);
+}
+
+/* Button styles */
 .btn {
-  border-radius: 0.625rem;
+  border-radius: var(--radius);
   font-size: 1rem;
   font-weight: 500;
   transition: all 0.2s ease-in-out;
@@ -64,11 +93,17 @@
   color: hsl(var(--primary-foreground));
 }
 
+/* Pill styles */
 .pill {
-  background-color: hsl(var(--secondary));
-  color: hsl(var(--secondary-foreground));
+  @extend %secondary-colors;
+  @extend %secondary-hover;
 }
 
+.pill-selector {
+  @extend %border-radius-lg;
+}
+
+/* Navigation styles */
 .login__brand {
   margin-bottom: 0;
 }
@@ -83,32 +118,84 @@
 }
 
 .hamburger {
-  background-color: hsl(var(--secondary));
-  color: hsl(var(--secondary-foreground));
-  border: 0;
-  box-shadow: 1px 1px 1px 1px hsl(var(--secondary-foreground) / 0.2);
-
-  &:hover {
-    background-color: hsl(var(--secondary-foreground) / 0.9);
-    color: hsl(var(--secondary));
-    border: 0;
-    box-shadow: 1px 1px 1px 1px hsl(var(--secondary-foreground) / 0.2);
-  }
+  @extend %secondary-colors;
+  @extend %secondary-hover;
+  box-shadow: none;
 }
 
-body {
-  font-family: var(--font-sans);
+/* Form input styles - consolidated */
+.checkbox-input__input,
+.list-controls .list-controls__wrap,
+.field-type.email input,
+.field-type.password input,
+.field-type.text input,
+.field-type.textarea textarea,
+.field-type.number input,
+.react-select .rs__control,
+.date-time-picker .react-datepicker__input-container input,
+.where-builder,
+.shimmer-effect,
+.upload-field-card,
+.popup-button,
+.popup-button--default,
+.popup-button--size-medium,
+.relationship-add-new__add-button,
+.doc-drawer__toggler,
+.collapsible__toggle-wrap,
+.dropzone,
+.live-preview-toggler,
+.preview-btn,
+.popup__content,
+.doc-controls__dots,
+.collection-edit__auth,
+.multi-value,
+.draggable,
+.rs__multi-value,
+.css-x2yrli-multiValue,
+.popup-button-list__button,
+.search-filter,
+.search-filter__input,
+.list-controls__search,
+.list-controls__wrap,
+.card,
+.table-wrap,
+.table {
+  @extend %border-radius-lg;
 }
 
-.checkbox-input__input {
-  border-radius: 0.825rem;
+.table {
+  border: 0.1px solid hsl(var(--border));
 }
 
 .search-filter__input {
-  background-color: hsl(var(--secondary));
-  border-radius: 1rem;
+  border-radius: var(--radius-xl);
 }
 
-.list-controls .list-controls__wrap {
-  border-radius: 0.825rem;
+.relationship__wrap {
+  gap: 0.5rem;
+}
+
+.btn--style-primary,
+.btn--disabled,
+.btn--withPopup {
+  gap: 0.2rem;
+}
+
+.collapsible--style-default {
+  border: 0;
+}
+
+.icon--check {
+  width: 1.2rem;
+  height: 1.2rem;
+}
+
+.checkbox-input__input {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.rs__value-container.rs__value-container--is-multi.rs__value-container--has-value.css-pl07w5 {
+  gap: 0.5rem;
 }
