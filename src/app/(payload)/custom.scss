@@ -1,4 +1,13 @@
+/* ==================================================
+   BGL CMS - Custom Styles for Payload Admin Panel
+   ================================================== */
+
+/* ==================================================
+   CSS CUSTOM PROPERTIES (VARIABLES)
+   ================================================== */
+
 :root {
+  /* Color System */
   --background: 223.8136 -172.5242% 100%;
   --foreground: 223.8136 0% 3.9388%;
   --card: 223.8136 -172.5242% 100%;
@@ -19,15 +28,55 @@
   --input: 223.8136 0.0001% 89.8161%;
   --ring: 223.8136 0% 63.0163%;
 
-  /* Border radius variables */
+  /* Border Radius */
   --radius: 0.625rem;
   --radius-lg: 0.825rem;
   --radius-xl: 1rem;
 
-  /* Font variables */
+  /* Typography */
   --font-sans: Geist, ui-sans-serif, sans-serif, system-ui;
   --font-serif: ui-serif, Georgia, Cambria, 'Times New Roman', Times, serif;
   --font-mono: Geist Mono, ui-monospace, monospace;
+
+  /* Chart Colors - Primary Palette */
+  --chart-1: 220 70% 50%;
+  --chart-2: 160 60% 45%;
+  --chart-3: 30 80% 55%;
+  --chart-4: 280 65% 60%;
+  --chart-5: 340 75% 55%;
+
+  /* Chart Colors - Extended Palette */
+  --chart-6: 200 80% 50%;
+  --chart-7: 120 70% 45%;
+  --chart-8: 60 90% 50%;
+  --chart-9: 300 60% 55%;
+  --chart-10: 15 85% 60%;
+
+  /* Chart Colors - Semantic */
+  --chart-success: 142 76% 36%;
+  --chart-warning: 38 92% 50%;
+  --chart-error: 0 84% 60%;
+  --chart-info: 199 89% 48%;
+
+  /* Gradient Colors */
+  --chart-gradient-1: linear-gradient(135deg, hsl(220 70% 50%) 0%, hsl(220 70% 40%) 100%);
+  --chart-gradient-2: linear-gradient(135deg, hsl(160 60% 45%) 0%, hsl(160 60% 35%) 100%);
+  --chart-gradient-3: linear-gradient(135deg, hsl(30 80% 55%) 0%, hsl(30 80% 45%) 100%);
+  --chart-gradient-4: linear-gradient(135deg, hsl(280 65% 60%) 0%, hsl(280 65% 50%) 100%);
+  --chart-gradient-5: linear-gradient(135deg, hsl(340 75% 55%) 0%, hsl(340 75% 45%) 100%);
+
+  /* Color Opacity Variants */
+  --chart-1-light: 220 70% 50% / 0.1;
+  --chart-2-light: 160 60% 45% / 0.1;
+  --chart-3-light: 30 80% 55% / 0.1;
+  --chart-4-light: 280 65% 60% / 0.1;
+  --chart-5-light: 340 75% 55% / 0.1;
+
+  --chart-1-medium: 220 70% 50% / 0.5;
+  --chart-2-medium: 160 60% 45% / 0.5;
+  --chart-3-medium: 30 80% 55% / 0.5;
+  --chart-4-medium: 280 65% 60% / 0.5;
+  --chart-5-medium: 340 75% 55% / 0.5;
 }
 
 [data-theme='dark'] {
@@ -50,6 +99,23 @@
   --border: 223.8136 0% 15.5096%;
   --input: 223.8136 0% 20.3885%;
   --ring: 223.8136 0% 45.1519%;
+
+  --chart-1: 220 70% 60%;
+  --chart-2: 160 60% 55%;
+  --chart-3: 30 80% 65%;
+  --chart-4: 280 65% 70%;
+  --chart-5: 340 75% 65%;
+
+  --chart-6: 200 80% 60%;
+  --chart-7: 120 70% 55%;
+  --chart-8: 60 90% 60%;
+  --chart-9: 300 60% 65%;
+  --chart-10: 15 85% 70%;
+
+  --chart-success: 142 76% 46%;
+  --chart-warning: 38 92% 60%;
+  --chart-error: 0 84% 70%;
+  --chart-info: 199 89% 58%;
 }
 
 /* Base styles */
@@ -198,4 +264,1316 @@ body {
 
 .rs__value-container.rs__value-container--is-multi.rs__value-container--has-value.css-pl07w5 {
   gap: 0.5rem;
+}
+
+.chartContainer {
+  /* Container styles */
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  background-color: hsl(var(--card));
+  border-radius: var(--radius-lg);
+  border: 1px solid hsl(var(--border));
+}
+
+.chartHeader {
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+
+.chartTitle {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: hsl(var(--foreground));
+  margin: 0 0 0.25rem 0;
+}
+
+.chartSubtitle {
+  font-size: 0.875rem;
+  color: hsl(var(--muted-foreground));
+  margin: 0;
+}
+
+.chartContent {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 0;
+}
+
+.chartWrapper {
+  aspect-ratio: 1;
+  width: 320px;
+  height: 320px;
+  max-width: 100%;
+}
+
+.chartFooter {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-size: 0.875rem;
+  text-align: center;
+  margin-top: 0.5rem;
+}
+
+.trendingText {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  line-height: 1;
+  font-weight: 500;
+  color: hsl(var(--foreground));
+}
+
+.descriptionText {
+  color: hsl(var(--muted-foreground));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  line-height: 1;
+}
+
+.icon {
+  height: 1rem;
+  width: 1rem;
+}
+
+/* Grid layout for multiple charts */
+.chartsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 1.5rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .chartsGrid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    padding: 0.5rem;
+  }
+
+  .chartWrapper {
+    width: 280px;
+    height: 280px;
+  }
+
+  .chartContainer {
+    padding: 0.75rem;
+  }
+}
+
+/* Color utility classes for charts */
+.colorPrimary {
+  color: hsl(var(--chart-1));
+}
+.colorSecondary {
+  color: hsl(var(--chart-2));
+}
+.colorTertiary {
+  color: hsl(var(--chart-3));
+}
+.colorQuaternary {
+  color: hsl(var(--chart-4));
+}
+.colorQuinary {
+  color: hsl(var(--chart-5));
+}
+
+.bgColorPrimary {
+  background-color: hsl(var(--chart-1));
+}
+.bgColorSecondary {
+  background-color: hsl(var(--chart-2));
+}
+.bgColorTertiary {
+  background-color: hsl(var(--chart-3));
+}
+.bgColorQuaternary {
+  background-color: hsl(var(--chart-4));
+}
+.bgColorQuinary {
+  background-color: hsl(var(--chart-5));
+}
+
+.bgGradientPrimary {
+  background: var(--chart-gradient-1);
+}
+.bgGradientSecondary {
+  background: var(--chart-gradient-2);
+}
+.bgGradientTertiary {
+  background: var(--chart-gradient-3);
+}
+.bgGradientQuaternary {
+  background: var(--chart-gradient-4);
+}
+.bgGradientQuinary {
+  background: var(--chart-gradient-5);
+}
+
+/* Success/Warning/Error colors */
+.colorSuccess {
+  color: hsl(var(--chart-success));
+}
+.colorWarning {
+  color: hsl(var(--chart-warning));
+}
+.colorError {
+  color: hsl(var(--chart-error));
+}
+.colorInfo {
+  color: hsl(var(--chart-info));
+}
+
+.bgColorSuccess {
+  background-color: hsl(var(--chart-success));
+}
+.bgColorWarning {
+  background-color: hsl(var(--chart-warning));
+}
+.bgColorError {
+  background-color: hsl(var(--chart-error));
+}
+.bgColorInfo {
+  background-color: hsl(var(--chart-info));
+}
+
+/* Light background variants for subtle effects */
+.bgLightPrimary {
+  background-color: hsl(var(--chart-1-light));
+}
+.bgLightSecondary {
+  background-color: hsl(var(--chart-2-light));
+}
+.bgLightTertiary {
+  background-color: hsl(var(--chart-3-light));
+}
+.bgLightQuaternary {
+  background-color: hsl(var(--chart-4-light));
+}
+.bgLightQuinary {
+  background-color: hsl(var(--chart-5-light));
+}
+
+/* Chart Tooltip Styles */
+.chartTooltip {
+  background-color: hsl(var(--card) / 0.95);
+  backdrop-filter: blur(8px);
+  padding: 1rem;
+  border-radius: var(--radius-xl);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  border: 1px solid hsl(var(--border) / 0.5);
+  min-width: 200px;
+  transition: all 0.2s ease-in-out;
+}
+
+[data-theme='dark'] .chartTooltip {
+  background-color: hsl(var(--popover) / 0.95);
+  border-color: hsl(var(--border) / 0.5);
+}
+
+.tooltipHeader {
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid hsl(var(--border) / 0.3);
+}
+
+.tooltipTitle {
+  font-weight: 700;
+  font-size: 1.125rem;
+  color: hsl(var(--foreground));
+  letter-spacing: -0.025em;
+  margin: 0;
+}
+
+.tooltipContent {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.tooltipItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  transition: transform 0.15s ease-in-out;
+}
+
+.tooltipItem:hover {
+  transform: translateX(2px);
+}
+
+.tooltipItemLeft {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.tooltipColorIndicator {
+  width: 1rem;
+  height: 1rem;
+  border-radius: 50%;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border: 2px solid hsl(var(--background));
+  transition: transform 0.15s ease-in-out;
+}
+
+.tooltipItem:hover .tooltipColorIndicator {
+  transform: scale(1.1);
+}
+
+[data-theme='dark'] .tooltipColorIndicator {
+  border-color: hsl(var(--popover));
+}
+
+.tooltipLabel {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: hsl(var(--muted-foreground));
+}
+
+.tooltipValue {
+  font-weight: 700;
+  font-size: 1rem;
+  color: hsl(var(--foreground));
+  font-variant-numeric: tabular-nums;
+}
+
+.tooltipTotal {
+  padding-top: 0.75rem;
+  margin-top: 0.75rem;
+  border-top: 1px solid hsl(var(--border));
+}
+
+.tooltipTotalContent {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(135deg, hsl(220 70% 50% / 0.1), hsl(160 60% 45% / 0.1));
+  padding: 0.75rem;
+  border-radius: var(--radius);
+}
+
+[data-theme='dark'] .tooltipTotalContent {
+  background: linear-gradient(135deg, hsl(220 70% 60% / 0.2), hsl(160 60% 55% / 0.2));
+}
+
+.tooltipTotalLabel {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: hsl(var(--foreground));
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.tooltipTotalValue {
+  font-weight: 900;
+  font-size: 1.125rem;
+  color: hsl(var(--chart-1));
+  font-variant-numeric: tabular-nums;
+}
+
+[data-theme='dark'] .tooltipTotalValue {
+  color: hsl(var(--chart-1));
+}
+
+/* Area Chart Interactive Styles */
+.areaChartContainer {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  background-color: hsl(var(--card));
+  border-radius: var(--radius-lg);
+  border: 1px solid hsl(var(--border));
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.areaChartHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-bottom: 1px solid hsl(var(--border));
+  padding-bottom: 1rem;
+  margin-bottom: 1rem;
+}
+
+@media (min-width: 640px) {
+  .areaChartHeader {
+    flex-direction: row;
+  }
+}
+
+.areaChartHeaderContent {
+  display: grid;
+  flex: 1;
+  gap: 0.25rem;
+}
+
+.areaChartTitle {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: hsl(var(--foreground));
+  margin: 0;
+}
+
+.areaChartSubtitle {
+  font-size: 0.875rem;
+  color: hsl(var(--muted-foreground));
+  margin: 0;
+}
+
+.areaChartSelect {
+  display: none;
+  width: 160px;
+  border-radius: var(--radius-lg);
+}
+
+/* Bar Chart Component Styles */
+.barChartContainer {
+  padding: 1.5rem;
+  background-color: hsl(var(--card));
+  border-radius: 0.5rem;
+  border: 1px solid hsl(var(--border));
+  box-shadow:
+    0 1px 3px 0 rgba(0, 0, 0, 0.1),
+    0 1px 2px 0 rgba(0, 0, 0, 0.06);
+}
+
+.barChartHeader {
+  margin-bottom: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.barChartTitle {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: hsl(var(--foreground));
+  letter-spacing: -0.025em;
+  font-family:
+    'Inter',
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.barChartSubtitle {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: hsl(var(--muted-foreground));
+  font-family:
+    'Inter',
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.barChartContent {
+  margin-bottom: 1.5rem;
+}
+
+.barChartWrapper {
+  width: 100%;
+}
+
+.barChartFooter {
+  padding-top: 1rem;
+  border-top: 1px solid hsl(var(--border) / 0.2);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.trendingText {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #059669;
+  font-family:
+    'Inter',
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif;
+}
+
+[data-theme='dark'] .trendingText {
+  color: #34d399;
+}
+
+.trendingText .icon {
+  width: 1rem;
+  height: 1rem;
+}
+
+.descriptionText {
+  font-size: 0.875rem;
+  color: hsl(var(--muted-foreground));
+  line-height: 1.6;
+  font-family:
+    'Inter',
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif;
+  margin: 0;
+}
+
+/* Pie Chart Component Styles */
+.pieChartContainer {
+  padding: 1.5rem;
+  background-color: hsl(var(--card));
+  border-radius: 0.5rem;
+  border: 1px solid hsl(var(--border));
+  box-shadow:
+    0 1px 3px 0 rgba(0, 0, 0, 0.1),
+    0 1px 2px 0 rgba(0, 0, 0, 0.06);
+}
+
+.pieChartHeader {
+  margin-bottom: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.pieChartTitle {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: hsl(var(--foreground));
+  letter-spacing: -0.025em;
+  font-family:
+    'Inter',
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.pieChartSubtitle {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: hsl(var(--muted-foreground));
+  font-family:
+    'Inter',
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.pieChartContent {
+  margin-bottom: 1.5rem;
+}
+
+.pieChartWrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.pieChartFooter {
+  padding-top: 1rem;
+  border-top: 1px solid hsl(var(--border) / 0.2);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/* Area Chart Component Styles */
+.areaChartContainer {
+  padding: 1.5rem;
+  background-color: hsl(var(--card));
+  border-radius: 0.5rem;
+  border: 1px solid hsl(var(--border));
+  box-shadow:
+    0 1px 3px 0 rgba(0, 0, 0, 0.1),
+    0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  min-height: 400px;
+  display: flex;
+  flex-direction: column;
+}
+
+.areaChartHeader {
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-bottom: 1px solid hsl(var(--border));
+  padding-bottom: 1rem;
+}
+
+.areaChartHeaderContent {
+  display: grid;
+  flex: 1;
+  gap: 0.25rem;
+}
+
+.areaChartTitle {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: hsl(var(--foreground));
+  letter-spacing: -0.025em;
+  font-family:
+    'Inter',
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.areaChartSubtitle {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: hsl(var(--muted-foreground));
+  font-family:
+    'Inter',
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.areaChartContent {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 0;
+}
+
+.areaChartWrapper {
+  height: 300px;
+  width: 100%;
+  min-height: 250px;
+}
+
+.areaChartFooter {
+  padding-top: 1rem;
+  border-top: 1px solid hsl(var(--border) / 0.2);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+@media (min-width: 640px) {
+  .areaChartWrapper {
+    height: 300px;
+    width: 100%;
+    min-height: 250px;
+  }
+
+  /* Area Chart Color Enhancements */
+  .areaChartContainer .recharts-area {
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+  }
+
+  .areaChartContainer .recharts-cartesian-grid line {
+    stroke: hsl(var(--border));
+    stroke-opacity: 0.5;
+  }
+
+  .areaChartContainer .recharts-xAxis .recharts-cartesian-axis-tick-value {
+    fill: hsl(var(--muted-foreground));
+    font-size: 0.75rem;
+    font-weight: 500;
+  }
+
+  .areaChartContainer .recharts-legend-wrapper {
+    padding-top: 1rem !important;
+  }
+
+  .areaChartContainer .recharts-default-legend {
+    display: flex !important;
+    justify-content: center !important;
+    gap: 1.5rem !important;
+  }
+
+  .areaChartContainer .recharts-legend-item {
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.5rem !important;
+    font-size: 0.875rem !important;
+    color: hsl(var(--foreground)) !important;
+    font-weight: 500 !important;
+  }
+
+  .areaChartContainer .recharts-surface {
+    overflow: visible;
+  }
+
+  /* Select Component Styles for Area Chart */
+  .areaSelectTrigger {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: var(--radius-lg);
+    border: 1px solid hsl(var(--border));
+    background-color: hsl(var(--background));
+    padding: 0.5rem 0.75rem;
+    font-size: 0.875rem;
+    color: hsl(var(--foreground));
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+  }
+
+  .areaSelectTrigger:hover {
+    background-color: hsl(var(--accent));
+  }
+
+  .areaSelectTrigger:focus {
+    outline: 2px solid hsl(var(--ring));
+    outline-offset: 2px;
+  }
+
+  .areaSelectContent {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    background-color: hsl(var(--popover));
+    border: 1px solid hsl(var(--border));
+    border-radius: var(--radius-xl);
+    box-shadow:
+      0 10px 15px -3px rgba(0, 0, 0, 0.1),
+      0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    padding: 0.25rem;
+    min-width: 160px;
+  }
+
+  [data-theme='dark'] .areaSelectContent {
+    box-shadow:
+      0 10px 15px -3px rgba(0, 0, 0, 0.3),
+      0 4px 6px -2px rgba(0, 0, 0, 0.2);
+  }
+
+  .areaSelectItem {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem 0.75rem;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    color: hsl(var(--foreground));
+    cursor: pointer;
+    border-radius: var(--radius);
+    transition: all 0.15s ease-in-out;
+  }
+
+  .areaSelectItem:hover {
+    background-color: hsl(var(--accent));
+    color: hsl(var(--accent-foreground));
+  }
+
+  .areaSelectItem:focus {
+    background-color: hsl(var(--accent));
+    color: hsl(var(--accent-foreground));
+    outline: none;
+  }
+
+  /* Area Chart Legend Styles */
+  .areaChartLegend {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid hsl(var(--border) / 0.3);
+  }
+
+  .areaLegendItem {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    color: hsl(var(--foreground));
+  }
+
+  .areaLegendColor {
+    width: 0.75rem;
+    height: 0.75rem;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  /* Enhanced Area Chart Responsive Design */
+  .areaChartContainer {
+    min-height: 400px;
+  }
+
+  @media (max-width: 1024px) {
+    .areaChartContainer {
+      min-height: 380px;
+    }
+
+    .areaChartWrapper {
+      height: 280px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .areaChartContainer {
+      padding: 0.75rem;
+      margin: 0.5rem;
+      min-height: 360px;
+    }
+
+    .areaChartHeader {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.75rem;
+    }
+
+    .areaChartSelect {
+      display: flex;
+      width: 100%;
+    }
+
+    .areaChartWrapper {
+      height: 240px;
+      min-height: 220px;
+    }
+
+    .areaChartTitle {
+      font-size: 1rem;
+    }
+
+    .areaChartSubtitle {
+      font-size: 0.8rem;
+    }
+
+    .areaChartContainer .recharts-default-legend {
+      flex-direction: column !important;
+      gap: 0.5rem !important;
+    }
+
+    .areaChartContainer .recharts-legend-item {
+      font-size: 0.8rem !important;
+    }
+
+    /* Enhanced mobile tooltip */
+    .areaChartContainer .chartTooltip {
+      min-width: 180px;
+      max-width: 250px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .areaChartContainer {
+      padding: 0.5rem;
+      margin: 0.25rem;
+    }
+
+    .areaChartWrapper {
+      height: 180px;
+      min-height: 160px;
+    }
+
+    .areaChartTitle {
+      font-size: 0.9rem;
+    }
+
+    .areaChartSubtitle {
+      font-size: 0.75rem;
+    }
+
+    .areaSelectTrigger {
+      padding: 0.4rem 0.6rem;
+      font-size: 0.8rem;
+    }
+  }
+
+  .lucide {
+    width: 1rem;
+    height: 1rem;
+  }
+
+  /* Area Chart Legend Styles */
+  .areaChartContainer .recharts-default-legend {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    gap: 1.5rem !important;
+    margin-top: 1rem !important;
+    padding: 0.5rem !important;
+  }
+
+  .areaChartContainer .recharts-legend-item {
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.5rem !important;
+    font-size: 0.875rem !important;
+    color: hsl(var(--foreground)) !important;
+  }
+
+  .areaChartContainer .recharts-legend-item-text {
+    font-weight: 500 !important;
+  }
+
+  .areaChartContainer .recharts-surface {
+    overflow: visible !important;
+  }
+
+  /* Pie Chart Styles */
+  .pieChartContainer {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+    margin-bottom: 1.5rem;
+    min-height: 300px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  @media (max-width: 768px) {
+    .pieChartContainer {
+      min-height: 350px;
+      padding: 1.5rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .pieChartContainer {
+      min-height: 320px;
+      padding: 1.25rem;
+    }
+  }
+
+  .pieChartContainer:is(.dark *) {
+    background-color: #1f2937;
+    border-color: #374151;
+  }
+
+  .pieChartHeader {
+    margin-bottom: 1rem;
+  }
+
+  .pieChartTitle {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #111827;
+    margin-bottom: 0.25rem;
+  }
+
+  .pieChartTitle:is(.dark *) {
+    color: #f9fafb;
+  }
+
+  .pieChartSubtitle {
+    font-size: 0.875rem;
+    color: #6b7280;
+  }
+
+  .pieChartSubtitle:is(.dark *) {
+    color: #9ca3af;
+  }
+
+  .pieChartContent {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 180px;
+    position: relative;
+  }
+
+  .pieChartWrapper {
+    width: 100% !important;
+    height: 100% !important;
+    min-height: 180px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+
+  .pieChartFooter {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid #e5e7eb;
+  }
+
+  .pieChartFooter:is(.dark *) {
+    border-top-color: #374151;
+  }
+
+  .pieChartContainer .trendingText {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #059669;
+    margin-bottom: 0.5rem;
+  }
+
+  .pieChartContainer .trendingText:is(.dark *) {
+    color: #34d399;
+  }
+
+  .pieChartContainer .descriptionText {
+    font-size: 0.75rem;
+    color: #6b7280;
+  }
+
+  .pieChartContainer .descriptionText:is(.dark *) {
+    color: #9ca3af;
+  }
+
+  .pieChartContainer .icon {
+    width: 1rem;
+    height: 1rem;
+  }
+
+  /* Recharts Pie Chart specific styles */
+  .pieChartContainer .recharts-pie-sector {
+    stroke: hsl(var(--background)) !important;
+    stroke-width: 2 !important;
+  }
+
+  .pieChartContainer .recharts-pie-sector:hover {
+    opacity: 0.8 !important;
+  }
+
+  /* Mobile-friendly tooltip styles */
+  .chartTooltip {
+    background-color: rgba(0, 0, 0, 0.9) !important;
+    border: none !important;
+    border-radius: 8px !important;
+    padding: 12px !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+    color: white !important;
+    font-size: 14px !important;
+    min-width: 150px !important;
+    z-index: 1000 !important;
+  }
+
+  @media (max-width: 768px) {
+    .chartTooltip {
+      font-size: 16px !important;
+      padding: 16px !important;
+      min-width: 180px !important;
+      border-radius: 12px !important;
+    }
+  }
+
+  .tooltipHeader {
+    margin-bottom: 8px !important;
+  }
+
+  .tooltipItemLeft {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+  }
+
+  .tooltipColorIndicator {
+    width: 12px !important;
+    height: 12px !important;
+    border-radius: 50% !important;
+    flex-shrink: 0 !important;
+  }
+
+  @media (max-width: 768px) {
+    .tooltipColorIndicator {
+      width: 16px !important;
+      height: 16px !important;
+    }
+  }
+
+  .tooltipTitle {
+    font-weight: 600 !important;
+    margin: 0 !important;
+    color: white !important;
+  }
+
+  .tooltipContent {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 4px !important;
+  }
+
+  .tooltipItem {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+  }
+
+  .tooltipLabel {
+    color: rgba(255, 255, 255, 0.8) !important;
+    font-size: 0.9em !important;
+  }
+
+  .tooltipValue {
+    font-weight: 600 !important;
+    color: white !important;
+  }
+
+  .tooltipTotal {
+    margin-top: 8px !important;
+    padding-top: 8px !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.2) !important;
+  }
+
+  .tooltipTotalContent {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+  }
+
+  .tooltipTotalLabel {
+    color: rgba(255, 255, 255, 0.9) !important;
+    font-weight: 600 !important;
+  }
+
+  .tooltipTotalValue {
+    font-weight: 700 !important;
+    color: white !important;
+  }
+
+  /* Bar Chart Styles */
+  .barChartContainer {
+    background-color: white;
+    border-radius: 0.5rem;
+    border: 1px solid #e5e7eb;
+    padding: 1.5rem;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    width: 100%;
+    overflow: hidden;
+  }
+
+  @media (max-width: 768px) {
+    .barChartContainer {
+      padding: 1rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .barChartContainer {
+      padding: 0.75rem;
+    }
+  }
+
+  .barChartContainer:is(.dark *) {
+    background-color: #1f2937;
+    border-color: #374151;
+  }
+
+  .barChartHeader {
+    margin-bottom: 1rem;
+  }
+
+  .barChartTitle {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #111827;
+    margin-bottom: 0.25rem;
+  }
+
+  .barChartTitle:is(.dark *) {
+    color: #f9fafb;
+  }
+
+  .barChartSubtitle {
+    font-size: 0.875rem;
+    color: #6b7280;
+  }
+
+  .barChartSubtitle:is(.dark *) {
+    color: #9ca3af;
+  }
+
+  .barChartContent {
+    margin-bottom: 1rem;
+  }
+
+  .barChartWrapper {
+    width: 100%;
+  }
+
+  .barChartFooter {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid #e5e7eb;
+  }
+
+  .barChartFooter:is(.dark *) {
+    border-top-color: #374151;
+  }
+
+  .barChartContainer .trendingText {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #059669;
+    margin-bottom: 0.5rem;
+  }
+
+  .barChartContainer .trendingText:is(.dark *) {
+    color: #34d399;
+  }
+
+  .barChartContainer .descriptionText {
+    font-size: 0.75rem;
+    color: #6b7280;
+  }
+
+  .barChartContainer .descriptionText:is(.dark *) {
+    color: #9ca3af;
+  }
+
+  .barChartContainer .icon {
+    width: 1rem;
+    height: 1rem;
+  }
+
+  /* Area Chart Styles */
+  .areaChartContainer {
+    background-color: white;
+    border-radius: 0.5rem;
+    border: 1px solid #e5e7eb;
+    padding: 1.5rem;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    width: 100%;
+    overflow: hidden;
+  }
+
+  @media (max-width: 768px) {
+    .areaChartContainer {
+      padding: 1rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .areaChartContainer {
+      padding: 0.75rem;
+    }
+  }
+
+  .areaChartContainer:is(.dark *) {
+    background-color: #1f2937;
+    border-color: #374151;
+  }
+
+  .areaChartHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  @media (max-width: 640px) {
+    .areaChartHeader {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0.75rem;
+    }
+  }
+
+  .areaChartHeaderLeft {
+    flex: 1;
+  }
+
+  .areaChartTitle {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #111827;
+    margin-bottom: 0.25rem;
+  }
+
+  .areaChartTitle:is(.dark *) {
+    color: #f9fafb;
+  }
+
+  .areaChartSubtitle {
+    font-size: 0.875rem;
+    color: #6b7280;
+  }
+
+  .areaChartSubtitle:is(.dark *) {
+    color: #9ca3af;
+  }
+
+  .areaChartTimeSelector {
+    min-width: 120px;
+  }
+
+  @media (max-width: 640px) {
+    .areaChartTimeSelector {
+      width: 100%;
+    }
+  }
+
+  .areaChartContent {
+    margin-bottom: 1rem;
+  }
+
+  .areaChartWrapper {
+    width: 100%;
+  }
+
+  /* Responsive chart elements */
+  @media (max-width: 768px) {
+    .areaChartContainer .recharts-cartesian-axis-tick-value {
+      font-size: 12px !important;
+    }
+
+    .areaChartContainer .recharts-legend-item-text {
+      font-size: 12px !important;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .areaChartContainer .recharts-cartesian-axis-tick-value {
+      font-size: 10px !important;
+    }
+
+    .areaChartContainer .recharts-legend-item-text {
+      font-size: 11px !important;
+    }
+  }
+
+  /* Charts Grid Layout */
+  .chartsGrid {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)) !important;
+    gap: 1.5rem !important;
+    margin-bottom: 2rem !important;
+  }
+
+  @media (max-width: 768px) {
+    .chartsGrid {
+      grid-template-columns: 1fr !important;
+      gap: 1rem !important;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .chartsGrid {
+      gap: 0.75rem !important;
+      margin-bottom: 1rem !important;
+    }
+  }
 }

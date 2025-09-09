@@ -7,6 +7,7 @@ import React from 'react'
 import { Search } from '@/search/Component'
 import PageClient from './page.client'
 import { SearchResultData } from '@/components/Card/SearchCard'
+import generalMetadata from '@/lib/generalMetadata'
 
 type Args = {
   searchParams: Promise<{
@@ -81,6 +82,6 @@ export default async function Page({ searchParams: searchParamsPromise }: Args) 
 
 export function generateMetadata(): Metadata {
   return {
-    title: `Buscador global | BGL BASCULAS INDUSTRIALES`,
+    ...generalMetadata({ title: 'Buscador global' }),
   }
 }

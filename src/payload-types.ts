@@ -75,6 +75,7 @@ export interface Config {
     products: Product;
     brands: Brand;
     models: Model;
+    tags: Tag;
     redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
@@ -94,6 +95,7 @@ export interface Config {
     products: ProductsSelect<false> | ProductsSelect<true>;
     brands: BrandsSelect<false> | BrandsSelect<true>;
     models: ModelsSelect<false> | ModelsSelect<true>;
+    tags: TagsSelect<false> | TagsSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
@@ -188,9 +190,9 @@ export interface Page {
             url?: string | null;
             label: string;
             /**
-             * Choose how the link should be rendered.
+             * Elige cómo se debe renderizar el enlace.
              */
-            appearance?: ('default' | 'outline-solid') | null;
+            appearance?: 'default' | null;
           };
           id?: string | null;
         }[]
@@ -419,7 +421,7 @@ export interface CallToActionBlock {
           url?: string | null;
           label: string;
           /**
-           * Choose how the link should be rendered.
+           * Elige cómo se debe renderizar el enlace.
            */
           appearance?: 'default' | null;
         };
@@ -469,9 +471,9 @@ export interface ContentBlock {
           url?: string | null;
           label: string;
           /**
-           * Choose how the link should be rendered.
+           * Elige cómo se debe renderizar el enlace.
            */
-          appearance?: ('default' | 'outline-solid') | null;
+          appearance?: 'default' | null;
         };
         id?: string | null;
       }[]
@@ -782,6 +784,19 @@ export interface Model {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "tags".
+ */
+export interface Tag {
+  id: number;
+  title: string;
+  slug: string;
+  slugLock?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+  deletedAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects".
  */
 export interface Redirect {
@@ -996,6 +1011,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'models';
         value: number | Model;
+      } | null)
+    | ({
+        relationTo: 'tags';
+        value: number | Tag;
       } | null)
     | ({
         relationTo: 'redirects';
@@ -1374,6 +1393,18 @@ export interface BrandsSelect<T extends boolean = true> {
 export interface ModelsSelect<T extends boolean = true> {
   title?: T;
   brand?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  deletedAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "tags_select".
+ */
+export interface TagsSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  slugLock?: T;
   updatedAt?: T;
   createdAt?: T;
   deletedAt?: T;

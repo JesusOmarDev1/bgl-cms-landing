@@ -7,6 +7,7 @@ import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 import React from 'react'
 import PageClient from './page.client'
+import generalMetadata from '@/lib/generalMetadata'
 
 export const dynamic = 'force-static'
 export const revalidate = 600
@@ -38,9 +39,7 @@ export default async function Page() {
       <PageClient />
       <div className="container mb-16">
         <div className="prose dark:prose-invert max-w-none">
-          <h1 className="bg-gradient-to-br from-[#555] to-[#000] dark:from-[#e1e1e1] dark:to-[#fff] text-transparent bg-clip-text text-6xl font-black">
-            BLOG
-          </h1>
+          <h1 className="text-6xl font-black">Publicaciones</h1>
         </div>
       </div>
 
@@ -66,6 +65,6 @@ export default async function Page() {
 
 export function generateMetadata(): Metadata {
   return {
-    title: `BGL BASCULAS INDUSTRIALES`,
+    ...generalMetadata({ title: 'Publicaciones' }),
   }
 }

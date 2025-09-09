@@ -8,7 +8,7 @@ import { Categories } from './collections/Categories'
 import { Media } from './collections/Media'
 import { Pages } from './collections/Pages'
 import { Posts } from './collections/Posts'
-import { Users } from './collections/Users/config'
+import { Users } from './collections/Users'
 import { Footer } from './Footer/config'
 import { Header } from './Header/config'
 import { plugins } from './plugins'
@@ -16,11 +16,12 @@ import { defaultLexical } from '@/fields/defaultLexical'
 import { getServerSideURL } from './utilities/getURL'
 import { es } from '@payloadcms/translations/languages/es'
 import { getEmailAdapter } from './lib/email'
-import { getStorageAdapter } from './lib/storage'
 import { adminMetadata } from './lib/adminMetadata'
 import { Products } from './collections/Products'
 import { Brands } from './collections/Brands'
 import { Models } from './collections/Models'
+import { Tags } from './collections/Tags'
+import { Suppliers } from './collections/Suppliers'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -49,7 +50,7 @@ export default buildConfig({
     livePreview: {
       breakpoints: [
         {
-          label: 'Mobile',
+          label: 'Celular',
           name: 'mobile',
           width: 375,
           height: 667,
@@ -61,7 +62,7 @@ export default buildConfig({
           height: 1024,
         },
         {
-          label: 'Desktop',
+          label: 'Escritorio',
           name: 'desktop',
           width: 1440,
           height: 900,
@@ -77,10 +78,11 @@ export default buildConfig({
       url: process.env.DATABASE_URI || '',
     },
   }),
-  collections: [Pages, Posts, Media, Categories, Users, Products, Brands, Models],
+  collections: [Pages, Posts, Media, Categories, Users, Products, Brands, Models, Tags],
   cors: [getServerSideURL()].filter(Boolean),
   globals: [Header, Footer],
-  plugins: [...plugins, getStorageAdapter()],
+  plugins: [...plugins],
+  telemetry: true,
   secret: process.env.PAYLOAD_SECRET,
   sharp,
   typescript: {

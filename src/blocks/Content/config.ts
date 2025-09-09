@@ -102,6 +102,10 @@ export const Content: Block = {
   fields: [
     {
       name: 'columns',
+      label: {
+        en: 'Columns',
+        es: 'Columnas',
+      },
       type: 'array',
       admin: {
         initCollapsed: true,
