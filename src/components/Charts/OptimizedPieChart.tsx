@@ -5,6 +5,7 @@ import { TrendingUp } from 'lucide-react'
 import { useDebouncedWindowSize } from '@/hooks/useDebounceWindowed'
 
 import { ChartConfig, ChartContainer, ChartTooltip } from '@/components/ui/chart'
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 
 interface PieChartData {
   browser: string
@@ -74,27 +75,27 @@ const OptimizedPieChart = React.memo<PieChartProps>(
               const percentage = ((dataPoint.visitors / total) * 100).toFixed(1)
 
               return (
-                <div className="chartTooltip">
-                  <div className="tooltipHeader">
-                    <div className="tooltipItemLeft">
+                <Card className="p-3 shadow-lg">
+                  <CardHeader className="p-0 pb-2">
+                    <div className="flex items-center gap-2">
                       <div
-                        className="tooltipColorIndicator"
+                        className="w-3 h-3 rounded-full"
                         style={{ backgroundColor: dataPoint.fill }}
                       />
-                      <h4 className="tooltipTitle">{dataPoint.browser}</h4>
+                      <CardTitle className="text-sm font-medium">{dataPoint.browser}</CardTitle>
                     </div>
-                  </div>
-                  <div className="tooltipContent">
-                    <div className="tooltipItem">
-                      <span className="tooltipLabel">Cantidad:</span>
-                      <span className="tooltipValue">{dataPoint.visitors.toLocaleString()}</span>
+                  </CardHeader>
+                  <CardContent className="p-0 space-y-2">
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm text-muted-foreground">Cantidad:</span>
+                      <span className="font-medium">{dataPoint.visitors.toLocaleString()}</span>
                     </div>
-                    <div className="tooltipItem">
-                      <span className="tooltipLabel">Porcentaje:</span>
-                      <span className="tooltipValue">{percentage}%</span>
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm text-muted-foreground">Porcentaje:</span>
+                      <span className="font-medium">{percentage}%</span>
                     </div>
-                  </div>
-                </div>
+                  </CardContent>
+                </Card>
               )
             }
             return null
@@ -105,14 +106,13 @@ const OptimizedPieChart = React.memo<PieChartProps>(
     )
 
     return (
-      <div className="pieChartContainer">
-        <div className="pieChartHeader">
-          <h3 className="pieChartTitle">{title}</h3>
-          <p className="pieChartSubtitle">{subtitle}</p>
-        </div>
-
-        <div className="pieChartContent">
-          <ChartContainer config={chartConfig} className="pieChartWrapper">
+      <Card className="w-full">
+        <CardHeader>
+          <CardTitle className="text-lg">{title}</CardTitle>
+          <CardDescription>{subtitle}</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <ChartContainer config={chartConfig} className="w-full">
             <PieChart width={chartSize.outer * 2.5} height={chartSize.outer * 2.5}>
               {memoizedTooltip}
               <Pie
@@ -128,15 +128,14 @@ const OptimizedPieChart = React.memo<PieChartProps>(
               />
             </PieChart>
           </ChartContainer>
-        </div>
-
-        <div className="pieChartFooter">
-          <div className="trendingText">
-            {trendText} <TrendingUp className="icon" />
+        </CardContent>
+        <CardFooter className="flex-col items-start gap-2 text-sm">
+          <div className="flex gap-2 font-medium leading-none">
+            {trendText} <TrendingUp className="h-4 w-4" />
           </div>
-          <div className="descriptionText">{descriptionText}</div>
-        </div>
-      </div>
+          <div className="leading-none text-muted-foreground">{descriptionText}</div>
+        </CardFooter>
+      </Card>
     )
   },
 )

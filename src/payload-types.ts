@@ -732,12 +732,16 @@ export interface Form {
  */
 export interface Product {
   id: number;
-  name: string;
+  title: string;
   categories?: (number | Category)[] | null;
-  brand?: (number | null) | Brand;
-  model?: (number | null) | Model;
+  brand: number | Brand;
+  model: number | Model;
+  tags?: (number | Tag)[] | null;
   heroImage: number | Media;
-  price: number;
+  stock: number;
+  subTotal: number;
+  iva: number;
+  total: number;
   content: {
     root: {
       type: string;
@@ -753,8 +757,28 @@ export interface Product {
     };
     [k: string]: unknown;
   };
+  maxCapacity?: number | null;
+  minDivision?: number | null;
+  material?: string | null;
+  voltage?: string | null;
+  class?: string | null;
+  length?: number | null;
+  width?: number | null;
+  height?: number | null;
+  meta?: {
+    title?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
+    image?: (number | null) | Media;
+    description?: string | null;
+  };
+  publishedAt?: string | null;
+  slug: string;
+  slugLock?: boolean | null;
   updatedAt: string;
   createdAt: string;
+  deletedAt?: string | null;
   _status?: ('draft' | 'published') | null;
 }
 /**
@@ -777,7 +801,9 @@ export interface Brand {
 export interface Model {
   id: number;
   title: string;
-  brand?: (number | null) | Brand;
+  brand: number | Brand;
+  slug: string;
+  slugLock?: boolean | null;
   updatedAt: string;
   createdAt: string;
   deletedAt?: string | null;
@@ -1363,15 +1389,38 @@ export interface UsersSelect<T extends boolean = true> {
  * via the `definition` "products_select".
  */
 export interface ProductsSelect<T extends boolean = true> {
-  name?: T;
+  title?: T;
   categories?: T;
   brand?: T;
   model?: T;
+  tags?: T;
   heroImage?: T;
-  price?: T;
+  stock?: T;
+  subTotal?: T;
+  iva?: T;
+  total?: T;
   content?: T;
+  maxCapacity?: T;
+  minDivision?: T;
+  material?: T;
+  voltage?: T;
+  class?: T;
+  length?: T;
+  width?: T;
+  height?: T;
+  meta?:
+    | T
+    | {
+        title?: T;
+        image?: T;
+        description?: T;
+      };
+  publishedAt?: T;
+  slug?: T;
+  slugLock?: T;
   updatedAt?: T;
   createdAt?: T;
+  deletedAt?: T;
   _status?: T;
 }
 /**
@@ -1393,6 +1442,8 @@ export interface BrandsSelect<T extends boolean = true> {
 export interface ModelsSelect<T extends boolean = true> {
   title?: T;
   brand?: T;
+  slug?: T;
+  slugLock?: T;
   updatedAt?: T;
   createdAt?: T;
   deletedAt?: T;

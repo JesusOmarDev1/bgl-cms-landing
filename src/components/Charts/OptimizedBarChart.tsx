@@ -11,6 +11,7 @@ import {
   ChartLegend,
   ChartLegendContent,
 } from '@/components/ui/chart'
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 
 interface BarChartData {
   month: string
@@ -61,37 +62,37 @@ const OptimizedBarChart = React.memo<BarChartProps>(
           content={({ active, payload, label }) => {
             if (active && payload && payload.length) {
               return (
-                <div className="chartTooltip">
-                  <div className="tooltipHeader">
-                    <h4 className="tooltipTitle">{label}</h4>
-                  </div>
-                  <div className="tooltipContent">
+                <Card className="p-3 shadow-lg">
+                  <CardHeader className="p-0 pb-2">
+                    <CardTitle className="text-sm font-medium">{label}</CardTitle>
+                  </CardHeader>
+                  <CardContent className="p-0 space-y-2">
                     {payload.map((entry, index) => (
-                      <div key={index} className="tooltipItem">
-                        <div className="tooltipItemLeft">
+                      <div key={index} className="flex items-center justify-between gap-4">
+                        <div className="flex items-center gap-2">
                           <div
-                            className="tooltipColorIndicator"
+                            className="w-3 h-3 rounded-full"
                             style={{ backgroundColor: entry.color }}
                           />
-                          <span className="tooltipLabel">
+                          <span className="text-sm text-muted-foreground">
                             {entry.dataKey === 'desktop' ? 'Publicaciones' : 'Páginas'}
                           </span>
                         </div>
-                        <span className="tooltipValue">{entry.value?.toLocaleString()}</span>
+                        <span className="font-medium">{entry.value?.toLocaleString()}</span>
                       </div>
                     ))}
-                    <div className="tooltipTotal">
-                      <div className="tooltipTotalContent">
-                        <span className="tooltipTotalLabel">Total</span>
-                        <span className="tooltipTotalValue">
+                    <div className="border-t pt-2 mt-2">
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm font-medium text-muted-foreground">Total</span>
+                        <span className="font-semibold">
                           {payload
                             .reduce((sum, entry) => sum + (Number(entry.value) || 0), 0)
                             .toLocaleString()}
                         </span>
                       </div>
                     </div>
-                  </div>
-                </div>
+                  </CardContent>
+                </Card>
               )
             }
             return null
@@ -102,16 +103,15 @@ const OptimizedBarChart = React.memo<BarChartProps>(
     )
 
     return (
-      <div className="barChartContainer">
-        <div className="barChartHeader">
-          <h3 className="barChartTitle">{title}</h3>
-          <p className="barChartSubtitle">{subtitle}</p>
-        </div>
-
-        <div className="barChartContent">
+      <Card className="w-full">
+        <CardHeader>
+          <CardTitle className="text-lg">{title}</CardTitle>
+          <CardDescription>{subtitle}</CardDescription>
+        </CardHeader>
+        <CardContent>
           <ChartContainer
             config={chartConfig}
-            className="barChartWrapper"
+            className="w-full"
             style={{ height: chartHeight }}
           >
             <BarChart data={data} width={400} height={chartHeight}>
@@ -128,15 +128,14 @@ const OptimizedBarChart = React.memo<BarChartProps>(
               <Bar dataKey="mobile" fill="var(--color-mobile)" radius={4} />
             </BarChart>
           </ChartContainer>
-        </div>
-
-        <div className="barChartFooter">
-          <div className="trendingText">
-            {trendText} <TrendingUp className="icon" />
+        </CardContent>
+        <CardFooter className="flex-col items-start gap-2 text-sm">
+          <div className="flex gap-2 font-medium leading-none">
+            {trendText} <TrendingUp className="h-4 w-4" />
           </div>
-          <div className="descriptionText">{descriptionText}</div>
-        </div>
-      </div>
+          <div className="leading-none text-muted-foreground">{descriptionText}</div>
+        </CardFooter>
+      </Card>
     )
   },
 )

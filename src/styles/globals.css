@@ -1,0 +1,12 @@
+@import 'tailwindcss';
+@import './theme.css';
+@config '../../tailwind.config.mjs';
+
+html {
+  opacity: 0;
+}
+
+html[data-theme='dark'],
+html[data-theme='light'] {
+  opacity: initial;
+}

@@ -1,29 +1,20 @@
 import React, { Suspense } from 'react'
-import { PieChartSkeleton, BarChartSkeleton, AreaChartSkeleton } from '../Charts/ChartSkeletons'
+import { AreaChartSkeleton, BarChartSkeleton, PieChartSkeleton } from '../Charts/ChartSkeletons'
 import OptimizedDashboard from './OptimizedDashboard'
 
 const BeforeDashboard: React.FC = () => {
-  return (
-    <div style={{ padding: '1rem' }}>
-      <Suspense
+  return <></>
+}
+
+export default BeforeDashboard
+
+{
+  /*
+   <Suspense
         fallback={
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-            <div
-              style={{
-                height: '60px',
-                background: '#f3f4f6',
-                borderRadius: '8px',
-                animation: 'pulse 2s infinite',
-              }}
-            />
-            <div
-              className="chartsGrid"
-              style={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))',
-                gap: '1rem',
-              }}
-            >
+          <div className="flex flex-col gap-2">
+            <div className="h-[60px] bg-[#f3f4f6] rounded-[8px] animate-pulse" />
+            <div className="chartsGrid">
               <PieChartSkeleton />
               <BarChartSkeleton />
             </div>
@@ -33,8 +24,5 @@ const BeforeDashboard: React.FC = () => {
       >
         <OptimizedDashboard />
       </Suspense>
-    </div>
-  )
+  */
 }
-
-export default BeforeDashboard

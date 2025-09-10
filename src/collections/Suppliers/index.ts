@@ -89,59 +89,6 @@ export const Suppliers: CollectionConfig = {
               },
             },
             {
-              name: 'paymentTerms',
-              type: 'select',
-              label: {
-                en: 'Payment Terms',
-                es: 'Términos de Pago',
-              },
-              options: [
-                {
-                  label: {
-                    en: 'Immediate Payment',
-                    es: 'Pago Inmediato',
-                  },
-                  value: 'immediate',
-                },
-                {
-                  label: {
-                    en: '1 to 3 days',
-                    es: '1 a 3 días',
-                  },
-                  value: '1-3-days',
-                },
-                {
-                  label: {
-                    en: '15 days net',
-                    es: '15 días neto',
-                  },
-                  value: '15-net',
-                },
-                {
-                  label: {
-                    en: '30 days net',
-                    es: '30 días neto',
-                  },
-                  value: '30-net',
-                },
-                {
-                  label: {
-                    en: '60 days net',
-                    es: '60 días neto',
-                  },
-                  value: '60-net',
-                },
-                {
-                  label: {
-                    en: '90 days net',
-                    es: '90 días neto',
-                  },
-                  value: '90-net',
-                },
-              ],
-              defaultValue: '30-net',
-            },
-            {
               name: 'isActive',
               type: 'checkbox',
               label: {

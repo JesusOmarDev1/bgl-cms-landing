@@ -1,0 +1,132 @@
+@import './theme.css';
+@config '../../tailwind.config.mjs';
+
+/* Define the Tailwind layers in the correct order */
+@layer theme, base, components, utilities;
+
+/* Import the Tailwind theme styles */
+@import 'tailwindcss/theme.css' layer(theme);
+
+/* Skip the preflight reset to avoid conflicts with Payload's admin styles */
+/* @import 'tailwindcss/preflight.css' layer(base); */
+
+/* Import Tailwind utilities */
+@import 'tailwindcss/utilities.css' layer(utilities);
+
+/* Support Payload’s dark mode toggle by adding a custom variant */
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+
+.checkbox-input__input,
+.list-controls .list-controls__wrap,
+.field-type.email input,
+.field-type.password input,
+.field-type.text input,
+.field-type.textarea textarea,
+.field-type.number input,
+.react-select .rs__control,
+.date-time-picker .react-datepicker__input-container input,
+.where-builder,
+.shimmer-effect,
+.upload-field-card,
+.popup-button,
+.popup-button--default,
+.popup-button--size-medium,
+.relationship-add-new__add-button,
+.doc-drawer__toggler,
+.collapsible__toggle-wrap,
+.dropzone,
+.live-preview-toggler,
+.preview-btn,
+.popup__content,
+.doc-controls__dots,
+.collection-edit__auth,
+.multi-value,
+.draggable,
+.rs__multi-value,
+.css-x2yrli-multiValue,
+.popup-button-list__button,
+.search-filter,
+.search-filter__input,
+.list-controls__search,
+.list-controls__wrap,
+.card,
+.table-wrap,
+.table {
+  @apply rounded-[var(--radius-lg)];
+}
+
+.table {
+  @apply border border-zinc-100 dark:border-zinc-800 w-full;
+}
+
+.table-wrap {
+  @apply overflow-auto w-full h-auto;
+}
+
+.search-filter__input {
+  @apply rounded-[var(--radius-xl)];
+}
+
+.relationship__wrap {
+  @apply gap-[0.5rem];
+}
+
+.btn--style-primary,
+.btn--disabled,
+.btn--withPopup {
+  @apply gap-[0.2rem];
+}
+
+.collapsible--style-default {
+  @apply border-0;
+}
+
+.icon--check {
+  @apply w-[1.2rem] h-[1.2rem];
+}
+
+.checkbox-input__input {
+  @apply flex items-center justify-center;
+}
+
+.rs__value-container.rs__value-container--is-multi.rs__value-container--has-value.css-pl07w5 {
+  @apply gap-[0.5rem];
+}
+
+.btn {
+  @apply rounded-[var(--radius)] text-[1rem] font-[500] transition-[all_0.2s_ease-in-out] cursor-pointer border-none whitespace-nowrap outline-none;
+}
+
+.btn--size-small {
+  @apply bg-zinc-900 text-zinc-100 dark:bg-zinc-100 dark:text-zinc-900;
+
+  &:hover {
+    @apply bg-zinc-800 dark:bg-zinc-200;
+  }
+}
+
+/* Pill styles */
+.pill {
+  @apply rounded-[var(--radius)];
+}
+
+.pill-selector {
+  @apply rounded-[var(--radius-lg)];
+}
+
+/* Navigation styles */
+.login__brand {
+  @apply mb-0;
+}
+
+.step-nav__home {
+  @apply size-[35px];
+}
+
+.app-header__content {
+  @apply mb-[1rem];
+}
+
+.hamburger {
+  @apply rounded-[var(--radius)];
+}

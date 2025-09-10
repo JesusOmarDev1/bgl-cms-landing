@@ -17,9 +17,20 @@ import { MediaBlock } from '../../blocks/MediaBlock/config'
 import { isAdminOrEditor } from '@/access/isAdminOrEditor'
 import { isAdmin } from '@/access/isAdmin'
 import { isAuthenticatedOrPublished } from '@/access/isLoggedInOrPublished'
+import { slugField } from '@/fields/slug'
+import {
+  MetaDescriptionField,
+  MetaImageField,
+  MetaTitleField,
+  OverviewField,
+  PreviewField,
+} from '@payloadcms/plugin-seo/fields'
+import { generatePreviewPath } from '@/utilities/generatePreviewPath'
+import { revalidateDelete, revalidateProduct } from './hooks/revalidateProducts'
 
 export const Products: CollectionConfig = {
   slug: 'products',
+  trash: true,
   access: {
     read: isAuthenticatedOrPublished,
     create: isAdminOrEditor,
@@ -37,14 +48,30 @@ export const Products: CollectionConfig = {
     },
   },
   defaultPopulate: {
-    name: true,
+    title: true,
     slug: true,
-    price: true,
+    total: true,
     tags: true,
+    heroImage: true,
+    meta: {
+      image: true,
+      description: true,
+    },
   },
   admin: {
-    defaultColumns: ['heroImage', 'name', 'price', 'tags', 'createdAt'],
-    useAsTitle: 'name',
+    defaultColumns: ['heroImage', 'title', 'total', 'tags', 'createdAt'],
+    useAsTitle: 'title',
+    livePreview: {
+      url: ({ data, req }) => {
+        const path = generatePreviewPath({
+          slug: typeof data?.slug === 'string' ? data.slug : '',
+          collection: 'products',
+          req,
+        })
+
+        return path
+      },
+    },
   },
   fields: [
     {
@@ -57,12 +84,12 @@ export const Products: CollectionConfig = {
           },
           fields: [
             {
-              name: 'name',
+              name: 'title',
               type: 'text',
               required: true,
               label: {
-                en: 'Name',
-                es: 'Nombre',
+                en: 'Title',
+                es: 'Título',
               },
             },
             {
@@ -86,6 +113,7 @@ export const Products: CollectionConfig = {
                 es: 'Marca',
               },
               relationTo: 'brands',
+              required: true,
             },
             {
               name: 'model',
@@ -95,6 +123,20 @@ export const Products: CollectionConfig = {
                 es: 'Modelo',
               },
               relationTo: 'models',
+              required: true,
+            },
+            {
+              name: 'tags',
+              type: 'relationship',
+              label: {
+                en: 'Tags',
+                es: 'Etiquetas',
+              },
+              relationTo: 'tags',
+              hasMany: true,
+              admin: {
+                position: 'sidebar',
+              },
             },
             {
               name: 'heroImage',
@@ -107,14 +149,44 @@ export const Products: CollectionConfig = {
               required: true,
             },
             {
-              name: 'price',
+              name: 'stock',
               type: 'number',
-              required: true,
               min: 0,
               label: {
-                en: 'Price (MXN)',
-                es: 'Precio (MXN)',
+                en: 'Stock',
+                es: 'Stock',
               },
+              required: true,
+            },
+            {
+              name: 'subTotal',
+              type: 'number',
+              min: 0,
+              label: {
+                en: 'Subtotal (MXN)',
+                es: 'Subtotal (MXN)',
+              },
+              required: true,
+            },
+            {
+              name: 'iva',
+              type: 'number',
+              min: 0,
+              label: {
+                en: 'IVA (MXN)',
+                es: 'IVA (MXN)',
+              },
+              required: true,
+            },
+            {
+              name: 'total',
+              type: 'number',
+              min: 0,
+              label: {
+                en: 'Total (MXN)',
+                es: 'Total (MXN)',
+              },
+              required: true,
             },
             {
               name: 'content',
@@ -335,9 +407,126 @@ export const Products: CollectionConfig = {
             },
           ],
         },
+        {
+          label: {
+            en: 'Technical Specifications',
+            es: 'Especificaciones técnicas',
+          },
+          fields: [
+            {
+              name: 'maxCapacity',
+              type: 'number',
+              min: 0,
+              label: {
+                en: 'Max Capacity',
+                es: 'Capacidad Máxima',
+              },
+            },
+            {
+              name: 'minDivision',
+              type: 'number',
+              min: 0,
+              label: {
+                en: 'Min Division',
+                es: 'División Mínima',
+              },
+            },
+            {
+              name: 'material',
+              type: 'text',
+              label: {
+                en: 'Material',
+                es: 'Material',
+              },
+            },
+            {
+              name: 'voltage',
+              type: 'text',
+              label: {
+                en: 'Voltage',
+                es: 'Voltaje',
+              },
+            },
+            {
+              name: 'class',
+              type: 'text',
+              label: {
+                en: 'Class',
+                es: 'Clase',
+              },
+            },
+          ],
+        },
+        {
+          label: {
+            en: 'Product Dimensions',
+            es: 'Dimensiones del Producto',
+          },
+          fields: [],
+        },
+        {
+          name: 'meta',
+          label: {
+            en: 'SEO & Metadata',
+            es: 'SEO y Metadatos',
+          },
+          fields: [
+            OverviewField({
+              titlePath: 'meta.title',
+              descriptionPath: 'meta.description',
+              imagePath: 'meta.image',
+            }),
+            MetaTitleField({
+              hasGenerateFn: true,
+            }),
+            MetaImageField({
+              relationTo: 'media',
+            }),
+
+            MetaDescriptionField({}),
+            PreviewField({
+              // if the `generateUrl` function is configured
+              hasGenerateFn: true,
+
+              // field paths to match the target field for data
+              titlePath: 'meta.title',
+              descriptionPath: 'meta.description',
+            }),
+          ],
+        },
       ],
     },
+
+    {
+      name: 'publishedAt',
+      label: {
+        en: 'Published Date',
+        es: 'Fecha de Publicación',
+      },
+      type: 'date',
+      admin: {
+        date: {
+          pickerAppearance: 'dayAndTime',
+        },
+        position: 'sidebar',
+      },
+      hooks: {
+        beforeChange: [
+          ({ siblingData, value }) => {
+            if (siblingData._status === 'published' && !value) {
+              return new Date()
+            }
+            return value
+          },
+        ],
+      },
+    },
+    ...slugField(),
   ],
+  hooks: {
+    afterChange: [revalidateProduct],
+    afterDelete: [revalidateDelete],
+  },
   versions: {
     drafts: {
       autosave: {

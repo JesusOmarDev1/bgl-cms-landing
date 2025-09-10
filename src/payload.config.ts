@@ -21,7 +21,6 @@ import { Products } from './collections/Products'
 import { Brands } from './collections/Brands'
 import { Models } from './collections/Models'
 import { Tags } from './collections/Tags'
-import { Suppliers } from './collections/Suppliers'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -33,6 +32,7 @@ export default buildConfig({
     translations: { es: es },
   },
   admin: {
+    dateFormat: 'dd/MM/yyyy',
     suppressHydrationWarning: true,
     avatar: 'default',
     components: {
@@ -82,7 +82,6 @@ export default buildConfig({
   cors: [getServerSideURL()].filter(Boolean),
   globals: [Header, Footer],
   plugins: [...plugins],
-  telemetry: true,
   secret: process.env.PAYLOAD_SECRET,
   sharp,
   typescript: {

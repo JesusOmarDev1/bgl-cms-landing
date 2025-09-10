@@ -44,6 +44,8 @@ export const Models: CollectionConfig = {
         es: 'Marca',
       },
       relationTo: 'brands',
+      required: true,
     },
+    ...slugField(),
   ],
 }
