@@ -27,6 +27,10 @@ export const Media: CollectionConfig = {
       es: 'Almacenamiento',
     },
   },
+  admin: {
+    useAsTitle: 'alt',
+    defaultColumns: ['alt', 'caption', 'createdAt'],
+  },
   fields: [
     {
       name: 'alt',

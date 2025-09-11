@@ -149,46 +149,6 @@ export const Products: CollectionConfig = {
               required: true,
             },
             {
-              name: 'stock',
-              type: 'number',
-              min: 0,
-              label: {
-                en: 'Stock',
-                es: 'Stock',
-              },
-              required: true,
-            },
-            {
-              name: 'subTotal',
-              type: 'number',
-              min: 0,
-              label: {
-                en: 'Subtotal (MXN)',
-                es: 'Subtotal (MXN)',
-              },
-              required: true,
-            },
-            {
-              name: 'iva',
-              type: 'number',
-              min: 0,
-              label: {
-                en: 'IVA (MXN)',
-                es: 'IVA (MXN)',
-              },
-              required: true,
-            },
-            {
-              name: 'total',
-              type: 'number',
-              min: 0,
-              label: {
-                en: 'Total (MXN)',
-                es: 'Total (MXN)',
-              },
-              required: true,
-            },
-            {
               name: 'content',
               type: 'richText',
               editor: lexicalEditor({
@@ -421,6 +381,7 @@ export const Products: CollectionConfig = {
                 en: 'Max Capacity',
                 es: 'Capacidad Máxima',
               },
+              required: true,
             },
             {
               name: 'minDivision',
@@ -429,6 +390,23 @@ export const Products: CollectionConfig = {
               label: {
                 en: 'Min Division',
                 es: 'División Mínima',
+              },
+              required: true,
+            },
+            {
+              name: 'multirange',
+              type: 'checkbox',
+              label: {
+                en: 'Is it multirange?',
+                es: '¿Es multirango?',
+              },
+            },
+            {
+              name: 'class',
+              type: 'text',
+              label: {
+                en: 'Class',
+                es: 'Clase',
               },
             },
             {
@@ -448,21 +426,40 @@ export const Products: CollectionConfig = {
               },
             },
             {
-              name: 'class',
+              name: 'operationTemperature',
+              type: 'number',
+              min: 0,
+              label: {
+                en: 'Temperature of operation (°C)',
+                es: 'Temperatura de operación (°C)',
+              },
+            },
+            {
+              name: 'storageTemperature',
+              type: 'number',
+              min: 0,
+              label: {
+                en: 'Temperature of storage (°C)',
+                es: 'Temperatura de almacenamiento (°C)',
+              },
+            },
+            {
+              name: 'structureDimensions',
               type: 'text',
               label: {
-                en: 'Class',
-                es: 'Clase',
+                en: 'Dimensions of the structure',
+                es: 'Dimensiones de la estructura',
+              },
+            },
+            {
+              name: 'plateDimensions',
+              type: 'text',
+              label: {
+                en: 'Dimensions of the plate',
+                es: 'Dimensiones de el plato',
               },
             },
           ],
-        },
-        {
-          label: {
-            en: 'Product Dimensions',
-            es: 'Dimensiones del Producto',
-          },
-          fields: [],
         },
         {
           name: 'meta',
@@ -496,7 +493,6 @@ export const Products: CollectionConfig = {
         },
       ],
     },
-
     {
       name: 'publishedAt',
       label: {
@@ -522,6 +518,43 @@ export const Products: CollectionConfig = {
       },
     },
     ...slugField(),
+    {
+      name: 'price',
+      type: 'number',
+      min: 0,
+      label: {
+        en: 'Price (MXN)',
+        es: 'Precio (MXN)',
+      },
+      admin: {
+        position: 'sidebar',
+      },
+    },
+    {
+      name: 'discount',
+      type: 'number',
+      min: 0,
+      label: {
+        en: 'Discount (MXN)',
+        es: 'Descuento (MXN)',
+      },
+      admin: {
+        position: 'sidebar',
+      },
+    },
+    {
+      name: 'stock',
+      type: 'number',
+      min: 0,
+      label: {
+        en: 'Stock',
+        es: 'Stock',
+      },
+      required: true,
+      admin: {
+        position: 'sidebar',
+      },
+    },
   ],
   hooks: {
     afterChange: [revalidateProduct],

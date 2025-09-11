@@ -23,8 +23,14 @@ export const Categories: CollectionConfig = {
       es: 'Categorías',
     },
   },
+  defaultPopulate: {
+    title: true,
+    subcategories: true,
+    slug: true,
+  },
   admin: {
     useAsTitle: 'title',
+    defaultColumns: ['title', 'slug', 'createdAt'],
   },
   fields: [
     {
@@ -36,6 +42,33 @@ export const Categories: CollectionConfig = {
       },
       required: true,
     },
+    {
+      name: 'subcategories',
+      type: 'array',
+      label: {
+        en: 'Subcategories',
+        es: 'Subcategorías',
+      },
+      fields: [
+        {
+          name: 'title',
+          type: 'text',
+          label: {
+            en: 'Title',
+            es: 'Título',
+          },
+          required: true,
+        },
+      ],
+    },
     ...slugField(),
   ],
+  versions: {
+    drafts: {
+      autosave: {
+        interval: 100, // We set this interval for optimal live preview
+      },
+    },
+    maxPerDoc: 50,
+  },
 }

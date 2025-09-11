@@ -76,6 +76,7 @@ export interface Config {
     brands: Brand;
     models: Model;
     tags: Tag;
+    suppliers: Supplier;
     redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
@@ -96,6 +97,7 @@ export interface Config {
     brands: BrandsSelect<false> | BrandsSelect<true>;
     models: ModelsSelect<false> | ModelsSelect<true>;
     tags: TagsSelect<false> | TagsSelect<true>;
+    suppliers: SuppliersSelect<false> | SuppliersSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
@@ -340,6 +342,12 @@ export interface Media {
 export interface Category {
   id: number;
   title: string;
+  subcategories?:
+    | {
+        title: string;
+        id?: string | null;
+      }[]
+    | null;
   slug: string;
   slugLock?: boolean | null;
   parent?: (number | null) | Category;
@@ -354,6 +362,7 @@ export interface Category {
   updatedAt: string;
   createdAt: string;
   deletedAt?: string | null;
+  _status?: ('draft' | 'published') | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -738,10 +747,6 @@ export interface Product {
   model: number | Model;
   tags?: (number | Tag)[] | null;
   heroImage: number | Media;
-  stock: number;
-  subTotal: number;
-  iva: number;
-  total: number;
   content: {
     root: {
       type: string;
@@ -757,14 +762,16 @@ export interface Product {
     };
     [k: string]: unknown;
   };
-  maxCapacity?: number | null;
-  minDivision?: number | null;
+  maxCapacity: number;
+  minDivision: number;
+  multirange?: boolean | null;
+  class?: string | null;
   material?: string | null;
   voltage?: string | null;
-  class?: string | null;
-  length?: number | null;
-  width?: number | null;
-  height?: number | null;
+  operationTemperature?: number | null;
+  storageTemperature?: number | null;
+  structureDimensions?: string | null;
+  plateDimensions?: string | null;
   meta?: {
     title?: string | null;
     /**
@@ -776,6 +783,9 @@ export interface Product {
   publishedAt?: string | null;
   slug: string;
   slugLock?: boolean | null;
+  price?: number | null;
+  discount?: number | null;
+  stock: number;
   updatedAt: string;
   createdAt: string;
   deletedAt?: string | null;
@@ -793,6 +803,7 @@ export interface Brand {
   updatedAt: string;
   createdAt: string;
   deletedAt?: string | null;
+  _status?: ('draft' | 'published') | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -807,6 +818,7 @@ export interface Model {
   updatedAt: string;
   createdAt: string;
   deletedAt?: string | null;
+  _status?: ('draft' | 'published') | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -820,6 +832,47 @@ export interface Tag {
   updatedAt: string;
   createdAt: string;
   deletedAt?: string | null;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "suppliers".
+ */
+export interface Supplier {
+  id: number;
+  title: string;
+  companyName?: string | null;
+  heroImage?: (number | null) | Media;
+  brands?: (number | null) | Brand;
+  products?: (number | null) | Product;
+  content?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  contact?: string | null;
+  email?: string | null;
+  phone?: string | null;
+  address?: string | null;
+  website?: string | null;
+  slug: string;
+  slugLock?: boolean | null;
+  credit?: string | null;
+  discount?: number | null;
+  updatedAt: string;
+  createdAt: string;
+  deletedAt?: string | null;
+  _status?: ('draft' | 'published') | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1041,6 +1094,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'tags';
         value: number | Tag;
+      } | null)
+    | ({
+        relationTo: 'suppliers';
+        value: number | Supplier;
       } | null)
     | ({
         relationTo: 'redirects';
@@ -1342,6 +1399,12 @@ export interface MediaSelect<T extends boolean = true> {
  */
 export interface CategoriesSelect<T extends boolean = true> {
   title?: T;
+  subcategories?:
+    | T
+    | {
+        title?: T;
+        id?: T;
+      };
   slug?: T;
   slugLock?: T;
   parent?: T;
@@ -1356,6 +1419,7 @@ export interface CategoriesSelect<T extends boolean = true> {
   updatedAt?: T;
   createdAt?: T;
   deletedAt?: T;
+  _status?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1395,19 +1459,17 @@ export interface ProductsSelect<T extends boolean = true> {
   model?: T;
   tags?: T;
   heroImage?: T;
-  stock?: T;
-  subTotal?: T;
-  iva?: T;
-  total?: T;
   content?: T;
   maxCapacity?: T;
   minDivision?: T;
+  multirange?: T;
+  class?: T;
   material?: T;
   voltage?: T;
-  class?: T;
-  length?: T;
-  width?: T;
-  height?: T;
+  operationTemperature?: T;
+  storageTemperature?: T;
+  structureDimensions?: T;
+  plateDimensions?: T;
   meta?:
     | T
     | {
@@ -1418,6 +1480,9 @@ export interface ProductsSelect<T extends boolean = true> {
   publishedAt?: T;
   slug?: T;
   slugLock?: T;
+  price?: T;
+  discount?: T;
+  stock?: T;
   updatedAt?: T;
   createdAt?: T;
   deletedAt?: T;
@@ -1434,6 +1499,7 @@ export interface BrandsSelect<T extends boolean = true> {
   updatedAt?: T;
   createdAt?: T;
   deletedAt?: T;
+  _status?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1447,6 +1513,7 @@ export interface ModelsSelect<T extends boolean = true> {
   updatedAt?: T;
   createdAt?: T;
   deletedAt?: T;
+  _status?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1459,6 +1526,32 @@ export interface TagsSelect<T extends boolean = true> {
   updatedAt?: T;
   createdAt?: T;
   deletedAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "suppliers_select".
+ */
+export interface SuppliersSelect<T extends boolean = true> {
+  title?: T;
+  companyName?: T;
+  heroImage?: T;
+  brands?: T;
+  products?: T;
+  content?: T;
+  contact?: T;
+  email?: T;
+  phone?: T;
+  address?: T;
+  website?: T;
+  slug?: T;
+  slugLock?: T;
+  credit?: T;
+  discount?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  deletedAt?: T;
+  _status?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

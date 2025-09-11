@@ -7,7 +7,6 @@ import { unstable_cache } from 'next/cache'
 // Lazy load the optimized chart components
 const OptimizedPieChart = React.lazy(() => import('../Charts/OptimizedPieChart'))
 const OptimizedBarChart = React.lazy(() => import('../Charts/OptimizedBarChart'))
-const OptimizedAreaChart = React.lazy(() => import('../Charts/OptimizedAreaChart'))
 
 interface DashboardStats {
   posts: number
@@ -410,17 +409,6 @@ const RealDataDashboard: React.FC = async () => {
           />
         </ChartSuspenseWrapper>
       </div>
-
-      {recentActivity.length > 0 && (
-        <ChartSuspenseWrapper height="400px">
-          <OptimizedAreaChart
-            data={recentActivity}
-            title="Actividad Reciente"
-            subtitle="Últimos 30 días de actividad"
-            showTimeRange={true}
-          />
-        </ChartSuspenseWrapper>
-      )}
     </div>
   )
 }

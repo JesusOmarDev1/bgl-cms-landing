@@ -23,6 +23,7 @@
 .field-type.text input,
 .field-type.textarea textarea,
 .field-type.number input,
+.field-type.confirm-password input,
 .react-select .rs__control,
 .date-time-picker .react-datepicker__input-container input,
 .where-builder,
@@ -129,4 +130,14 @@
 
 .hamburger {
   @apply rounded-[var(--radius)];
+}
+
+.nav__wrap {
+  @apply py-4;
+}
+
+@media (max-width: 768px) {
+  .nav__wrap {
+    @apply py-2;
+  }
 }

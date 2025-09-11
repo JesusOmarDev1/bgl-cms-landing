@@ -21,6 +21,7 @@ import { Products } from './collections/Products'
 import { Brands } from './collections/Brands'
 import { Models } from './collections/Models'
 import { Tags } from './collections/Tags'
+import { Suppliers } from './collections/Suppliers'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -78,7 +79,7 @@ export default buildConfig({
       url: process.env.DATABASE_URI || '',
     },
   }),
-  collections: [Pages, Posts, Media, Categories, Users, Products, Brands, Models, Tags],
+  collections: [Pages, Posts, Media, Categories, Users, Products, Brands, Models, Tags, Suppliers],
   cors: [getServerSideURL()].filter(Boolean),
   globals: [Header, Footer],
   plugins: [...plugins],
