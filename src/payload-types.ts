@@ -373,7 +373,7 @@ export interface User {
   name: string;
   firstName: string;
   lastName?: string | null;
-  roles?: ('admin' | 'editor' | 'user')[] | null;
+  roles?: ('admin' | 'editor')[] | null;
   updatedAt: string;
   createdAt: string;
   deletedAt?: string | null;

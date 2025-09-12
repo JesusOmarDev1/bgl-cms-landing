@@ -7,13 +7,13 @@ import { Providers } from '@/providers'
 import { InitTheme } from '@/providers/Theme/InitTheme'
 import { mergeOpenGraph } from '@/utilities/mergeOpenGraph'
 import { ViewTransitions } from 'next-view-transitions'
-import '@/styles/globals.css'
 import { getServerSideURL } from '@/utilities/getURL'
+import '@/styles/globals.css'
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <ViewTransitions>
-      <html lang="es" suppressHydrationWarning>
+      <html lang="es-MX" suppressHydrationWarning>
         <head>
           <InitTheme />
           <link href="/favicon.ico" rel="icon" sizes="32x32" />

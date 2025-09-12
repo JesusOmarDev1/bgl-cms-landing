@@ -72,10 +72,6 @@ export const Users: CollectionConfig = {
           label: 'Editor',
           value: 'editor',
         },
-        {
-          label: 'Usuario',
-          value: 'user',
-        },
       ],
     },
   ],
