@@ -36,10 +36,11 @@ export default async function Page({ params: paramsPromise }: Args) {
   return (
     <div className="pt-24 pb-24">
       <PageClient />
-      <div className="container mb-16">
-        <div className="prose dark:prose-invert max-w-none">
-          <h1>Publicaciones</h1>
-        </div>
+      <div className="container flex flex-col justify-start gap-2.5 mb-16">
+        <h1 className="text-3xl lg:text-6xl font-black">Publicaciones</h1>
+        <p className="text-muted-foreground">
+          Manténgase actualizado con nuestras últimas noticias, conocimientos e historias.
+        </p>
       </div>
 
       <div className="container mb-8">

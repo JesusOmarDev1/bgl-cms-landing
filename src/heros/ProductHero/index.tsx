@@ -4,15 +4,14 @@ import React from 'react'
 import type { Product } from '@/payload-types'
 
 import { Media } from '@/components/Media'
-import { Badge } from '@/components/ui/badge'
-import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { Separator } from '@/components/ui/separator'
 import { readingTime } from 'reading-time-estimator'
+import { Badge } from '@/components/ui/badge'
 
 export const ProductHero: React.FC<{
   product: Product
 }> = ({ product }) => {
-  const { categories, heroImage, publishedAt, content, name, meta } = product
+  const { categories, heroImage, publishedAt, title, meta, content } = product
 
   // Extract plain text from content structure
   const extractTextFromContent = (contentObj: any): string => {
@@ -107,10 +106,8 @@ export const ProductHero: React.FC<{
             {readingTimeToUse && <span>{readingTimeToUse}</span>}
           </div>
 
-          {/* Title */}
-          <h1 className="max-w-3xl text-pretty text-5xl font-semibold md:text-6xl">{name}</h1>
+          <h1 className="max-w-3xl text-pretty text-5xl font-semibold md:text-6xl">{title}</h1>
 
-          {/* Description */}
           {description && (
             <h3 className="text-muted-foreground max-w-3xl text-lg md:text-xl">{description}</h3>
           )}

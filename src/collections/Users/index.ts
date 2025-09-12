@@ -58,7 +58,7 @@ export const Users: CollectionConfig = {
       saveToJWT: true,
       type: 'select',
       hasMany: true,
-      defaultValue: ['editor'],
+      defaultValue: ['user'],
       access: {
         create: isAdminFieldLevel,
         update: isAdminFieldLevel,
@@ -71,6 +71,10 @@ export const Users: CollectionConfig = {
         {
           label: 'Editor',
           value: 'editor',
+        },
+        {
+          label: 'User',
+          value: 'user',
         },
       ],
     },

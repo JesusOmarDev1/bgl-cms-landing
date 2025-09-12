@@ -2,52 +2,65 @@
 import useClickableCard from '@/utilities/useClickableCard'
 import { Link } from 'next-view-transitions'
 import React, { Suspense } from 'react'
-import { readingTime } from 'reading-time-estimator'
 
-import type { Product } from '@/payload-types'
+import type { Post } from '@/payload-types'
 
 import { Media } from '@/components/Media'
-
-import { Skeleton } from '../ui/skeleton'
+import { Button } from '../ui/button'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '../ui/card'
+import { Skeleton } from '../ui/skeleton'
+import { ArrowUpRight, Share2 } from 'lucide-react'
+
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '../ui/dropdown-menu'
+import {
+  WhatsappIcon,
+  WhatsappShareButton,
+  FacebookShareButton,
+  FacebookIcon,
+  TwitterShareButton,
+  TwitterIcon,
+  TelegramShareButton,
+  TelegramIcon,
+} from 'next-share'
 import { Badge } from '../ui/badge'
 import { formatDateTime } from '@/utilities/formatDateTime'
-import ShareBtn from '../ui/share-btn'
-import Categories from '../ui/categories'
 
-export type CardProductData = Pick<
-  Product,
+export type CardPostData = Pick<
+  Post,
   | 'slug'
+  | 'categories'
   | 'meta'
   | 'title'
   | 'publishedAt'
   | 'content'
+  | 'authors'
+  | 'populatedAuthors'
   | 'heroImage'
-  | 'brand'
-  | 'model'
-  | 'stock'
-  | 'price'
-  | 'categories'
 >
 
-export const CardProducts: React.FC<{
+export const CardPosts: React.FC<{
   alignItems?: 'center'
   className?: string
-  doc?: CardProductData
-  relationTo?: 'products'
+  doc?: CardPostData
+  relationTo?: 'posts'
   showCategories?: boolean
   title?: string
   publishedAt?: string
   content?: string
 }> = (props) => {
   const { link } = useClickableCard({})
-  const { doc, relationTo, title: titleFromProps, content, showCategories } = props
+  const { doc, relationTo, title: titleFromProps, showCategories } = props
 
-  const { slug, meta, title, heroImage, brand, model, stock, price, categories, publishedAt } =
-    doc || {}
+  const { slug, meta, title, heroImage, categories, publishedAt } = doc || {}
   const { description, image: metaImage } = meta || {}
 
-  const href = `/${relationTo || 'products'}/${slug}`
+  const href = `/${relationTo || 'posts'}/${slug}`
   const sanitizedHref = `${process.env.NEXT_PUBLIC_SERVER_URL}${href}`.replace(/\s/g, ' ')
 
   const sanitizedTitle = titleFromProps || title
@@ -122,11 +135,27 @@ export const CardProducts: React.FC<{
         </div>
       </CardHeader>
       <CardContent className="flex flex-col gap-2 py-1">
-        <Categories
-          showCategories={showCategories}
-          hasCategories={hasCategories}
-          categories={categories}
-        />
+        {showCategories && hasCategories && (
+          <div className="flex flex-wrap gap-2">
+            {categories?.map((category, index) => {
+              if (typeof category === 'object') {
+                const { title: titleFromCategory } = category
+                const categoryTitle = titleFromCategory || 'Untitled category'
+
+                return (
+                  <Badge
+                    key={index}
+                    variant={'secondary'}
+                    className="text-xs font-normal uppercase"
+                  >
+                    {categoryTitle}
+                  </Badge>
+                )
+              }
+              return null
+            })}
+          </div>
+        )}
         <CardTitle className="text-lg font-semibold line-clamp-2">
           <Link className="not-prose hover:underline" href={href as any} ref={link.ref}>
             {sanitizedTitle}
@@ -140,7 +169,42 @@ export const CardProducts: React.FC<{
         </CardDescription>
       </CardContent>
       <CardFooter className="flex flex-col gap-2.5">
-        <ShareBtn href={sanitizedHref} link={link.ref} />
+        <Link className="w-full" href={href as any} ref={link.ref} passHref>
+          <Button className="w-full" icon={ArrowUpRight} iconPlacement="right">
+            <span>Leer Mas</span>
+          </Button>
+        </Link>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button className="w-full" variant={'outline'} icon={Share2} iconPlacement="right">
+              Compartir
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className="w-fit">
+            <DropdownMenuGroup className="flex flex-wrap gap-2.5">
+              <DropdownMenuItem asChild>
+                <WhatsappShareButton url={sanitizedHref}>
+                  <WhatsappIcon size={24} round />
+                </WhatsappShareButton>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <FacebookShareButton url={sanitizedHref}>
+                  <FacebookIcon size={24} round />
+                </FacebookShareButton>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <TwitterShareButton url={sanitizedHref}>
+                  <TwitterIcon size={24} round />
+                </TwitterShareButton>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <TelegramShareButton url={sanitizedHref}>
+                  <TelegramIcon size={24} round />
+                </TelegramShareButton>
+              </DropdownMenuItem>
+            </DropdownMenuGroup>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </CardFooter>
     </Card>
   )

@@ -33,9 +33,9 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
   }, [headerTheme])
 
   return (
-    <header className="container relative z-20">
+    <header className="container w-full h-fit z-20">
       <div className="py-8 flex justify-between items-center">
-        <Link href={'/'}>
+        <Link href={'/'} passHref>
           <Logo />
         </Link>
         <HeaderNav data={data} />

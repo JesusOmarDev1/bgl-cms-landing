@@ -95,7 +95,7 @@
 }
 
 .btn {
-  @apply rounded-[var(--radius)] text-[1rem] font-[500] transition-[all_0.2s_ease-in-out] cursor-pointer border-none whitespace-nowrap outline-none;
+  @apply rounded-[var(--radius-xl)] text-[1rem] font-[500] transition-[all_0.2s_ease-in-out] cursor-pointer border-none whitespace-nowrap outline-none;
 }
 
 .btn--size-small {
@@ -108,11 +108,11 @@
 
 /* Pill styles */
 .pill {
-  @apply rounded-[var(--radius)];
+  @apply rounded-[var(--radius-xl)];
 }
 
 .pill-selector {
-  @apply rounded-[var(--radius-lg)];
+  @apply rounded-[var(--radius-xl)];
 }
 
 /* Navigation styles */
@@ -140,4 +140,8 @@
   .nav__wrap {
     @apply py-2;
   }
+}
+
+.toolbar-popup__dropdown-item {
+  @apply my-0.5;
 }
