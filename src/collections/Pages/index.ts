@@ -29,11 +29,11 @@ export const Pages: CollectionConfig<'pages'> = {
   labels: {
     singular: {
       en: 'Page',
-      es: 'Páginas',
+      es: 'Página',
     },
     plural: {
       en: 'Pages',
-      es: 'Página',
+      es: 'Páginas',
     },
   },
   access: {

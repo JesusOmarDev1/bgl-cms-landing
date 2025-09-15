@@ -65,7 +65,7 @@ function useClickableCard<T extends HTMLElement>({
               const target = newTab ? '_blank' : '_self'
               window.open(link.current.href, target)
             } else {
-              router.push(link.current.href, { scroll })
+              router.push(link.current.href as any, { scroll })
             }
           }
         }

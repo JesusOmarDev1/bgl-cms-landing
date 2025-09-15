@@ -24,7 +24,7 @@ export const Media: CollectionConfig = {
     },
     plural: {
       en: 'Media',
-      es: 'Almacenamiento',
+      es: 'Almacenamientos',
     },
   },
   admin: {

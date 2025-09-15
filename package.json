@@ -84,6 +84,7 @@
     "next-themes": "^0.4.6",
     "next-view-transitions": "^0.3.4",
     "nodemailer": "^7.0.5",
+    "ogl": "^1.0.11",
     "payload": "3.53.0",
     "payload-email-template": "^1.2.1",
     "payload-plugin-phone-field": "^1.0.6",

@@ -1,6 +1,12 @@
-export const Logo = () => {
+export const Logo = (props: React.SVGProps<SVGSVGElement>) => {
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" height="100" viewBox="0 0 107 100" width="107">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      height="100"
+      viewBox="0 0 107 100"
+      width="107"
+      {...props}
+    >
       <g fill="none">
         <path
           d="M43.3 54.712a22.16 22.16 0 0 0 12.557 3.879c4.153 0 8.18-1.149 11.68-3.31v3.31h10.4v-2.227a139 139 0 0 1 25.827 7.086q-25.654-3.613-49.882-3.613T4 63.45q19.055-7.245 39.3-8.738"

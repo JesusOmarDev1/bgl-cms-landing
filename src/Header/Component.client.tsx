@@ -11,12 +11,14 @@ import { Link } from 'next-view-transitions'
 import { ThemeSelector } from '@/providers/Theme/ThemeSelector'
 import { SearchIcon } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { cn } from '@/utilities/ui'
 
 interface HeaderClientProps {
   data: Header
+  display?: 'sticky' | 'fixed'
 }
 
-export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
+export const HeaderClient: React.FC<HeaderClientProps> = ({ data, display = 'fixed' }) => {
   /* Storing the value in a useState to avoid hydration errors */
   const [theme, setTheme] = useState<string | null>(null)
   const { headerTheme, setHeaderTheme } = useHeaderTheme()
@@ -33,10 +35,15 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
   }, [headerTheme])
 
   return (
-    <header className="container w-full h-fit z-20">
-      <div className="py-8 flex justify-between items-center">
+    <header
+      className={cn(
+        display === 'sticky' ? 'sticky' : 'fixed',
+        'top-0 w-full h-fit z-20 backdrop-filter backdrop-blur-lg bg-background/30 dark:bg-background/30 border-b',
+      )}
+    >
+      <nav className="p-4 flex justify-between items-center ">
         <Link href={'/'} passHref>
-          <Logo />
+          <Logo className="size-14" />
         </Link>
         <HeaderNav data={data} />
         <div className="flex gap-2.5">
@@ -47,7 +54,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
             </Button>
           </Link>
         </div>
-      </div>
+      </nav>
     </header>
   )
 }

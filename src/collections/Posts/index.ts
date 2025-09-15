@@ -41,11 +41,11 @@ export const Posts: CollectionConfig<'posts'> = {
   labels: {
     singular: {
       en: 'Post',
-      es: 'Publicaciónes',
+      es: 'Publicación',
     },
     plural: {
       en: 'Posts',
-      es: 'Publicacion',
+      es: 'Publicaciones',
     },
   },
   access: {
