@@ -168,44 +168,6 @@ export const CardPosts: React.FC<{
           {sanitizedDescription}
         </CardDescription>
       </CardContent>
-      <CardFooter className="flex flex-col gap-2.5">
-        <Link className="w-full" href={href as any} ref={link.ref} passHref>
-          <Button className="w-full" icon={ArrowUpRight} iconPlacement="right">
-            <span>Leer Mas</span>
-          </Button>
-        </Link>
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button className="w-full" variant={'outline'} icon={Share2} iconPlacement="right">
-              Compartir
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent className="w-fit">
-            <DropdownMenuGroup className="flex flex-wrap gap-2.5">
-              <DropdownMenuItem asChild>
-                <WhatsappShareButton url={sanitizedHref}>
-                  <WhatsappIcon size={24} round />
-                </WhatsappShareButton>
-              </DropdownMenuItem>
-              <DropdownMenuItem asChild>
-                <FacebookShareButton url={sanitizedHref}>
-                  <FacebookIcon size={24} round />
-                </FacebookShareButton>
-              </DropdownMenuItem>
-              <DropdownMenuItem asChild>
-                <TwitterShareButton url={sanitizedHref}>
-                  <TwitterIcon size={24} round />
-                </TwitterShareButton>
-              </DropdownMenuItem>
-              <DropdownMenuItem asChild>
-                <TelegramShareButton url={sanitizedHref}>
-                  <TelegramIcon size={24} round />
-                </TelegramShareButton>
-              </DropdownMenuItem>
-            </DropdownMenuGroup>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </CardFooter>
     </Card>
   )
 }

@@ -1,29 +1,15 @@
 'use client'
 import useClickableCard from '@/utilities/useClickableCard'
 import { Link } from 'next-view-transitions'
-import React from 'react'
+import React, { Suspense } from 'react'
 import { readingTime } from 'reading-time-estimator'
 
 import { Media } from '@/components/Media'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '../ui/dropdown-menu'
 import { Button } from '../ui/button'
-import { Share } from 'lucide-react'
-import {
-  WhatsappIcon,
-  WhatsappShareButton,
-  FacebookShareButton,
-  FacebookIcon,
-  TwitterShareButton,
-  TwitterIcon,
-  TelegramShareButton,
-  TelegramIcon,
-} from 'next-share'
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '../ui/card'
+import { Skeleton } from '../ui/skeleton'
+import { formatDateTime } from '@/utilities/formatDateTime'
+import Categories from '../ui/categories'
 
 // Tipo para elementos de la colección search
 export type SearchResultData = {
@@ -59,22 +45,18 @@ export const SearchCard: React.FC<{
 
   if (!doc) return null
 
-  const { slug, meta, title, categories, doc: docRef, content, heroImage } = doc
+  const { slug, meta, title, categories, doc: docRef, heroImage, publishedAt } = doc
   const { description, image: metaImage } = meta || {}
 
-  const titleToUse = title || meta?.title
-  const sanitizedDescription = description?.replace(/\s/g, ' ')
-
-  // Determinar la ruta basada en el tipo de colección
-  const collectionPath = docRef.relationTo === 'pages' ? '' : docRef.relationTo
-  const href = collectionPath ? `/${collectionPath}/${slug}` : `/${slug}`
+  const href = `/${docRef.relationTo}/${slug}`
   const sanitizedHref = `${process.env.NEXT_PUBLIC_SERVER_URL}${href}`.replace(/\s/g, ' ')
 
-  // Extract plain text from content structure for accurate reading time
+  const sanitizedTitle = title || meta?.title
+  const sanitizedDescription = description?.replace(/\s/g, ' ')
+
   const extractTextFromContent = (contentObj: any): string => {
     if (!contentObj) return ''
 
-    // Handle direct string content
     if (typeof contentObj === 'string') return contentObj
 
     // Handle Lexical editor structure
@@ -122,115 +104,42 @@ export const SearchCard: React.FC<{
     return ''
   }
 
-  // Use actual content for reading time calculation, fallback to description
-  const contentText = content ? extractTextFromContent(content) : description || ''
-  const readingTimeResult = contentText ? readingTime(contentText) : null
-  const readingTimeToUse = readingTimeResult
-    ? `${readingTimeResult.minutes} min de lectura`
-    : 'Tiempo no disponible'
+  const hasCategories = categories && Array.isArray(categories) && categories.length > 0
 
-  // Mostrar categorías si están disponibles
-  const categoryNames = categories
-    ?.map((cat) => cat.title)
-    .filter(Boolean)
-    .join(', ')
-
-  // Determinar el tipo de contenido para mostrar dinámicamente
-  const getContentType = (collection: string) => {
-    switch (collection) {
-      case 'posts': return 'Artículo'
-      case 'pages': return 'Página'
-      case 'products': return 'Producto'
-      case 'providers': return 'Proveedor'
-      default: return collection.charAt(0).toUpperCase() + collection.slice(1)
-    }
-  }
-  
-  const contentType = getContentType(docRef.relationTo)
-
-  // Get hero image - prioritize heroImage, fallback to meta image
-  const heroImageSrc = heroImage?.url || metaImage?.url
+  const imageToUse = heroImage || metaImage
 
   return (
-    <article>
-      <div className="flex flex-col gap-2.5 max-w-96">
-        <div className="flex gap-2.5 truncate line-clamp-1">
-          <p>
-            <span className="text-sm text-gray-600">{contentType}</span>
-            {categoryNames && (
-              <>
-                {' • '}
-                <span className="font-semibold">{categoryNames}</span>
-              </>
+    <Card role="article">
+      <CardHeader className="px-0">
+        <div className="relative aspect-square h-56 w-full">
+          <Suspense fallback={<Skeleton className="h-56 w-full" />}>
+            {imageToUse && typeof imageToUse !== 'string' && typeof imageToUse !== 'number' && (
+              <Media fill priority resource={imageToUse} className="object-cover" />
             )}
-          </p>
+            {(!imageToUse || typeof imageToUse === 'string' || typeof imageToUse === 'number') && (
+              <p className="text-center">No se encontro imagen.</p>
+            )}
+          </Suspense>
         </div>
-
-        <div className="relative w-full aspect-video bg-gray-100 rounded-lg overflow-hidden">
-          {heroImage && <Media fill priority resource={heroImage} className="object-cover" />}
-          {!heroImage && metaImage && (
-            <Media fill priority resource={metaImage} className="object-cover" />
-          )}
-          {!heroImage && !metaImage && (
-            <div className="flex items-center justify-center h-full text-gray-500">
-              Sin imagen disponible
-            </div>
-          )}
-        </div>
-
-        <div className="flex gap-1 flex-col">
-          {titleToUse && (
-            <div className="prose py-2">
-              <h2 className="truncate line-clamp-2">
-                <Link className="not-prose hover:underline" href={href as any} ref={link.ref}>
-                  {titleToUse}
-                </Link>
-              </h2>
-            </div>
-          )}
-          {description && (
-            <p className="prose text-zinc-500">
-              <span className="truncate line-clamp-2">{sanitizedDescription}</span>
-            </p>
-          )}
-        </div>
-
-        <div className="flex justify-between items-center gap-4">
-          <span className="text-sm text-gray-600">{readingTimeToUse}</span>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button size={'sm'} variant={'outline'}>
-                <Share />
-                <span>Compartir</span>
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-fit">
-              <DropdownMenuGroup className="flex flex-wrap gap-2.5">
-                <DropdownMenuItem asChild>
-                  <WhatsappShareButton url={sanitizedHref}>
-                    <WhatsappIcon size={24} round />
-                  </WhatsappShareButton>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                  <FacebookShareButton url={sanitizedHref}>
-                    <FacebookIcon size={24} round />
-                  </FacebookShareButton>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                  <TwitterShareButton url={sanitizedHref}>
-                    <TwitterIcon size={24} round />
-                  </TwitterShareButton>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                  <TelegramShareButton url={sanitizedHref}>
-                    <TelegramIcon size={24} round />
-                  </TelegramShareButton>
-                </DropdownMenuItem>
-              </DropdownMenuGroup>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </div>
-      </div>
-    </article>
+      </CardHeader>
+      <CardContent className="flex flex-col gap-2 py-1">
+        <Categories
+          showCategories={showCategories}
+          hasCategories={hasCategories}
+          categories={categories}
+        />
+        <CardTitle className="text-lg font-semibold line-clamp-2">
+          <Link className="not-prose hover:underline" href={href as any} ref={link.ref}>
+            {sanitizedTitle}
+          </Link>
+        </CardTitle>
+        <p className="text-sm">
+          Fecha de publicación: {publishedAt && <span>{formatDateTime(publishedAt)}</span>}
+        </p>
+        <CardDescription className="text-sm text-muted-foreground line-clamp-2">
+          {sanitizedDescription}
+        </CardDescription>
+      </CardContent>
+    </Card>
   )
 }

@@ -15,10 +15,9 @@ export const beforeSyncWithSearch: BeforeSync = async ({ req, originalDoc, searc
     const dateFields = ['publishedAt', 'createdAt', 'updatedAt', 'date']
 
     // Special handling for pages collection with complex layout
-    if (collection === 'pages' && (doc.hero || doc.layout)) {
+    if (collection === 'products' && doc.hero) {
       const hero = doc.hero
-      const layout = doc.layout
-      
+
       let combinedText = ''
       let heroImage: any = null
 
@@ -27,31 +26,25 @@ export const beforeSyncWithSearch: BeforeSync = async ({ req, originalDoc, searc
         combinedText += extractTextFromRichText(hero.richText) + ' '
       }
 
-      // Extract text and images from layout blocks
-      if (layout && Array.isArray(layout)) {
-        layout.forEach((block: any) => {
-          if (block.blockType === 'content' && block.richText) {
-            combinedText += extractTextFromRichText(block.richText) + ' '
-          }
-          if (block.blockType === 'mediaBlock' && block.media && !heroImage) {
-            heroImage = block.media
-          }
-        })
-      }
-
       // Create structured content if we have text
-      const content = combinedText.trim() ? {
-        root: {
-          children: [{
-            children: [{
-              text: combinedText.trim(),
-              type: 'text',
-            }],
-            type: 'paragraph',
-          }],
-          type: 'root',
-        },
-      } : null
+      const content = combinedText.trim()
+        ? {
+            root: {
+              children: [
+                {
+                  children: [
+                    {
+                      text: combinedText.trim(),
+                      type: 'text',
+                    },
+                  ],
+                  type: 'paragraph',
+                },
+              ],
+              type: 'root',
+            },
+          }
+        : null
 
       return {
         content,

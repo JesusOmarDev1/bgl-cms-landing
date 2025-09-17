@@ -22,7 +22,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <body>
           <Providers>
             <Header />
-            {children}
+            <div className="mt-24">{children}</div>
           </Providers>
         </body>
       </html>

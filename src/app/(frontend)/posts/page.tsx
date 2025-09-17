@@ -34,9 +34,31 @@ export default async function Page() {
     },
   })
 
+  const lastPost = await payload.find({
+    collection: 'posts',
+    depth: 1,
+    limit: 1,
+    overrideAccess: false,
+    sort: 'publishedAt',
+    pagination: false,
+    select: {
+      title: true,
+      slug: true,
+      categories: true,
+      meta: true,
+      content: true,
+      publishedAt: true,
+      authors: true,
+      populatedAuthors: true,
+      updatedAt: true,
+      heroImage: true,
+    },
+  })
+
   return (
     <div className="pt-24 pb-24">
       <PageClient />
+
       <div className="container flex flex-col justify-start gap-2.5 mb-16">
         <h1 className="text-3xl lg:text-6xl font-black">Publicaciones</h1>
         <p className="text-muted-foreground">

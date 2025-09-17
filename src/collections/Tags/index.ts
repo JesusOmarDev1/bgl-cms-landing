@@ -37,6 +37,25 @@ export const Tags: CollectionConfig = {
       },
       required: true,
     },
+    {
+      name: 'subtags',
+      type: 'array',
+      label: {
+        en: 'Subtags',
+        es: 'Subetiquetas',
+      },
+      fields: [
+        {
+          name: 'title',
+          type: 'text',
+          label: {
+            en: 'Title',
+            es: 'Título',
+          },
+          required: true,
+        },
+      ],
+    },
     ...slugField(),
   ],
 }

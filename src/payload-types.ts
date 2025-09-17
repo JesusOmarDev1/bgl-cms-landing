@@ -854,6 +854,12 @@ export interface Model {
 export interface Tag {
   id: number;
   title: string;
+  subtags?:
+    | {
+        title: string;
+        id?: string | null;
+      }[]
+    | null;
   slug: string;
   slugLock?: boolean | null;
   updatedAt: string;
@@ -948,10 +954,15 @@ export interface Search {
   id: number;
   title?: string | null;
   priority?: number | null;
-  doc: {
-    relationTo: 'posts';
-    value: number | Post;
-  };
+  doc:
+    | {
+        relationTo: 'posts';
+        value: number | Post;
+      }
+    | {
+        relationTo: 'products';
+        value: number | Product;
+      };
   slug?: string | null;
   content?: {
     root: {
@@ -1560,6 +1571,12 @@ export interface ModelsSelect<T extends boolean = true> {
  */
 export interface TagsSelect<T extends boolean = true> {
   title?: T;
+  subtags?:
+    | T
+    | {
+        title?: T;
+        id?: T;
+      };
   slug?: T;
   slugLock?: T;
   updatedAt?: T;

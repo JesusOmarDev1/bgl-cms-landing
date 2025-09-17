@@ -139,9 +139,6 @@ export const CardProducts: React.FC<{
           {sanitizedDescription}
         </CardDescription>
       </CardContent>
-      <CardFooter className="flex flex-col gap-2.5">
-        <ShareBtn href={sanitizedHref} link={link.ref} />
-      </CardFooter>
     </Card>
   )
 }

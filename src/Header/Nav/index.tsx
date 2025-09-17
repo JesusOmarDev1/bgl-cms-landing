@@ -5,15 +5,35 @@ import React from 'react'
 import type { Header as HeaderType } from '@/payload-types'
 
 import { CMSLink } from '@/components/Link'
+import {
+  NavigationMenu,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+} from '@/components/ui/navigation-menu'
+import { cn } from '@/utilities/ui'
 
-export const HeaderNav: React.FC<{ data: HeaderType }> = ({ data }) => {
+export const HeaderNav: React.FC<{
+  data: HeaderType
+  props?: React.HTMLAttributes<HTMLDivElement>
+}> = ({ data, props }) => {
   const navItems = data?.navItems || []
 
   return (
-    <nav className="flex gap-3 items-center">
-      {navItems.map(({ link }, i) => {
-        return <CMSLink key={i} {...link} />
-      })}
-    </nav>
+    <div className={cn('flex items-center justify-center', props?.className)}>
+      <NavigationMenu>
+        <NavigationMenuList>
+          <NavigationMenuItem className="flex gap-2">
+            {navItems.map(({ link }, i) => {
+              return (
+                <NavigationMenuLink key={i} asChild>
+                  <CMSLink {...link} />
+                </NavigationMenuLink>
+              )
+            })}
+          </NavigationMenuItem>
+        </NavigationMenuList>
+      </NavigationMenu>
+    </div>
   )
 }
