@@ -7,6 +7,11 @@ import { anyone } from '@/access/anyone'
 export const Tags: CollectionConfig = {
   slug: 'tags',
   trash: true,
+  indexes: [
+    {
+      fields: ['title', 'slug'],
+    },
+  ],
   access: {
     read: anyone,
     create: isAdminOrEditor,
@@ -26,6 +31,7 @@ export const Tags: CollectionConfig = {
   admin: {
     useAsTitle: 'title',
     defaultColumns: ['title', 'slug', 'createdAt'],
+    description: 'Administra las etiquetas del sitio: crea, edita y elimina etiquetas',
   },
   fields: [
     {

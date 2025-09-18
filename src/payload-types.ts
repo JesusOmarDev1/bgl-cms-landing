@@ -317,7 +317,7 @@ export interface Media {
       filesize?: number | null;
       filename?: string | null;
     };
-    square?: {
+    small?: {
       url?: string | null;
       width?: number | null;
       height?: number | null;
@@ -325,7 +325,15 @@ export interface Media {
       filesize?: number | null;
       filename?: string | null;
     };
-    xlarge?: {
+    medium?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+    large?: {
       url?: string | null;
       width?: number | null;
       height?: number | null;
@@ -374,6 +382,8 @@ export interface Category {
   deletedAt?: string | null;
 }
 /**
+ * Administra los usuarios del sitio: crea, edita y elimina usuarios
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "users".
  */
@@ -862,6 +872,8 @@ export interface Model {
   deletedAt?: string | null;
 }
 /**
+ * Administra las etiquetas del sitio: crea, edita y elimina etiquetas
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "tags".
  */
@@ -881,6 +893,8 @@ export interface Tag {
   deletedAt?: string | null;
 }
 /**
+ * Administra los proveedores del sitio: crea, edita y elimina proveedores
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "suppliers".
  */
@@ -1470,7 +1484,7 @@ export interface MediaSelect<T extends boolean = true> {
               filesize?: T;
               filename?: T;
             };
-        square?:
+        small?:
           | T
           | {
               url?: T;
@@ -1480,7 +1494,17 @@ export interface MediaSelect<T extends boolean = true> {
               filesize?: T;
               filename?: T;
             };
-        xlarge?:
+        medium?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+        large?:
           | T
           | {
               url?: T;

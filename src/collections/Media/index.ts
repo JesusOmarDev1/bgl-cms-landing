@@ -62,27 +62,68 @@ export const Media: CollectionConfig = {
     },
   ],
   upload: {
-    adminThumbnail: 'small',
+    mimeTypes: ['image/*', 'video/*'],
+    adminThumbnail: 'thumbnail',
     focalPoint: true,
+    crop: true,
+    // Configuración global para convertir automáticamente a WebP
+    formatOptions: {
+      format: 'webp',
+      options: {
+        quality: 85,
+        effort: 4, // Mejor compresión (0-6, más alto = mejor compresión)
+        lossless: false,
+        nearLossless: false,
+        smartSubsample: true, // Mejor calidad en bordes
+        alphaQuality: 100, // Calidad del canal alpha
+      },
+    },
     imageSizes: [
+      // Thumbnail - Small square for listings and grids
       {
         name: 'thumbnail',
         width: 300,
+        height: 300,
+        crop: 'center',
+        position: 'center',
       },
+      // Small - For mobile devices and small cards
       {
-        name: 'square',
-        width: 500,
-        height: 500,
+        name: 'small',
+        width: 640,
+        height: 360,
+        crop: 'center',
+        position: 'center',
       },
+      // Medium - For medium-sized displays and cards
       {
-        name: 'xlarge',
-        width: 1920,
+        name: 'medium',
+        width: 1024,
+        height: 576,
+        fit: 'inside',
+        position: 'center',
       },
+      // Large - For large displays and full-width content
+      {
+        name: 'large',
+        width: 1600,
+        height: 900,
+        fit: 'inside',
+        position: 'center',
+        formatOptions: {
+          format: 'webp',
+          options: {
+            quality: 80,
+          },
+        },
+      },
+      // OG Image - Perfect for social sharing
       {
         name: 'og',
         width: 1200,
         height: 630,
         crop: 'center',
+        position: 'center',
       },
     ],
   },

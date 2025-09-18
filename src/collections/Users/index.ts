@@ -5,11 +5,20 @@ import type { CollectionConfig } from 'payload'
 export const Users: CollectionConfig = {
   slug: 'users',
   trash: true,
+  indexes: [
+    {
+      fields: ['name', 'email'],
+    },
+  ],
   access: {
     create: isAdmin,
     read: isAdminOrSelf,
     update: isAdminOrSelf,
     delete: isAdmin,
+  },
+  defaultPopulate: {
+    name: true,
+    email: true,
   },
   labels: {
     singular: {
@@ -24,6 +33,7 @@ export const Users: CollectionConfig = {
   admin: {
     defaultColumns: ['name', 'email', 'roles'],
     useAsTitle: 'name',
+    description: 'Administra los usuarios del sitio: crea, edita y elimina usuarios',
   },
   auth: true,
   fields: [

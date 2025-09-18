@@ -1,0 +1,179 @@
+import type { Post, Media, User, Product, Page, Brand, Model, Category } from '@/payload-types'
+import { getServerSideURL } from '@/utilities/getURL'
+
+export const PostSchema = (props: Post) => {
+  if (!props) return null
+
+  const authors = props.authors as User[]
+  const url: string = getServerSideURL()
+  const image: Media = props.meta?.image as Media
+
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: props.title,
+    datePublished: new Date(props.createdAt).toISOString(),
+    dateModified: new Date(props.updatedAt).toISOString(),
+    image: [`${process.env.S3_ENDPOINT}/${image?.filename}`],
+    author:
+      authors?.map((author: User) => ({
+        '@type': 'Person',
+        name: author.name,
+      })) || [],
+    publisher: {
+      '@type': 'Organization',
+      name: 'BGL Básculas Industriales',
+    },
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': `${url}/posts/${props.slug}`,
+    },
+  }
+}
+
+export const MediaSchema = (props: Media) => {
+  if (!props) return null
+
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'ImageObject',
+    url: props.url ? `${process.env.S3_ENDPOINT}/${props.filename}` : undefined,
+    width: props.width,
+    height: props.height,
+    caption: props.alt,
+    name: props.alt || props.filename,
+    encodingFormat: props.mimeType,
+    contentSize: props.filesize,
+  }
+}
+
+export const ProductSchema = (props: Product) => {
+  if (!props) return null
+
+  const url: string = getServerSideURL()
+  const brand = props.brand as Brand
+  const model = props.model as Model
+  const heroImage = props.heroImage as Media
+  const categories = props.categories as Category[]
+  const metaImage = props.meta?.image as Media
+
+  const finalPrice =
+    props.price && props.discount ? props.price - (props.price * props.discount) / 100 : props.price
+
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name: props.title,
+    description:
+      props.meta?.description || `Báscula industrial ${props.title} de la marca ${brand?.title}`,
+    brand: {
+      '@type': 'Brand',
+      name: brand?.title,
+    },
+    model: model?.title,
+    category: categories
+      ?.map((cat) => (typeof cat === 'object' ? cat.title : undefined))
+      .filter(Boolean)
+      .join(', '),
+    image: heroImage?.url
+      ? `${process.env.S3_ENDPOINT}/${heroImage.filename}`
+      : metaImage?.url
+        ? `${process.env.S3_ENDPOINT}/${metaImage.filename}`
+        : undefined,
+    url: `${url}/products/${props.slug}`,
+    sku: props.id.toString(),
+    offers: props.price
+      ? {
+          '@type': 'Offer',
+          price: finalPrice,
+          priceCurrency: 'MXN',
+          availability:
+            props.stock > 0 ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
+          seller: {
+            '@type': 'Organization',
+            name: 'BGL Básculas Industriales',
+          },
+        }
+      : undefined,
+    additionalProperty: [
+      {
+        '@type': 'PropertyValue',
+        name: 'Capacidad Máxima',
+        value: `${props.maxCapacity} kg`,
+      },
+      {
+        '@type': 'PropertyValue',
+        name: 'División Mínima',
+        value: `${props.minDivision} g`,
+      },
+      props.class
+        ? {
+            '@type': 'PropertyValue',
+            name: 'Clase',
+            value: props.class,
+          }
+        : null,
+      props.material
+        ? {
+            '@type': 'PropertyValue',
+            name: 'Material',
+            value: props.material,
+          }
+        : null,
+      props.voltage
+        ? {
+            '@type': 'PropertyValue',
+            name: 'Voltaje',
+            value: props.voltage,
+          }
+        : null,
+      props.operationTemperature
+        ? {
+            '@type': 'PropertyValue',
+            name: 'Temperatura de Operación',
+            value: `${props.operationTemperature}°C`,
+          }
+        : null,
+      props.plateDimensions
+        ? {
+            '@type': 'PropertyValue',
+            name: 'Dimensiones de Plataforma',
+            value: props.plateDimensions,
+          }
+        : null,
+    ].filter(Boolean),
+    manufacturer: {
+      '@type': 'Organization',
+      name: brand?.title || 'BGL Básculas Industriales',
+    },
+  }
+}
+
+export const PageSchema = (props: Page) => {
+  if (!props) return null
+
+  const url: string = getServerSideURL()
+  const metaImage = props.meta?.image as Media
+
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name: props.title,
+    description: props.meta?.description,
+    url: `${url}/${props.slug}`,
+    image: metaImage?.url ? `${process.env.S3_ENDPOINT}/${metaImage.filename}` : undefined,
+    datePublished: props.createdAt,
+    dateModified: props.updatedAt,
+    publisher: {
+      '@type': 'Organization',
+      name: 'BGL Básculas Industriales',
+      url: url,
+    },
+    mainEntity: {
+      '@type': 'Organization',
+      name: 'BGL Básculas Industriales',
+      description: 'Empresa líder en básculas industriales y equipos de pesaje de alta precisión',
+      url: url,
+    },
+  }
+}

@@ -7,11 +7,20 @@ import { anyone } from '@/access/anyone'
 export const OrderServices: CollectionConfig = {
   slug: 'order-services',
   trash: true,
+  indexes: [
+    {
+      fields: ['title', 'slug'],
+    },
+  ],
   access: {
     read: anyone,
     create: isAdminOrEditor,
     update: isAdminOrEditor,
     delete: isAdminOrEditor,
+  },
+  defaultPopulate: {
+    title: true,
+    slug: true,
   },
   labels: {
     singular: {
@@ -25,6 +34,9 @@ export const OrderServices: CollectionConfig = {
   },
   admin: {
     useAsTitle: 'title',
+    defaultColumns: ['title', 'slug', 'createdAt'],
+    description:
+      'Administra las ordenes de servicio del sitio: crea, edita y elimina ordenes de servicio',
   },
   fields: [
     {

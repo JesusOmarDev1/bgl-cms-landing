@@ -8,12 +8,14 @@ import { draftMode } from 'next/headers'
 import React, { cache } from 'react'
 import RichText from '@/components/RichText'
 
-import type { Post } from '@/payload-types'
+import type { Media, Post } from '@/payload-types'
 
 import { PostHero } from '@/heros/PostHero'
 import { generateMeta } from '@/utilities/generateMeta'
 import PageClient from './page.client'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
+import { MediaSchema, PostSchema } from '@/components/Schema'
+import Script from 'next/script'
 
 export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise })
@@ -49,8 +51,16 @@ export default async function Post({ params: paramsPromise }: Args) {
 
   if (!post) return <PayloadRedirects url={url} />
 
+  const schema = [PostSchema(post), MediaSchema(post.meta?.image as Media)]
+
   return (
     <article className="py-4">
+      <Script
+        type="application/ld+json"
+        strategy="lazyOnload"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+        key={post.slug}
+      />
       <PageClient />
 
       {/* Allows redirects for valid pages too */}

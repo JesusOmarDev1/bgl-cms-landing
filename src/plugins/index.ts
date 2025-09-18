@@ -13,7 +13,7 @@ import { beforeSyncWithSearch } from '@/search/beforeSync'
 
 import { Page, Post } from '@/payload-types'
 import { getServerSideURL } from '@/utilities/getURL'
-import { getStorageAdapter } from '@/lib/storage'
+import { getCloudfareAdapter } from '@/lib/storage'
 
 const generateTitle: GenerateTitle<Post | Page> = ({ doc }) => {
   return doc?.title ? `${doc.title} | BGL BASCULAS INDUSTRIALES` : 'BGL BASCULAS INDUSTRIALES'
@@ -26,7 +26,7 @@ const generateURL: GenerateURL<Post | Page> = ({ doc }) => {
 }
 
 export const plugins: Plugin[] = [
-  getStorageAdapter(),
+  getCloudfareAdapter(),
   redirectsPlugin({
     collections: ['posts'],
     overrides: {

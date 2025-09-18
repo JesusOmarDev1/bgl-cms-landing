@@ -21,6 +21,11 @@ import { isAuthenticatedOrPublished } from '@/access/isLoggedInOrPublished'
 export const Suppliers: CollectionConfig = {
   slug: 'suppliers',
   trash: true,
+  indexes: [
+    {
+      fields: ['title', 'slug'],
+    },
+  ],
   access: {
     read: isAuthenticatedOrPublished,
     create: isAdminOrEditor,
@@ -48,6 +53,7 @@ export const Suppliers: CollectionConfig = {
   admin: {
     useAsTitle: 'title',
     defaultColumns: ['heroImage', 'title', 'credit', 'discount', 'createdAt'],
+    description: 'Administra los proveedores del sitio: crea, edita y elimina proveedores',
   },
   fields: [
     {

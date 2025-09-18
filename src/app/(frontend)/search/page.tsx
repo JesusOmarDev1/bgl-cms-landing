@@ -8,6 +8,7 @@ import { Search } from '@/search/Component'
 import PageClient from './page.client'
 import { SearchResultData } from '@/components/Card/SearchCard'
 import generalMetadata from '@/lib/generalMetadata'
+import NoResults from '@/components/States/no-results'
 
 type Args = {
   searchParams: Promise<{
@@ -60,7 +61,9 @@ export default async function Page({ searchParams: searchParamsPromise }: Args) 
       <PageClient />
       <div className="container mb-16">
         <div className="prose dark:prose-invert max-w-7xl text-center">
-          <h1 className="text-6xl font-bold">¿No encontraste lo que buscabas?</h1>
+          <h1 className="text-3xl md:text-4xl lg:text-6xl font-bold">
+            ¿No encontraste lo que buscabas?
+          </h1>
           <p className="text-zinc-500 lg:mb-16 mb-8">
             ¡No te preocupes! Estamos aquí para ayudarte. Cuéntanos qué necesitas y haremos lo
             posible por asistirte.
@@ -74,7 +77,7 @@ export default async function Page({ searchParams: searchParamsPromise }: Args) 
       {posts.totalDocs > 0 ? (
         <SearchArchive results={posts.docs as SearchResultData[]} />
       ) : (
-        <div className="container">No hay resultados.</div>
+        <NoResults />
       )}
     </div>
   )

@@ -27,15 +27,15 @@ export const Search: React.FC = () => {
         <Label htmlFor="search" className="sr-only">
           Buscar
         </Label>
-        <div className="relative h-10 w-full">
-          <SearchIcon className="absolute left-3 top-[18px] transform -translate-y-1/2 text-gray-500 z-10 size-4" />
+        <div className="relative w-full">
+          <SearchIcon className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
           <Input
-            className="pl-8 pr-3 py-2 text-md w-full text-ellipsis border border-gray-300 rounded-4xl shadow-sm focus:outline-none focus:ring-2 focus:ring-[#6E23DD] focus:border-transparent"
-            id="search"
+            type="search"
+            placeholder="Describe qué estás buscando y te guiaremos hacia la solución."
+            className="pl-10 rounded-3xl"
             onChange={(event) => {
               setValue(event.target.value)
             }}
-            placeholder="Describe qué estás buscando y te guiaremos hacia la solución."
           />
         </div>
         <Button type="submit" className="sr-only">
