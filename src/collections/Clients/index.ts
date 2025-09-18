@@ -16,13 +16,19 @@ import {
   lexicalEditor,
 } from '@payloadcms/richtext-lexical'
 import { MediaBlock } from '../../blocks/MediaBlock/config'
-import { isAuthenticatedOrPublished } from '@/access/isLoggedInOrPublished'
+import { anyone } from '@/access/anyone'
 
 export const Clients: CollectionConfig = {
   slug: 'clients',
   trash: true,
+  indexes: [
+    {
+      fields: ['title', 'slug'],
+    },
+  ],
+  defaultSort: 'createdAt',
   access: {
-    read: isAuthenticatedOrPublished,
+    read: anyone,
     create: isAdminOrEditor,
     update: isAdminOrEditor,
     delete: isAdmin,
@@ -44,8 +50,9 @@ export const Clients: CollectionConfig = {
     createdAt: true,
   },
   admin: {
-    useAsTitle: 'title',
     defaultColumns: ['heroImage', 'title', 'createdAt'],
+    useAsTitle: 'title',
+    description: 'Administra los clientes del sitio: crea, edita y elimina clientes',
   },
   fields: [
     {

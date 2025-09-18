@@ -53,6 +53,7 @@
 .card,
 .table-wrap,
 .table,
+.condition-value-text,
 table {
   @apply rounded-[var(--radius-lg)];
 }
@@ -145,4 +146,8 @@ table {
 
 .toolbar-popup__dropdown-item {
   @apply my-0.5;
+}
+
+.custom-view-description {
+  @apply py-2;
 }

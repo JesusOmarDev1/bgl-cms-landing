@@ -31,6 +31,12 @@ import { revalidateDelete, revalidateProduct } from './hooks/revalidateProducts'
 export const Products: CollectionConfig = {
   slug: 'products',
   trash: true,
+  indexes: [
+    {
+      fields: ['title', 'slug'],
+    },
+  ],
+  defaultSort: 'createdAt',
   access: {
     read: isAuthenticatedOrPublished,
     create: isAdminOrEditor,
@@ -60,7 +66,6 @@ export const Products: CollectionConfig = {
   },
   admin: {
     defaultColumns: ['heroImage', 'title', 'total', 'tags', 'createdAt'],
-    useAsTitle: 'title',
     livePreview: {
       url: ({ data, req }) => {
         const path = generatePreviewPath({
@@ -72,6 +77,8 @@ export const Products: CollectionConfig = {
         return path
       },
     },
+    useAsTitle: 'title',
+    description: 'Administra los productos del sitio: crea, edita y elimina artículos',
   },
   fields: [
     {

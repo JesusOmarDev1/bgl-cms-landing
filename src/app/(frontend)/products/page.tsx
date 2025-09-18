@@ -31,9 +31,8 @@ export default async function Page() {
       heroImage: true,
       brand: true,
       model: true,
-      price: true,
       stock: true,
-      category: true,
+      tags: true,
     },
   })
 

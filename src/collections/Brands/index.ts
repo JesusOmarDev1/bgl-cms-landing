@@ -7,11 +7,21 @@ import { anyone } from '@/access/anyone'
 export const Brands: CollectionConfig = {
   slug: 'brands',
   trash: true,
+  indexes: [
+    {
+      fields: ['title', 'slug'],
+    },
+  ],
+  defaultSort: 'createdAt',
   access: {
     read: anyone,
     create: isAdminOrEditor,
     update: isAdminOrEditor,
     delete: isAdminOrEditor,
+  },
+  defaultPopulate: {
+    title: true,
+    slug: true,
   },
   labels: {
     singular: {
@@ -25,6 +35,8 @@ export const Brands: CollectionConfig = {
   },
   admin: {
     useAsTitle: 'title',
+    defaultColumns: ['title', 'slug', 'createdAt'],
+    description: 'Administra las marcas del sitio: crea, edita y elimina marcas',
   },
   fields: [
     {

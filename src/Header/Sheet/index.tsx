@@ -32,16 +32,12 @@ export const HeaderSheetNav: React.FC<{
         </SheetTrigger>
         <SheetContent side="left">
           <SheetHeader>
-            <SheetTitle>Menu de Navegación</SheetTitle>
+            <SheetTitle className="text-3xl">Menu de Navegación</SheetTitle>
             <SheetDescription>Selecciona una opción para navegar</SheetDescription>
           </SheetHeader>
           <div className="flex flex-col gap-2 px-4">
             {navItems.map(({ link }, i) => {
-              return (
-                <Button className="w-full justify-start" key={i} asChild variant={'secondary'}>
-                  <CMSLink {...link} className="w-full" />
-                </Button>
-              )
+              return <CMSLink key={i} {...link} className="w-full text-lg" />
             })}
           </div>
         </SheetContent>

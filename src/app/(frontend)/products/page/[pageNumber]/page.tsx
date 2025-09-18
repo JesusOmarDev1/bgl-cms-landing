@@ -32,7 +32,7 @@ export default async function Page() {
       brand: true,
       model: true,
       stock: true,
-      total: true,
+      tags: true,
     },
   })
 

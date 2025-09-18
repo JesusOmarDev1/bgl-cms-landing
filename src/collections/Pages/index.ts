@@ -26,6 +26,12 @@ import { FAQ } from '@/blocks/FAQ/config'
 export const Pages: CollectionConfig<'pages'> = {
   slug: 'pages',
   trash: true,
+  indexes: [
+    {
+      fields: ['title', 'slug'],
+    },
+  ],
+  defaultSort: 'createdAt',
   labels: {
     singular: {
       en: 'Page',
@@ -43,12 +49,13 @@ export const Pages: CollectionConfig<'pages'> = {
     delete: isAdmin,
     readVersions: isAdminOrEditor,
   },
-  // This config controls what's populated by default when a page is referenced
-  // https://payloadcms.com/docs/queries/select#defaultpopulate-collection-config-property
-  // Type safe if the collection slug generic is passed to `CollectionConfig` - `CollectionConfig<'pages'>
   defaultPopulate: {
     title: true,
     slug: true,
+    meta: {
+      image: true,
+      description: true,
+    },
   },
   admin: {
     defaultColumns: ['title', 'slug', 'updatedAt', 'publishedAt'],
@@ -70,6 +77,7 @@ export const Pages: CollectionConfig<'pages'> = {
         req,
       }),
     useAsTitle: 'title',
+    description: 'Administra las páginas del sitio: crea, edita y elimina páginas',
   },
   fields: [
     {

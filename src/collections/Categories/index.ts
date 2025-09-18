@@ -7,6 +7,12 @@ import { anyone } from '@/access/anyone'
 export const Categories: CollectionConfig = {
   slug: 'categories',
   trash: true,
+  indexes: [
+    {
+      fields: ['title', 'slug'],
+    },
+  ],
+  defaultSort: 'createdAt',
   access: {
     read: anyone,
     create: isAdminOrEditor,
@@ -29,8 +35,9 @@ export const Categories: CollectionConfig = {
     slug: true,
   },
   admin: {
-    useAsTitle: 'title',
     defaultColumns: ['title', 'slug', 'createdAt'],
+    useAsTitle: 'title',
+    description: 'Administra las categorías del sitio: crea, edita y elimina categorías',
   },
   fields: [
     {

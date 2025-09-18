@@ -38,6 +38,12 @@ import { isAuthenticatedOrPublished } from '@/access/isLoggedInOrPublished'
 export const Posts: CollectionConfig<'posts'> = {
   slug: 'posts',
   trash: true,
+  indexes: [
+    {
+      fields: ['title', 'slug'],
+    },
+  ],
+  defaultSort: 'createdAt',
   labels: {
     singular: {
       en: 'Post',
@@ -54,9 +60,6 @@ export const Posts: CollectionConfig<'posts'> = {
     update: isAdminOrEditor,
     delete: isAdmin,
   },
-  // This config controls what's populated by default when a post is referenced
-  // https://payloadcms.com/docs/queries/select#defaultpopulate-collection-config-property
-  // Type safe if the collection slug generic is passed to `CollectionConfig` - `CollectionConfig<'posts'>
   defaultPopulate: {
     title: true,
     slug: true,
@@ -67,7 +70,7 @@ export const Posts: CollectionConfig<'posts'> = {
     },
   },
   admin: {
-    defaultColumns: ['title', 'slug', 'updatedAt', 'publishedAt'],
+    defaultColumns: ['heroImage', 'title', 'slug', 'updatedAt', 'publishedAt'],
     livePreview: {
       url: ({ data, req }) => {
         const path = generatePreviewPath({
@@ -86,6 +89,7 @@ export const Posts: CollectionConfig<'posts'> = {
         req,
       }),
     useAsTitle: 'title',
+    description: 'Administra las publicaciones del blog: crea, edita y elimina artículos',
   },
   fields: [
     {
@@ -448,9 +452,6 @@ export const Posts: CollectionConfig<'posts'> = {
       hasMany: true,
       relationTo: 'users',
     },
-    // This field is only used to populate the user data via the `populateAuthors` hook
-    // This is because the `user` collection has access control locked to protect user privacy
-    // GraphQL will also not return mutated user data that differs from the underlying schema
     {
       name: 'populatedAuthors',
       type: 'array',

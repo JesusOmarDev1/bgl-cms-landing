@@ -11,6 +11,11 @@ import { anyone } from '@/access/anyone'
 export const Media: CollectionConfig = {
   slug: 'media',
   trash: true,
+  indexes: [
+    {
+      fields: ['alt'],
+    },
+  ],
   access: {
     read: anyone,
     create: isAdminOrEditor,
@@ -20,16 +25,17 @@ export const Media: CollectionConfig = {
   labels: {
     singular: {
       en: 'Media',
-      es: 'Almacenamiento',
+      es: 'Archivo',
     },
     plural: {
       en: 'Media',
-      es: 'Almacenamientos',
+      es: 'Archivos',
     },
   },
   admin: {
     useAsTitle: 'alt',
-    defaultColumns: ['alt', 'caption', 'createdAt'],
+    defaultColumns: ['alt', 'content', 'createdAt'],
+    description: 'Administra los archivos del sitio: crea, edita y elimina archivos',
   },
   fields: [
     {
@@ -42,11 +48,11 @@ export const Media: CollectionConfig = {
       required: true,
     },
     {
-      name: 'caption',
+      name: 'content',
       type: 'richText',
       label: {
-        en: 'Caption',
-        es: 'Subtítulo',
+        en: 'Content',
+        es: 'Contenido',
       },
       editor: lexicalEditor({
         features: ({ rootFeatures }) => {

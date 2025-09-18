@@ -9,6 +9,7 @@ import { mergeOpenGraph } from '@/utilities/mergeOpenGraph'
 import { ViewTransitions } from 'next-view-transitions'
 import { getServerSideURL } from '@/utilities/getURL'
 import '@/styles/globals.css'
+import { Toaster } from '@/components/ui/sonner'
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -22,6 +23,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <body>
           <Providers>
             <Header />
+            <Toaster position="bottom-right" richColors closeButton />
             <div className="mt-24">{children}</div>
           </Providers>
         </body>

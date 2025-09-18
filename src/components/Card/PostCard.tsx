@@ -129,7 +129,9 @@ export const CardPosts: React.FC<{
               <Media fill priority resource={imageToUse} className="object-cover" />
             )}
             {(!imageToUse || typeof imageToUse === 'string' || typeof imageToUse === 'number') && (
-              <p className="text-center">No se encontro imagen.</p>
+              <div role="log" className="text-center flex items-center justify-center h-56 w-full">
+                No se encontro imagen.
+              </div>
             )}
           </Suspense>
         </div>

@@ -77,6 +77,7 @@ export interface Config {
     models: Model;
     tags: Tag;
     suppliers: Supplier;
+    clients: Client;
     redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
@@ -98,6 +99,7 @@ export interface Config {
     models: ModelsSelect<false> | ModelsSelect<true>;
     tags: TagsSelect<false> | TagsSelect<true>;
     suppliers: SuppliersSelect<false> | SuppliersSelect<true>;
+    clients: ClientsSelect<false> | ClientsSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
@@ -152,6 +154,8 @@ export interface UserAuthOperations {
   };
 }
 /**
+ * Administra las páginas del sitio: crea, edita y elimina páginas
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "pages".
  */
@@ -219,6 +223,8 @@ export interface Page {
   _status?: ('draft' | 'published') | null;
 }
 /**
+ * Administra las publicaciones del blog: crea, edita y elimina artículos
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "posts".
  */
@@ -267,13 +273,15 @@ export interface Post {
   _status?: ('draft' | 'published') | null;
 }
 /**
+ * Administra los archivos del sitio: crea, edita y elimina archivos
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "media".
  */
 export interface Media {
   id: number;
   alt: string;
-  caption?: {
+  content?: {
     root: {
       type: string;
       children: {
@@ -336,6 +344,8 @@ export interface Media {
   };
 }
 /**
+ * Administra las categorías del sitio: crea, edita y elimina categorías
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "categories".
  */
@@ -765,6 +775,8 @@ export interface FAQBlock {
   blockType: 'faq';
 }
 /**
+ * Administra los productos del sitio: crea, edita y elimina artículos
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "products".
  */
@@ -821,6 +833,8 @@ export interface Product {
   _status?: ('draft' | 'published') | null;
 }
 /**
+ * Administra las marcas del sitio: crea, edita y elimina marcas
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "brands".
  */
@@ -901,6 +915,44 @@ export interface Supplier {
   slugLock?: boolean | null;
   credit?: string | null;
   discount?: number | null;
+  updatedAt: string;
+  createdAt: string;
+  deletedAt?: string | null;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * Administra los clientes del sitio: crea, edita y elimina clientes
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "clients".
+ */
+export interface Client {
+  id: number;
+  title: string;
+  companyName?: string | null;
+  heroImage?: (number | null) | Media;
+  content?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  contact?: string | null;
+  email?: string | null;
+  phone?: string | null;
+  address?: string | null;
+  website?: string | null;
+  slug: string;
+  slugLock?: boolean | null;
   updatedAt: string;
   createdAt: string;
   deletedAt?: string | null;
@@ -1135,6 +1187,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'suppliers';
         value: number | Supplier;
+      } | null)
+    | ({
+        relationTo: 'clients';
+        value: number | Client;
       } | null)
     | ({
         relationTo: 'redirects';
@@ -1388,7 +1444,7 @@ export interface PostsSelect<T extends boolean = true> {
  */
 export interface MediaSelect<T extends boolean = true> {
   alt?: T;
-  caption?: T;
+  content?: T;
   updatedAt?: T;
   createdAt?: T;
   deletedAt?: T;
@@ -1603,6 +1659,27 @@ export interface SuppliersSelect<T extends boolean = true> {
   slugLock?: T;
   credit?: T;
   discount?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  deletedAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "clients_select".
+ */
+export interface ClientsSelect<T extends boolean = true> {
+  title?: T;
+  companyName?: T;
+  heroImage?: T;
+  content?: T;
+  contact?: T;
+  email?: T;
+  phone?: T;
+  address?: T;
+  website?: T;
+  slug?: T;
+  slugLock?: T;
   updatedAt?: T;
   createdAt?: T;
   deletedAt?: T;
