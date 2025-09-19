@@ -10,7 +10,15 @@ const NEXT_PUBLIC_SERVER_URL = process.env.VERCEL_PROJECT_PRODUCTION_URL
 const nextConfig = {
   experimental: {
     typedRoutes: true,
-    optimizePackageImports: ['motion'],
+    optimizePackageImports: [
+      'motion',
+      '@number-flow/react',
+      'next-share',
+      'qrcode',
+      'media-chrome',
+      'next-view-transitions',
+    ],
+    optimizeCss: true,
   },
   images: {
     remotePatterns: [

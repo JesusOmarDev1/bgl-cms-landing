@@ -15,7 +15,7 @@ import {
 
 import { MediaBlock } from '../../blocks/MediaBlock/config'
 import { isAdminOrEditor } from '@/access/isAdminOrEditor'
-import { isAdmin } from '@/access/isAdmin'
+import { isAdmin, isAdminFieldLevel } from '@/access/isAdmin'
 import { isAuthenticatedOrPublished } from '@/access/isLoggedInOrPublished'
 import { slugField } from '@/fields/slug'
 import {
@@ -100,19 +100,6 @@ export const Products: CollectionConfig = {
               },
             },
             {
-              name: 'categories',
-              type: 'relationship',
-              label: {
-                en: 'Categories',
-                es: 'Categorías',
-              },
-              admin: {
-                position: 'sidebar',
-              },
-              hasMany: true,
-              relationTo: 'categories',
-            },
-            {
               name: 'brand',
               type: 'relationship',
               label: {
@@ -133,6 +120,21 @@ export const Products: CollectionConfig = {
               required: true,
             },
             {
+              name: 'categories',
+              type: 'relationship',
+              label: {
+                en: 'Categories',
+                es: 'Categorías',
+              },
+              admin: {
+                position: 'sidebar',
+                description:
+                  'Puede ser una categoria general o una categoria de subcategoria por ejemplo "Basculas", "Consumibles", etc.',
+              },
+              hasMany: true,
+              relationTo: 'categories',
+            },
+            {
               name: 'tags',
               type: 'relationship',
               label: {
@@ -143,6 +145,8 @@ export const Products: CollectionConfig = {
               hasMany: true,
               admin: {
                 position: 'sidebar',
+                description:
+                  'Etiquetas que ayudan a clasificar el producto por ejemplo "#Basculas Comerciales", "#Basculas de renta", etc.',
               },
             },
             {
@@ -382,8 +386,7 @@ export const Products: CollectionConfig = {
           fields: [
             {
               name: 'maxCapacity',
-              type: 'number',
-              min: 0,
+              type: 'text',
               label: {
                 en: 'Max Capacity',
                 es: 'Capacidad Máxima',
@@ -391,9 +394,30 @@ export const Products: CollectionConfig = {
               required: true,
             },
             {
+              name: 'minCapacity',
+              type: 'text',
+              label: {
+                en: 'Min Capacity',
+                es: 'Capacidad Mínima',
+              },
+              admin: {
+                description:
+                  'Este campo es el valor minimo el cual la bascula empieza a ser confiable',
+              },
+              hooks: {
+                beforeChange: [
+                  ({ siblingData, value }) => {
+                    if (siblingData.minDivision > 0) {
+                      return siblingData.minDivision * 20
+                    }
+                    return value
+                  },
+                ],
+              },
+            },
+            {
               name: 'minDivision',
-              type: 'number',
-              min: 0,
+              type: 'text',
               label: {
                 en: 'Min Division',
                 es: 'División Mínima',
@@ -409,62 +433,100 @@ export const Products: CollectionConfig = {
               },
             },
             {
-              name: 'class',
-              type: 'text',
+              name: 'classOfAccuracy',
+              type: 'select',
               label: {
-                en: 'Class',
-                es: 'Clase',
+                en: 'Class of accuracy',
+                es: 'Clase de exactitud',
               },
+              admin: {
+                description:
+                  'Toda la informacion respecto a esto se encuentra en la NOM-010-SCFI-1994',
+              },
+              options: [
+                {
+                  label: 'ESPECIAL I',
+                  value: 'especial',
+                },
+                {
+                  label: 'FINA II',
+                  value: 'fina',
+                },
+                {
+                  label: 'MEDIA III',
+                  value: 'media',
+                },
+                {
+                  label: 'ORDINARIA IV',
+                  value: 'ordinaria',
+                },
+              ],
             },
             {
-              name: 'material',
-              type: 'text',
-              label: {
-                en: 'Material',
-                es: 'Material',
-              },
+              label: 'Material, Voltaje y Temperaturas',
+              type: 'group',
+              fields: [
+                {
+                  name: 'material',
+                  type: 'text',
+                  admin: {
+                    description: 'Puede ser Aluminio, Acero Inoxidable, Acero, etc.',
+                  },
+                  label: {
+                    en: 'Material',
+                    es: 'Material',
+                  },
+                },
+                {
+                  name: 'voltage',
+                  type: 'text',
+                  admin: {
+                    description: 'Puede ser DC o AC',
+                  },
+                  label: {
+                    en: 'Voltage',
+                    es: 'Voltaje',
+                  },
+                },
+                {
+                  name: 'operationTemperature',
+                  type: 'text',
+                  label: {
+                    en: 'Temperature of operation (°C)',
+                    es: 'Temperatura de operación (°C)',
+                  },
+                },
+                {
+                  name: 'storageTemperature',
+                  type: 'text',
+                  label: {
+                    en: 'Temperature of storage (°C)',
+                    es: 'Temperatura de almacenamiento (°C)',
+                  },
+                },
+              ],
             },
             {
-              name: 'voltage',
-              type: 'text',
-              label: {
-                en: 'Voltage',
-                es: 'Voltaje',
-              },
-            },
-            {
-              name: 'operationTemperature',
-              type: 'number',
-              min: 0,
-              label: {
-                en: 'Temperature of operation (°C)',
-                es: 'Temperatura de operación (°C)',
-              },
-            },
-            {
-              name: 'storageTemperature',
-              type: 'number',
-              min: 0,
-              label: {
-                en: 'Temperature of storage (°C)',
-                es: 'Temperatura de almacenamiento (°C)',
-              },
-            },
-            {
-              name: 'structureDimensions',
-              type: 'text',
-              label: {
-                en: 'Dimensions of the structure',
-                es: 'Dimensiones de la estructura',
-              },
-            },
-            {
-              name: 'plateDimensions',
-              type: 'text',
-              label: {
-                en: 'Dimensions of the plate',
-                es: 'Dimensiones de el plato',
-              },
+              label: 'Dimensiones del producto',
+              type: 'group',
+              fields: [
+                {
+                  name: 'structureDimensions',
+                  type: 'text',
+                  label: {
+                    en: 'Dimensions of the structure',
+                    es: 'Dimensiones de la estructura',
+                  },
+                },
+                {
+                  name: 'plateDimensions',
+                  type: 'text',
+                  label: {
+                    en: 'Dimensions of the plate',
+                    es: 'Dimensiones de el plato',
+                  },
+                },
+              ],
             },
           ],
         },
@@ -529,6 +591,7 @@ export const Products: CollectionConfig = {
       name: 'price',
       type: 'number',
       min: 0,
+
       label: {
         en: 'Price (MXN)',
         es: 'Precio (MXN)',
@@ -547,6 +610,34 @@ export const Products: CollectionConfig = {
       },
       admin: {
         position: 'sidebar',
+      },
+    },
+    {
+      name: 'total',
+      type: 'number',
+      min: 0,
+      label: {
+        en: 'Total (MXN)',
+        es: 'Total (MXN)',
+      },
+      admin: {
+        position: 'sidebar',
+      },
+      hooks: {
+        beforeChange: [
+          ({ siblingData, value }) => {
+            if (siblingData.discount > 0) {
+              return siblingData.price - siblingData.discount
+            } else if (siblingData.discount === 0) {
+              return siblingData.price
+            }
+            return value
+          },
+        ],
+      },
+      access: {
+        update: isAdminFieldLevel,
+        create: isAdminFieldLevel,
       },
     },
     {

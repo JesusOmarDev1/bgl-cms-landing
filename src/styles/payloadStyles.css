@@ -54,6 +54,8 @@
 .table-wrap,
 .table,
 .condition-value-text,
+.block-search__input,
+.thumbnail-card,
 table {
   @apply rounded-[var(--radius-lg)];
 }
@@ -150,4 +152,8 @@ table {
 
 .custom-view-description {
   @apply py-2;
+}
+
+.tabs-field__tabs-wrap {
+  @apply my-4;
 }

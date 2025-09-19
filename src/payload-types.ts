@@ -581,6 +581,8 @@ export interface FormBlock {
   blockType: 'formBlock';
 }
 /**
+ * Esta es una colección de formularios que se crean en el CMS. Estos formularios son utilizados por el formulario de envío del sitio.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "forms".
  */
@@ -694,11 +696,21 @@ export interface Form {
             blockName?: string | null;
             blockType: 'textarea';
           }
+        | {
+            name: string;
+            label?: string | null;
+            width?: number | null;
+            required?: boolean | null;
+            defaultValue?: string | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'date';
+          }
       )[]
     | null;
   submitButtonLabel?: string | null;
   /**
-   * Choose whether to display an on-page message or redirect to a different page after they submit the form.
+   * Elija si desea mostrar un mensaje en la página o redirigir a una página diferente después de enviar el formulario.
    */
   confirmationType?: ('message' | 'redirect') | null;
   confirmationMessage?: {
@@ -717,21 +729,44 @@ export interface Form {
     [k: string]: unknown;
   } | null;
   redirect?: {
-    url: string;
+    type?: ('reference' | 'custom') | null;
+    reference?: {
+      relationTo: 'pages';
+      value: number | Page;
+    } | null;
+    url?: string | null;
   };
   /**
-   * Send custom emails when the form submits. Use comma separated lists to send the same email to multiple recipients. To reference a value from this form, wrap that field's name with double curly brackets, i.e. {{firstName}}. You can use a wildcard {{*}} to output all data and {{*:table}} to format it as an HTML table in the email.
+   * Envíe correos electrónicos personalizados al enviar el formulario. Use listas separadas por comas para enviar el mismo correo electrónico a varios destinatarios. Para hacer referencia a un valor de este formulario, escriba el nombre del campo entre llaves dobles, por ejemplo, {{firstName}}. Puede usar el comodín {{*}} para mostrar todos los datos y {{*:table}} para formatearlos como una tabla HTML en el correo electrónico.
    */
   emails?:
     | {
+        /**
+         * Direcciones de correo electrónico de los destinatarios principales. Separar múltiples direcciones con comas.
+         */
         emailTo?: string | null;
+        /**
+         * Direcciones de correo electrónico que recibirán una copia visible del mensaje.
+         */
         cc?: string | null;
+        /**
+         * Direcciones de correo electrónico que recibirán una copia oculta del mensaje.
+         */
         bcc?: string | null;
+        /**
+         * Dirección de correo electrónico a la que se enviarán las respuestas.
+         */
         replyTo?: string | null;
+        /**
+         * Dirección de correo electrónico del remitente del mensaje.
+         */
         emailFrom?: string | null;
+        /**
+         * Asunto del correo electrónico. Puede usar variables dinámicas como {{nombreCampo}}.
+         */
         subject: string;
         /**
-         * Enter the message that should be sent in this email.
+         * Contenido del correo electrónico. Use {{nombreCampo}} para variables dinámicas, {{*}} para todos los datos, o {{*:table}} para formato de tabla.
          */
         message?: {
           root: {
@@ -753,6 +788,7 @@ export interface Form {
     | null;
   updatedAt: string;
   createdAt: string;
+  deletedAt?: string | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -793,9 +829,15 @@ export interface FAQBlock {
 export interface Product {
   id: number;
   title: string;
-  categories?: (number | Category)[] | null;
   brand: number | Brand;
   model: number | Model;
+  /**
+   * Puede ser una categoria general o una categoria de subcategoria por ejemplo "Basculas", "Consumibles", etc.
+   */
+  categories?: (number | Category)[] | null;
+  /**
+   * Etiquetas que ayudan a clasificar el producto por ejemplo "#Basculas Comerciales", "#Basculas de renta", etc.
+   */
   tags?: (number | Tag)[] | null;
   heroImage: number | Media;
   content: {
@@ -813,14 +855,27 @@ export interface Product {
     };
     [k: string]: unknown;
   };
-  maxCapacity: number;
-  minDivision: number;
+  maxCapacity: string;
+  /**
+   * Este campo es el valor minimo el cual la bascula empieza a ser confiable
+   */
+  minCapacity?: string | null;
+  minDivision: string;
   multirange?: boolean | null;
-  class?: string | null;
+  /**
+   * Toda la informacion respecto a esto se encuentra en la NOM-010-SCFI-1994
+   */
+  classOfAccuracy?: ('especial' | 'fina' | 'media' | 'ordinaria') | null;
+  /**
+   * Puede ser Aluminio, Acero Inoxidable, Acero, etc.
+   */
   material?: string | null;
+  /**
+   * Puede ser DC o AC
+   */
   voltage?: string | null;
-  operationTemperature?: number | null;
-  storageTemperature?: number | null;
+  operationTemperature?: string | null;
+  storageTemperature?: string | null;
   structureDimensions?: string | null;
   plateDimensions?: string | null;
   meta?: {
@@ -836,6 +891,7 @@ export interface Product {
   slugLock?: boolean | null;
   price?: number | null;
   discount?: number | null;
+  total?: number | null;
   stock: number;
   updatedAt: string;
   createdAt: string;
@@ -888,6 +944,15 @@ export interface Tag {
     | null;
   slug: string;
   slugLock?: boolean | null;
+  parent?: (number | null) | Tag;
+  breadcrumbs?:
+    | {
+        doc?: (number | null) | Tag;
+        url?: string | null;
+        label?: string | null;
+        id?: string | null;
+      }[]
+    | null;
   updatedAt: string;
   createdAt: string;
   deletedAt?: string | null;
@@ -973,6 +1038,8 @@ export interface Client {
   _status?: ('draft' | 'published') | null;
 }
 /**
+ * Esta es una colección de redirecciones de URL que se crean en el CMS. Estas redirecciones son utilizadas por el sitio web.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects".
  */
@@ -982,18 +1049,28 @@ export interface Redirect {
    * Necesitará reconstruir el sitio web cuando cambie este campo.
    */
   from: string;
+  /**
+   * Necesitará reconstruir el sitio web cuando cambie este campo.
+   */
   to?: {
     type?: ('reference' | 'custom') | null;
-    reference?: {
-      relationTo: 'posts';
-      value: number | Post;
-    } | null;
+    reference?:
+      | ({
+          relationTo: 'posts';
+          value: number | Post;
+        } | null)
+      | ({
+          relationTo: 'pages';
+          value: number | Page;
+        } | null);
     url?: string | null;
   };
   updatedAt: string;
   createdAt: string;
 }
 /**
+ * Esta es una colección de formularios de envío generados automáticamente. Estos formularios son utilizados por el formulario de envío del sitio y se actualizan automáticamente a medida que se crean o actualizan documentos en el CMS.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "form-submissions".
  */
@@ -1011,7 +1088,7 @@ export interface FormSubmission {
   createdAt: string;
 }
 /**
- * This is a collection of automatically created search results. These results are used by the global site search and will be updated automatically as documents in the CMS are created or updated.
+ * Esta es una colección de resultados de búsqueda generados automáticamente. Estos resultados son utilizados por la búsqueda global del sitio y se actualizan automáticamente a medida que se crean o actualizan documentos en el CMS.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "search".
@@ -1586,16 +1663,17 @@ export interface UsersSelect<T extends boolean = true> {
  */
 export interface ProductsSelect<T extends boolean = true> {
   title?: T;
-  categories?: T;
   brand?: T;
   model?: T;
+  categories?: T;
   tags?: T;
   heroImage?: T;
   content?: T;
   maxCapacity?: T;
+  minCapacity?: T;
   minDivision?: T;
   multirange?: T;
-  class?: T;
+  classOfAccuracy?: T;
   material?: T;
   voltage?: T;
   operationTemperature?: T;
@@ -1614,6 +1692,7 @@ export interface ProductsSelect<T extends boolean = true> {
   slugLock?: T;
   price?: T;
   discount?: T;
+  total?: T;
   stock?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -1659,6 +1738,15 @@ export interface TagsSelect<T extends boolean = true> {
       };
   slug?: T;
   slugLock?: T;
+  parent?: T;
+  breadcrumbs?:
+    | T
+    | {
+        doc?: T;
+        url?: T;
+        label?: T;
+        id?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
   deletedAt?: T;
@@ -1834,6 +1922,17 @@ export interface FormsSelect<T extends boolean = true> {
               id?: T;
               blockName?: T;
             };
+        date?:
+          | T
+          | {
+              name?: T;
+              label?: T;
+              width?: T;
+              required?: T;
+              defaultValue?: T;
+              id?: T;
+              blockName?: T;
+            };
       };
   submitButtonLabel?: T;
   confirmationType?: T;
@@ -1841,6 +1940,8 @@ export interface FormsSelect<T extends boolean = true> {
   redirect?:
     | T
     | {
+        type?: T;
+        reference?: T;
         url?: T;
       };
   emails?:
@@ -1857,6 +1958,7 @@ export interface FormsSelect<T extends boolean = true> {
       };
   updatedAt?: T;
   createdAt?: T;
+  deletedAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

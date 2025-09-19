@@ -14,6 +14,9 @@ declare global {
       GMAIL_USER: string
       GMAIL_PASS: string
       GMAIL_NAME: string
+      RESEND_API_KEY: string
+      RESEND_DEFAULT_EMAIL: string
+      RESEND_DEFAULT_NAME: string
     }
   }
 }

@@ -6,28 +6,8 @@ import React, { Suspense } from 'react'
 import type { Post } from '@/payload-types'
 
 import { Media } from '@/components/Media'
-import { Button } from '../ui/button'
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '../ui/card'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card'
 import { Skeleton } from '../ui/skeleton'
-import { ArrowUpRight, Share2 } from 'lucide-react'
-
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '../ui/dropdown-menu'
-import {
-  WhatsappIcon,
-  WhatsappShareButton,
-  FacebookShareButton,
-  FacebookIcon,
-  TwitterShareButton,
-  TwitterIcon,
-  TelegramShareButton,
-  TelegramIcon,
-} from 'next-share'
 import { Badge } from '../ui/badge'
 import { formatDateTime } from '@/utilities/formatDateTime'
 
