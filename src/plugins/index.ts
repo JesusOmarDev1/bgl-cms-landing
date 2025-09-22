@@ -1,3 +1,4 @@
+import { fields } from './../blocks/Form/fields'
 import { payloadCloudPlugin } from '@payloadcms/payload-cloud'
 import { formBuilderPlugin } from '@payloadcms/plugin-form-builder'
 import { nestedDocsPlugin } from '@payloadcms/plugin-nested-docs'
@@ -33,7 +34,6 @@ export const plugins: Plugin[] = [
   redirectsPlugin({
     collections: ['posts', 'pages'],
     overrides: {
-      // @ts-expect-error - This is a valid override, mapped fields don't resolve to the same type
       fields: ({ defaultFields }) => {
         return defaultFields.map((field) => {
           if ('name' in field && field.name === 'from') {
@@ -45,12 +45,39 @@ export const plugins: Plugin[] = [
               },
             }
           } else if ('name' in field && field.name === 'to') {
+            const toField = field as any
             return {
-              ...field,
+              ...toField,
               label: 'URL de destino',
               admin: {
                 description: 'Necesitará reconstruir el sitio web cuando cambie este campo.',
               },
+              fields: toField.fields
+                ? toField.fields.map((subfield: any) => {
+                    if (subfield.name === 'type') {
+                      return {
+                        ...subfield,
+                        label: 'Tipo de URL',
+                        admin: {
+                          description: 'Seleccione si desea redirigir a una URL interna o externa.',
+                        },
+                        options: subfield.options?.map((option: any) => ({
+                          ...option,
+                          label:
+                            option.value === 'reference'
+                              ? 'Referencia interna'
+                              : option.value === 'custom'
+                                ? 'URL personalizada'
+                                : option.label,
+                        })) || [
+                          { label: 'Referencia interna', value: 'reference' },
+                          { label: 'URL personalizada', value: 'custom' },
+                        ],
+                      }
+                    }
+                    return subfield
+                  })
+                : [],
             }
           }
           return field

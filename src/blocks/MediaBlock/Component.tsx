@@ -7,6 +7,7 @@ import RichText from '@/components/RichText'
 import type { MediaBlock as MediaBlockProps } from '@/payload-types'
 
 import { Media } from '../../components/Media'
+import { AspectRatio } from '@/components/ui/aspect-ratio'
 
 type Props = MediaBlockProps & {
   breakout?: boolean
@@ -43,11 +44,13 @@ export const MediaBlock: React.FC<Props> = (props) => {
       )}
     >
       {(media || staticImage) && (
-        <Media
-          imgClassName={cn('border border-border rounded-[0.8rem]', imgClassName)}
-          resource={media}
-          src={staticImage}
-        />
+        <AspectRatio ratio={1 / 1}>
+          <Media
+            imgClassName={cn('border border-border rounded-[0.8rem]', imgClassName)}
+            resource={media}
+            src={staticImage}
+          />
+        </AspectRatio>
       )}
       {caption && (
         <div

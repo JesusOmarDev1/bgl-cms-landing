@@ -62,7 +62,7 @@ export const Media: CollectionConfig = {
     },
   ],
   upload: {
-    mimeTypes: ['image/*', 'video/*'],
+    mimeTypes: ['image/*', 'video/mp4'],
     adminThumbnail: 'thumbnail',
     focalPoint: true,
     crop: true,

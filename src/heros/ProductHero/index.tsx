@@ -7,6 +7,7 @@ import { Media } from '@/components/Media'
 import { Separator } from '@/components/ui/separator'
 import { readingTime } from 'reading-time-estimator'
 import { Badge } from '@/components/ui/badge'
+import { AspectRatio } from '@/components/ui/aspect-ratio'
 
 export const ProductHero: React.FC<{
   product: Product
@@ -113,8 +114,10 @@ export const ProductHero: React.FC<{
           )}
 
           {heroImage && typeof heroImage !== 'string' && (
-            <div className="relative mb-8 mt-4 aspect-video w-full rounded-lg border overflow-hidden">
-              <Media fill priority resource={heroImage} className="object-cover" />
+            <div className="relative mb-8 mt-4 w-full rounded-lg border overflow-hidden">
+              <AspectRatio ratio={1 / 1}>
+                <Media priority resource={heroImage} />
+              </AspectRatio>
             </div>
           )}
         </div>

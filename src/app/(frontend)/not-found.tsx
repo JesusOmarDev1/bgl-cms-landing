@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button'
 
 export default function NotFound() {
   return (
-    <div className="flex items-center justify-center px-4">
+    <div className="flex items-center justify-center px-4 -mt-24 h-dvh w-full">
       <div className="max-w-2xl mx-auto text-center">
         <div>
           <h1 className="text-8xl font-bold mb-4">404</h1>
@@ -18,10 +18,17 @@ export default function NotFound() {
 
         <div className="space-y-2">
           <Button asChild size="lg">
-            <Link href="/">Volver al inicio</Link>
+            <Link prefetch href="/">
+              Volver al inicio
+            </Link>
           </Button>
 
-          <p>¿Necesitas ayuda? Contacta con nuestro equipo de soporte técnico</p>
+          <p className="text-sm tetx-zinc-500">
+            ¿Necesitas ayuda? Contacta con nuestro{' '}
+            <Link prefetch href={'/support'} className="underline hover:text-primary">
+              equipo de soporte técnico
+            </Link>
+          </p>
         </div>
       </div>
     </div>

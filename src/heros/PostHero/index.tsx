@@ -9,6 +9,7 @@ import { Badge } from '@/components/ui/badge'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { Separator } from '@/components/ui/separator'
 import { readingTime } from 'reading-time-estimator'
+import { AspectRatio } from '@/components/ui/aspect-ratio'
 
 export const PostHero: React.FC<{
   post: Post
@@ -112,27 +113,17 @@ export const PostHero: React.FC<{
             {readingTimeToUse && <span>{readingTimeToUse}</span>}
           </div>
 
-          {/* Title */}
           <h1 className="max-w-3xl text-pretty text-5xl font-semibold md:text-6xl">{title}</h1>
 
-          {/* Description */}
           {description && (
             <h3 className="text-muted-foreground max-w-3xl text-lg md:text-xl">{description}</h3>
           )}
 
-          {/* Author and Date */}
-          <div className="flex items-center gap-3 text-sm md:text-base">
-            <Avatar className="h-8 w-8 border">
-              <AvatarFallback className="bg-primary/10 text-primary font-semibold">
-                {authorName?.charAt(0)?.toUpperCase() || 'A'}
-              </AvatarFallback>
-            </Avatar>
-            <span>{authorName}</span>
-          </div>
-
           {heroImage && typeof heroImage !== 'string' && (
-            <div className="relative mb-8 mt-4 aspect-video w-full rounded-lg border overflow-hidden">
-              <Media fill priority resource={heroImage} className="object-cover" />
+            <div className="relative mb-8 mt-4 w-full rounded-lg border overflow-hidden">
+              <AspectRatio ratio={1 / 1}>
+                <Media priority resource={heroImage} />
+              </AspectRatio>
             </div>
           )}
         </div>

@@ -104,6 +104,7 @@ export const StoryVideo = ({ className, ...props }: StoryVideoProps) => {
       )}
       loop
       muted
+      playsInline
       onBlur={handleBlur}
       onFocus={handleFocus}
       onMouseOut={handleMouseOut}

@@ -92,8 +92,22 @@ export const VideoPlayerMuteButton = ({ className, ...props }: VideoPlayerMuteBu
   <MediaMuteButton className={cn('p-2.5', className)} {...props} />
 )
 
-export type VideoPlayerContentProps = ComponentProps<'video'>
+export type VideoPlayerContentProps = ComponentProps<'video'> & {
+  source: string | undefined
+}
 
-export const VideoPlayerContent = ({ className, ...props }: VideoPlayerContentProps) => (
-  <video className={cn('mt-0 mb-0', className)} {...props} />
+export const VideoPlayerContent = ({ className, source, ...props }: VideoPlayerContentProps) => (
+  <video
+    slot="media"
+    playsInline
+    autoPlay
+    muted
+    preload="none"
+    loop
+    className={cn('mt-0 mb-0', className)}
+    {...props}
+  >
+    <source src={source || ''} type="video/mp4" />
+    Tu navegador no soporta el video.
+  </video>
 )

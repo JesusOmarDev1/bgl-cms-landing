@@ -57,9 +57,6 @@ export const ProductSchema = (props: Product) => {
   const categories = props.categories as Category[]
   const metaImage = props.meta?.image as Media
 
-  const finalPrice =
-    props.price && props.discount ? props.price - (props.price * props.discount) / 100 : props.price
-
   return {
     '@context': 'https://schema.org',
     '@type': 'Product',
@@ -75,17 +72,15 @@ export const ProductSchema = (props: Product) => {
       ?.map((cat) => (typeof cat === 'object' ? cat.title : undefined))
       .filter(Boolean)
       .join(', '),
-    image: heroImage?.url
-      ? `${process.env.S3_ENDPOINT}/${heroImage.filename}`
-      : metaImage?.url
-        ? `${process.env.S3_ENDPOINT}/${metaImage.filename}`
-        : undefined,
+    image:
+      `${process.env.S3_ENDPOINT}/${heroImage.filename}` ||
+      `${process.env.S3_ENDPOINT}/${metaImage.filename}`,
     url: `${url}/products/${props.slug}`,
     sku: props.id.toString(),
-    offers: props.price
+    offers: props.total
       ? {
           '@type': 'Offer',
-          price: finalPrice,
+          price: props.total,
           priceCurrency: 'MXN',
           availability:
             props.stock > 0 ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
@@ -106,11 +101,11 @@ export const ProductSchema = (props: Product) => {
         name: 'División Mínima',
         value: `${props.minDivision} g`,
       },
-      props.class
+      props.classOfAccuracy
         ? {
             '@type': 'PropertyValue',
-            name: 'Clase',
-            value: props.class,
+            name: 'Clase de exactitud',
+            value: props.classOfAccuracy,
           }
         : null,
       props.material

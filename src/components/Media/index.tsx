@@ -19,11 +19,7 @@ export const Media: React.FC<Props> = (props) => {
           }
         : {})}
     >
-      {isVideo ? (
-        <VideoMedia {...props} />
-      ) : (
-        <ImageMedia className="relative aspect-auto object-cover" {...props} />
-      )}
+      {isVideo ? <VideoMedia {...props} /> : <ImageMedia {...props} />}
     </Tag>
   )
 }

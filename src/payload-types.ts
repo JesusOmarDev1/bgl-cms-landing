@@ -855,29 +855,6 @@ export interface Product {
     };
     [k: string]: unknown;
   };
-  maxCapacity: string;
-  /**
-   * Este campo es el valor minimo el cual la bascula empieza a ser confiable
-   */
-  minCapacity?: string | null;
-  minDivision: string;
-  multirange?: boolean | null;
-  /**
-   * Toda la informacion respecto a esto se encuentra en la NOM-010-SCFI-1994
-   */
-  classOfAccuracy?: ('especial' | 'fina' | 'media' | 'ordinaria') | null;
-  /**
-   * Puede ser Aluminio, Acero Inoxidable, Acero, etc.
-   */
-  material?: string | null;
-  /**
-   * Puede ser DC o AC
-   */
-  voltage?: string | null;
-  operationTemperature?: string | null;
-  storageTemperature?: string | null;
-  structureDimensions?: string | null;
-  plateDimensions?: string | null;
   meta?: {
     title?: string | null;
     /**
@@ -1053,6 +1030,9 @@ export interface Redirect {
    * Necesitará reconstruir el sitio web cuando cambie este campo.
    */
   to?: {
+    /**
+     * Seleccione si desea redirigir a una URL interna o externa.
+     */
     type?: ('reference' | 'custom') | null;
     reference?:
       | ({
@@ -1669,17 +1649,6 @@ export interface ProductsSelect<T extends boolean = true> {
   tags?: T;
   heroImage?: T;
   content?: T;
-  maxCapacity?: T;
-  minCapacity?: T;
-  minDivision?: T;
-  multirange?: T;
-  classOfAccuracy?: T;
-  material?: T;
-  voltage?: T;
-  operationTemperature?: T;
-  storageTemperature?: T;
-  structureDimensions?: T;
-  plateDimensions?: T;
   meta?:
     | T
     | {

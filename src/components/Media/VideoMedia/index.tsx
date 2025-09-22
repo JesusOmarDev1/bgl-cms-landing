@@ -1,5 +1,18 @@
 'use client'
 
+import {
+  VideoPlayer,
+  VideoPlayerContent,
+  VideoPlayerControlBar,
+  VideoPlayerMuteButton,
+  VideoPlayerPlayButton,
+  VideoPlayerSeekBackwardButton,
+  VideoPlayerSeekForwardButton,
+  VideoPlayerTimeDisplay,
+  VideoPlayerTimeRange,
+  VideoPlayerVolumeRange,
+} from '@/components/ui/video-player'
+
 import { cn } from '@/utilities/ui'
 import React, { useEffect, useRef } from 'react'
 
@@ -27,18 +40,23 @@ export const VideoMedia: React.FC<MediaProps> = (props) => {
     const { filename } = resource
 
     return (
-      <video
-        autoPlay
-        className={cn(videoClassName)}
-        controls={false}
-        loop
-        muted
-        onClick={onClick}
-        playsInline
-        ref={videoRef}
-      >
-        <source src={getMediaUrl(`/media/${filename}`)} />
-      </video>
+      <VideoPlayer className="overflow-hidden rounded-lg border">
+        <VideoPlayerContent
+          onClick={onClick}
+          className={cn(videoClassName)}
+          ref={videoRef}
+          source={getMediaUrl(`/media/${filename}`) || ''}
+        />
+        <VideoPlayerControlBar>
+          <VideoPlayerPlayButton />
+          <VideoPlayerSeekBackwardButton />
+          <VideoPlayerSeekForwardButton />
+          <VideoPlayerTimeRange />
+          <VideoPlayerTimeDisplay showDuration />
+          <VideoPlayerMuteButton />
+          <VideoPlayerVolumeRange />
+        </VideoPlayerControlBar>
+      </VideoPlayer>
     )
   }
 
