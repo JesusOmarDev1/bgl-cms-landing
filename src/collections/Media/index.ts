@@ -62,20 +62,21 @@ export const Media: CollectionConfig = {
     },
   ],
   upload: {
-    mimeTypes: ['image/*', 'video/mp4'],
+    mimeTypes: ['image/*', 'video/mp4', 'application/pdf'],
     adminThumbnail: 'thumbnail',
     focalPoint: true,
     crop: true,
-    // Configuración global para convertir automáticamente a WebP
+    displayPreview: true,
     formatOptions: {
       format: 'webp',
       options: {
-        quality: 85,
-        effort: 4, // Mejor compresión (0-6, más alto = mejor compresión)
+        quality: 70,
+        effort: 6,
         lossless: false,
         nearLossless: false,
-        smartSubsample: true, // Mejor calidad en bordes
-        alphaQuality: 100, // Calidad del canal alpha
+        smartSubsample: true,
+        alphaQuality: 100,
+        force: true,
       },
     },
     imageSizes: [
@@ -86,6 +87,14 @@ export const Media: CollectionConfig = {
         height: 300,
         crop: 'center',
         position: 'center',
+        formatOptions: {
+          format: 'webp',
+          options: {
+            quality: 70,
+            effort: 6,
+            force: true,
+          },
+        },
       },
       // Small - For mobile devices and small cards
       {
@@ -94,6 +103,14 @@ export const Media: CollectionConfig = {
         height: 360,
         crop: 'center',
         position: 'center',
+        formatOptions: {
+          format: 'webp',
+          options: {
+            quality: 70,
+            effort: 6,
+            force: true,
+          },
+        },
       },
       // Medium - For medium-sized displays and cards
       {
@@ -102,6 +119,14 @@ export const Media: CollectionConfig = {
         height: 576,
         fit: 'inside',
         position: 'center',
+        formatOptions: {
+          format: 'webp',
+          options: {
+            quality: 70,
+            effort: 6,
+            force: true,
+          },
+        },
       },
       // Large - For large displays and full-width content
       {
@@ -113,7 +138,9 @@ export const Media: CollectionConfig = {
         formatOptions: {
           format: 'webp',
           options: {
-            quality: 80,
+            quality: 75,
+            effort: 6,
+            force: true,
           },
         },
       },
@@ -124,6 +151,14 @@ export const Media: CollectionConfig = {
         height: 630,
         crop: 'center',
         position: 'center',
+        formatOptions: {
+          format: 'webp',
+          options: {
+            quality: 70,
+            effort: 6,
+            force: true,
+          },
+        },
       },
     ],
   },

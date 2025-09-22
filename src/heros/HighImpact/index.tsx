@@ -7,6 +7,7 @@ import type { Page } from '@/payload-types'
 import { CMSLink } from '@/components/Link'
 import { Media } from '@/components/Media'
 import RichText from '@/components/RichText'
+import { AspectRatio } from '@/components/ui/aspect-ratio'
 
 export const HighImpactHero: React.FC<Page['hero']> = ({ links, media, richText }) => {
   const { setHeaderTheme } = useHeaderTheme()
@@ -16,10 +17,7 @@ export const HighImpactHero: React.FC<Page['hero']> = ({ links, media, richText 
   })
 
   return (
-    <div
-      className="relative -mt-[10.4rem] flex items-center justify-center text-white"
-      data-theme="dark"
-    >
+    <div className="relative flex items-center justify-center text-white -mt-24" data-theme="dark">
       <div className="container mb-8 z-10 relative flex items-center justify-center">
         <div className="max-w-146 md:text-center">
           {richText && <RichText className="mb-6" data={richText} enableGutter={false} />}
@@ -38,7 +36,9 @@ export const HighImpactHero: React.FC<Page['hero']> = ({ links, media, richText 
       </div>
       <div className="min-h-[80vh] select-none">
         {media && typeof media === 'object' && (
-          <Media fill imgClassName="-z-10 object-cover" priority resource={media} />
+          <AspectRatio ratio={1 / 1}>
+            <Media priority resource={media} />
+          </AspectRatio>
         )}
       </div>
     </div>

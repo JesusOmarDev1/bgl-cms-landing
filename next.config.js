@@ -50,6 +50,9 @@ const nextConfig = {
 
     return webpackConfig
   },
+  turbopack: {
+    resolveExtensions: ['.cjs', '.js', '.mjs', '.ts', '.tsx'],
+  },
   reactStrictMode: true,
   redirects,
 }

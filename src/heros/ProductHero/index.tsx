@@ -6,13 +6,18 @@ import type { Product } from '@/payload-types'
 import { Media } from '@/components/Media'
 import { Separator } from '@/components/ui/separator'
 import { readingTime } from 'reading-time-estimator'
-import { Badge } from '@/components/ui/badge'
 import { AspectRatio } from '@/components/ui/aspect-ratio'
+import Categories from '@/components/ui/categories'
 
 export const ProductHero: React.FC<{
   product: Product
 }> = ({ product }) => {
-  const { categories, heroImage, publishedAt, title, meta, content } = product
+  const { categories, heroImage, publishedAt, title, meta, content, brand, model } = product
+
+  // Simple brand and model titles
+  const brandTitle = typeof brand === 'object' ? brand.title : null
+  const brandHeroImage = typeof brand === 'object' ? brand.heroImage : null
+  const modelTitle = typeof model === 'object' ? model.title : null
 
   // Extract plain text from content structure
   const extractTextFromContent = (contentObj: any): string => {
@@ -78,28 +83,7 @@ export const ProductHero: React.FC<{
     <section>
       <div className="container">
         <div className="mx-auto flex max-w-5xl flex-col items-center justify-center gap-2.5 text-center">
-          {/* Categories */}
-          {categories && categories.length > 0 && (
-            <div className="flex flex-wrap justify-center gap-2 mb-2">
-              {categories.map((category, index) => {
-                if (typeof category === 'object' && category !== null) {
-                  const { title: categoryTitle } = category
-                  const titleToUse = categoryTitle || 'Sin Categoria'
-
-                  return (
-                    <Badge
-                      key={index}
-                      variant="secondary"
-                      className="text-xs font-medium px-3 py-1 bg-primary/10 text-primary hover:bg-primary/20 transition-colors"
-                    >
-                      {titleToUse}
-                    </Badge>
-                  )
-                }
-                return null
-              })}
-            </div>
-          )}
+          <Categories showCategories={true} hasCategories={true} categories={categories} />
 
           <div className="flex justify-center items-center gap-2.5">
             {publishedAt && <span>{formatDateTime(publishedAt)}</span>}
@@ -108,6 +92,20 @@ export const ProductHero: React.FC<{
           </div>
 
           <h1 className="max-w-3xl text-pretty text-5xl font-semibold md:text-6xl">{title}</h1>
+
+          {brandHeroImage && typeof brandHeroImage !== 'string' && (
+            <div className="relative mb-8 mt-4 w-full rounded-lg border overflow-hidden">
+              <Media priority resource={brandHeroImage} />
+            </div>
+          )}
+
+          {(brandTitle || modelTitle) && (
+            <p className="text-xl text-muted-foreground">
+              {brandTitle && modelTitle
+                ? `${brandTitle} - ${modelTitle}`
+                : brandTitle || modelTitle}
+            </p>
+          )}
 
           {description && (
             <h3 className="text-muted-foreground max-w-3xl text-lg md:text-xl">{description}</h3>

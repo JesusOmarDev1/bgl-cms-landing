@@ -11,9 +11,6 @@ importers:
       '@hookform/resolvers':
         specifier: ^5.2.1
         version: 5.2.1(react-hook-form@7.45.4(react@19.1.0))
-      '@number-flow/react':
-        specifier: ^0.5.10
-        version: 0.5.10(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       '@payloadcms/admin-bar':
         specifier: 3.53.0
         version: 3.53.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
@@ -176,6 +173,9 @@ importers:
       embla-carousel-react:
         specifier: ^8.6.0
         version: 8.6.0(react@19.1.0)
+      frimousse:
+        specifier: ^0.3.0
+        version: 0.3.0(react@19.1.0)(typescript@5.7.3)
       fuse.js:
         specifier: ^7.1.0
         version: 7.1.0
@@ -189,7 +189,7 @@ importers:
         specifier: ^1.4.2
         version: 1.4.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       lucide-react:
-        specifier: ^0.471.2
+        specifier: ^0.471.0
         version: 0.471.2(react@19.1.0)
       media-chrome:
         specifier: 4.13.0
@@ -1796,12 +1796,6 @@ packages:
   '@nolyfill/is-core-module@1.0.39':
     resolution: {integrity: sha512-nn5ozdjYQpUCZlWGuxcJY/KpxkWQs4DcbMCmKojjyrYDEAGy4Ce19NN4v5MduafTwJlbKc99UA8YhSVqq9yPZA==}
     engines: {node: '>=12.4.0'}
-
-  '@number-flow/react@0.5.10':
-    resolution: {integrity: sha512-a8Wh5eNITn7Km4xbddAH7QH8eNmnduR6k34ER1hkHSGO4H2yU1DDnuAWLQM99vciGInFODemSc0tdxrXkJEpbA==}
-    peerDependencies:
-      react: ^18 || ^19
-      react-dom: ^18 || ^19
 
   '@payloadcms/admin-bar@3.53.0':
     resolution: {integrity: sha512-BBCaaTLPF2AqG6NXNk/RuBKmC2+r3na6uOM/WENOW3z1Hi3PmCQ1Gmh5t2CJLrvIaXCXk4OBSoI1ljbUV0z4Ug==}
@@ -4422,9 +4416,6 @@ packages:
       jiti:
         optional: true
 
-  esm-env@1.2.2:
-    resolution: {integrity: sha512-Epxrv+Nr/CaL4ZcFGPJIYLWFom+YeV1DqMLHJoEd9SYRxNbaFruBwfEX/kkHUJf55j2+TUbmDcmuilbP1TmXHA==}
-
   espree@10.4.0:
     resolution: {integrity: sha512-j6PAQ2uUr79PZhBjP5C5fhl8e39FmRnOjsD5lGnWrFU8i2G776tBK7+nP8KuQUTTyAZUwfQqXAgrVH5MbH9CYQ==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
@@ -4592,6 +4583,15 @@ packages:
       react:
         optional: true
       react-dom:
+        optional: true
+
+  frimousse@0.3.0:
+    resolution: {integrity: sha512-kO6LMoKY/cLAYEhXXtqLRaLIE6L/DagpFPrUZaLv3LsUa1/8Iza3HhwZcgN8eZ+weXnhv69eoclNUPohcCa/IQ==}
+    peerDependencies:
+      react: ^18 || ^19
+      typescript: '>=5.1.0'
+    peerDependenciesMeta:
+      typescript:
         optional: true
 
   fs.realpath@1.0.0:
@@ -5527,9 +5527,6 @@ packages:
   normalize-path@3.0.0:
     resolution: {integrity: sha512-6eZs5Ls3WtCisHWp9S2GUy8dqkpGi4BVSz3GaqiE6ezub0512ESztXUwUB6C6IKbQkY2Pnb/mD4WYojCRwcwLA==}
     engines: {node: '>=0.10.0'}
-
-  number-flow@0.5.8:
-    resolution: {integrity: sha512-FPr1DumWyGi5Nucoug14bC6xEz70A1TnhgSHhKyfqjgji2SOTz+iLJxKtv37N5JyJbteGYCm6NQ9p1O4KZ7iiA==}
 
   nwsapi@2.2.21:
     resolution: {integrity: sha512-o6nIY3qwiSXl7/LuOU0Dmuctd34Yay0yeuZRLFmDPrrdHpXKFndPj3hM+YEPVHYC5fx2otBx4Ilc/gyYSAUaIA==}
@@ -8531,13 +8528,6 @@ snapshots:
       fastq: 1.19.1
 
   '@nolyfill/is-core-module@1.0.39': {}
-
-  '@number-flow/react@0.5.10(react-dom@19.1.0(react@19.1.0))(react@19.1.0)':
-    dependencies:
-      esm-env: 1.2.2
-      number-flow: 0.5.8
-      react: 19.1.0
-      react-dom: 19.1.0(react@19.1.0)
 
   '@payloadcms/admin-bar@3.53.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)':
     dependencies:
@@ -11640,8 +11630,6 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  esm-env@1.2.2: {}
-
   espree@10.4.0:
     dependencies:
       acorn: 8.15.0
@@ -11801,6 +11789,12 @@ snapshots:
     optionalDependencies:
       react: 19.1.0
       react-dom: 19.1.0(react@19.1.0)
+
+  frimousse@0.3.0(react@19.1.0)(typescript@5.7.3):
+    dependencies:
+      react: 19.1.0
+    optionalDependencies:
+      typescript: 5.7.3
 
   fs.realpath@1.0.0: {}
 
@@ -12813,10 +12807,6 @@ snapshots:
       readable-stream: 1.0.34
 
   normalize-path@3.0.0: {}
-
-  number-flow@0.5.8:
-    dependencies:
-      esm-env: 1.2.2
 
   nwsapi@2.2.21: {}
 

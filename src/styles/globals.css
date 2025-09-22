@@ -216,6 +216,7 @@
 @layer base {
   * {
     @apply border-border outline-ring/50;
+    @apply [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-track]:bg-zinc-100 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-zinc-300 dark:[&::-webkit-scrollbar-track]:bg-zinc-700 dark:[&::-webkit-scrollbar-thumb]:bg-zinc-500;
   }
   body {
     @apply bg-background text-foreground;

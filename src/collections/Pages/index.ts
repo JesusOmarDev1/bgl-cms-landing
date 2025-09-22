@@ -90,67 +90,17 @@ export const Pages: CollectionConfig<'pages'> = {
       required: true,
     },
     {
-      type: 'tabs',
-      tabs: [
-        {
-          fields: [hero],
-          label: {
-            en: 'Hero',
-            es: 'Portada',
-          },
-        },
-        {
-          fields: [
-            {
-              name: 'layout',
-              type: 'blocks',
-              blocks: [CallToAction, Content, MediaBlock, Archive, FormBlock, FAQ],
-              required: true,
-              admin: {
-                initCollapsed: true,
-              },
-              label: {
-                en: 'Layout',
-                es: 'Diseño de Página',
-              },
-            },
-          ],
-          label: {
-            en: 'Content',
-            es: 'Contenido',
-          },
-        },
-        {
-          name: 'meta',
-          label: {
-            en: 'SEO & Metadata',
-            es: 'SEO y Metadatos',
-          },
-          fields: [
-            OverviewField({
-              titlePath: 'meta.title',
-              descriptionPath: 'meta.description',
-              imagePath: 'meta.image',
-            }),
-            MetaTitleField({
-              hasGenerateFn: true,
-            }),
-            MetaImageField({
-              relationTo: 'media',
-            }),
-
-            MetaDescriptionField({}),
-            PreviewField({
-              // if the `generateUrl` function is configured
-              hasGenerateFn: true,
-
-              // field paths to match the target field for data
-              titlePath: 'meta.title',
-              descriptionPath: 'meta.description',
-            }),
-          ],
-        },
-      ],
+      name: 'layout',
+      type: 'blocks',
+      blocks: [CallToAction, Content, MediaBlock, Archive, FormBlock, FAQ],
+      required: true,
+      admin: {
+        initCollapsed: true,
+      },
+      label: {
+        en: 'Layout',
+        es: 'Diseño de Página',
+      },
     },
     {
       name: 'publishedAt',

@@ -52,6 +52,8 @@ export default async function Page() {
       populatedAuthors: true,
       updatedAt: true,
       heroImage: true,
+      brand: true,
+      model: true,
     },
   })
 

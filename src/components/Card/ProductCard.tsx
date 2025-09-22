@@ -50,7 +50,7 @@ export const CardProducts: React.FC<{
           <div className="relative">
             <Suspense fallback={<Skeleton className="h-56 w-full" />}>
               {imageToUse && typeof imageToUse !== 'string' && typeof imageToUse !== 'number' && (
-                <AspectRatio ratio={1 / 1}>
+                <AspectRatio ratio={1 / 1} className="relative">
                   <Media priority resource={imageToUse} />
                 </AspectRatio>
               )}

@@ -59,6 +59,13 @@ export const Products: CollectionConfig = {
     total: true,
     tags: true,
     heroImage: true,
+    brand: {
+      title: true,
+      heroImage: true,
+    },
+    model: {
+      title: true,
+    },
     meta: {
       image: true,
       description: true,

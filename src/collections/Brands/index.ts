@@ -48,6 +48,19 @@ export const Brands: CollectionConfig = {
       },
       required: true,
     },
+    {
+      name: 'heroImage',
+      label: {
+        en: 'Hero Image',
+        es: 'Imagen de Portada',
+      },
+      admin: {
+        description:
+          'La imagen debe de tener la extension .svg para tener la mejor calidad posible',
+      },
+      type: 'upload',
+      relationTo: 'media',
+    },
     ...slugField(),
   ],
 }
