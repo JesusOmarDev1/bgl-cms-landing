@@ -12,7 +12,6 @@ import { Users } from './collections/Users'
 import { Footer } from './Footer/config'
 import { Header } from './Header/config'
 import { plugins } from './plugins'
-import { defaultLexical } from '@/fields/defaultLexical'
 import { getServerSideURL } from './utilities/getURL'
 import { es } from '@payloadcms/translations/languages/es'
 import { getEmailAdapter } from './lib/email'
@@ -23,6 +22,7 @@ import { Models } from './collections/Models'
 import { Tags } from './collections/Tags'
 import { Suppliers } from './collections/Suppliers'
 import { Clients } from './collections/Clients'
+import { contentLexicalEditor } from './fields/contentLexical'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -74,7 +74,7 @@ export default buildConfig({
     meta: adminMetadata,
   },
   // This config helps us configure global or default features that the other editors can inherit
-  editor: defaultLexical,
+  editor: contentLexicalEditor,
   db: sqliteAdapter({
     client: {
       url: process.env.DATABASE_URI || '',

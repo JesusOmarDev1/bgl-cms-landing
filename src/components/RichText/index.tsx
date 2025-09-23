@@ -1,3 +1,5 @@
+'use client'
+
 import { MediaBlock } from '@/blocks/MediaBlock/Component'
 import {
   DefaultNodeTypes,
@@ -15,16 +17,27 @@ import { CodeBlock, CodeBlockProps } from '@/blocks/Code/Component'
 
 import type {
   BannerBlock as BannerBlockProps,
+  ButtonBlock as ButtonBlockProps,
   CallToActionBlock as CTABlockProps,
   MediaBlock as MediaBlockProps,
+  QRCodeBlock as QRCodeBlockProps,
 } from '@/payload-types'
 import { BannerBlock } from '@/blocks/Banner/Component'
+import { ButtonBlock } from '@/blocks/Button/Component'
 import { CallToActionBlock } from '@/blocks/CallToAction/Component'
 import { cn } from '@/utilities/ui'
+import { QRCodeBlock } from '@/blocks/QRCodeBlock/Component'
 
 type NodeTypes =
   | DefaultNodeTypes
-  | SerializedBlockNode<CTABlockProps | MediaBlockProps | BannerBlockProps | CodeBlockProps>
+  | SerializedBlockNode<
+      | CTABlockProps
+      | MediaBlockProps
+      | BannerBlockProps
+      | CodeBlockProps
+      | ButtonBlockProps
+      | QRCodeBlockProps
+    >
 
 const internalDocToHref = ({ linkNode }: { linkNode: SerializedLinkNode }) => {
   const { value, relationTo } = linkNode.fields.doc!
@@ -38,7 +51,7 @@ const internalDocToHref = ({ linkNode }: { linkNode: SerializedLinkNode }) => {
 const jsxConverters: JSXConvertersFunction<NodeTypes> = ({ defaultConverters }) => ({
   ...defaultConverters,
   ...LinkJSXConverter({ internalDocToHref }),
-  text: ({ node }) => {
+  text: ({ node }: { node: any }) => {
     const nodeAny = node as any
 
     // Access TextStateFeature properties from node.$
@@ -161,8 +174,16 @@ const jsxConverters: JSXConvertersFunction<NodeTypes> = ({ defaultConverters }) 
     return <span style={style}>{node.text}</span>
   },
   blocks: {
-    banner: ({ node }) => <BannerBlock className="col-start-2 mb-4" {...node.fields} />,
-    mediaBlock: ({ node }) => (
+    banner: ({ node }: { node: SerializedBlockNode<BannerBlockProps> }) => (
+      <BannerBlock className="col-start-2 mb-4" {...node.fields} />
+    ),
+    button: ({ node }: { node: SerializedBlockNode<ButtonBlockProps> }) => (
+      <ButtonBlock className="col-start-2 mb-4" {...node.fields} />
+    ),
+    'qr-code-block': ({ node }: { node: SerializedBlockNode<QRCodeBlockProps> }) => (
+      <QRCodeBlock className="col-start-2 mb-4" {...node.fields} />
+    ),
+    mediaBlock: ({ node }: { node: SerializedBlockNode<MediaBlockProps> }) => (
       <MediaBlock
         className="col-start-1 col-span-3"
         imgClassName="m-0"
@@ -172,8 +193,12 @@ const jsxConverters: JSXConvertersFunction<NodeTypes> = ({ defaultConverters }) 
         disableInnerContainer={true}
       />
     ),
-    code: ({ node }) => <CodeBlock className="col-start-2" {...node.fields} />,
-    cta: ({ node }) => <CallToActionBlock {...node.fields} />,
+    code: ({ node }: { node: SerializedBlockNode<CodeBlockProps> }) => (
+      <CodeBlock className="col-start-2" {...node.fields} />
+    ),
+    cta: ({ node }: { node: SerializedBlockNode<CTABlockProps> }) => (
+      <CallToActionBlock {...node.fields} />
+    ),
   },
 })
 

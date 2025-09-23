@@ -7,6 +7,7 @@ import {
 } from '@payloadcms/richtext-lexical'
 import { isAdminOrEditor } from '@/access/isAdminOrEditor'
 import { anyone } from '@/access/anyone'
+import { contentLexicalEditor } from '@/fields/contentLexical'
 
 export const Media: CollectionConfig = {
   slug: 'media',
@@ -54,15 +55,11 @@ export const Media: CollectionConfig = {
         en: 'Content',
         es: 'Contenido',
       },
-      editor: lexicalEditor({
-        features: ({ rootFeatures }) => {
-          return [...rootFeatures, FixedToolbarFeature(), InlineToolbarFeature()]
-        },
-      }),
+      editor: contentLexicalEditor,
     },
   ],
   upload: {
-    mimeTypes: ['image/*', 'video/mp4', 'application/pdf'],
+    mimeTypes: ['image/png', 'image/jpeg', 'image/jpg', 'image/webp', 'image/gif', 'video/mp4'],
     adminThumbnail: 'thumbnail',
     focalPoint: true,
     crop: true,

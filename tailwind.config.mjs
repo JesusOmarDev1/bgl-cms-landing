@@ -51,6 +51,7 @@ const config = {
         'accordion-up': 'accordion-up 0.2s ease-out',
         shine: 'shine 3s ease-out infinite',
         'gradient-flow': 'gradientFlow 10s ease 0s infinite normal none running',
+        move: 'move 5s linear infinite',
       },
       borderRadius: {
         lg: 'var(--radius)',
@@ -125,6 +126,10 @@ const config = {
           '0%': { 'background-position': '0% 50%' },
           '50%': { 'background-position': '100% 50%' },
           '100%': { 'background-position': '0% 50%' },
+        },
+        move: {
+          '0%': { transform: 'translateX(-200px)' },
+          '100%': { transform: 'translateX(200px)' },
         },
       },
       typography: () => ({

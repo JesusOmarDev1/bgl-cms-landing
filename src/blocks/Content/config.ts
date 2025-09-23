@@ -1,49 +1,49 @@
 import type { Block, Field } from 'payload'
 
-import {
-  FixedToolbarFeature,
-  HeadingFeature,
-  InlineToolbarFeature,
-  lexicalEditor,
-} from '@payloadcms/richtext-lexical'
-
-import { link } from '@/fields/link'
+import { contentLexicalEditor } from '@/fields/contentLexical'
 
 const columnFields: Field[] = [
   {
     name: 'size',
     type: 'select',
     label: {
-      en: 'Size',
-      es: 'Tamaño',
+      en: 'Column Size',
+      es: 'Tamaño de Columna',
     },
-    defaultValue: 'oneThird',
+    admin: {
+      description: {
+        en: 'Choose the width of this column',
+        es: 'Elige el ancho de esta columna',
+      },
+      width: '50%',
+    },
+    defaultValue: 'medium',
     options: [
       {
         label: {
-          en: 'One Third',
-          es: 'Un Tercio',
+          en: 'Small',
+          es: 'Pequeño',
         },
-        value: 'oneThird',
+        value: 'small',
       },
       {
         label: {
-          en: 'Half',
-          es: 'Mitad',
+          en: 'Medium',
+          es: 'Mediano',
         },
-        value: 'half',
+        value: 'medium',
       },
       {
         label: {
-          en: 'Two Thirds',
-          es: 'Dos Tercios',
+          en: 'Large',
+          es: 'Grande',
         },
-        value: 'twoThirds',
+        value: 'large',
       },
       {
         label: {
-          en: 'Full',
-          es: 'Completo',
+          en: 'Full Width',
+          es: 'Ancho Completo',
         },
         value: 'full',
       },
@@ -52,46 +52,20 @@ const columnFields: Field[] = [
   {
     name: 'richText',
     type: 'richText',
-    editor: lexicalEditor({
-      features: ({ rootFeatures }) => {
-        return [
-          ...rootFeatures,
-          HeadingFeature({ enabledHeadingSizes: ['h2', 'h3', 'h4'] }),
-          FixedToolbarFeature(),
-          InlineToolbarFeature(),
-        ]
-      },
-    }),
+    editor: contentLexicalEditor,
     label: {
-      en: 'Content',
-      es: 'Contenido',
+      en: 'Rich Text',
+      es: 'Texto Enriquecido',
     },
   },
-  {
-    name: 'enableLink',
-    type: 'checkbox',
-    label: {
-      en: 'Enable Link',
-      es: 'Habilitar Enlace',
-    },
-  },
-  link({
-    overrides: {
-      admin: {
-        condition: (_data, siblingData) => {
-          return Boolean(siblingData?.enableLink)
-        },
-      },
-    },
-  }),
 ]
 
 export const Content: Block = {
   slug: 'content',
   labels: {
     singular: {
-      en: 'Content',
-      es: 'Contenido',
+      en: 'Content Block',
+      es: 'Bloque de Contenido',
     },
     plural: {
       en: 'Content Blocks',
@@ -103,13 +77,19 @@ export const Content: Block = {
     {
       name: 'columns',
       label: {
-        en: 'Columns',
-        es: 'Columnas',
+        en: 'Content Columns',
+        es: 'Columnas de Contenido',
       },
       type: 'array',
       admin: {
+        description: {
+          en: 'Add columns to create your layout. Each column can have different sizes and content.',
+          es: 'Añade columnas para crear tu layout. Cada columna puede tener diferentes tamaños y contenido.',
+        },
         initCollapsed: true,
       },
+      minRows: 1,
+      maxRows: 12,
       fields: columnFields,
     },
   ],

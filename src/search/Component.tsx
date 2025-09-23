@@ -18,7 +18,7 @@ export const Search: React.FC = () => {
   }, [debouncedValue, router])
 
   return (
-    <div>
+    <div className="max-w-3xl mx-5 md:mx-auto">
       <form
         onSubmit={(e) => {
           e.preventDefault()

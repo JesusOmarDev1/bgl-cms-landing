@@ -57,20 +57,18 @@ export default async function Page({ searchParams: searchParamsPromise }: Args) 
   })
 
   return (
-    <div className="pt-24 pb-24">
+    <div className="mt-36">
       <PageClient />
-      <div className="container mb-16">
-        <div className="prose dark:prose-invert max-w-7xl text-center">
+      <div className="flex flex-col items-center justify-center max-w-6xl mx-auto w-full gap-2.5">
+        <div className="prose dark:prose-invert text-center">
           <h1 className="text-3xl md:text-4xl lg:text-6xl font-bold">
             ¿No encontraste lo que buscabas?
           </h1>
-          <p className="text-zinc-500 lg:mb-16 mb-8">
+          <p className="text-zinc-500 mx-4 md:mx-auto">
             ¡No te preocupes! Estamos aquí para ayudarte. Cuéntanos qué necesitas y haremos lo
             posible por asistirte.
           </p>
-          <div className="max-w-200 mx-auto">
-            <Search />
-          </div>
+          <Search />
         </div>
       </div>
 

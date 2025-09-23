@@ -47,7 +47,7 @@ export const Banner: Block = {
             en: 'Error',
             es: 'Error',
           },
-          value: 'error',
+          value: 'destructive',
         },
         {
           label: {
@@ -57,6 +57,15 @@ export const Banner: Block = {
           value: 'success',
         },
       ],
+      required: true,
+    },
+    {
+      name: 'title',
+      type: 'text',
+      label: {
+        en: 'Title',
+        es: 'Título',
+      },
       required: true,
     },
     {

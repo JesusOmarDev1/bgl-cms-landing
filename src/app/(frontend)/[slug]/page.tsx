@@ -7,7 +7,6 @@ import { draftMode } from 'next/headers'
 import React, { cache } from 'react'
 
 import { RenderBlocks } from '@/blocks/RenderBlocks'
-import { RenderHero } from '@/heros/RenderHero'
 import { generateMeta } from '@/utilities/generateMeta'
 import PageClient from './page.client'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
@@ -21,6 +20,7 @@ export async function generateStaticParams() {
     overrideAccess: false,
     pagination: false,
     select: {
+      content: true,
       slug: true,
     },
   })
@@ -57,7 +57,7 @@ export default async function Page({ params: paramsPromise }: Args) {
     return <PayloadRedirects url={url} />
   }
 
-  const { hero, layout } = page
+  const { content } = page
 
   return (
     <article className="pt-16 pb-24">
@@ -67,8 +67,7 @@ export default async function Page({ params: paramsPromise }: Args) {
 
       {draft && <LivePreviewListener />}
 
-      <RenderHero {...hero} />
-      <RenderBlocks blocks={layout} />
+      <RenderBlocks blocks={content.layout} />
     </article>
   )
 }

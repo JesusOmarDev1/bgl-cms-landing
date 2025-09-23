@@ -31,7 +31,7 @@ export type SearchResultData = {
     title?: string
   }> | null
   doc: {
-    relationTo: 'posts' | 'pages'
+    relationTo: 'posts' | 'products'
     value: string | number
   }
 }
@@ -66,7 +66,7 @@ export const SearchCard: React.FC<{
             <Suspense fallback={<Skeleton className="h-56 w-full" />}>
               {imageToUse && typeof imageToUse !== 'string' && typeof imageToUse !== 'number' && (
                 <AspectRatio ratio={1 / 1} className="relative">
-                  <Media priority resource={imageToUse} />
+                  <Media priority resource={imageToUse} fill />
                 </AspectRatio>
               )}
               {(!imageToUse ||

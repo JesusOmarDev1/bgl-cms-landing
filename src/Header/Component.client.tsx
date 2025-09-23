@@ -6,15 +6,14 @@ import { motion, useScroll } from 'motion/react'
 
 import type { Header } from '@/payload-types'
 
-import { Logo } from '@/components/Logo/Logo'
 import { HeaderNav } from './Nav'
 import { Link } from 'next-view-transitions'
 import { ThemeSelector } from '@/providers/Theme/ThemeSelector'
-import { PanelLeftOpen, SearchIcon } from 'lucide-react'
+import { SearchIcon } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/utilities/ui'
 import { HeaderSheetNav } from './Sheet'
-import { SidebarTrigger } from '@/components/ui/sidebar'
+import { StaticLogo } from '@/components/Logo/StaticLogo'
 
 interface HeaderClientProps {
   data: Header
@@ -64,7 +63,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data, display = 'fix
           <div className="flex gap-4 justify-center items-center">
             <HeaderSheetNav props={{ className: 'lg:hidden' }} data={data} />
             <Link href={'/'} passHref>
-              <Logo className="size-14" />
+              <StaticLogo className="size-14" />
             </Link>
             <HeaderNav props={{ className: 'hidden lg:flex' }} data={data} />
           </div>

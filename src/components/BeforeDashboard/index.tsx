@@ -1,28 +1,19 @@
 import React, { Suspense } from 'react'
-import { AreaChartSkeleton, BarChartSkeleton, PieChartSkeleton } from '../Charts/ChartSkeletons'
-import OptimizedDashboard from './OptimizedDashboard'
+import { ClockFace } from '../ui/clock'
+import { Skeleton } from '../ui/skeleton'
 
 const BeforeDashboard: React.FC = () => {
-  return <></>
+  return (
+    <div className="before-dashboard w-full h-40 p-0">
+      <Suspense
+        fallback={
+          <Skeleton className="w-80 sm:w-96 md:w-7/12 lg:w-8/12 xl:w-8/12 h-40 md:h-48 lg:h-52" />
+        }
+      >
+        <ClockFace />
+      </Suspense>
+    </div>
+  )
 }
 
 export default BeforeDashboard
-
-{
-  /*
-   <Suspense
-        fallback={
-          <div className="flex flex-col gap-2">
-            <div className="h-[60px] bg-[#f3f4f6] rounded-[8px] animate-pulse" />
-            <div className="chartsGrid">
-              <PieChartSkeleton />
-              <BarChartSkeleton />
-            </div>
-            <AreaChartSkeleton />
-          </div>
-        }
-      >
-        <OptimizedDashboard />
-      </Suspense>
-  */
-}

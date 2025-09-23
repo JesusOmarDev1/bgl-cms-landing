@@ -29,20 +29,20 @@ export function ClockFace() {
 
   return (
     <div className="flex justify-center items-center">
-      <div className="w-80 sm:w-96 md:w-7/12 lg:w-8/12 xl:w-8/12 h-40 md:h-48 lg:h-52 py-6 rounded-3xl flex justify-center items-center">
-        <span className="font-bold text-4xl sm:text-6xl md:text-7xl lg:text-9xl text-center">
+      <div className="w-80 sm:w-96 md:w-7/12 lg:w-8/12 xl:w-8/12 h-40 md:h-48 lg:h-52 py-2.5 rounded-3xl flex justify-center items-center">
+        <span className="font-bold text-5xl sm:text-6xl md:text-7xl lg:text-8xl text-center">
           {hours}
-          <span className="font-bold text-4xl sm:text-6xl md:text-7xl lg:text-9xl font-mono">
+          <span className="font-bold text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-mono">
             :
           </span>
         </span>
-        <span className="font-bold text-4xl sm:text-6xl md:text-7xl lg:text-9xl text-center">
+        <span className="font-bold text-5xl sm:text-6xl md:text-7xl lg:text-8xl text-center">
           {minutes}
-          <span className="font-bold text-4xl sm:text-6xl md:text-7xl lg:text-9xl font-mono">
+          <span className="font-bold text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-mono">
             :
           </span>
         </span>
-        <span className="font-bold text-4xl sm:text-6xl md:text-7xl lg:text-9xl text-center">
+        <span className="font-bold text-5xl sm:text-6xl md:text-7xl lg:text-8xl text-center">
           {seconds}
         </span>
         <span className="font-bold ml-3 mt-5 sm:mt-7 md:mt-4 lg:mt-11 text-xl sm:text-3xl md:text-4xl lg:text-5xl font-sans">
