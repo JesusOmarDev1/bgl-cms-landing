@@ -1,3 +1,3 @@
-export default function Test() {
+export default async function Test() {
   return <div className="container flex h-dvh justify-center items-center"></div>
 }

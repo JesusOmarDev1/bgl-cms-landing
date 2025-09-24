@@ -32,7 +32,7 @@ export const Search: React.FC = () => {
           <Input
             type="search"
             placeholder="Describe qué estás buscando y te guiaremos hacia la solución."
-            className="pl-10 rounded-3xl"
+            className="pl-10 rounded-3xl truncate"
             onChange={(event) => {
               setValue(event.target.value)
             }}

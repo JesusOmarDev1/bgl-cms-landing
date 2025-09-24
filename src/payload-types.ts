@@ -776,6 +776,11 @@ export interface Product {
   title: string;
   brand: number | Brand;
   model: number | Model;
+  supplier?: (number | Supplier)[] | null;
+  /**
+   * La garantía es el periodo de tiempo que se ofrece por el producto
+   */
+  warranty?: string | null;
   /**
    * Puede ser una categoria general o una categoria de subcategoria por ejemplo "Basculas", "Consumibles", etc.
    */
@@ -813,6 +818,10 @@ export interface Product {
   slugLock?: boolean | null;
   price?: number | null;
   discount?: number | null;
+  /**
+   * Se aplica el 16% de IVA al precio final
+   */
+  iva?: boolean | null;
   total?: number | null;
   stock: number;
   updatedAt: string;
@@ -849,36 +858,6 @@ export interface Model {
   brand: number | Brand;
   slug: string;
   slugLock?: boolean | null;
-  updatedAt: string;
-  createdAt: string;
-  deletedAt?: string | null;
-}
-/**
- * Administra las etiquetas del sitio: crea, edita y elimina etiquetas
- *
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "tags".
- */
-export interface Tag {
-  id: number;
-  title: string;
-  subtags?:
-    | {
-        title: string;
-        id?: string | null;
-      }[]
-    | null;
-  slug: string;
-  slugLock?: boolean | null;
-  parent?: (number | null) | Tag;
-  breadcrumbs?:
-    | {
-        doc?: (number | null) | Tag;
-        url?: string | null;
-        label?: string | null;
-        id?: string | null;
-      }[]
-    | null;
   updatedAt: string;
   createdAt: string;
   deletedAt?: string | null;
@@ -924,6 +903,36 @@ export interface Supplier {
   createdAt: string;
   deletedAt?: string | null;
   _status?: ('draft' | 'published') | null;
+}
+/**
+ * Administra las etiquetas del sitio: crea, edita y elimina etiquetas
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "tags".
+ */
+export interface Tag {
+  id: number;
+  title: string;
+  subtags?:
+    | {
+        title: string;
+        id?: string | null;
+      }[]
+    | null;
+  slug: string;
+  slugLock?: boolean | null;
+  parent?: (number | null) | Tag;
+  breadcrumbs?:
+    | {
+        doc?: (number | null) | Tag;
+        url?: string | null;
+        label?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
+  deletedAt?: string | null;
 }
 /**
  * Administra los clientes del sitio: crea, edita y elimina clientes
@@ -1565,6 +1574,8 @@ export interface ProductsSelect<T extends boolean = true> {
   title?: T;
   brand?: T;
   model?: T;
+  supplier?: T;
+  warranty?: T;
   categories?: T;
   tags?: T;
   heroImage?: T;
@@ -1581,6 +1592,7 @@ export interface ProductsSelect<T extends boolean = true> {
   slugLock?: T;
   price?: T;
   discount?: T;
+  iva?: T;
   total?: T;
   stock?: T;
   updatedAt?: T;

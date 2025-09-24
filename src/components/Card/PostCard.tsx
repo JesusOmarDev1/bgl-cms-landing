@@ -11,7 +11,7 @@ import { Skeleton } from '../ui/skeleton'
 import { formatDateTime } from '@/utilities/formatDateTime'
 import Categories from '../ui/categories'
 import { AspectRatio } from '../ui/aspect-ratio'
-import { readingTime } from 'reading-time-estimator'
+import getReadingTime from '@/lib/readingTime'
 
 export type CardPostData = Pick<
   Post,
@@ -104,9 +104,9 @@ export const CardPosts: React.FC<{
   }
 
   const contentText = extractTextFromContent(content)
-  const readingTimeResult = contentText ? readingTime(contentText) : null
+  const readingTimeResult = contentText ? getReadingTime(contentText) : null
   const readingTimeToUse = readingTimeResult
-    ? `${readingTimeResult.minutes} min de lectura`
+    ? `${readingTimeResult} min de lectura`
     : 'Tiempo no disponible'
 
   return (

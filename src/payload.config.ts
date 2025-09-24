@@ -28,6 +28,9 @@ const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
 export default buildConfig({
+  auth: {
+    jwtOrder: ['JWT', 'Bearer', 'cookie'],
+  },
   email: getEmailAdapter(),
   i18n: {
     supportedLanguages: { es },

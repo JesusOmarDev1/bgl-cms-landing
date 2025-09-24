@@ -163,3 +163,11 @@ table {
 .tabs-field__tabs-wrap {
   @apply my-4;
 }
+
+.card {
+  @apply bg-primary text-primary-foreground hover:shadow border border-zinc-200 dark:border-zinc-800;
+}
+
+.card__title {
+  @apply text-base md:text-lg lg:text-xl font-semibold;
+}

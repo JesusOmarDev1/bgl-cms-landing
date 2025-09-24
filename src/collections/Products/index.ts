@@ -1,19 +1,5 @@
 import type { CollectionConfig } from 'payload'
 
-import {
-  AlignFeature,
-  BlocksFeature,
-  FixedToolbarFeature,
-  HeadingFeature,
-  HorizontalRuleFeature,
-  InlineToolbarFeature,
-  OrderedListFeature,
-  TextStateFeature,
-  UnorderedListFeature,
-  lexicalEditor,
-} from '@payloadcms/richtext-lexical'
-
-import { MediaBlock } from '../../blocks/MediaBlock/config'
 import { isAdminOrEditor } from '@/access/isAdminOrEditor'
 import { isAdmin, isAdminFieldLevel } from '@/access/isAdmin'
 import { isAuthenticatedOrPublished } from '@/access/isLoggedInOrPublished'
@@ -60,6 +46,8 @@ export const Products: CollectionConfig = {
     total: true,
     tags: true,
     heroImage: true,
+    supplier: true,
+    warranty: true,
     brand: {
       title: true,
       heroImage: true,
@@ -67,13 +55,14 @@ export const Products: CollectionConfig = {
     model: {
       title: true,
     },
+    categories: true,
     meta: {
       image: true,
       description: true,
     },
   },
   admin: {
-    defaultColumns: ['heroImage', 'title', 'total', 'tags', 'createdAt'],
+    defaultColumns: ['heroImage', 'title', 'total', 'categories', 'createdAt'],
     livePreview: {
       url: ({ data, req }) => {
         const path = generatePreviewPath({
@@ -128,6 +117,28 @@ export const Products: CollectionConfig = {
               required: true,
             },
             {
+              name: 'supplier',
+              type: 'relationship',
+              label: {
+                en: 'Supplier',
+                es: 'Proveedor',
+              },
+              hasMany: true,
+              relationTo: 'suppliers',
+            },
+            {
+              name: 'warranty',
+              type: 'text',
+              label: {
+                en: 'Warranty (Days)',
+                es: 'Garantía (Días)',
+              },
+              admin: {
+                position: 'sidebar',
+                description: 'La garantía es el periodo de tiempo que se ofrece por el producto',
+              },
+            },
+            {
               name: 'categories',
               type: 'relationship',
               label: {
@@ -135,7 +146,6 @@ export const Products: CollectionConfig = {
                 es: 'Categorías',
               },
               admin: {
-                position: 'sidebar',
                 description:
                   'Puede ser una categoria general o una categoria de subcategoria por ejemplo "Basculas", "Consumibles", etc.',
               },
@@ -152,7 +162,6 @@ export const Products: CollectionConfig = {
               relationTo: 'tags',
               hasMany: true,
               admin: {
-                position: 'sidebar',
                 description:
                   'Etiquetas que ayudan a clasificar el producto por ejemplo "#Basculas Comerciales", "#Basculas de renta", etc.',
               },
@@ -262,6 +271,18 @@ export const Products: CollectionConfig = {
       },
     },
     {
+      name: 'iva',
+      type: 'checkbox',
+      label: {
+        en: 'Apply IVA?',
+        es: '¿Aplicar IVA?',
+      },
+      admin: {
+        position: 'sidebar',
+        description: 'Se aplica el 16% de IVA al precio final',
+      },
+    },
+    {
       name: 'total',
       type: 'number',
       min: 0,
@@ -275,12 +296,31 @@ export const Products: CollectionConfig = {
       hooks: {
         beforeChange: [
           ({ siblingData, value }) => {
-            if (siblingData.discount > 0) {
-              return siblingData.price - siblingData.discount
-            } else if (siblingData.discount === 0) {
-              return siblingData.price
+            // Validar que el precio existe y es válido
+            if (
+              !siblingData?.price ||
+              typeof siblingData.price !== 'number' ||
+              siblingData.price < 0
+            ) {
+              return value // Si no hay precio válido, mantener el valor actual
             }
-            return value
+
+            // Calcular subtotal: precio base menos descuento (si existe y es válido)
+            const discount =
+              siblingData.discount &&
+              typeof siblingData.discount === 'number' &&
+              siblingData.discount > 0
+                ? siblingData.discount
+                : 0
+
+            const subtotal = Math.max(0, siblingData.price - discount)
+
+            // Aplicar IVA si está habilitado (16% = 1.16)
+            const applyIVA = siblingData.iva === true
+            const total = applyIVA ? subtotal * 1.16 : subtotal
+
+            // Redondear a 2 decimales para evitar problemas de precisión
+            return Math.round(total * 100) / 100
           },
         ],
       },

@@ -2,10 +2,8 @@
 import useClickableCard from '@/utilities/useClickableCard'
 import { Link } from 'next-view-transitions'
 import React, { Suspense } from 'react'
-import { readingTime } from 'reading-time-estimator'
 
 import { Media } from '@/components/Media'
-import { Button } from '../ui/button'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '../ui/card'
 import { Skeleton } from '../ui/skeleton'
 import { formatDateTime } from '@/utilities/formatDateTime'
