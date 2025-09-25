@@ -6,15 +6,17 @@ import type { Post } from '@/payload-types'
 import { Media } from '@/components/Media'
 import { formatAuthors } from '@/utilities/formatAuthors'
 import { Badge } from '@/components/ui/badge'
-import { Avatar, AvatarFallback } from '@/components/ui/avatar'
+import { Avatar, AvatarFallback } from '@/components/ui/avatars/avatar'
 import { Separator } from '@/components/ui/separator'
 import { readingTime } from 'reading-time-estimator'
 import { AspectRatio } from '@/components/ui/aspect-ratio'
+import Categories from '@/components/ui/categories'
+import Share from '@/components/ui/share'
 
 export const PostHero: React.FC<{
   post: Post
 }> = ({ post }) => {
-  const { categories, heroImage, populatedAuthors, publishedAt, content, title, meta } = post
+  const { categories, heroImage, populatedAuthors, publishedAt, content, title, meta, slug } = post
 
   // Extract plain text from content structure
   const extractTextFromContent = (contentObj: any): string => {
@@ -68,6 +70,7 @@ export const PostHero: React.FC<{
     return ''
   }
 
+  const href = `/${'posts'}/${slug}`
   const contentText = extractTextFromContent(content)
   const readingTimeResult = contentText ? readingTime(contentText) : null
   const readingTimeToUse = readingTimeResult
@@ -84,32 +87,11 @@ export const PostHero: React.FC<{
     <section>
       <div className="container">
         <div className="mx-auto flex max-w-5xl flex-col items-center justify-center gap-2.5 text-center">
-          {/* Categories */}
-          {categories && categories.length > 0 && (
-            <div className="flex flex-wrap justify-center gap-2 mb-2">
-              {categories.map((category, index) => {
-                if (typeof category === 'object' && category !== null) {
-                  const { title: categoryTitle } = category
-                  const titleToUse = categoryTitle || 'Sin Categoria'
-
-                  return (
-                    <Badge
-                      key={index}
-                      variant="secondary"
-                      className="text-xs font-medium px-3 py-1 bg-primary/10 text-primary hover:bg-primary/20 transition-colors"
-                    >
-                      {titleToUse}
-                    </Badge>
-                  )
-                }
-                return null
-              })}
-            </div>
-          )}
+          <Categories categories={categories} hasCategories showCategories />
 
           <div className="flex justify-center items-center gap-2.5">
             {publishedAt && <span>{formatDateTime(publishedAt)}</span>}
-            <Separator className="size-4" orientation="vertical" />
+            <Separator decorative className="size-4" orientation="vertical" />
             {readingTimeToUse && <span>{readingTimeToUse}</span>}
           </div>
 
@@ -122,10 +104,17 @@ export const PostHero: React.FC<{
           {heroImage && typeof heroImage !== 'string' && (
             <div className="relative mb-8 mt-4 w-full rounded-lg border overflow-hidden">
               <AspectRatio ratio={1 / 1}>
-                <Media priority resource={heroImage} />
+                <Media priority resource={heroImage} fill />
               </AspectRatio>
             </div>
           )}
+
+          <div className="flex flex-col justify-center items-center gap-2.5 w-full">
+            <span className="text-4xl font-black">
+              ¿Te gusto la publicación? Ayudanos a compartirlo
+            </span>
+            <Share className="w-full" url={href} title={title} text={description} />
+          </div>
         </div>
       </div>
     </section>

@@ -8,7 +8,7 @@ import { Search } from '@/search/Component'
 import PageClient from './page.client'
 import { SearchResultData } from '@/components/Card/SearchCard'
 import generalMetadata from '@/lib/generalMetadata'
-import NoResults from '@/components/States/no-results'
+import NoSearchResults from '@/components/States/no-search-results'
 
 type Args = {
   searchParams: Promise<{
@@ -75,7 +75,7 @@ export default async function Page({ searchParams: searchParamsPromise }: Args) 
       {posts.totalDocs > 0 ? (
         <SearchArchive results={posts.docs as SearchResultData[]} />
       ) : (
-        <NoResults />
+        <NoSearchResults />
       )}
     </div>
   )

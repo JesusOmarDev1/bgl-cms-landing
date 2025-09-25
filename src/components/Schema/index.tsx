@@ -93,49 +93,9 @@ export const ProductSchema = (props: Product) => {
     additionalProperty: [
       {
         '@type': 'PropertyValue',
-        name: 'Capacidad Máxima',
-        value: `${props.maxCapacity} kg`,
+        name: 'Garantía',
+        value: `${props.warranty} días`,
       },
-      {
-        '@type': 'PropertyValue',
-        name: 'División Mínima',
-        value: `${props.minDivision} g`,
-      },
-      props.classOfAccuracy
-        ? {
-            '@type': 'PropertyValue',
-            name: 'Clase de exactitud',
-            value: props.classOfAccuracy,
-          }
-        : null,
-      props.material
-        ? {
-            '@type': 'PropertyValue',
-            name: 'Material',
-            value: props.material,
-          }
-        : null,
-      props.voltage
-        ? {
-            '@type': 'PropertyValue',
-            name: 'Voltaje',
-            value: props.voltage,
-          }
-        : null,
-      props.operationTemperature
-        ? {
-            '@type': 'PropertyValue',
-            name: 'Temperatura de Operación',
-            value: `${props.operationTemperature}°C`,
-          }
-        : null,
-      props.plateDimensions
-        ? {
-            '@type': 'PropertyValue',
-            name: 'Dimensiones de Plataforma',
-            value: props.plateDimensions,
-          }
-        : null,
     ].filter(Boolean),
     manufacturer: {
       '@type': 'Organization',

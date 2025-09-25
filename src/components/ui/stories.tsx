@@ -2,7 +2,7 @@
 
 import type { ComponentProps, HTMLAttributes, VideoHTMLAttributes } from 'react'
 import { useEffect, useRef } from 'react'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatars/avatar'
 import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel'
 import { cn } from '@/utilities/ui'
 

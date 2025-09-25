@@ -3,6 +3,8 @@
 import { cn } from '@/utilities/ui'
 import type { ComponentProps } from 'react'
 import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/hover-card'
+import { Media } from '@/components/Media'
+import { AspectRatio } from '@/components/ui/aspect-ratio'
 
 export type GlimpseProps = ComponentProps<typeof HoverCard>
 
@@ -32,13 +34,14 @@ export const GlimpseDescription = ({ className, ...props }: GlimpseDescriptionPr
 
 export type GlimpseImageProps = ComponentProps<'img'>
 
-export const GlimpseImage = ({ className, alt, ...props }: GlimpseImageProps) => (
+export const GlimpseImage = ({ className, alt }: GlimpseImageProps) => (
   // biome-ignore lint/performance/noImgElement: "Kibo UI is framework agnostic"
-  <img
-    alt={alt ?? ''}
-    loading="lazy"
-    decoding="async"
-    className={cn('mb-4 aspect-[120/63] w-full rounded-md border object-cover', className)}
-    {...props}
-  />
+  <AspectRatio ratio={1 / 1}>
+    <Media
+      priority
+      fill
+      alt={alt ?? ''}
+      className={cn('mb-4 aspect-[120/63] w-full rounded-md border object-cover', className)}
+    />
+  </AspectRatio>
 )

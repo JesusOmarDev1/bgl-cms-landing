@@ -95,7 +95,7 @@ export const ProductHero: React.FC<{
 
           {brandHeroImage && typeof brandHeroImage !== 'string' && (
             <div className="relative mb-8 mt-4 w-full rounded-lg border overflow-hidden">
-              <Media priority resource={brandHeroImage} />
+              <Media priority resource={brandHeroImage} fill />
             </div>
           )}
 

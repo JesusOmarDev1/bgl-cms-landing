@@ -1,4 +1,3 @@
-import { fields } from './../blocks/Form/fields'
 import { payloadCloudPlugin } from '@payloadcms/payload-cloud'
 import { formBuilderPlugin } from '@payloadcms/plugin-form-builder'
 import { nestedDocsPlugin } from '@payloadcms/plugin-nested-docs'
@@ -20,7 +19,7 @@ import { isAdminOrEditor } from '@/access/isAdminOrEditor'
 import { isAdmin } from '@/access/isAdmin'
 
 const generateTitle: GenerateTitle<Post | Page> = ({ doc }) => {
-  return doc?.title ? `${doc.title} | BGL BASCULAS INDUSTRIALES` : 'BGL BASCULAS INDUSTRIALES'
+  return doc?.title ? `${doc.title}` : 'BGL BASCULAS INDUSTRIALES'
 }
 
 const generateURL: GenerateURL<Post | Page> = ({ doc }) => {

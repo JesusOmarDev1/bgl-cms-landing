@@ -105,6 +105,9 @@ export const Products: CollectionConfig = {
               },
               relationTo: 'brands',
               required: true,
+              admin: {
+                description: 'La marca es el fabricante del producto',
+              },
             },
             {
               name: 'model',
@@ -115,6 +118,17 @@ export const Products: CollectionConfig = {
               },
               relationTo: 'models',
               required: true,
+              filterOptions: ({ data }) => {
+                const brandId = data?.brand?.id || data?.brand
+
+                if (!brandId) {
+                  return true
+                }
+
+                return {
+                  brand: { equals: brandId },
+                }
+              },
             },
             {
               name: 'supplier',
@@ -125,6 +139,9 @@ export const Products: CollectionConfig = {
               },
               hasMany: true,
               relationTo: 'suppliers',
+              admin: {
+                description: 'Los proveedores son las empresas que suministran el producto',
+              },
             },
             {
               name: 'warranty',

@@ -1,6 +1,6 @@
 import BlankCanvasIllustration from '@/assets/undraw/blank-canvas'
 
-export default function NoResults() {
+export default function NoSearchResults() {
   return (
     <div className="container flex flex-col items-center gap-4 text-center mt-10">
       <BlankCanvasIllustration className="size-48" />

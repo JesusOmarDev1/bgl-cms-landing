@@ -774,8 +774,14 @@ export interface FAQBlock {
 export interface Product {
   id: number;
   title: string;
+  /**
+   * La marca es el fabricante del producto
+   */
   brand: number | Brand;
   model: number | Model;
+  /**
+   * Los proveedores son las empresas que suministran el producto
+   */
   supplier?: (number | Supplier)[] | null;
   /**
    * La garantía es el periodo de tiempo que se ofrece por el producto
