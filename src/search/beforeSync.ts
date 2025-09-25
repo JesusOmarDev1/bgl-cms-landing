@@ -29,7 +29,7 @@ interface RichTextRoot {
 
 // Constants moved outside function for better performance
 const FIELD_MAPPINGS = {
-  content: ['content', 'description', 'bio', 'summary', 'excerpt', 'brand', 'model', 'stock'],
+  content: ['content', 'description', 'bio', 'summary', 'excerpt', 'stock'],
   image: ['heroImage', 'image', 'logo', 'thumbnail', 'photo'],
   date: ['publishedAt', 'createdAt', 'updatedAt', 'date'],
 } as const

@@ -11,11 +11,13 @@ const nextConfig = {
   experimental: {
     optimizePackageImports: [
       'motion',
-      '@number-flow/react',
       'next-share',
       'qrcode',
       'media-chrome',
       'next-view-transitions',
+      'gsap',
+      'three',
+      'next-share',
     ],
     optimizeCss: true,
   },
