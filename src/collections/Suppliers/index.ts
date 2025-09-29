@@ -3,19 +3,6 @@ import type { CollectionConfig } from 'payload'
 import { slugField } from '@/fields/slug'
 import { isAdminOrEditor } from '@/access/isAdminOrEditor'
 import { isAdmin } from '@/access/isAdmin'
-import {
-  AlignFeature,
-  BlocksFeature,
-  FixedToolbarFeature,
-  HeadingFeature,
-  HorizontalRuleFeature,
-  InlineToolbarFeature,
-  OrderedListFeature,
-  TextStateFeature,
-  UnorderedListFeature,
-  lexicalEditor,
-} from '@payloadcms/richtext-lexical'
-import { MediaBlock } from '../../blocks/MediaBlock/config'
 import { isAuthenticatedOrPublished } from '@/access/isLoggedInOrPublished'
 import { contentLexicalEditor } from '@/fields/contentLexical'
 
@@ -55,6 +42,7 @@ export const Suppliers: CollectionConfig = {
     useAsTitle: 'title',
     defaultColumns: ['heroImage', 'title', 'credit', 'discount', 'createdAt'],
     description: 'Administra los proveedores del sitio: crea, edita y elimina proveedores',
+    group: 'Productos',
   },
   fields: [
     {
@@ -100,6 +88,7 @@ export const Suppliers: CollectionConfig = {
                 en: 'Brands',
                 es: 'Marcas',
               },
+              hasMany: true,
             },
             {
               name: 'products',
@@ -109,6 +98,7 @@ export const Suppliers: CollectionConfig = {
                 en: 'Products',
                 es: 'Productos',
               },
+              hasMany: true,
             },
             {
               name: 'content',
@@ -196,11 +186,7 @@ export const Suppliers: CollectionConfig = {
     },
   ],
   versions: {
-    drafts: {
-      autosave: {
-        interval: 100, // We set this interval for optimal live preview
-      },
-    },
+    drafts: true,
     maxPerDoc: 50,
   },
 }

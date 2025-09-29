@@ -879,8 +879,8 @@ export interface Supplier {
   title: string;
   companyName?: string | null;
   heroImage?: (number | null) | Media;
-  brands?: (number | null) | Brand;
-  products?: (number | null) | Product;
+  brands?: (number | Brand)[] | null;
+  products?: (number | Product)[] | null;
   content?: {
     root: {
       type: string;

@@ -62,6 +62,7 @@
 .condition-value-text,
 .block-search__input,
 .thumbnail-card,
+.file-field__filename,
 table {
   @apply rounded-[var(--radius-lg)];
 }

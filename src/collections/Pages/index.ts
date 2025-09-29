@@ -77,6 +77,7 @@ export const Pages: CollectionConfig<'pages'> = {
       }),
     useAsTitle: 'title',
     description: 'Administra las páginas del sitio: crea, edita y elimina páginas',
+    group: 'Contenido',
   },
   fields: [
     {

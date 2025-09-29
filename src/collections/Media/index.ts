@@ -37,6 +37,7 @@ export const Media: CollectionConfig = {
     useAsTitle: 'alt',
     defaultColumns: ['alt', 'content', 'createdAt'],
     description: 'Administra los archivos del sitio: crea, edita y elimina archivos',
+    group: 'Contenido',
   },
   fields: [
     {

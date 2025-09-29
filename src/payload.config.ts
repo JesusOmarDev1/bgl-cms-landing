@@ -47,6 +47,7 @@ export default buildConfig({
         Logo: '/graphics/Logo/index.tsx#Logo',
         Icon: '/graphics/Icon/index.tsx#Icon',
       },
+      Nav: '@/components/Nav/index.tsx#Nav',
     },
     importMap: {
       baseDir: path.resolve(dirname),

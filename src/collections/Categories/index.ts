@@ -38,6 +38,7 @@ export const Categories: CollectionConfig = {
     defaultColumns: ['title', 'slug', 'createdAt'],
     useAsTitle: 'title',
     description: 'Administra las categorías del sitio: crea, edita y elimina categorías',
+    group: 'Utilidades',
   },
   fields: [
     {

@@ -32,6 +32,7 @@ export const Tags: CollectionConfig = {
     useAsTitle: 'title',
     defaultColumns: ['title', 'slug', 'createdAt'],
     description: 'Administra las etiquetas del sitio: crea, edita y elimina etiquetas',
+    group: 'Utilidades',
   },
   fields: [
     {

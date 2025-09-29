@@ -3,19 +3,6 @@ import type { CollectionConfig } from 'payload'
 import { slugField } from '@/fields/slug'
 import { isAdminOrEditor } from '@/access/isAdminOrEditor'
 import { isAdmin } from '@/access/isAdmin'
-import {
-  AlignFeature,
-  BlocksFeature,
-  FixedToolbarFeature,
-  HeadingFeature,
-  HorizontalRuleFeature,
-  InlineToolbarFeature,
-  OrderedListFeature,
-  TextStateFeature,
-  UnorderedListFeature,
-  lexicalEditor,
-} from '@payloadcms/richtext-lexical'
-import { MediaBlock } from '../../blocks/MediaBlock/config'
 import { anyone } from '@/access/anyone'
 import { contentLexicalEditor } from '@/fields/contentLexical'
 
@@ -54,6 +41,7 @@ export const Clients: CollectionConfig = {
     defaultColumns: ['heroImage', 'title', 'createdAt'],
     useAsTitle: 'title',
     description: 'Administra los clientes del sitio: crea, edita y elimina clientes',
+    group: 'Control Interno',
   },
   fields: [
     {
@@ -155,11 +143,7 @@ export const Clients: CollectionConfig = {
     ...slugField(),
   ],
   versions: {
-    drafts: {
-      autosave: {
-        interval: 100, // We set this interval for optimal live preview
-      },
-    },
+    drafts: true,
     maxPerDoc: 50,
   },
 }

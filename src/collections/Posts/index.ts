@@ -1,23 +1,5 @@
 import type { CollectionConfig } from 'payload'
 
-import {
-  AlignFeature,
-  BlockquoteFeature,
-  BlocksFeature,
-  ChecklistFeature,
-  FixedToolbarFeature,
-  HeadingFeature,
-  HorizontalRuleFeature,
-  InlineToolbarFeature,
-  OrderedListFeature,
-  TextStateFeature,
-  UnorderedListFeature,
-  lexicalEditor,
-} from '@payloadcms/richtext-lexical'
-
-import { Banner } from '../../blocks/Banner/config'
-import { Code } from '../../blocks/Code/config'
-import { MediaBlock } from '../../blocks/MediaBlock/config'
 import { generatePreviewPath } from '../../utilities/generatePreviewPath'
 import { populateAuthors } from './hooks/populateAuthors'
 import { revalidateDelete, revalidatePost } from './hooks/revalidatePost'
@@ -90,6 +72,7 @@ export const Posts: CollectionConfig<'posts'> = {
       }),
     useAsTitle: 'title',
     description: 'Administra las publicaciones del blog: crea, edita y elimina artículos',
+    group: 'Contenido',
   },
   fields: [
     {

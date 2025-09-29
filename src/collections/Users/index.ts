@@ -34,6 +34,7 @@ export const Users: CollectionConfig = {
     defaultColumns: ['name', 'email', 'roles'],
     useAsTitle: 'name',
     description: 'Administra los usuarios del sitio: crea, edita y elimina usuarios',
+    group: 'Control Interno',
   },
   auth: true,
   fields: [

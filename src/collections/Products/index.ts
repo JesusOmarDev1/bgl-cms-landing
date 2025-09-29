@@ -76,6 +76,7 @@ export const Products: CollectionConfig = {
     },
     useAsTitle: 'title',
     description: 'Administra los productos del sitio: crea, edita y elimina artículos',
+    group: 'Productos',
   },
   fields: [
     {
