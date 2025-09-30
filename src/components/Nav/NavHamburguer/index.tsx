@@ -1,5 +1,5 @@
 'use client'
-import { Hamburger, useNav } from '@payloadcms/ui'
+import { useNav, Hamburger } from '@payloadcms/ui'
 import React from 'react'
 
 export const NavHamburger: React.FC<{
@@ -8,15 +8,14 @@ export const NavHamburger: React.FC<{
   const { navOpen, setNavOpen } = useNav()
 
   return (
-    <button
+    <div
       className={`${baseClass}__mobile-close`}
       onClick={() => {
         setNavOpen(false)
       }}
       tabIndex={!navOpen ? -1 : undefined}
-      type="button"
     >
-      <Hamburger isActive />
-    </button>
+      <Hamburger closeIcon="collapse" isActive />
+    </div>
   )
 }

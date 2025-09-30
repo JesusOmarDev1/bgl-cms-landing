@@ -57,7 +57,7 @@ export const NavClient: FC<Props> = ({ groups, navPreferences }) => {
                   className={cn(
                     `${baseClass}__link`,
                     activeCollection && 'active',
-                    'hover:bg-zinc-100 p-1.5 rounded-2xl no-underline',
+                    'hover:bg-zinc-100 p-1.5 rounded-2xl no-underline dark:hover:bg-zinc-800',
                   )}
                   href={href}
                   id={id}
@@ -70,7 +70,7 @@ export const NavClient: FC<Props> = ({ groups, navPreferences }) => {
                       className={cn(
                         `${baseClass}__icon`,
                         activeCollection && 'active',
-                        'stroke-zinc-500 size-5 mx-2',
+                        'stroke-zinc-500 dark:stroke-zinc-400 size-5 mx-2',
                       )}
                     />
                   )}

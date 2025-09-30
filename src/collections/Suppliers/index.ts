@@ -42,7 +42,7 @@ export const Suppliers: CollectionConfig = {
     useAsTitle: 'title',
     defaultColumns: ['heroImage', 'title', 'credit', 'discount', 'createdAt'],
     description: 'Administra los proveedores del sitio: crea, edita y elimina proveedores',
-    group: 'Productos',
+    group: 'Control Interno',
   },
   fields: [
     {
@@ -87,16 +87,6 @@ export const Suppliers: CollectionConfig = {
               label: {
                 en: 'Brands',
                 es: 'Marcas',
-              },
-              hasMany: true,
-            },
-            {
-              name: 'products',
-              type: 'relationship',
-              relationTo: 'products',
-              label: {
-                en: 'Products',
-                es: 'Productos',
               },
               hasMany: true,
             },

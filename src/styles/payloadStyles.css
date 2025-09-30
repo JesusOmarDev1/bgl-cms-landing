@@ -172,3 +172,7 @@ table {
 .card__title {
   @apply text-base md:text-lg lg:text-xl font-semibold;
 }
+
+.hamburger {
+  @apply shadow-none border border-zinc-200 dark:border-zinc-700;
+}

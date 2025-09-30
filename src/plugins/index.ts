@@ -89,6 +89,7 @@ export const plugins: Plugin[] = [
       admin: {
         description:
           'Esta es una colección de redirecciones de URL que se crean en el CMS. Estas redirecciones son utilizadas por el sitio web.',
+        group: 'Contenido',
       },
       hooks: {
         afterChange: [revalidateRedirects],
@@ -191,6 +192,7 @@ export const plugins: Plugin[] = [
       admin: {
         description:
           'Esta es una colección de formularios de envío generados automáticamente. Estos formularios son utilizados por el formulario de envío del sitio y se actualizan automáticamente a medida que se crean o actualizan documentos en el CMS.',
+        group: 'Contenido',
       },
     },
     formOverrides: {
@@ -373,6 +375,7 @@ export const plugins: Plugin[] = [
       admin: {
         description:
           'Esta es una colección de formularios que se crean en el CMS. Estos formularios son utilizados por el formulario de envío del sitio.',
+        group: 'Contenido',
       },
       indexes: [
         {
@@ -407,6 +410,7 @@ export const plugins: Plugin[] = [
       admin: {
         description:
           'Esta es una colección de resultados de búsqueda generados automáticamente. Estos resultados son utilizados por la búsqueda global del sitio y se actualizan automáticamente a medida que se crean o actualizan documentos en el CMS.',
+        group: 'Contenido',
       },
     },
   }),

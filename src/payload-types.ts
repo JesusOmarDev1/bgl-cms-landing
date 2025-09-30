@@ -880,7 +880,6 @@ export interface Supplier {
   companyName?: string | null;
   heroImage?: (number | null) | Media;
   brands?: (number | Brand)[] | null;
-  products?: (number | Product)[] | null;
   content?: {
     root: {
       type: string;
@@ -1668,7 +1667,6 @@ export interface SuppliersSelect<T extends boolean = true> {
   companyName?: T;
   heroImage?: T;
   brands?: T;
-  products?: T;
   content?: T;
   contact?: T;
   email?: T;

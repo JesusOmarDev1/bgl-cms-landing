@@ -7,6 +7,8 @@ import { RenderServerComponent } from '@payloadcms/ui/elements/RenderServerCompo
 import { Logout } from '@payloadcms/ui'
 import { NavClient } from './index.client'
 import { NavHamburger } from './NavHamburguer'
+import { APP_NAME, VERSION } from 'app'
+import { StaticLogoNav } from '@/graphics/StaticLogoNav'
 
 export const baseClass = 'nav'
 
@@ -102,6 +104,17 @@ export const Nav: FC<ServerProps> = async (props) => {
             user,
           },
         })}
+        {/* 
+        <div className="flex items-center gap-2 mb-4">
+          <div className="flex aspect-square size-10 sm:size-16 items-center justify-center">
+            <StaticLogoNav />
+          </div>
+          <div className="flex flex-col gap-0.5 leading-none">
+            <span className="font-semibold text-base sm:text-lg">{APP_NAME}</span>
+            <span className="text-xs sm:text-sm">{VERSION}</span>
+          </div>
+        </div>
+        */}
         <NavClient groups={groups} navPreferences={navPreferences} />
         {RenderServerComponent({
           clientProps: {
