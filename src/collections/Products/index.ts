@@ -14,7 +14,7 @@ import {
 import { generatePreviewPath } from '@/utilities/generatePreviewPath'
 import { revalidateDelete, revalidateProduct } from './hooks/revalidateProducts'
 import { contentLexicalEditor } from '@/fields/contentLexical'
-import { NumberField } from '@/fields/Number'
+import { NumberField } from '@/fields/number'
 
 export const Products: CollectionConfig = {
   slug: 'products',

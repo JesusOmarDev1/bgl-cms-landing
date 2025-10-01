@@ -19,6 +19,7 @@ export const Users: CollectionConfig = {
   defaultPopulate: {
     name: true,
     email: true,
+    avatar: true,
   },
   labels: {
     singular: {
@@ -31,7 +32,7 @@ export const Users: CollectionConfig = {
     },
   },
   admin: {
-    defaultColumns: ['name', 'email', 'roles'],
+    defaultColumns: ['avatar', 'name', 'email', 'roles'],
     useAsTitle: 'name',
     description: 'Administra los usuarios del sitio: crea, edita y elimina usuarios',
     group: 'Control Interno',
@@ -63,6 +64,15 @@ export const Users: CollectionConfig = {
         en: 'Last name',
         es: 'Apellido materno',
       },
+    },
+    {
+      name: 'avatar',
+      label: {
+        en: 'Profile picture',
+        es: 'Foto de perfil',
+      },
+      type: 'upload',
+      relationTo: 'media',
     },
     {
       name: 'roles',

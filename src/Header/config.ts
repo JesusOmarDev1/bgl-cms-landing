@@ -2,6 +2,7 @@ import type { GlobalConfig } from 'payload'
 
 import { link } from '@/fields/link'
 import { revalidateHeader } from './hooks/revalidateHeader'
+import { isAdminOrEditor } from '@/access/isAdminOrEditor'
 
 export const Header: GlobalConfig = {
   slug: 'header',
@@ -10,7 +11,11 @@ export const Header: GlobalConfig = {
     es: 'Encabezado',
   },
   access: {
-    read: () => true,
+    read: isAdminOrEditor,
+    update: isAdminOrEditor,
+  },
+  admin: {
+    description: 'Aqui se configura el encabezado global del sitio web',
   },
   fields: [
     {

@@ -1,4 +1,4 @@
-import type { Post, Media, User, Product, Page, Brand, Model, Category } from '@/payload-types'
+import type { Post, Media, User, Product, Page, Brand, Model, Category, Tag } from '@/payload-types'
 import { getServerSideURL } from '@/utilities/getURL'
 
 export const PostSchema = (props: Post) => {
@@ -55,14 +55,14 @@ export const ProductSchema = (props: Product) => {
   const model = props.model as Model
   const heroImage = props.heroImage as Media
   const categories = props.categories as Category[]
+  const tags = props.tags as Tag[]
   const metaImage = props.meta?.image as Media
 
   return {
     '@context': 'https://schema.org',
     '@type': 'Product',
     name: props.title,
-    description:
-      props.meta?.description || `Báscula industrial ${props.title} de la marca ${brand?.title}`,
+    description: props.meta?.description || `${props.title} de la marca ${brand?.title}`,
     brand: {
       '@type': 'Brand',
       name: brand?.title,
@@ -72,24 +72,14 @@ export const ProductSchema = (props: Product) => {
       ?.map((cat) => (typeof cat === 'object' ? cat.title : undefined))
       .filter(Boolean)
       .join(', '),
+    tags: tags
+      ?.map((tag) => (typeof tag === 'object' ? tag.title : undefined))
+      .filter(Boolean)
+      .join(', '),
     image:
       `${process.env.S3_ENDPOINT}/${heroImage.filename}` ||
       `${process.env.S3_ENDPOINT}/${metaImage.filename}`,
     url: `${url}/products/${props.slug}`,
-    sku: props.id.toString(),
-    offers: props.total
-      ? {
-          '@type': 'Offer',
-          price: props.total,
-          priceCurrency: 'MXN',
-          availability:
-            props.stock > 0 ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
-          seller: {
-            '@type': 'Organization',
-            name: 'BGL Básculas Industriales',
-          },
-        }
-      : undefined,
     additionalProperty: [
       {
         '@type': 'PropertyValue',
@@ -100,6 +90,10 @@ export const ProductSchema = (props: Product) => {
     manufacturer: {
       '@type': 'Organization',
       name: brand?.title || 'BGL Básculas Industriales',
+    },
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': `${url}/products/${props.slug}`,
     },
   }
 }

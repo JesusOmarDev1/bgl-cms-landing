@@ -2,6 +2,7 @@ import type { GlobalConfig } from 'payload'
 
 import { link } from '@/fields/link'
 import { revalidateFooter } from './hooks/revalidateFooter'
+import { isAdminOrEditor } from '@/access/isAdminOrEditor'
 
 export const Footer: GlobalConfig = {
   slug: 'footer',
@@ -10,7 +11,11 @@ export const Footer: GlobalConfig = {
     es: 'Pie de página',
   },
   access: {
-    read: () => true,
+    read: isAdminOrEditor,
+    update: isAdminOrEditor,
+  },
+  admin: {
+    description: 'Aqui se configura el pie de página global del sitio web',
   },
   fields: [
     {

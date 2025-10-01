@@ -4,11 +4,11 @@ import { FC } from 'react'
 import { getNavPrefs } from './getNavPrefs'
 import { NavWrapper } from './NavWrapper'
 import { RenderServerComponent } from '@payloadcms/ui/elements/RenderServerComponent'
-import { Logout } from '@payloadcms/ui'
 import { NavClient } from './index.client'
 import { NavHamburger } from './NavHamburguer'
 import { APP_NAME, VERSION } from 'app'
 import { StaticLogoNav } from '@/graphics/StaticLogoNav'
+import { LogOut } from './LogOut'
 
 export const baseClass = 'nav'
 
@@ -71,7 +71,7 @@ export const Nav: FC<ServerProps> = async (props) => {
       viewType,
     },
     Component: logout?.Button,
-    Fallback: Logout,
+    Fallback: LogOut,
     importMap: payload.importMap,
     serverProps: {
       i18n,

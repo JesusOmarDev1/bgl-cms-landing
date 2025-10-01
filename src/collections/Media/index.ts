@@ -1,10 +1,5 @@
 import type { CollectionConfig } from 'payload'
 
-import {
-  FixedToolbarFeature,
-  InlineToolbarFeature,
-  lexicalEditor,
-} from '@payloadcms/richtext-lexical'
 import { isAdminOrEditor } from '@/access/isAdminOrEditor'
 import { anyone } from '@/access/anyone'
 import { contentLexicalEditor } from '@/fields/contentLexical'
@@ -63,7 +58,7 @@ export const Media: CollectionConfig = {
     mimeTypes: ['image/png', 'image/jpeg', 'image/jpg', 'image/webp', 'image/gif', 'video/mp4'],
     adminThumbnail: 'thumbnail',
     focalPoint: true,
-    crop: true,
+    crop: false,
     displayPreview: true,
     formatOptions: {
       format: 'webp',

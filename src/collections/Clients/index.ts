@@ -5,7 +5,7 @@ import { isAdminOrEditor } from '@/access/isAdminOrEditor'
 import { isAdmin } from '@/access/isAdmin'
 import { anyone } from '@/access/anyone'
 import { contentLexicalEditor } from '@/fields/contentLexical'
-import { TelephoneField } from '@/fields/Telephone'
+import { TelephoneField } from '@/fields/telephone'
 
 export const Clients: CollectionConfig = {
   slug: 'clients',
@@ -17,7 +17,7 @@ export const Clients: CollectionConfig = {
   ],
   defaultSort: 'createdAt',
   access: {
-    read: anyone,
+    read: isAdminOrEditor,
     create: isAdminOrEditor,
     update: isAdminOrEditor,
     delete: isAdmin,

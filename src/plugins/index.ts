@@ -10,11 +10,11 @@ import { GenerateTitle, GenerateURL } from '@payloadcms/plugin-seo/types'
 import { FixedToolbarFeature, HeadingFeature, lexicalEditor } from '@payloadcms/richtext-lexical'
 import { searchFields } from '@/search/fieldOverrides'
 import { beforeSyncWithSearch } from '@/search/beforeSync'
+import { importExportPlugin } from '@payloadcms/plugin-import-export'
 
 import { Page, Post } from '@/payload-types'
 import { getServerSideURL } from '@/utilities/getURL'
 import { getCloudfareAdapter } from '@/lib/storage'
-import { anyone } from '@/access/anyone'
 import { isAdminOrEditor } from '@/access/isAdminOrEditor'
 import { isAdmin } from '@/access/isAdmin'
 
@@ -93,6 +93,12 @@ export const plugins: Plugin[] = [
       },
       hooks: {
         afterChange: [revalidateRedirects],
+      },
+      access: {
+        read: isAdminOrEditor,
+        create: isAdminOrEditor,
+        update: isAdminOrEditor,
+        delete: isAdminOrEditor,
       },
     },
   }),
@@ -193,6 +199,12 @@ export const plugins: Plugin[] = [
         description:
           'Esta es una colección de formularios de envío generados automáticamente. Estos formularios son utilizados por el formulario de envío del sitio y se actualizan automáticamente a medida que se crean o actualizan documentos en el CMS.',
         group: 'Contenido',
+      },
+      access: {
+        read: isAdminOrEditor,
+        create: isAdminOrEditor,
+        update: isAdminOrEditor,
+        delete: isAdminOrEditor,
       },
     },
     formOverrides: {
@@ -387,7 +399,7 @@ export const plugins: Plugin[] = [
       },
       trash: true,
       access: {
-        read: anyone,
+        read: isAdminOrEditor,
         create: isAdminOrEditor,
         update: isAdminOrEditor,
         delete: isAdmin,
@@ -412,7 +424,17 @@ export const plugins: Plugin[] = [
           'Esta es una colección de resultados de búsqueda generados automáticamente. Estos resultados son utilizados por la búsqueda global del sitio y se actualizan automáticamente a medida que se crean o actualizan documentos en el CMS.',
         group: 'Contenido',
       },
+      access: {
+        read: isAdminOrEditor,
+        create: isAdminOrEditor,
+        update: isAdminOrEditor,
+        delete: isAdmin,
+      },
     },
+  }),
+  importExportPlugin({
+    collections: ['posts', 'pages'],
+    format: 'csv',
   }),
   payloadCloudPlugin(),
 ]

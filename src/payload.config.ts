@@ -28,6 +28,7 @@ const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
 export default buildConfig({
+  serverURL: getServerSideURL(),
   auth: {
     jwtOrder: ['JWT', 'Bearer', 'cookie'],
   },
@@ -39,7 +40,9 @@ export default buildConfig({
   admin: {
     dateFormat: 'dd/MM/yyyy',
     suppressHydrationWarning: true,
-    avatar: 'default',
+    avatar: {
+      Component: '@/components/Avatar',
+    },
     components: {
       beforeLogin: ['@/components/BeforeLogin'],
       beforeDashboard: ['@/components/BeforeDashboard'],

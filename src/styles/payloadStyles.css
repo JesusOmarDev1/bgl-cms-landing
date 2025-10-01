@@ -192,3 +192,15 @@ table {
 .PhoneInputCountry {
   @apply mr-2;
 }
+
+.app-header__account {
+  @apply no-underline;
+}
+
+.doc-drawer__toggler {
+  @apply px-1.5;
+}
+
+.nav__controls {
+  @apply w-full;
+}

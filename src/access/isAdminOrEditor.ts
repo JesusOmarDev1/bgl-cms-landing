@@ -1,4 +1,5 @@
-import { Access } from 'payload'
+import { Access, FieldAccess } from 'payload'
+import { User } from '@/payload-types'
 
 export const isAdminOrEditor: Access = ({ req: { user } }) => {
   if (user) {
@@ -10,4 +11,9 @@ export const isAdminOrEditor: Access = ({ req: { user } }) => {
   }
 
   return false
+}
+
+export const isAdminOrEditorFieldLevel: FieldAccess<{ id: string }, User> = ({ req: { user } }) => {
+  // Return true or false based on if the user has an admin role
+  return Boolean(user?.roles?.includes('admin') || user?.roles?.includes('editor'))
 }
