@@ -5,6 +5,8 @@ import { isAdminOrEditor } from '@/access/isAdminOrEditor'
 import { isAdmin } from '@/access/isAdmin'
 import { isAuthenticatedOrPublished } from '@/access/isLoggedInOrPublished'
 import { contentLexicalEditor } from '@/fields/contentLexical'
+import { NumberField } from '@/fields/Number'
+import { TelephoneField } from '@/fields/Telephone'
 
 export const Suppliers: CollectionConfig = {
   slug: 'suppliers',
@@ -123,14 +125,13 @@ export const Suppliers: CollectionConfig = {
                 es: 'Correo Electrónico',
               },
             },
-            {
+            ...TelephoneField({
               name: 'phone',
-              type: 'text',
               label: {
                 en: 'Phone',
                 es: 'Teléfono',
               },
-            },
+            }),
             {
               name: 'address',
               type: 'text',
@@ -163,17 +164,26 @@ export const Suppliers: CollectionConfig = {
         es: 'Crédito',
       },
     },
-    {
-      name: 'discount',
-      type: 'number',
-      admin: {
-        position: 'sidebar',
+    ...NumberField(
+      {
+        name: 'discount',
+        min: 0,
+        label: {
+          en: 'Discount',
+          es: 'Descuento',
+        },
+        admin: {
+          position: 'sidebar',
+        },
       },
-      label: {
-        en: 'Discount',
-        es: 'Descuento',
+      {
+        prefix: '$ ',
+        suffix: ' MXN',
+        thousandSeparator: ',',
+        decimalScale: 2,
+        fixedDecimalScale: true,
       },
-    },
+    ),
   ],
   versions: {
     drafts: true,

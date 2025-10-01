@@ -174,5 +174,21 @@ table {
 }
 
 .hamburger {
-  @apply shadow-none border border-zinc-200 dark:border-zinc-700;
+  @apply shadow-none border border-zinc-200 dark:border-zinc-800 size-fit;
+}
+
+.nav__wrap {
+  @apply pt-0;
+}
+
+.field-type.text.container {
+  @apply px-0 mx-0 min-w-full;
+}
+
+.numberInput {
+  @apply w-full;
+}
+
+.PhoneInputCountry {
+  @apply mr-2;
 }

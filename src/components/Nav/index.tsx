@@ -104,17 +104,15 @@ export const Nav: FC<ServerProps> = async (props) => {
             user,
           },
         })}
-        {/* 
         <div className="flex items-center gap-2 mb-4">
-          <div className="flex aspect-square size-10 sm:size-16 items-center justify-center">
+          <div className="flex aspect-square size-16 items-center justify-center">
             <StaticLogoNav />
           </div>
           <div className="flex flex-col gap-0.5 leading-none">
-            <span className="font-semibold text-base sm:text-lg">{APP_NAME}</span>
-            <span className="text-xs sm:text-sm">{VERSION}</span>
+            <span className="font-semibold text-lg">{APP_NAME}</span>
+            <span className="text-sm">{VERSION}</span>
           </div>
         </div>
-        */}
         <NavClient groups={groups} navPreferences={navPreferences} />
         {RenderServerComponent({
           clientProps: {

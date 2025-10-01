@@ -5,6 +5,7 @@ import { isAdminOrEditor } from '@/access/isAdminOrEditor'
 import { isAdmin } from '@/access/isAdmin'
 import { anyone } from '@/access/anyone'
 import { contentLexicalEditor } from '@/fields/contentLexical'
+import { TelephoneField } from '@/fields/Telephone'
 
 export const Clients: CollectionConfig = {
   slug: 'clients',
@@ -112,14 +113,13 @@ export const Clients: CollectionConfig = {
                 es: 'Correo Electrónico',
               },
             },
-            {
+            ...TelephoneField({
               name: 'phone',
-              type: 'text',
               label: {
                 en: 'Phone',
                 es: 'Teléfono',
               },
-            },
+            }),
             {
               name: 'address',
               type: 'text',

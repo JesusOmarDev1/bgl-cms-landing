@@ -15,7 +15,7 @@ export const NavHamburger: React.FC<{
       }}
       tabIndex={!navOpen ? -1 : undefined}
     >
-      <Hamburger closeIcon="collapse" isActive />
+      <Hamburger closeIcon="x" isActive />
     </div>
   )
 }

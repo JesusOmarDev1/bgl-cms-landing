@@ -14,6 +14,7 @@ import {
 import { generatePreviewPath } from '@/utilities/generatePreviewPath'
 import { revalidateDelete, revalidateProduct } from './hooks/revalidateProducts'
 import { contentLexicalEditor } from '@/fields/contentLexical'
+import { NumberField } from '@/fields/Number'
 
 export const Products: CollectionConfig = {
   slug: 'products',
@@ -263,31 +264,46 @@ export const Products: CollectionConfig = {
       },
     },
     ...slugField(),
-    {
-      name: 'price',
-      type: 'number',
-      min: 0,
-
-      label: {
-        en: 'Price (MXN)',
-        es: 'Precio (MXN)',
+    ...NumberField(
+      {
+        name: 'price',
+        min: 0,
+        label: {
+          en: 'Price',
+          es: 'Precio',
+        },
+        admin: {
+          position: 'sidebar',
+        },
       },
-      admin: {
-        position: 'sidebar',
+      {
+        prefix: '$ ',
+        suffix: ' MXN',
+        thousandSeparator: ',',
+        decimalScale: 2,
+        fixedDecimalScale: true,
       },
-    },
-    {
-      name: 'discount',
-      type: 'number',
-      min: 0,
-      label: {
-        en: 'Discount (MXN)',
-        es: 'Descuento (MXN)',
+    ),
+    ...NumberField(
+      {
+        name: 'discount',
+        min: 0,
+        label: {
+          en: 'Discount',
+          es: 'Descuento',
+        },
+        admin: {
+          position: 'sidebar',
+        },
       },
-      admin: {
-        position: 'sidebar',
+      {
+        prefix: '$ ',
+        suffix: ' MXN',
+        thousandSeparator: ',',
+        decimalScale: 2,
+        fixedDecimalScale: true,
       },
-    },
+    ),
     {
       name: 'iva',
       type: 'checkbox',
@@ -300,66 +316,80 @@ export const Products: CollectionConfig = {
         description: 'Se aplica el 16% de IVA al precio final',
       },
     },
-    {
-      name: 'total',
-      type: 'number',
-      min: 0,
-      label: {
-        en: 'Total (MXN)',
-        es: 'Total (MXN)',
-      },
-      admin: {
-        position: 'sidebar',
-      },
-      hooks: {
-        beforeChange: [
-          ({ siblingData, value }) => {
-            // Validar que el precio existe y es válido
-            if (
-              !siblingData?.price ||
-              typeof siblingData.price !== 'number' ||
-              siblingData.price < 0
-            ) {
-              return value // Si no hay precio válido, mantener el valor actual
-            }
+    ...NumberField(
+      {
+        name: 'total',
+        min: 0,
+        label: {
+          en: 'Total',
+          es: 'Total',
+        },
+        admin: {
+          position: 'sidebar',
+        },
+        hooks: {
+          beforeChange: [
+            ({ siblingData, value }) => {
+              // Validar que el precio existe y es válido
+              if (
+                !siblingData?.price ||
+                typeof siblingData.price !== 'number' ||
+                siblingData.price < 0
+              ) {
+                return value // Si no hay precio válido, mantener el valor actual
+              }
 
-            // Calcular subtotal: precio base menos descuento (si existe y es válido)
-            const discount =
-              siblingData.discount &&
-              typeof siblingData.discount === 'number' &&
-              siblingData.discount > 0
-                ? siblingData.discount
-                : 0
+              // Calcular subtotal: precio base menos descuento (si existe y es válido)
+              const discount =
+                siblingData.discount &&
+                typeof siblingData.discount === 'number' &&
+                siblingData.discount > 0
+                  ? siblingData.discount
+                  : 0
 
-            const subtotal = Math.max(0, siblingData.price - discount)
+              const subtotal = Math.max(0, siblingData.price - discount)
 
-            // Aplicar IVA si está habilitado (16% = 1.16)
-            const applyIVA = siblingData.iva === true
-            const total = applyIVA ? subtotal * 1.16 : subtotal
+              // Aplicar IVA si está habilitado (16% = 1.16)
+              const applyIVA = siblingData.iva === true
+              const total = applyIVA ? subtotal * 1.16 : subtotal
 
-            // Redondear a 2 decimales para evitar problemas de precisión
-            return Math.round(total * 100) / 100
-          },
-        ],
+              // Redondear a 2 decimales para evitar problemas de precisión
+              return Math.round(total * 100) / 100
+            },
+          ],
+        },
+        access: {
+          update: isAdminFieldLevel,
+          create: isAdminFieldLevel,
+        },
       },
-      access: {
-        update: isAdminFieldLevel,
-        create: isAdminFieldLevel,
+      {
+        prefix: '$ ',
+        suffix: ' MXN',
+        thousandSeparator: ',',
+        decimalScale: 2,
+        fixedDecimalScale: true,
       },
-    },
-    {
-      name: 'stock',
-      type: 'number',
-      min: 0,
-      label: {
-        en: 'Stock',
-        es: 'Stock',
+    ),
+    ...NumberField(
+      {
+        name: 'stock',
+        min: 0,
+        label: {
+          en: 'Stock',
+          es: 'Stock',
+        },
+        required: true,
+        admin: {
+          position: 'sidebar',
+        },
       },
-      required: true,
-      admin: {
-        position: 'sidebar',
+      {
+        suffix: ' Unidad(es)',
+        thousandSeparator: ',',
+        decimalScale: 0,
       },
-    },
+    ),
   ],
   hooks: {
     afterChange: [revalidateProduct],
