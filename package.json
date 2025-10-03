@@ -11,6 +11,7 @@
     "dev:prod": "cross-env NODE_OPTIONS=--no-deprecation rm -rf .next && pnpm build --turbopack && pnpm start ",
     "generate:importmap": "cross-env NODE_OPTIONS=--no-deprecation payload generate:importmap",
     "generate:types": "cross-env NODE_OPTIONS=--no-deprecation payload generate:types",
+    "generate:all": "cross-env NODE_OPTIONS=--no-deprecation payload generate:types && cross-env NODE_OPTIONS=--no-deprecation payload generate:importmap",
     "ii": "cross-env NODE_OPTIONS=--no-deprecation pnpm --ignore-workspace install",
     "lint": "cross-env NODE_OPTIONS=--no-deprecation next lint",
     "lint:fix": "cross-env NODE_OPTIONS=--no-deprecation next lint --fix",
@@ -19,7 +20,11 @@
     "start": "cross-env NODE_OPTIONS=--no-deprecation next start",
     "test": "pnpm run test:int && pnpm run test:e2e",
     "test:e2e": "cross-env NODE_OPTIONS=\"--no-deprecation --no-experimental-strip-types\" pnpm exec playwright test --config=playwright.config.ts",
-    "test:int": "cross-env NODE_OPTIONS=--no-deprecation vitest run --config ./vitest.config.mts"
+    "test:int": "cross-env NODE_OPTIONS=--no-deprecation vitest run --config ./vitest.config.mts",
+    "clean:cache": "cross-env NODE_OPTIONS=--no-deprecation rimraf .next",
+    "format:check": "cross-env NODE_OPTIONS=--no-deprecation prettier --check",
+    "format": "cross-env NODE_OPTIONS=--no-deprecation prettier --write",
+    "delete:localdb": "cross-env NODE_OPTIONS=--no-deprecation rimraf bgl-cms.db"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.1",
@@ -32,7 +37,7 @@
     "@payloadcms/next": "3.53.0",
     "@payloadcms/payload-cloud": "3.53.0",
     "@payloadcms/plugin-form-builder": "3.53.0",
-    "@payloadcms/plugin-import-export": "^3.58.0",
+    "@payloadcms/plugin-import-export": "^3.53.0",
     "@payloadcms/plugin-nested-docs": "3.53.0",
     "@payloadcms/plugin-redirects": "3.53.0",
     "@payloadcms/plugin-search": "3.53.0",
@@ -112,6 +117,7 @@
     "react-syntax-highlighter": "^15.6.6",
     "reading-time-estimator": "^1.14.0",
     "recharts": "2.15.4",
+    "rimraf": "^6.0.1",
     "sharp": "0.34.2",
     "sonner": "^2.0.7",
     "tailwind-merge": "^2.6.0",

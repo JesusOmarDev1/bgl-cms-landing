@@ -3,21 +3,37 @@ import { resendAdapter } from '@payloadcms/email-resend'
 import nodemailer from 'nodemailer'
 
 export function getEmailAdapter() {
-  if (process.env.NODE_ENV === 'production') {
+  const isProduction = process.env.NODE_ENV === 'production'
+
+  if (isProduction) {
+    const apiKey = process.env.RESEND_API_KEY
+    const defaultEmail = process.env.RESEND_DEFAULT_EMAIL
+
+    if (!apiKey || !defaultEmail) {
+      throw new Error('RESEND_API_KEY and RESEND_DEFAULT_EMAIL are required in production')
+    }
+
     return resendAdapter({
-      defaultFromAddress: process.env.RESEND_DEFAULT_EMAIL || '',
+      defaultFromAddress: defaultEmail,
       defaultFromName: process.env.RESEND_DEFAULT_NAME || 'BGL Básculas Industriales',
-      apiKey: process.env.RESEND_API_KEY || '',
+      apiKey,
     })
   } else {
+    const gmailUser = process.env.GMAIL_USER
+    const gmailPass = process.env.GMAIL_PASS
+
+    if (!gmailUser || !gmailPass) {
+      console.warn('Gmail credentials not configured. Email sending will not work.')
+    }
+
     return nodemailerAdapter({
-      defaultFromAddress: process.env.GMAIL_USER || '',
+      defaultFromAddress: gmailUser || '',
       defaultFromName: process.env.GMAIL_NAME || 'BGL Básculas Industriales',
       transport: nodemailer.createTransport({
         service: 'gmail',
         auth: {
-          user: process.env.GMAIL_USER,
-          pass: process.env.GMAIL_PASS,
+          user: gmailUser,
+          pass: gmailPass,
         },
       }),
     })
