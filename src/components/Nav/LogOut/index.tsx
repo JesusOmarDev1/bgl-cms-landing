@@ -21,7 +21,7 @@ export const LogOut: React.FC = () => {
       className="flex items-center gap-2 no-underline mt-0"
       passHref
     >
-      <Button className="flex items-center justify-center w-full">
+      <Button className="flex items-center justify-center w-full my-0 mt-2">
         <LucideLogOut className="size-5" />
         <span className="font-semibold ml-1">Cerrar Sesion</span>
       </Button>

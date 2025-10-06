@@ -1,5 +1,6 @@
 import { CollectionSlug, GlobalSlug } from 'payload'
 import {
+  BotMessageSquare,
   CircleCheck,
   Component,
   ContactRound,
@@ -48,6 +49,7 @@ export const navIconMap: Partial<
   'payload-migrations': Database,
   'payload-locked-documents': FileLock,
   'payload-preferences': Settings2,
+  chatbot: BotMessageSquare,
 }
 
 export const getNavIcon = (slug: string) =>

@@ -23,6 +23,7 @@ import { Tags } from './collections/Tags'
 import { Suppliers } from './collections/Suppliers'
 import { Clients } from './collections/Clients'
 import { contentLexicalEditor } from './fields/contentLexical'
+import { Chatbot } from './globals/Chatbot/config'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -101,7 +102,7 @@ export default buildConfig({
     Clients,
   ],
   cors: [getServerSideURL()].filter(Boolean),
-  globals: [Header, Footer],
+  globals: [Header, Footer, Chatbot],
   plugins: [...plugins],
   secret: process.env.PAYLOAD_SECRET,
   sharp,

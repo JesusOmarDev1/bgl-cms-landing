@@ -1,19 +1,12 @@
 @import './theme.css';
 @config '../../tailwind.config.mjs';
 
-/* Define the Tailwind layers in the correct order */
 @layer theme, base, components, utilities;
 
-/* Import the Tailwind theme styles */
 @import 'tailwindcss/theme.css' layer(theme);
 
-/* Skip the preflight reset to avoid conflicts with Payload's admin styles */
-/* @import 'tailwindcss/preflight.css' layer(base); */
-
-/* Import Tailwind utilities */
 @import 'tailwindcss/utilities.css' layer(utilities);
 
-/* Support Payload’s dark mode toggle by adding a custom variant */
 @custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
 
 @layer base {
@@ -117,7 +110,6 @@ table {
   }
 }
 
-/* Pill styles */
 .pill {
   @apply rounded-[var(--radius-xl)];
 }
@@ -126,7 +118,6 @@ table {
   @apply rounded-[var(--radius-xl)];
 }
 
-/* Navigation styles */
 .login__brand {
   @apply mb-0;
 }
@@ -202,5 +193,11 @@ table {
 }
 
 .nav__controls {
-  @apply w-full;
+  @apply w-full m-0;
+}
+
+.\[\&_\.recharts-cartesian-axis-tick_text\]\:fill-muted-foreground
+  .recharts-cartesian-axis-tick
+  text {
+  @apply fill-zinc-500;
 }

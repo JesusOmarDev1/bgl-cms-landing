@@ -117,10 +117,12 @@ export interface Config {
   globals: {
     header: Header;
     footer: Footer;
+    chatbot: Chatbot;
   };
   globalsSelect: {
     header: HeaderSelect<false> | HeaderSelect<true>;
     footer: FooterSelect<false> | FooterSelect<true>;
+    chatbot: ChatbotSelect<false> | ChatbotSelect<true>;
   };
   locale: null;
   user: User & {
@@ -2112,6 +2114,102 @@ export interface Footer {
   createdAt?: string | null;
 }
 /**
+ * Configure the chatbot welcome message, default response, and all questions
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "chatbot".
+ */
+export interface Chatbot {
+  id: number;
+  welcomeMessage: {
+    /**
+     * The first message users see when opening the chatbot
+     */
+    text: string;
+    /**
+     * Quick action buttons shown in the welcome message
+     */
+    quickOptions?:
+      | {
+          question: string;
+          /**
+           * If provided, the button will open this link. Example: /productos, https://example.com
+           */
+          url?: string | null;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  /**
+   * This response is shown when no matching question is found
+   */
+  defaultResponse: {
+    answer: string;
+    followUpQuestions?:
+      | {
+          question: string;
+          /**
+           * If provided, opens this link instead of sending as message
+           */
+          url?: string | null;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  /**
+   * All chatbot questions and their answers
+   */
+  questions?:
+    | {
+        /**
+         * The main question users might ask
+         */
+        question: string;
+        /**
+         * Keywords that trigger this response
+         */
+        keywords?:
+          | {
+              keyword: string;
+              id?: string | null;
+            }[]
+          | null;
+        /**
+         * The chatbot response. Use \n for line breaks
+         */
+        answer: string;
+        /**
+         * Suggested questions shown after this answer
+         */
+        followUpQuestions?:
+          | {
+              question: string;
+              /**
+               * Opens this link instead of sending as message
+               */
+              url?: string | null;
+              id?: string | null;
+            }[]
+          | null;
+        /**
+         * Category for organizing questions
+         */
+        category?: (number | null) | Category;
+        /**
+         * Higher number = higher priority. Used when multiple questions match
+         */
+        priority?: number | null;
+        /**
+         * Disable temporarily without deleting
+         */
+        active?: boolean | null;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "header_select".
  */
@@ -2151,6 +2249,62 @@ export interface FooterSelect<T extends boolean = true> {
               url?: T;
               label?: T;
             };
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "chatbot_select".
+ */
+export interface ChatbotSelect<T extends boolean = true> {
+  welcomeMessage?:
+    | T
+    | {
+        text?: T;
+        quickOptions?:
+          | T
+          | {
+              question?: T;
+              url?: T;
+              id?: T;
+            };
+      };
+  defaultResponse?:
+    | T
+    | {
+        answer?: T;
+        followUpQuestions?:
+          | T
+          | {
+              question?: T;
+              url?: T;
+              id?: T;
+            };
+      };
+  questions?:
+    | T
+    | {
+        question?: T;
+        keywords?:
+          | T
+          | {
+              keyword?: T;
+              id?: T;
+            };
+        answer?: T;
+        followUpQuestions?:
+          | T
+          | {
+              question?: T;
+              url?: T;
+              id?: T;
+            };
+        category?: T;
+        priority?: T;
+        active?: T;
         id?: T;
       };
   updatedAt?: T;

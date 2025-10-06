@@ -10,6 +10,7 @@ import { ViewTransitions } from 'next-view-transitions'
 import { getServerSideURL } from '@/utilities/getURL'
 import '@/styles/globals.css'
 import { Toaster } from '@/components/ui/sonner'
+import { ChatbotWrapper } from '@/globals/Chatbot/ChatbotWidget/ChatbotWrapper'
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -25,6 +26,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
             <Header />
             <Toaster position="bottom-right" richColors closeButton />
             <div className="mt-24">{children}</div>
+            <ChatbotWrapper />
           </Providers>
         </body>
       </html>
