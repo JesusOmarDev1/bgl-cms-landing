@@ -32,16 +32,22 @@ export const ImageMedia: React.FC<MediaProps> = (props) => {
   let alt = altFromProps
   let src: StaticImageData | string = srcFromProps || ''
 
-  if (!src && resource && typeof resource === 'object') {
-    const { alt: altFromResource, height: fullHeight, url, width: fullWidth } = resource
+  if (!src && resource) {
+    if (typeof resource === 'string') {
+      // Handle direct string URLs (e.g., external URLs)
+      src = resource
+    } else if (typeof resource === 'object') {
+      // Handle Payload media objects
+      const { alt: altFromResource, height: fullHeight, url, width: fullWidth } = resource
 
-    width = fullWidth!
-    height = fullHeight!
-    alt = altFromResource || ''
+      width = fullWidth!
+      height = fullHeight!
+      alt = altFromResource || ''
 
-    const cacheTag = resource.updatedAt
+      const cacheTag = resource.updatedAt
 
-    src = getMediaUrl(url, cacheTag)
+      src = getMediaUrl(url, cacheTag)
+    }
   }
 
   const loading = loadingFromProps || (!priority ? 'lazy' : undefined)

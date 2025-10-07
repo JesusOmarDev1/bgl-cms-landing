@@ -105,6 +105,7 @@
     "ogl": "^1.0.11",
     "payload": "3.53.0",
     "payload-email-template": "^1.2.1",
+    "payload-plugin-comments": "^1.0.2",
     "payload-plugin-phone-field": "^1.0.6",
     "prism-react-renderer": "^2.3.1",
     "qrcode": "^1.5.4",

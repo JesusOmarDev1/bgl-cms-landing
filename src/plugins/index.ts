@@ -17,6 +17,7 @@ import { getServerSideURL } from '@/utilities/getURL'
 import { getCloudfareAdapter } from '@/lib/storage'
 import { isAdminOrEditor } from '@/access/isAdminOrEditor'
 import { isAdmin } from '@/access/isAdmin'
+import { anyone } from '@/access/anyone'
 
 const generateTitle: GenerateTitle<Post | Page> = ({ doc }) => {
   return doc?.title ? `${doc.title}` : 'BGL BASCULAS INDUSTRIALES'
@@ -201,10 +202,10 @@ export const plugins: Plugin[] = [
         group: 'Contenido',
       },
       access: {
-        read: isAdminOrEditor,
+        read: anyone,
         create: isAdminOrEditor,
         update: isAdminOrEditor,
-        delete: isAdminOrEditor,
+        delete: isAdmin,
       },
     },
     formOverrides: {
@@ -425,7 +426,7 @@ export const plugins: Plugin[] = [
         group: 'Contenido',
       },
       access: {
-        read: isAdminOrEditor,
+        read: anyone,
         create: isAdminOrEditor,
         update: isAdminOrEditor,
         delete: isAdmin,

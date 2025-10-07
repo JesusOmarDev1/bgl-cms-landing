@@ -50,25 +50,6 @@ export const Categories: CollectionConfig = {
       },
       required: true,
     },
-    {
-      name: 'subcategories',
-      type: 'array',
-      label: {
-        en: 'Subcategories',
-        es: 'Subcategorías',
-      },
-      fields: [
-        {
-          name: 'title',
-          type: 'text',
-          label: {
-            en: 'Title',
-            es: 'Título',
-          },
-          required: true,
-        },
-      ],
-    },
     ...slugField(),
   ],
 }

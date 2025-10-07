@@ -63,8 +63,8 @@ export const Chatbot: GlobalConfig = {
                   },
                   admin: {
                     description: {
-                      en: 'Quick action buttons shown in the welcome message',
-                      es: 'Botones de acción rápida mostrados en el mensaje de bienvenida',
+                      en: 'Quick action buttons shown in the welcome message. Use URL for links (blue) or leave empty to send as message (red)',
+                      es: 'Botones de acción rápida mostrados en el mensaje de bienvenida. Usa URL para enlaces (azul) o déjalo vacío para enviar como mensaje (rojo)',
                     },
                   },
                   fields: [
@@ -78,16 +78,33 @@ export const Chatbot: GlobalConfig = {
                       },
                     },
                     {
-                      name: 'url',
-                      type: 'text',
+                      name: 'typeMessage',
+                      type: 'checkbox',
+                      defaultValue: false,
                       label: {
-                        en: 'URL (optional)',
-                        es: 'URL (opcional)',
+                        en: '🔗 Open as Link (Blue Button)',
+                        es: '🔗 Abrir como Enlace (Botón Azul)',
                       },
                       admin: {
                         description: {
-                          en: 'If provided, the button will open this link. Example: /productos, https://example.com',
-                          es: 'Si se proporciona, el botón abrirá este enlace. Ejemplo: /productos, https://ejemplo.com',
+                          en: 'Check to open a URL. Uncheck to send as message (Red Button)',
+                          es: 'Marca para abrir una URL. Desmarca para enviar como mensaje (Botón Rojo)',
+                        },
+                      },
+                    },
+                    {
+                      name: 'url',
+                      type: 'text',
+                      label: {
+                        en: 'URL',
+                        es: 'URL',
+                      },
+                      required: true,
+                      admin: {
+                        condition: (data, siblingData) => siblingData?.typeMessage === true,
+                        description: {
+                          en: 'Enter the URL to open. Examples: /productos, https://example.com',
+                          es: 'Ingresa la URL a abrir. Ejemplos: /productos, https://ejemplo.com',
                         },
                       },
                     },
@@ -135,6 +152,12 @@ export const Chatbot: GlobalConfig = {
                     en: 'Follow-up Suggestions',
                     es: 'Sugerencias de Seguimiento',
                   },
+                  admin: {
+                    description: {
+                      en: 'Buttons shown after the default response. With URL = link (blue), without URL = sends message (red)',
+                      es: 'Botones mostrados después de la respuesta por defecto. Con URL = enlace (azul), sin URL = envía mensaje (rojo)',
+                    },
+                  },
                   fields: [
                     {
                       name: 'question',
@@ -146,16 +169,33 @@ export const Chatbot: GlobalConfig = {
                       },
                     },
                     {
-                      name: 'url',
-                      type: 'text',
+                      name: 'typeMessage',
+                      type: 'checkbox',
+                      defaultValue: false,
                       label: {
-                        en: 'URL (optional)',
-                        es: 'URL (opcional)',
+                        en: '🔗 Open as Link (Blue Button)',
+                        es: '🔗 Abrir como Enlace (Botón Azul)',
                       },
                       admin: {
                         description: {
-                          en: 'If provided, opens this link instead of sending as message',
-                          es: 'Si se proporciona, abre este enlace en lugar de enviar como mensaje',
+                          en: 'Check to open a URL. Uncheck to send as message (Red Button)',
+                          es: 'Marca para abrir una URL. Desmarca para enviar como mensaje (Botón Rojo)',
+                        },
+                      },
+                    },
+                    {
+                      name: 'url',
+                      type: 'text',
+                      label: {
+                        en: 'URL',
+                        es: 'URL',
+                      },
+                      required: true,
+                      admin: {
+                        condition: (data, siblingData) => siblingData?.typeMessage === true,
+                        description: {
+                          en: 'Enter the URL to open. Examples: /productos, https://example.com',
+                          es: 'Ingresa la URL a abrir. Ejemplos: /productos, https://ejemplo.com',
                         },
                       },
                     },
@@ -249,8 +289,8 @@ export const Chatbot: GlobalConfig = {
                   },
                   admin: {
                     description: {
-                      en: 'Suggested questions shown after this answer',
-                      es: 'Preguntas sugeridas mostradas después de esta respuesta',
+                      en: 'Suggested buttons shown after this answer. With URL = opens link (blue), without URL = sends message automatically (red)',
+                      es: 'Botones sugeridos mostrados después de esta respuesta. Con URL = abre enlace (azul), sin URL = envía mensaje automáticamente (rojo)',
                     },
                   },
                   fields: [
@@ -264,16 +304,33 @@ export const Chatbot: GlobalConfig = {
                       },
                     },
                     {
-                      name: 'url',
-                      type: 'text',
+                      name: 'typeMessage',
+                      type: 'checkbox',
+                      defaultValue: false,
                       label: {
-                        en: 'URL (optional)',
-                        es: 'URL (opcional)',
+                        en: '🔗 Open as Link (Blue Button)',
+                        es: '🔗 Abrir como Enlace (Botón Azul)',
                       },
                       admin: {
                         description: {
-                          en: 'Opens this link instead of sending as message',
-                          es: 'Abre este enlace en lugar de enviar como mensaje',
+                          en: 'Check to open a URL. Uncheck to send as message (Red Button)',
+                          es: 'Marca para abrir una URL. Desmarca para enviar como mensaje (Botón Rojo)',
+                        },
+                      },
+                    },
+                    {
+                      name: 'url',
+                      type: 'text',
+                      label: {
+                        en: 'URL',
+                        es: 'URL',
+                      },
+                      required: true,
+                      admin: {
+                        condition: (data, siblingData) => siblingData?.typeMessage === true,
+                        description: {
+                          en: 'Enter the URL to open. Examples: /productos, https://example.com',
+                          es: 'Ingresa la URL a abrir. Ejemplos: /productos, https://ejemplo.com',
                         },
                       },
                     },

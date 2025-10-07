@@ -104,8 +104,8 @@ export const Posts: CollectionConfig<'posts'> = {
               type: 'richText',
               editor: contentLexicalEditor,
               label: {
-                en: 'Media block',
-                es: 'Bloque de Medias',
+                en: 'Content',
+                es: 'Contenido',
               },
               required: true,
             },

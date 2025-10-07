@@ -372,12 +372,6 @@ export interface Media {
 export interface Category {
   id: number;
   title: string;
-  subcategories?:
-    | {
-        title: string;
-        id?: string | null;
-      }[]
-    | null;
   slug: string;
   slugLock?: boolean | null;
   parent?: (number | null) | Category;
@@ -924,12 +918,7 @@ export interface Supplier {
 export interface Tag {
   id: number;
   title: string;
-  subtags?:
-    | {
-        title: string;
-        id?: string | null;
-      }[]
-    | null;
+  categories?: (number | Category)[] | null;
   slug: string;
   slugLock?: boolean | null;
   parent?: (number | null) | Tag;
@@ -1570,12 +1559,6 @@ export interface MediaSelect<T extends boolean = true> {
  */
 export interface CategoriesSelect<T extends boolean = true> {
   title?: T;
-  subcategories?:
-    | T
-    | {
-        title?: T;
-        id?: T;
-      };
   slug?: T;
   slugLock?: T;
   parent?: T;
@@ -1685,12 +1668,7 @@ export interface ModelsSelect<T extends boolean = true> {
  */
 export interface TagsSelect<T extends boolean = true> {
   title?: T;
-  subtags?:
-    | T
-    | {
-        title?: T;
-        id?: T;
-      };
+  categories?: T;
   slug?: T;
   slugLock?: T;
   parent?: T;
@@ -2127,13 +2105,17 @@ export interface Chatbot {
      */
     text: string;
     /**
-     * Quick action buttons shown in the welcome message
+     * Quick action buttons shown in the welcome message. Use URL for links (blue) or leave empty to send as message (red)
      */
     quickOptions?:
       | {
           question: string;
           /**
-           * If provided, the button will open this link. Example: /productos, https://example.com
+           * Check to open a URL. Uncheck to send as message (Red Button)
+           */
+          typeMessage?: boolean | null;
+          /**
+           * Enter the URL to open. Examples: /productos, https://example.com
            */
           url?: string | null;
           id?: string | null;
@@ -2145,11 +2127,18 @@ export interface Chatbot {
    */
   defaultResponse: {
     answer: string;
+    /**
+     * Buttons shown after the default response. With URL = link (blue), without URL = sends message (red)
+     */
     followUpQuestions?:
       | {
           question: string;
           /**
-           * If provided, opens this link instead of sending as message
+           * Check to open a URL. Uncheck to send as message (Red Button)
+           */
+          typeMessage?: boolean | null;
+          /**
+           * Enter the URL to open. Examples: /productos, https://example.com
            */
           url?: string | null;
           id?: string | null;
@@ -2179,13 +2168,17 @@ export interface Chatbot {
          */
         answer: string;
         /**
-         * Suggested questions shown after this answer
+         * Suggested buttons shown after this answer. With URL = opens link (blue), without URL = sends message automatically (red)
          */
         followUpQuestions?:
           | {
               question: string;
               /**
-               * Opens this link instead of sending as message
+               * Check to open a URL. Uncheck to send as message (Red Button)
+               */
+              typeMessage?: boolean | null;
+              /**
+               * Enter the URL to open. Examples: /productos, https://example.com
                */
               url?: string | null;
               id?: string | null;
@@ -2268,6 +2261,7 @@ export interface ChatbotSelect<T extends boolean = true> {
           | T
           | {
               question?: T;
+              typeMessage?: T;
               url?: T;
               id?: T;
             };
@@ -2280,6 +2274,7 @@ export interface ChatbotSelect<T extends boolean = true> {
           | T
           | {
               question?: T;
+              typeMessage?: T;
               url?: T;
               id?: T;
             };
@@ -2299,6 +2294,7 @@ export interface ChatbotSelect<T extends boolean = true> {
           | T
           | {
               question?: T;
+              typeMessage?: T;
               url?: T;
               id?: T;
             };

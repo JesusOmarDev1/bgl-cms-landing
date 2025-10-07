@@ -39,6 +39,10 @@ const nextConfig = {
         protocol: 'https',
         hostname: '*.r2.dev',
       },
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+      },
     ],
     domains: ['*.r2.cloudflarestorage.com', '*.r2.dev'],
     unoptimized: process.env.NODE_ENV === 'development',

@@ -188,7 +188,7 @@ const jsxConverters: JSXConvertersFunction<NodeTypes> = ({ defaultConverters }) 
         className="col-start-1 col-span-3"
         imgClassName="m-0"
         {...node.fields}
-        captionClassName="mx-auto max-w-5xl"
+        captionClassName="mx-auto max-w-4xl"
         enableGutter={false}
         disableInnerContainer={true}
       />
@@ -218,7 +218,7 @@ export default function RichText(props: Props) {
         {
           container: enableGutter,
           'max-w-none': !enableGutter,
-          'mx-auto prose md:prose-md dark:prose-invert': enableProse,
+          'mx-auto prose md:prose-md dark:prose-invert text-primary': enableProse,
         },
         className,
       )}

@@ -59,7 +59,7 @@ export default async function Page({ searchParams: searchParamsPromise }: Args) 
   return (
     <div className="mt-36">
       <PageClient />
-      <div className="flex flex-col items-center justify-center max-w-6xl mx-auto w-full gap-2.5">
+      <div className="flex flex-col items-center justify-center w-full gap-2.5">
         <div className="prose dark:prose-invert text-center">
           <h1 className="text-3xl md:text-4xl lg:text-6xl font-bold">
             ¿No encontraste lo que buscabas?

@@ -1,6 +1,6 @@
 import type { CollectionConfig } from 'payload'
 
-import { isAdminOrEditor } from '@/access/isAdminOrEditor'
+import { isAdminOrEditor, isAdminOrEditorFieldLevel } from '@/access/isAdminOrEditor'
 import { isAdmin, isAdminFieldLevel } from '@/access/isAdmin'
 import { isAuthenticatedOrPublished } from '@/access/isLoggedInOrPublished'
 import { slugField } from '@/fields/slug'
@@ -275,6 +275,9 @@ export const Products: CollectionConfig = {
         admin: {
           position: 'sidebar',
         },
+        access: {
+          read: isAdminOrEditorFieldLevel,
+        },
       },
       {
         prefix: '$ ',
@@ -295,6 +298,9 @@ export const Products: CollectionConfig = {
         admin: {
           position: 'sidebar',
         },
+        access: {
+          read: isAdminOrEditorFieldLevel,
+        },
       },
       {
         prefix: '$ ',
@@ -314,6 +320,9 @@ export const Products: CollectionConfig = {
       admin: {
         position: 'sidebar',
         description: 'Se aplica el 16% de IVA al precio final',
+      },
+      access: {
+        read: isAdminOrEditorFieldLevel,
       },
     },
     ...NumberField(
@@ -359,8 +368,7 @@ export const Products: CollectionConfig = {
           ],
         },
         access: {
-          update: isAdminFieldLevel,
-          create: isAdminFieldLevel,
+          read: isAdminOrEditorFieldLevel,
         },
       },
       {

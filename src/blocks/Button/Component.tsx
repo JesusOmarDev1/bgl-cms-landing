@@ -33,7 +33,7 @@ export const ButtonBlock: React.FC<Props> = ({
         (!align || align === null) && 'justify-start',
       )}
     >
-      <Link href={url} passHref title={title}>
+      <Link href={url || ''} passHref title={title}>
         <Button
           className={cn(className, align === 'full' && 'w-full')}
           effect={effect}

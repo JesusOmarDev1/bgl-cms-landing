@@ -1,10 +1,10 @@
 'use client'
 
-import React, { useState, useRef, useEffect, useMemo, useCallback } from 'react'
+import React, { useState, useRef, useEffect, useMemo, useCallback, Suspense } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { ScrollArea } from '@/components/ui/scroll-area'
-import { MessageCircle, X, Send, ChevronLeft } from 'lucide-react'
+import { MessageCircle, X, Send, ChevronLeft, ExternalLink, MessageSquare } from 'lucide-react'
 import { Message, MessageContent, MessageAvatar } from '@/components/ui/ai/message'
 import { StaticLogo } from '../../../components/Logo/StaticLogo'
 import { Spinner } from '@/components/ui/spinner'
@@ -12,6 +12,8 @@ import { Status, StatusIndicator, StatusLabel } from '@/components/ui/status'
 import { Input } from '@/components/ui/input'
 import { ChatbotLogo } from '@/components/Logo/ChatbotLogo'
 import { motion } from 'motion/react'
+import { Link } from 'next-view-transitions'
+import { Skeleton } from '@/components/ui/skeleton'
 
 // Constantes de configuración
 const STORAGE_KEY = 'bgl-chatbot-messages'
@@ -24,6 +26,7 @@ const RATE_LIMIT_MS = 1000 // Mínimo 1 segundo entre mensajes
 
 interface FollowUpQuestion {
   question: string
+  typeMessage?: boolean
   url?: string | null
   id?: string | null
 }
@@ -43,17 +46,17 @@ interface ChatMessage {
   text: string
   isUser: boolean
   timestamp: Date
-  followUpQuestions?: Array<{ question: string; url?: string }>
+  followUpQuestions?: Array<{ question: string; typeMessage?: boolean; url?: string }>
 }
 
 interface DefaultResponse {
   answer: string
-  followUp: Array<{ question: string; url?: string }>
+  followUp: Array<{ question: string; typeMessage?: boolean; url?: string }>
 }
 
 interface WelcomeMessage {
   text: string
-  followUpQuestions: Array<{ question: string; url?: string }>
+  followUpQuestions: Array<{ question: string; typeMessage?: boolean; url?: string }>
 }
 
 interface ChatbotWidgetProps {
@@ -127,7 +130,8 @@ export const ChatbotWidget = ({
           text: sanitizeText(msg.text),
           timestamp: new Date(msg.timestamp),
           followUpQuestions: msg.followUpQuestions?.filter(
-            (q: any) => q.question && (!q.url || isValidUrl(q.url)),
+            (q: any) =>
+              q.question && (!q.typeMessage || (q.typeMessage && q.url && isValidUrl(q.url))),
           ),
         }))
 
@@ -243,7 +247,10 @@ export const ChatbotWidget = ({
   const processMessage = useCallback(
     (
       userMessage: string,
-    ): { answer: string; followUp: Array<{ question: string; url?: string }> } => {
+    ): {
+      answer: string
+      followUp: Array<{ question: string; typeMessage?: boolean; url?: string }>
+    } => {
       const bestMatch = findBestMatch(userMessage)
 
       if (bestMatch) {
@@ -253,6 +260,7 @@ export const ChatbotWidget = ({
             .filter((q) => q.question && (!q.url || isValidUrl(q.url || '')))
             .map((q) => ({
               question: sanitizeText(q.question),
+              typeMessage: q.typeMessage,
               url: q.url || undefined,
             })),
         }
@@ -340,7 +348,7 @@ export const ChatbotWidget = ({
       timestamp: new Date(),
       followUpQuestions:
         welcomeMessage?.followUpQuestions?.filter(
-          (q) => q.question && (!q.url || isValidUrl(q.url)),
+          (q) => q.question && (!q.typeMessage || (q.typeMessage && q.url && isValidUrl(q.url))),
         ) || [],
     }
     setMessages([initialMessage])
@@ -348,15 +356,22 @@ export const ChatbotWidget = ({
   }, [welcomeMessage])
 
   return (
-    <>
+    <Suspense fallback={<Skeleton className="size-16 rounded-full" />}>
       {!isOpen && (
-        <Button
-          onClick={() => setIsOpen(true)}
-          size="icon"
-          className="fixed bottom-6 right-6 size-16 rounded-full shadow-lg z-50 bg-[#EC2224] hover:bg-[#CD2027] text-white"
+        <motion.div
+          className="fixed bottom-6 right-6 z-50"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7 }}
         >
-          <MessageCircle className="size-12" />
-        </Button>
+          <Button
+            onClick={() => setIsOpen(true)}
+            size="icon"
+            className=" size-16 rounded-full shadow-lg bg-[#EC2224] hover:bg-[#CD2027] text-white"
+          >
+            <MessageCircle className="size-12" />
+          </Button>
+        </motion.div>
       )}
 
       {isOpen && (
@@ -431,37 +446,39 @@ export const ChatbotWidget = ({
                               </p>
                               <div className="flex flex-wrap gap-2">
                                 {msg.followUpQuestions.map((item, index) => {
-                                  if (item.url) {
+                                  // Opción 1: Enlace a página (typeMessage marcado)
+                                  if (item.typeMessage && item.url) {
+                                    const isExternal = item.url.startsWith('http')
                                     return (
                                       <Button
                                         key={index}
                                         variant="outline"
                                         size="sm"
                                         asChild
-                                        className="text-xs rounded-full border-2 hover:bg-[#FFE5E5] hover:border-[#EC2224]"
+                                        className="text-xs rounded-full hover:bg-blue-50 hover:border-blue-500 hover:text-blue-700 transition-colors gap-1.5"
                                       >
-                                        <a
+                                        <Link
                                           href={item.url}
-                                          target={item.url.startsWith('http') ? '_blank' : '_self'}
-                                          rel={
-                                            item.url.startsWith('http')
-                                              ? 'noopener noreferrer'
-                                              : undefined
-                                          }
+                                          target={isExternal ? '_blank' : '_self'}
+                                          rel={isExternal ? 'noopener noreferrer' : undefined}
                                         >
+                                          <ExternalLink className="h-3 w-3" />
                                           {item.question}
-                                        </a>
+                                        </Link>
                                       </Button>
                                     )
-                                  } else {
+                                  }
+                                  // Opción 2: Enviar mensaje automáticamente (typeMessage desmarcado)
+                                  else {
                                     return (
                                       <Button
                                         key={index}
                                         variant="outline"
                                         size="sm"
                                         onClick={() => handleFollowUpClick(item.question)}
-                                        className="text-xs rounded-full border-2 hover:bg-[#FFE5E5] hover:border-[#EC2224]"
+                                        className="text-xs rounded-full border-2 hover:bg-[#FFE5E5] hover:border-[#EC2224] hover:text-[#EC2224] transition-colors gap-1.5"
                                       >
+                                        <MessageSquare className="h-3 w-3" />
                                         {item.question}
                                       </Button>
                                     )
@@ -527,6 +544,6 @@ export const ChatbotWidget = ({
           </Card>
         </motion.div>
       )}
-    </>
+    </Suspense>
   )
 }

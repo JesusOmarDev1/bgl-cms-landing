@@ -35,6 +35,7 @@ export async function ChatbotWrapper() {
         followUpQuestions:
           chatbotConfig.welcomeMessage.quickOptions?.map((q: any) => ({
             question: q.question,
+            typeMessage: q.typeMessage,
             url: q.url || undefined,
           })) || [],
       }
@@ -47,6 +48,7 @@ export async function ChatbotWrapper() {
         followUp:
           chatbotConfig.defaultResponse.followUpQuestions?.map((q: any) => ({
             question: q.question,
+            typeMessage: q.typeMessage,
             url: q.url || undefined,
           })) || [],
       }

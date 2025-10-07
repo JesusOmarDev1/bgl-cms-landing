@@ -14,7 +14,7 @@ interface ShareProps {
 
 export default function Share({ title, text, url, className }: ShareProps) {
   const share = useShare({
-    onSuccess: () => toast.success('Compartido exitosamente!'),
+    onSuccess: () => toast.info('Compartiendo publicación...'),
     onError: (error) => toast.error('Error al compartir. Intentalo mas tarde.'),
     fallbackCopy: true,
   })
@@ -24,13 +24,7 @@ export default function Share({ title, text, url, className }: ShareProps) {
   }
 
   return (
-    <Button
-      variant={'outline'}
-      className={className}
-      onClick={handleShare}
-      icon={ShareIcon}
-      iconPlacement="left"
-    >
+    <Button className={className} onClick={handleShare} icon={ShareIcon} iconPlacement="left">
       Compartir
     </Button>
   )

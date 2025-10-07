@@ -5,8 +5,6 @@ import type { Post } from '@/payload-types'
 
 import { Media } from '@/components/Media'
 import { formatAuthors } from '@/utilities/formatAuthors'
-import { Badge } from '@/components/ui/badge'
-import { Avatar, AvatarFallback } from '@/components/ui/avatars/avatar'
 import { Separator } from '@/components/ui/separator'
 import { readingTime } from 'reading-time-estimator'
 import { AspectRatio } from '@/components/ui/aspect-ratio'
@@ -103,16 +101,13 @@ export const PostHero: React.FC<{
 
           {heroImage && typeof heroImage !== 'string' && (
             <div className="relative mb-8 mt-4 w-full rounded-lg border overflow-hidden">
-              <AspectRatio ratio={1 / 1}>
+              <AspectRatio ratio={16 / 9}>
                 <Media priority resource={heroImage} fill />
               </AspectRatio>
             </div>
           )}
 
           <div className="flex flex-col justify-center items-center gap-2.5 w-full">
-            <span className="text-4xl font-black">
-              ¿Te gusto la publicación? Ayudanos a compartirlo
-            </span>
             <Share className="w-full" url={href} title={title} text={description} />
           </div>
         </div>
