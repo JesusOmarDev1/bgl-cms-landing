@@ -19,11 +19,11 @@ import { adminMetadata } from './lib/adminMetadata'
 import { Products } from './collections/Products'
 import { Brands } from './collections/Brands'
 import { Models } from './collections/Models'
-import { Tags } from './collections/Tags'
 import { Suppliers } from './collections/Suppliers'
 import { Clients } from './collections/Clients'
 import { contentLexicalEditor } from './fields/contentLexical'
 import { Chatbot } from './globals/Chatbot/config'
+import { Services } from './collections/Services'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -97,11 +97,12 @@ export default buildConfig({
     Products,
     Brands,
     Models,
-    Tags,
     Suppliers,
     Clients,
+    Services,
   ],
   cors: [getServerSideURL()].filter(Boolean),
+  csrf: [getServerSideURL()].filter(Boolean),
   globals: [Header, Footer, Chatbot],
   plugins: [...plugins],
   secret: process.env.PAYLOAD_SECRET,

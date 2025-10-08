@@ -1,19 +1,19 @@
 import clsx from 'clsx'
 import React from 'react'
-import RichText from '@/components/RichText'
+import RichText from '../../components/RichText'
 
-import type { Post } from '@/payload-types'
+import type { Service } from '../../payload-types'
 
-import { CardPosts } from '../../components/Card/PostCard'
+import { CardServices } from '@/components/Card/ServiceCard'
 import { SerializedEditorState } from '@payloadcms/richtext-lexical/lexical'
 
-export type RelatedPostsProps = {
+export type RelatedServicesProps = {
   className?: string
-  docs?: Post[]
+  docs?: Service[]
   introContent?: SerializedEditorState
 }
 
-export const RelatedPosts: React.FC<RelatedPostsProps> = (props) => {
+export const RelatedServices: React.FC<RelatedServicesProps> = (props) => {
   const { className, docs, introContent } = props
 
   return (
@@ -25,21 +25,17 @@ export const RelatedPosts: React.FC<RelatedPostsProps> = (props) => {
           if (typeof doc === 'string') return null
 
           return (
-            <CardPosts
+            <CardServices
               key={index}
               doc={{
                 slug: doc.slug,
-                categories: doc.categories,
                 meta: doc.meta,
                 title: doc.title,
                 publishedAt: doc.publishedAt,
                 content: doc.content,
-                authors: doc.authors,
-                populatedAuthors: doc.populatedAuthors,
                 heroImage: doc.heroImage,
               }}
-              relationTo="posts"
-              showCategories
+              relationTo="services"
             />
           )
         })}

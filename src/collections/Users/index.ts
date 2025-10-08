@@ -37,7 +37,10 @@ export const Users: CollectionConfig = {
     description: 'Administra los usuarios del sitio: crea, edita y elimina usuarios',
     group: 'Control Interno',
   },
-  auth: true,
+  auth: {
+    maxLoginAttempts: 5,
+    lockTime: 24 * 60 * 60 * 1000, // 24 hours
+  },
   fields: [
     {
       name: 'name',

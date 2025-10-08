@@ -1,14 +1,14 @@
-import type { Post, ArchiveBlock as ArchiveBlockProps } from '@/payload-types'
+import type { Post, PostArchiveBlock as PostArchiveBlockProps } from '@/payload-types'
 
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 import React from 'react'
 import RichText from '@/components/RichText'
 
-import { CollectionArchive } from '@/components/CollectionArchive'
+import { PostArchive } from '@/components/CollectionArchive/PostArchive'
 
-export const ArchiveBlock: React.FC<
-  ArchiveBlockProps & {
+export const PostArchiveBlock: React.FC<
+  PostArchiveBlockProps & {
     id?: string
   }
 > = async (props) => {
@@ -59,7 +59,7 @@ export const ArchiveBlock: React.FC<
           <RichText className="ms-0 max-w-3xl" data={introContent} enableGutter={false} />
         </div>
       )}
-      <CollectionArchive posts={posts} />
+      <PostArchive posts={posts} />
     </div>
   )
 }

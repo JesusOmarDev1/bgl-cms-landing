@@ -1,4 +1,14 @@
-import type { Post, Media, User, Product, Page, Brand, Model, Category, Tag } from '@/payload-types'
+import type {
+  Post,
+  Media,
+  User,
+  Product,
+  Page,
+  Brand,
+  Model,
+  Category,
+  Service,
+} from '@/payload-types'
 import { getServerSideURL } from '@/utilities/getURL'
 
 export const PostSchema = (props: Post) => {
@@ -55,7 +65,6 @@ export const ProductSchema = (props: Product) => {
   const model = props.model as Model
   const heroImage = props.heroImage as Media
   const categories = props.categories as Category[]
-  const tags = props.tags as Tag[]
   const metaImage = props.meta?.image as Media
 
   return {
@@ -70,10 +79,6 @@ export const ProductSchema = (props: Product) => {
     model: model?.title,
     category: categories
       ?.map((cat) => (typeof cat === 'object' ? cat.title : undefined))
-      .filter(Boolean)
-      .join(', '),
-    tags: tags
-      ?.map((tag) => (typeof tag === 'object' ? tag.title : undefined))
       .filter(Boolean)
       .join(', '),
     image:
@@ -99,6 +104,35 @@ export const ProductSchema = (props: Product) => {
 }
 
 export const PageSchema = (props: Page) => {
+  if (!props) return null
+
+  const url: string = getServerSideURL()
+  const metaImage = props.meta?.image as Media
+
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name: props.title,
+    description: props.meta?.description,
+    url: `${url}/${props.slug}`,
+    image: metaImage?.url ? `${process.env.S3_ENDPOINT}/${metaImage.filename}` : undefined,
+    datePublished: props.createdAt,
+    dateModified: props.updatedAt,
+    publisher: {
+      '@type': 'Organization',
+      name: 'BGL Básculas Industriales',
+      url: url,
+    },
+    mainEntity: {
+      '@type': 'Organization',
+      name: 'BGL Básculas Industriales',
+      description: 'Empresa líder en básculas industriales y equipos de pesaje de alta precisión',
+      url: url,
+    },
+  }
+}
+
+export const ServiceSchema = (props: Service) => {
   if (!props) return null
 
   const url: string = getServerSideURL()

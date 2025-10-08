@@ -6,13 +6,13 @@ const defaultLabels = {
 }
 
 const defaultCollectionLabels = {
-  products: {
-    plural: 'Productos',
-    singular: 'Producto',
+  services: {
+    plural: 'Servicios',
+    singular: 'Servicio',
   },
 }
 
-export const ProductsRange: React.FC<{
+export const ServicesRange: React.FC<{
   className?: string
   collection?: keyof typeof defaultCollectionLabels
   collectionLabels?: {
@@ -46,7 +46,7 @@ export const ProductsRange: React.FC<{
 
   return (
     <div className={[className, 'font-semibold'].filter(Boolean).join(' ')}>
-      {(typeof totalDocs === 'undefined' || totalDocs === 0) && 'No se encontraron resultados'}
+      {(typeof totalDocs === 'undefined' || totalDocs === 0) && 'No se encontraron servicios'}
       {typeof totalDocs !== 'undefined' &&
         totalDocs > 0 &&
         `Mostrando ${indexStart}${indexStart > 0 ? ` - ${indexEnd}` : ''} de ${totalDocs} ${

@@ -19,9 +19,9 @@ import {
   Send,
   Settings2,
   ShoppingCart,
-  Tags,
   Truck,
   UsersRound,
+  Wrench,
 } from 'lucide-react'
 import { ExoticComponent } from 'react'
 
@@ -41,7 +41,6 @@ export const navIconMap: Partial<
   models: Package,
   redirects: Milestone,
   search: Search,
-  tags: Tags,
   'form-submissions': Send,
   header: Component,
   footer: Component,
@@ -50,6 +49,7 @@ export const navIconMap: Partial<
   'payload-locked-documents': FileLock,
   'payload-preferences': Settings2,
   chatbot: BotMessageSquare,
+  services: Wrench,
 }
 
 export const getNavIcon = (slug: string) =>

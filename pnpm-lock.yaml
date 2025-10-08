@@ -251,6 +251,9 @@ importers:
       prism-react-renderer:
         specifier: ^2.3.1
         version: 2.4.1(react@19.1.0)
+      profanity-cleaner:
+        specifier: ^0.0.3
+        version: 0.0.3
       qrcode:
         specifier: ^1.5.4
         version: 1.5.4
@@ -381,6 +384,9 @@ importers:
       jsdom:
         specifier: 26.1.0
         version: 26.1.0
+      next-secure-headers:
+        specifier: ^2.2.0
+        version: 2.2.0
       playwright:
         specifier: 1.54.1
         version: 1.54.1
@@ -6152,6 +6158,10 @@ packages:
   natural-compare@1.4.0:
     resolution: {integrity: sha512-OWND8ei3VtNC9h7V60qff3SVobHr996CTwgxubgyQYEpg290h9J0buyECNNJexkFm5sOajh5G116RYA1c8ZMSw==}
 
+  next-secure-headers@2.2.0:
+    resolution: {integrity: sha512-C7OfZ9JdSJyYMz2ZBMI/WwNbt0qNjlFWX9afUp8nEUzbz6ez3JbeopdyxSZJZJAzVLIAfyk6n73rFpd4e22jRg==}
+    engines: {node: '>=10.0.0'}
+
   next-share@0.27.0:
     resolution: {integrity: sha512-Fmfl4LIL61g10vtiDECVldxtNgVNd4OQgnI5vk9IJxn/WMZLdhniUtV15xz4PGpo8UuDdTHwmDT8R/CP60EQHA==}
     engines: {node: '>=8', npm: '>=5'}
@@ -6514,6 +6524,9 @@ packages:
 
   process-warning@4.0.1:
     resolution: {integrity: sha512-3c2LzQ3rY9d0hc1emcsHhfT9Jwz0cChib/QN89oME2R451w5fy3f0afAhERFZAwrbDU43wk12d0ORBpDVME50Q==}
+
+  profanity-cleaner@0.0.3:
+    resolution: {integrity: sha512-i5jUt2Xoi4nAUFoEFeCefWpXCsQhE0NPni9x7+nhW5hJA5SvXqWFzu+FeKtzcmYO/RHWZN6p0LYhXg8NOVHcpA==}
 
   promise-limit@2.7.0:
     resolution: {integrity: sha512-7nJ6v5lnJsXwGprnGXga4wx6d1POjvi5Qmf1ivTRxTjH4Z/9Czja/UCMLVmB9N93GeWOU93XaFaEt6jbuoagNw==}
@@ -14636,6 +14649,8 @@ snapshots:
 
   natural-compare@1.4.0: {}
 
+  next-secure-headers@2.2.0: {}
+
   next-share@0.27.0(react@19.1.0):
     dependencies:
       jsonp: 0.2.1
@@ -15054,6 +15069,8 @@ snapshots:
   process-nextick-args@2.0.1: {}
 
   process-warning@4.0.1: {}
+
+  profanity-cleaner@0.0.3: {}
 
   promise-limit@2.7.0: {}
 

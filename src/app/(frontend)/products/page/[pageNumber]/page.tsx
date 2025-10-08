@@ -32,7 +32,6 @@ export default async function Page() {
       brand: true,
       model: true,
       stock: true,
-      tags: true,
     },
   })
 

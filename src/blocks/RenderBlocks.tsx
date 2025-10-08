@@ -2,15 +2,17 @@ import React, { Fragment } from 'react'
 
 import type { Page } from '@/payload-types'
 
-import { ArchiveBlock } from '@/blocks/ArchiveBlock/Component'
 import { CallToActionBlock } from '@/blocks/CallToAction/Component'
 import { ContentBlock } from '@/blocks/Content/Component'
 import { FormBlock } from '@/blocks/Form/Component'
 import { MediaBlock } from '@/blocks/MediaBlock/Component'
 import { FAQBlock } from '@/blocks/FAQ/Component'
+import { PostArchiveBlock } from './ArchiveBlock/PostArchive/Component'
+import { ServiceArchiveBlock } from './ArchiveBlock/ServiceArchive/Component'
 
 const blockComponents = {
-  archive: ArchiveBlock,
+  'post-archive': PostArchiveBlock,
+  'service-archive': ServiceArchiveBlock,
   content: ContentBlock,
   cta: CallToActionBlock,
   formBlock: FormBlock,

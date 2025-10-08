@@ -37,7 +37,7 @@ export const Brands: CollectionConfig = {
     useAsTitle: 'title',
     defaultColumns: ['title', 'slug', 'createdAt'],
     description: 'Administra las marcas del sitio: crea, edita y elimina marcas',
-    group: 'Productos',
+    group: 'Utilidades',
   },
   fields: [
     {

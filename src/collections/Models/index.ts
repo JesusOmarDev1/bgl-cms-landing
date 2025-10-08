@@ -25,7 +25,7 @@ export const Models: CollectionConfig = {
   },
   admin: {
     useAsTitle: 'title',
-    group: 'Productos',
+    group: 'Utilidades',
   },
   fields: [
     {

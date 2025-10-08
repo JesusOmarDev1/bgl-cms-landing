@@ -14,6 +14,8 @@ import { ChatbotLogo } from '@/components/Logo/ChatbotLogo'
 import { motion } from 'motion/react'
 import { Link } from 'next-view-transitions'
 import { Skeleton } from '@/components/ui/skeleton'
+import TextType from '@/components/ui/text-type'
+import { useTheme } from 'next-themes'
 
 // Constantes de configuración
 const STORAGE_KEY = 'bgl-chatbot-messages'
@@ -103,7 +105,6 @@ export const ChatbotWidget = ({
   const [isTyping, setIsTyping] = useState(false)
   const scrollAreaRef = useRef<HTMLDivElement>(null)
   const lastMessageTime = useRef<number>(0)
-
   // Memoizar las preguntas del chatbot
   const chatbotQuestions = useMemo(() => questions, [questions])
 
@@ -141,7 +142,6 @@ export const ChatbotWidget = ({
     } catch (error) {
       // Si hay error, limpiar localStorage corrupto
       localStorage.removeItem(STORAGE_KEY)
-      console.warn('Error al cargar mensajes, se limpió el historial')
     }
   }, [])
 
@@ -162,9 +162,7 @@ export const ChatbotWidget = ({
       } else {
         localStorage.setItem(STORAGE_KEY, serialized)
       }
-    } catch (error) {
-      console.warn('Error al guardar mensajes en localStorage')
-    }
+    } catch (error) {}
   }, [messages])
 
   // Mensaje de bienvenida cuando se abre el chat
@@ -429,7 +427,19 @@ export const ChatbotWidget = ({
                         variant="contained"
                         className={msg.isUser ? 'bg-[#E3F2FD]' : 'bg-[#F5F5F5]'}
                       >
-                        <p className="whitespace-pre-line">{msg.text}</p>
+                        <TextType
+                          text={msg.text}
+                          className={`whitespace-pre-line ${
+                            msg.isUser
+                              ? 'text-gray-900 dark:text-gray-100'
+                              : 'text-white dark:text-gray-900'
+                          }`}
+                          typingSpeed={10}
+                          showCursor={false}
+                          deletingSpeed={50}
+                          cursorBlinkDuration={0.3}
+                          cursorCharacter="●"
+                        />
                         <p className="text-xs text-muted-foreground mt-1">
                           {msg.timestamp.toLocaleTimeString([], {
                             hour: '2-digit',
@@ -530,11 +540,11 @@ export const ChatbotWidget = ({
                   <Send className="h-4 w-4" />
                 </Button>
               </form>
-              <p className="text-zinc-500 mt-2 text-center">
+              <p className="text-zinc-500 mt-2 text-center text-sm lg:text-base">
                 ¿Tu chat ha terminado?.{' '}
                 <Button
                   onClick={handleNewChat}
-                  className="text-[#EC2224] px-0 text-base"
+                  className="text-[#EC2224] px-0 text-sm lg:text-base py-0 h-fit"
                   variant="link"
                 >
                   Iniciar un nuevo chat

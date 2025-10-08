@@ -4,7 +4,7 @@ import { Link } from 'next-view-transitions'
 import React, { Suspense } from 'react'
 
 import { Media } from '@/components/Media'
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '../ui/card'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card'
 import { Skeleton } from '../ui/skeleton'
 import { formatDateTime } from '@/utilities/formatDateTime'
 import Categories from '../ui/categories'

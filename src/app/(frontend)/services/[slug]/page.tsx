@@ -1,6 +1,5 @@
 import type { Metadata } from 'next'
 
-import { RelatedPosts } from '@/blocks/RelatedTo/RelatedPosts'
 import { PayloadRedirects } from '@/components/PayloadRedirects'
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
@@ -8,19 +7,20 @@ import { draftMode } from 'next/headers'
 import React, { cache } from 'react'
 import RichText from '@/components/RichText'
 
-import type { Media, Post } from '@/payload-types'
+import type { Media, Service } from '@/payload-types'
 
-import { PostHero } from '@/heros/PostHero'
+import { ServiceHero } from '@/heros/ServiceHero'
 import { generateMeta } from '@/utilities/generateMeta'
 import PageClient from './page.client'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
-import { MediaSchema, PostSchema } from '@/components/Schema'
+import { MediaSchema, ServiceSchema } from '@/components/Schema'
 import Script from 'next/script'
+import { RelatedServices } from '@/blocks/RelatedTo/RelatedServices'
 
 export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise })
-  const posts = await payload.find({
-    collection: 'posts',
+  const services = await payload.find({
+    collection: 'services',
     draft: false,
     limit: 1000,
     overrideAccess: false,
@@ -30,7 +30,7 @@ export async function generateStaticParams() {
     },
   })
 
-  const params = posts.docs.map(({ slug }) => {
+  const params = services.docs.map(({ slug }) => {
     return { slug }
   })
 
@@ -46,12 +46,12 @@ type Args = {
 export default async function Post({ params: paramsPromise }: Args) {
   const { isEnabled: draft } = await draftMode()
   const { slug = '' } = await paramsPromise
-  const url = '/posts/' + slug
-  const post = await queryPostBySlug({ slug })
+  const url = '/services/' + slug
+  const service = await queryServiceBySlug({ slug })
 
-  if (!post) return <PayloadRedirects url={url} />
+  if (!service) return <PayloadRedirects url={url} />
 
-  const schema = [PostSchema(post), MediaSchema(post.meta?.image as Media)]
+  const schema = [ServiceSchema(service), MediaSchema(service.meta?.image as Media)]
 
   return (
     <article className="py-4">
@@ -59,7 +59,7 @@ export default async function Post({ params: paramsPromise }: Args) {
         type="application/ld+json"
         strategy="lazyOnload"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
-        key={post.slug}
+        key={service.slug}
       />
       <PageClient />
 
@@ -68,15 +68,17 @@ export default async function Post({ params: paramsPromise }: Args) {
 
       {draft && <LivePreviewListener />}
 
-      <PostHero post={post} />
+      <ServiceHero service={service} />
 
       <div className="flex flex-col items-center gap-4 pt-8">
         <div className="container">
-          <RichText className="max-w-5xl mx-auto" data={post.content} enableGutter={false} />
-          {post.relatedPosts && post.relatedPosts.length > 0 && (
-            <RelatedPosts
+          <RichText className="max-w-5xl mx-auto" data={service.content} enableGutter={false} />
+          {service.relatedServices && service.relatedServices.length > 0 && (
+            <RelatedServices
               className="mt-12 max-w-208 lg:grid lg:grid-cols-subgrid col-start-1 col-span-3 grid-rows-[2fr]"
-              docs={post.relatedPosts.filter((post): post is Post => typeof post === 'object')}
+              docs={service.relatedServices.filter(
+                (service): service is Service => typeof service === 'object',
+              )}
             />
           )}
         </div>
@@ -87,18 +89,18 @@ export default async function Post({ params: paramsPromise }: Args) {
 
 export async function generateMetadata({ params: paramsPromise }: Args): Promise<Metadata> {
   const { slug = '' } = await paramsPromise
-  const post = await queryPostBySlug({ slug })
+  const service = await queryServiceBySlug({ slug })
 
-  return generateMeta({ doc: post })
+  return generateMeta({ doc: service })
 }
 
-const queryPostBySlug = cache(async ({ slug }: { slug: string }) => {
+const queryServiceBySlug = cache(async ({ slug }: { slug: string }) => {
   const { isEnabled: draft } = await draftMode()
 
   const payload = await getPayload({ config: configPromise })
 
   const result = await payload.find({
-    collection: 'posts',
+    collection: 'services',
     draft,
     limit: 1,
     overrideAccess: draft,

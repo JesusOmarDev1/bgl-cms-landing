@@ -1,6 +1,5 @@
 import type { CollectionConfig } from 'payload'
 
-import { Archive } from '../../blocks/ArchiveBlock/config'
 import { CallToAction } from '../../blocks/CallToAction/config'
 import { Content } from '../../blocks/Content/config'
 import { FormBlock } from '../../blocks/Form/config'
@@ -21,6 +20,8 @@ import { isAdminOrEditor } from '@/access/isAdminOrEditor'
 import { isAdmin } from '@/access/isAdmin'
 import { isAuthenticatedOrPublished } from '@/access/isLoggedInOrPublished'
 import { FAQ } from '@/blocks/FAQ/config'
+import { PostArchiveBlock } from '@/blocks/ArchiveBlock/PostArchive/config'
+import { ServiceArchiveBlock } from '@/blocks/ArchiveBlock/ServiceArchive/config'
 
 export const Pages: CollectionConfig<'pages'> = {
   slug: 'pages',
@@ -102,7 +103,15 @@ export const Pages: CollectionConfig<'pages'> = {
             {
               name: 'layout',
               type: 'blocks',
-              blocks: [CallToAction, Content, MediaBlock, Archive, FormBlock, FAQ],
+              blocks: [
+                CallToAction,
+                Content,
+                MediaBlock,
+                FormBlock,
+                FAQ,
+                PostArchiveBlock,
+                ServiceArchiveBlock,
+              ],
               required: true,
               label: {
                 en: 'Layout',

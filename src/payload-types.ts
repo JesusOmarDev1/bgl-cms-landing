@@ -75,9 +75,9 @@ export interface Config {
     products: Product;
     brands: Brand;
     models: Model;
-    tags: Tag;
     suppliers: Supplier;
     clients: Client;
+    services: Service;
     redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
@@ -98,9 +98,9 @@ export interface Config {
     products: ProductsSelect<false> | ProductsSelect<true>;
     brands: BrandsSelect<false> | BrandsSelect<true>;
     models: ModelsSelect<false> | ModelsSelect<true>;
-    tags: TagsSelect<false> | TagsSelect<true>;
     suppliers: SuppliersSelect<false> | SuppliersSelect<true>;
     clients: ClientsSelect<false> | ClientsSelect<true>;
+    services: ServicesSelect<false> | ServicesSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
@@ -168,7 +168,15 @@ export interface Page {
   id: number;
   title: string;
   content: {
-    layout: (CallToActionBlock | ContentBlock | MediaBlock | ArchiveBlock | FormBlock | FAQBlock)[];
+    layout: (
+      | CallToActionBlock
+      | ContentBlock
+      | MediaBlock
+      | FormBlock
+      | FAQBlock
+      | PostArchiveBlock
+      | ServiceArchiveBlock
+    )[];
   };
   meta?: {
     title?: string | null;
@@ -467,40 +475,6 @@ export interface MediaBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "ArchiveBlock".
- */
-export interface ArchiveBlock {
-  introContent?: {
-    root: {
-      type: string;
-      children: {
-        type: string;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
-  populateBy?: ('collection' | 'selection') | null;
-  relationTo?: 'posts' | null;
-  categories?: (number | Category)[] | null;
-  limit?: number | null;
-  selectedDocs?:
-    | {
-        relationTo: 'posts';
-        value: number | Post;
-      }[]
-    | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'archive';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "FormBlock".
  */
 export interface FormBlock {
@@ -766,6 +740,74 @@ export interface FAQBlock {
   blockType: 'faq';
 }
 /**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "PostArchiveBlock".
+ */
+export interface PostArchiveBlock {
+  introContent?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  populateBy?: ('collection' | 'selection') | null;
+  relationTo?: 'posts' | null;
+  categories?: (number | Category)[] | null;
+  limit?: number | null;
+  selectedDocs?:
+    | {
+        relationTo: 'posts';
+        value: number | Post;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'post-archive';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ServiceArchiveBlock".
+ */
+export interface ServiceArchiveBlock {
+  introContent?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  populateBy?: ('collection' | 'selection') | null;
+  relationTo?: 'services' | null;
+  categories?: (number | Category)[] | null;
+  limit?: number | null;
+  selectedDocs?:
+    | {
+        relationTo: 'posts';
+        value: number | Post;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'service-archive';
+}
+/**
  * Administra los productos del sitio: crea, edita y elimina artículos
  *
  * This interface was referenced by `Config`'s JSON-Schema
@@ -787,14 +829,11 @@ export interface Product {
    * La garantía es el periodo de tiempo que se ofrece por el producto
    */
   warranty?: string | null;
+  type?: ('general' | 'scale') | null;
   /**
-   * Puede ser una categoria general o una categoria de subcategoria por ejemplo "Basculas", "Consumibles", etc.
+   * Puede ser una categoria general o por ejemplo "Basculas Comerciales", "Cargadores", etc.
    */
   categories?: (number | Category)[] | null;
-  /**
-   * Etiquetas que ayudan a clasificar el producto por ejemplo "#Basculas Comerciales", "#Basculas de renta", etc.
-   */
-  tags?: (number | Tag)[] | null;
   heroImage: number | Media;
   content: {
     root: {
@@ -910,31 +949,6 @@ export interface Supplier {
   _status?: ('draft' | 'published') | null;
 }
 /**
- * Administra las etiquetas del sitio: crea, edita y elimina etiquetas
- *
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "tags".
- */
-export interface Tag {
-  id: number;
-  title: string;
-  categories?: (number | Category)[] | null;
-  slug: string;
-  slugLock?: boolean | null;
-  parent?: (number | null) | Tag;
-  breadcrumbs?:
-    | {
-        doc?: (number | null) | Tag;
-        url?: string | null;
-        label?: string | null;
-        id?: string | null;
-      }[]
-    | null;
-  updatedAt: string;
-  createdAt: string;
-  deletedAt?: string | null;
-}
-/**
  * Administra los clientes del sitio: crea, edita y elimina clientes
  *
  * This interface was referenced by `Config`'s JSON-Schema
@@ -967,6 +981,55 @@ export interface Client {
   website?: string | null;
   slug: string;
   slugLock?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+  deletedAt?: string | null;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * Administra los servicios del sitio: crea, edita y elimina artículos
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "services".
+ */
+export interface Service {
+  id: number;
+  title: string;
+  heroImage: number | Media;
+  relatedServices?: (number | Service)[] | null;
+  content: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  meta?: {
+    title?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
+    image?: (number | null) | Media;
+    description?: string | null;
+  };
+  publishedAt?: string | null;
+  slug: string;
+  slugLock?: boolean | null;
+  price?: number | null;
+  discount?: number | null;
+  /**
+   * Se aplica el 16% de IVA al precio final
+   */
+  iva?: boolean | null;
+  total?: number | null;
   updatedAt: string;
   createdAt: string;
   deletedAt?: string | null;
@@ -1247,16 +1310,16 @@ export interface PayloadLockedDocument {
         value: number | Model;
       } | null)
     | ({
-        relationTo: 'tags';
-        value: number | Tag;
-      } | null)
-    | ({
         relationTo: 'suppliers';
         value: number | Supplier;
       } | null)
     | ({
         relationTo: 'clients';
         value: number | Client;
+      } | null)
+    | ({
+        relationTo: 'services';
+        value: number | Service;
       } | null)
     | ({
         relationTo: 'redirects';
@@ -1339,9 +1402,10 @@ export interface PagesSelect<T extends boolean = true> {
               cta?: T | CallToActionBlockSelect<T>;
               content?: T | ContentBlockSelect<T>;
               mediaBlock?: T | MediaBlockSelect<T>;
-              archive?: T | ArchiveBlockSelect<T>;
               formBlock?: T | FormBlockSelect<T>;
               faq?: T | FAQBlockSelect<T>;
+              'post-archive'?: T | PostArchiveBlockSelect<T>;
+              'service-archive'?: T | ServiceArchiveBlockSelect<T>;
             };
       };
   meta?:
@@ -1409,20 +1473,6 @@ export interface MediaBlockSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "ArchiveBlock_select".
- */
-export interface ArchiveBlockSelect<T extends boolean = true> {
-  introContent?: T;
-  populateBy?: T;
-  relationTo?: T;
-  categories?: T;
-  limit?: T;
-  selectedDocs?: T;
-  id?: T;
-  blockName?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "FormBlock_select".
  */
 export interface FormBlockSelect<T extends boolean = true> {
@@ -1444,6 +1494,34 @@ export interface FAQBlockSelect<T extends boolean = true> {
         answer?: T;
         id?: T;
       };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "PostArchiveBlock_select".
+ */
+export interface PostArchiveBlockSelect<T extends boolean = true> {
+  introContent?: T;
+  populateBy?: T;
+  relationTo?: T;
+  categories?: T;
+  limit?: T;
+  selectedDocs?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ServiceArchiveBlock_select".
+ */
+export interface ServiceArchiveBlockSelect<T extends boolean = true> {
+  introContent?: T;
+  populateBy?: T;
+  relationTo?: T;
+  categories?: T;
+  limit?: T;
+  selectedDocs?: T;
   id?: T;
   blockName?: T;
 }
@@ -1612,8 +1690,8 @@ export interface ProductsSelect<T extends boolean = true> {
   model?: T;
   supplier?: T;
   warranty?: T;
+  type?: T;
   categories?: T;
-  tags?: T;
   heroImage?: T;
   content?: T;
   meta?:
@@ -1664,28 +1742,6 @@ export interface ModelsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "tags_select".
- */
-export interface TagsSelect<T extends boolean = true> {
-  title?: T;
-  categories?: T;
-  slug?: T;
-  slugLock?: T;
-  parent?: T;
-  breadcrumbs?:
-    | T
-    | {
-        doc?: T;
-        url?: T;
-        label?: T;
-        id?: T;
-      };
-  updatedAt?: T;
-  createdAt?: T;
-  deletedAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "suppliers_select".
  */
 export interface SuppliersSelect<T extends boolean = true> {
@@ -1724,6 +1780,34 @@ export interface ClientsSelect<T extends boolean = true> {
   website?: T;
   slug?: T;
   slugLock?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  deletedAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "services_select".
+ */
+export interface ServicesSelect<T extends boolean = true> {
+  title?: T;
+  heroImage?: T;
+  relatedServices?: T;
+  content?: T;
+  meta?:
+    | T
+    | {
+        title?: T;
+        image?: T;
+        description?: T;
+      };
+  publishedAt?: T;
+  slug?: T;
+  slugLock?: T;
+  price?: T;
+  discount?: T;
+  iva?: T;
+  total?: T;
   updatedAt?: T;
   createdAt?: T;
   deletedAt?: T;
@@ -2358,6 +2442,10 @@ export interface TaskSchedulePublish {
       | ({
           relationTo: 'products';
           value: number | Product;
+        } | null)
+      | ({
+          relationTo: 'services';
+          value: number | Service;
         } | null);
     global?: string | null;
     user?: (number | null) | User;

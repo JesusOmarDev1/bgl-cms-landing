@@ -1,7 +1,7 @@
 import type { CollectionConfig } from 'payload'
 
 import { isAdminOrEditor, isAdminOrEditorFieldLevel } from '@/access/isAdminOrEditor'
-import { isAdmin, isAdminFieldLevel } from '@/access/isAdmin'
+import { isAdmin } from '@/access/isAdmin'
 import { isAuthenticatedOrPublished } from '@/access/isLoggedInOrPublished'
 import { slugField } from '@/fields/slug'
 import {
@@ -12,12 +12,12 @@ import {
   PreviewField,
 } from '@payloadcms/plugin-seo/fields'
 import { generatePreviewPath } from '@/utilities/generatePreviewPath'
-import { revalidateDelete, revalidateProduct } from './hooks/revalidateProducts'
 import { contentLexicalEditor } from '@/fields/contentLexical'
 import { NumberField } from '@/fields/number'
+import { revalidateProduct, revalidateDelete } from '../Products/hooks/revalidateProducts'
 
-export const Products: CollectionConfig = {
-  slug: 'products',
+export const Services: CollectionConfig = {
+  slug: 'services',
   trash: true,
   indexes: [
     {
@@ -33,12 +33,12 @@ export const Products: CollectionConfig = {
   },
   labels: {
     singular: {
-      en: 'Product',
-      es: 'Producto',
+      en: 'Services',
+      es: 'Servicio',
     },
     plural: {
-      en: 'Products',
-      es: 'Productos',
+      en: 'Services',
+      es: 'Servicios',
     },
   },
   defaultPopulate: {
@@ -46,28 +46,18 @@ export const Products: CollectionConfig = {
     slug: true,
     total: true,
     heroImage: true,
-    supplier: true,
-    warranty: true,
-    brand: {
-      title: true,
-      heroImage: true,
-    },
-    model: {
-      title: true,
-    },
-    categories: true,
     meta: {
       image: true,
       description: true,
     },
   },
   admin: {
-    defaultColumns: ['heroImage', 'title', 'total', 'categories', 'createdAt'],
+    defaultColumns: ['heroImage', 'title', 'total', 'createdAt'],
     livePreview: {
       url: ({ data, req }) => {
         const path = generatePreviewPath({
           slug: typeof data?.slug === 'string' ? data.slug : '',
-          collection: 'products',
+          collection: 'services',
           req,
         })
 
@@ -75,7 +65,7 @@ export const Products: CollectionConfig = {
       },
     },
     useAsTitle: 'title',
-    description: 'Administra los productos del sitio: crea, edita y elimina artículos',
+    description: 'Administra los servicios del sitio: crea, edita y elimina artículos',
     group: 'Contenido',
   },
   fields: [
@@ -98,98 +88,6 @@ export const Products: CollectionConfig = {
               },
             },
             {
-              name: 'brand',
-              type: 'relationship',
-              label: {
-                en: 'Brand',
-                es: 'Marca',
-              },
-              relationTo: 'brands',
-              required: true,
-              admin: {
-                description: 'La marca es el fabricante del producto',
-              },
-            },
-            {
-              name: 'model',
-              type: 'relationship',
-              label: {
-                en: 'Model',
-                es: 'Modelo',
-              },
-              relationTo: 'models',
-              required: true,
-              filterOptions: ({ data }) => {
-                const brandId = data?.brand?.id || data?.brand
-
-                if (!brandId) {
-                  return true
-                }
-
-                return {
-                  brand: { equals: brandId },
-                }
-              },
-            },
-            {
-              name: 'supplier',
-              type: 'relationship',
-              label: {
-                en: 'Supplier',
-                es: 'Proveedor',
-              },
-              hasMany: true,
-              relationTo: 'suppliers',
-              admin: {
-                description: 'Los proveedores son las empresas que suministran el producto',
-              },
-            },
-            {
-              name: 'warranty',
-              type: 'text',
-              label: {
-                en: 'Warranty (Days)',
-                es: 'Garantía (Días)',
-              },
-              admin: {
-                position: 'sidebar',
-                description: 'La garantía es el periodo de tiempo que se ofrece por el producto',
-              },
-            },
-            {
-              name: 'type',
-              type: 'select',
-              label: {
-                en: 'Type',
-                es: 'Tipo',
-              },
-              defaultValue: 'general',
-              options: [
-                {
-                  label: 'General',
-                  value: 'general',
-                },
-                {
-                  label: 'Bascula',
-                  value: 'scale',
-                },
-              ],
-            },
-            {
-              name: 'categories',
-              type: 'relationship',
-              label: {
-                en: 'Categories',
-                es: 'Categorías',
-              },
-              admin: {
-                description:
-                  'Puede ser una categoria general o por ejemplo "Basculas Comerciales", "Cargadores", etc.',
-              },
-              hasMany: true,
-              relationTo: 'categories',
-            },
-            {
               name: 'heroImage',
               type: 'upload',
               relationTo: 'media',
@@ -198,6 +96,26 @@ export const Products: CollectionConfig = {
                 es: 'Imagen de Portada',
               },
               required: true,
+            },
+            {
+              name: 'relatedServices',
+              type: 'relationship',
+              label: {
+                en: 'Related Services',
+                es: 'Servicios Relacionados',
+              },
+              admin: {
+                position: 'sidebar',
+              },
+              filterOptions: ({ id }) => {
+                return {
+                  id: {
+                    not_in: [id],
+                  },
+                }
+              },
+              hasMany: true,
+              relationTo: 'services',
             },
             {
               name: 'content',
@@ -381,25 +299,6 @@ export const Products: CollectionConfig = {
         thousandSeparator: ',',
         decimalScale: 2,
         fixedDecimalScale: true,
-      },
-    ),
-    ...NumberField(
-      {
-        name: 'stock',
-        min: 0,
-        label: {
-          en: 'Stock',
-          es: 'Stock',
-        },
-        required: true,
-        admin: {
-          position: 'sidebar',
-        },
-      },
-      {
-        suffix: ' Unidad(es)',
-        thousandSeparator: ',',
-        decimalScale: 0,
       },
     ),
   ],
