@@ -1,5 +1,5 @@
 import BlankCanvasIllustration from '@/assets/undraw/blank-canvas'
-import { Empty, EmptyContent, EmptyHeader, EmptyTitle } from '../ui/empty'
+import { Empty, EmptyContent, EmptyTitle } from '../ui/empty'
 
 export default function NoSearchResults() {
   return (

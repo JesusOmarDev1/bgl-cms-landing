@@ -13,6 +13,7 @@ import {
   List,
   LucideProps,
   Milestone,
+  BookText,
   Package,
   PenLine,
   Search,
@@ -50,6 +51,7 @@ export const navIconMap: Partial<
   'payload-preferences': Settings2,
   chatbot: BotMessageSquare,
   services: Wrench,
+  manuals: BookText,
 }
 
 export const getNavIcon = (slug: string) =>

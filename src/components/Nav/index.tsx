@@ -9,6 +9,7 @@ import { NavHamburger } from './NavHamburguer'
 import { APP_NAME, VERSION } from 'app'
 import { StaticLogoNav } from '@/graphics/StaticLogoNav'
 import { LogOut } from './LogOut'
+import GlobalSearcher from './GlobalSearcher'
 
 export const baseClass = 'nav'
 
@@ -104,14 +105,17 @@ export const Nav: FC<ServerProps> = async (props) => {
             user,
           },
         })}
-        <div className="flex items-center gap-2 mb-4">
-          <div className="flex aspect-square size-16 items-center justify-center">
-            <StaticLogoNav />
+        <div className="flex flex-col w-full">
+          <div className="flex items-center gap-2 mb-4">
+            <div className="flex aspect-square size-16 items-center justify-center">
+              <StaticLogoNav />
+            </div>
+            <div className="flex flex-col gap-0.5 leading-none">
+              <span className="font-semibold text-lg">{APP_NAME}</span>
+              <span className="text-sm">{VERSION}</span>
+            </div>
           </div>
-          <div className="flex flex-col gap-0.5 leading-none">
-            <span className="font-semibold text-lg">{APP_NAME}</span>
-            <span className="text-sm">{VERSION}</span>
-          </div>
+          <GlobalSearcher />
         </div>
         <NavClient groups={groups} navPreferences={navPreferences} />
         {RenderServerComponent({

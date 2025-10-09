@@ -8,6 +8,7 @@ import type {
   Model,
   Category,
   Service,
+  Manual,
 } from '@/payload-types'
 import { getServerSideURL } from '@/utilities/getURL'
 
@@ -133,6 +134,35 @@ export const PageSchema = (props: Page) => {
 }
 
 export const ServiceSchema = (props: Service) => {
+  if (!props) return null
+
+  const url: string = getServerSideURL()
+  const metaImage = props.meta?.image as Media
+
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name: props.title,
+    description: props.meta?.description,
+    url: `${url}/${props.slug}`,
+    image: metaImage?.url ? `${process.env.S3_ENDPOINT}/${metaImage.filename}` : undefined,
+    datePublished: props.createdAt,
+    dateModified: props.updatedAt,
+    publisher: {
+      '@type': 'Organization',
+      name: 'BGL Básculas Industriales',
+      url: url,
+    },
+    mainEntity: {
+      '@type': 'Organization',
+      name: 'BGL Básculas Industriales',
+      description: 'Empresa líder en básculas industriales y equipos de pesaje de alta precisión',
+      url: url,
+    },
+  }
+}
+
+export const ManualSchema = (props: Manual) => {
   if (!props) return null
 
   const url: string = getServerSideURL()

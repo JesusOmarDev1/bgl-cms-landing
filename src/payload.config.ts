@@ -24,6 +24,7 @@ import { Clients } from './collections/Clients'
 import { contentLexicalEditor } from './fields/contentLexical'
 import { Chatbot } from './globals/Chatbot/config'
 import { Services } from './collections/Services'
+import { Manuals } from './collections/Manuals'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -100,6 +101,7 @@ export default buildConfig({
     Suppliers,
     Clients,
     Services,
+    Manuals,
   ],
   cors: [getServerSideURL()].filter(Boolean),
   csrf: [getServerSideURL()].filter(Boolean),

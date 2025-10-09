@@ -1,7 +1,7 @@
 'use client'
 import React, { Suspense } from 'react'
 
-import { TrendingUp } from 'lucide-react'
+import { Copy, TrendingUp } from 'lucide-react'
 import { Area, AreaChart, CartesianGrid, XAxis } from 'recharts'
 
 import {
@@ -46,7 +46,7 @@ const chartConfig = {
 
 const BeforeDashboard: React.FC = () => {
   return (
-    <>
+    <div className="flex flex-col h-fit w-full">
       <h2 className="md:text-3xl text-[17px] font-semibold py-2">Estadísticas</h2>
       <div className="before-dashboard w-full h-fit p-0 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
         <Card className="border border-zinc-100 dark:border-zinc-800">
@@ -120,7 +120,7 @@ const BeforeDashboard: React.FC = () => {
           </CardFooter>
         </Card>
       </div>
-    </>
+    </div>
   )
 }
 

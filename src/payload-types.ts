@@ -78,6 +78,7 @@ export interface Config {
     suppliers: Supplier;
     clients: Client;
     services: Service;
+    manuals: Manual;
     redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
@@ -101,6 +102,7 @@ export interface Config {
     suppliers: SuppliersSelect<false> | SuppliersSelect<true>;
     clients: ClientsSelect<false> | ClientsSelect<true>;
     services: ServicesSelect<false> | ServicesSelect<true>;
+    manuals: ManualsSelect<false> | ManualsSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
@@ -1036,6 +1038,49 @@ export interface Service {
   _status?: ('draft' | 'published') | null;
 }
 /**
+ * Administra las publicaciones del blog: crea, edita y elimina artículos
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "manuals".
+ */
+export interface Manual {
+  id: number;
+  title: string;
+  heroImage: number | Media;
+  content: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  relatedManuals?: (number | Manual)[] | null;
+  categories?: (number | Category)[] | null;
+  meta?: {
+    title?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
+    image?: (number | null) | Media;
+    description?: string | null;
+  };
+  publishedAt?: string | null;
+  slug: string;
+  slugLock?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+  deletedAt?: string | null;
+  _status?: ('draft' | 'published') | null;
+}
+/**
  * Esta es una colección de redirecciones de URL que se crean en el CMS. Estas redirecciones son utilizadas por el sitio web.
  *
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1320,6 +1365,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'services';
         value: number | Service;
+      } | null)
+    | ({
+        relationTo: 'manuals';
+        value: number | Manual;
       } | null)
     | ({
         relationTo: 'redirects';
@@ -1808,6 +1857,31 @@ export interface ServicesSelect<T extends boolean = true> {
   discount?: T;
   iva?: T;
   total?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  deletedAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "manuals_select".
+ */
+export interface ManualsSelect<T extends boolean = true> {
+  title?: T;
+  heroImage?: T;
+  content?: T;
+  relatedManuals?: T;
+  categories?: T;
+  meta?:
+    | T
+    | {
+        title?: T;
+        image?: T;
+        description?: T;
+      };
+  publishedAt?: T;
+  slug?: T;
+  slugLock?: T;
   updatedAt?: T;
   createdAt?: T;
   deletedAt?: T;
@@ -2446,6 +2520,10 @@ export interface TaskSchedulePublish {
       | ({
           relationTo: 'services';
           value: number | Service;
+        } | null)
+      | ({
+          relationTo: 'manuals';
+          value: number | Manual;
         } | null);
     global?: string | null;
     user?: (number | null) | User;
