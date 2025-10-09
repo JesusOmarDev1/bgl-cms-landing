@@ -7,15 +7,13 @@ import { ScrollArea } from '@/components/ui/scroll-area'
 import { MessageCircle, X, Send, ChevronLeft, ExternalLink, MessageSquare } from 'lucide-react'
 import { Message, MessageContent, MessageAvatar } from '@/components/ui/ai/message'
 import { StaticLogo } from '../../../components/Logo/StaticLogo'
-import { Spinner } from '@/components/ui/spinner'
+import { TypingIndicator } from './TypingIndicator'
 import { Status, StatusIndicator, StatusLabel } from '@/components/ui/status'
 import { Input } from '@/components/ui/input'
 import { ChatbotLogo } from '@/components/Logo/ChatbotLogo'
 import { motion } from 'motion/react'
 import { Link } from 'next-view-transitions'
 import { Skeleton } from '@/components/ui/skeleton'
-import TextType from '@/components/ui/text-type'
-import { useTheme } from 'next-themes'
 
 // Constantes de configuración
 const STORAGE_KEY = 'bgl-chatbot-messages'
@@ -24,6 +22,7 @@ const MAX_MESSAGES_STORED = 50
 const MAX_STORAGE_SIZE = 1024 * 100 // 100KB
 const TYPING_DELAY_MIN = 800
 const TYPING_DELAY_MAX = 1800
+const TYPING_SPEED = 50 // Milisegundos entre cada carácter
 const RATE_LIMIT_MS = 1000 // Mínimo 1 segundo entre mensajes
 
 interface FollowUpQuestion {
@@ -103,8 +102,13 @@ export const ChatbotWidget = ({
   const [messages, setMessages] = useState<ChatMessage[]>([])
   const [inputValue, setInputValue] = useState('')
   const [isTyping, setIsTyping] = useState(false)
+  const [displayedText, setDisplayedText] = useState('')
+  const [isTypingMessage, setIsTypingMessage] = useState(false)
+  const [currentTypingMessage, setCurrentTypingMessage] = useState<ChatMessage | null>(null)
   const scrollAreaRef = useRef<HTMLDivElement>(null)
   const lastMessageTime = useRef<number>(0)
+  const typingTimeoutRef = useRef<NodeJS.Timeout | null>(null)
+
   // Memoizar las preguntas del chatbot
   const chatbotQuestions = useMemo(() => questions, [questions])
 
@@ -142,6 +146,7 @@ export const ChatbotWidget = ({
     } catch (error) {
       // Si hay error, limpiar localStorage corrupto
       localStorage.removeItem(STORAGE_KEY)
+      console.warn('Error al cargar mensajes, se limpió el historial')
     }
   }, [])
 
@@ -162,7 +167,9 @@ export const ChatbotWidget = ({
       } else {
         localStorage.setItem(STORAGE_KEY, serialized)
       }
-    } catch (error) {}
+    } catch (error) {
+      console.warn('Error al guardar mensajes en localStorage')
+    }
   }, [messages])
 
   // Mensaje de bienvenida cuando se abre el chat
@@ -184,7 +191,51 @@ export const ChatbotWidget = ({
     if (scrollAreaRef.current) {
       scrollAreaRef.current.scrollTop = scrollAreaRef.current.scrollHeight
     }
-  }, [messages])
+  }, [messages, isTypingMessage, displayedText])
+
+  // Efecto de escritura progresiva
+  useEffect(() => {
+    if (isTypingMessage && currentTypingMessage) {
+      setDisplayedText('')
+      let currentIndex = 0
+      const text = currentTypingMessage.text
+
+      const typeChar = () => {
+        if (currentIndex < text.length) {
+          setDisplayedText(text.slice(0, currentIndex + 1))
+          currentIndex++
+          typingTimeoutRef.current = setTimeout(typeChar, TYPING_SPEED)
+        } else {
+          // Cuando termine de escribir, añadir el mensaje completo a la lista
+          setMessages((prev) => [...prev, currentTypingMessage])
+          setIsTypingMessage(false)
+          setCurrentTypingMessage(null)
+          if (typingTimeoutRef.current) {
+            clearTimeout(typingTimeoutRef.current)
+            typingTimeoutRef.current = null
+          }
+        }
+      }
+
+      typingTimeoutRef.current = setTimeout(typeChar, 300) // Pequeño delay inicial
+
+      return () => {
+        if (typingTimeoutRef.current) {
+          clearTimeout(typingTimeoutRef.current)
+          typingTimeoutRef.current = null
+        }
+      }
+    }
+  }, [isTypingMessage, currentTypingMessage])
+
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      if (typingTimeoutRef.current) {
+        clearTimeout(typingTimeoutRef.current)
+      }
+    }
+  }, [])
 
   // Función optimizada y memoizada para encontrar la mejor respuesta
   const findBestMatch = useCallback(
@@ -319,7 +370,8 @@ export const ChatbotWidget = ({
           followUpQuestions: followUp,
         }
 
-        setMessages((prev) => [...prev, botMessage])
+        setCurrentTypingMessage(botMessage)
+        setIsTypingMessage(true)
         setIsTyping(false)
       }, delay)
     },
@@ -336,6 +388,15 @@ export const ChatbotWidget = ({
   const handleNewChat = useCallback(() => {
     // Limpiar localStorage
     localStorage.removeItem(STORAGE_KEY)
+
+    // Limpiar estados de escritura
+    setDisplayedText('')
+    setIsTypingMessage(false)
+    setCurrentTypingMessage(null)
+    if (typingTimeoutRef.current) {
+      clearTimeout(typingTimeoutRef.current)
+      typingTimeoutRef.current = null
+    }
 
     const defaultWelcomeText =
       '¡Hola! 👋 Soy el asistente virtual de BGL. ¿En qué puedo ayudarte hoy?'
@@ -427,19 +488,7 @@ export const ChatbotWidget = ({
                         variant="contained"
                         className={msg.isUser ? 'bg-[#E3F2FD]' : 'bg-[#F5F5F5]'}
                       >
-                        <TextType
-                          text={msg.text}
-                          className={`whitespace-pre-line ${
-                            msg.isUser
-                              ? 'text-gray-900 dark:text-gray-100'
-                              : 'text-white dark:text-gray-900'
-                          }`}
-                          typingSpeed={10}
-                          showCursor={false}
-                          deletingSpeed={50}
-                          cursorBlinkDuration={0.3}
-                          cursorCharacter="●"
-                        />
+                        <p className="whitespace-pre-line">{msg.text}</p>
                         <p className="text-xs text-muted-foreground mt-1">
                           {msg.timestamp.toLocaleTimeString([], {
                             hour: '2-digit',
@@ -502,14 +551,75 @@ export const ChatbotWidget = ({
                     </Message>
                   ))}
 
-                  {isTyping && (
+                  {/* Mensaje en proceso de escritura */}
+                  {isTypingMessage && currentTypingMessage && (
                     <Message from="assistant">
                       <StaticLogo className="size-10" />
-                      <MessageContent variant="contained">
-                        <Spinner />
+                      <MessageContent variant="contained" className="bg-[#F5F5F5]">
+                        <p className="whitespace-pre-line">{displayedText}</p>
+                        {displayedText.length > 0 && (
+                          <p className="text-xs text-muted-foreground mt-1">
+                            {currentTypingMessage.timestamp.toLocaleTimeString([], {
+                              hour: '2-digit',
+                              minute: '2-digit',
+                            })}
+                          </p>
+                        )}
+
+                        {currentTypingMessage.followUpQuestions &&
+                          currentTypingMessage.followUpQuestions.length > 0 && (
+                            <div className="mt-2 space-y-2">
+                              <p className="text-xs text-muted-foreground">
+                                Elige una de las siguientes opciones:
+                              </p>
+                              <div className="flex flex-wrap gap-2">
+                                {currentTypingMessage.followUpQuestions.map((item, index) => {
+                                  // Opción 1: Enlace a página (typeMessage marcado)
+                                  if (item.typeMessage && item.url) {
+                                    const isExternal = item.url.startsWith('http')
+                                    return (
+                                      <Button
+                                        key={index}
+                                        variant="outline"
+                                        size="sm"
+                                        asChild
+                                        className="text-xs rounded-full hover:bg-blue-50 hover:border-blue-500 hover:text-blue-700 transition-colors gap-1.5"
+                                      >
+                                        <Link
+                                          href={item.url}
+                                          target={isExternal ? '_blank' : '_self'}
+                                          rel={isExternal ? 'noopener noreferrer' : undefined}
+                                        >
+                                          <ExternalLink className="h-3 w-3" />
+                                          {item.question}
+                                        </Link>
+                                      </Button>
+                                    )
+                                  }
+                                  // Opción 2: Enviar mensaje automáticamente (typeMessage desmarcado)
+                                  else {
+                                    return (
+                                      <Button
+                                        key={index}
+                                        variant="outline"
+                                        size="sm"
+                                        onClick={() => handleFollowUpClick(item.question)}
+                                        className="text-xs rounded-full border-2 hover:bg-[#FFE5E5] hover:border-[#EC2224] hover:text-[#EC2224] transition-colors gap-1.5"
+                                      >
+                                        <MessageSquare className="h-3 w-3" />
+                                        {item.question}
+                                      </Button>
+                                    )
+                                  }
+                                })}
+                              </div>
+                            </div>
+                          )}
                       </MessageContent>
                     </Message>
                   )}
+
+                  {isTyping && <TypingIndicator />}
                 </div>
               </ScrollArea>
             </CardContent>
@@ -540,11 +650,11 @@ export const ChatbotWidget = ({
                   <Send className="h-4 w-4" />
                 </Button>
               </form>
-              <p className="text-zinc-500 mt-2 text-center text-sm lg:text-base">
+              <p className="text-zinc-500 mt-2 text-center">
                 ¿Tu chat ha terminado?.{' '}
                 <Button
                   onClick={handleNewChat}
-                  className="text-[#EC2224] px-0 text-sm lg:text-base py-0 h-fit"
+                  className="text-[#EC2224] px-0 text-base"
                   variant="link"
                 >
                   Iniciar un nuevo chat

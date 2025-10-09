@@ -89,7 +89,7 @@ export const Users: CollectionConfig = {
       },
       options: [
         {
-          label: 'Admin',
+          label: 'Administrador',
           value: 'admin',
         },
         {
@@ -97,7 +97,7 @@ export const Users: CollectionConfig = {
           value: 'editor',
         },
         {
-          label: 'User',
+          label: 'Usuario',
           value: 'user',
         },
       ],

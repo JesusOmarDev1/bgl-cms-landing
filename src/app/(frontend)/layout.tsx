@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 
 import React from 'react'
 
-import { Header } from '@/Header/Component'
+import { Header } from '@/globals/Header/Component'
 import { Providers } from '@/providers'
 import { InitTheme } from '@/providers/Theme/InitTheme'
 import { mergeOpenGraph } from '@/utilities/mergeOpenGraph'
