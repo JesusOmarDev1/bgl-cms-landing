@@ -12,6 +12,10 @@ export async function ChatbotWrapper() {
     depth: 1,
   })
 
+  if (chatbotConfig.disabled === true) {
+    return null
+  }
+
   // Filtrar solo las preguntas activas
   const activeQuestions = (chatbotConfig.questions || [])
     .filter((q: any) => q.active !== false)

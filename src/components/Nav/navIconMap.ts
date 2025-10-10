@@ -23,6 +23,7 @@ import {
   Truck,
   UsersRound,
   Wrench,
+  Activity,
 } from 'lucide-react'
 import { ExoticComponent } from 'react'
 
@@ -52,6 +53,7 @@ export const navIconMap: Partial<
   chatbot: BotMessageSquare,
   services: Wrench,
   manuals: BookText,
+  'activity-log': Activity,
 }
 
 export const getNavIcon = (slug: string) =>

@@ -60,9 +60,51 @@ export default function generalMetadata({ title }: Props): Metadata {
     applicationName: 'BGL BASCULAS INDUSTRIALES',
     category: 'web application',
     generator: 'Next.js',
-    icons: {
-      icon: '/favicon.svg',
-      apple: '/apple-touch-icon.png',
-    },
+    icons: [
+      // Light mode icons
+      {
+        url: '/favicon-light.ico',
+        rel: 'icon',
+        sizes: '32x32',
+        media: '(prefers-color-scheme: light)',
+      },
+      {
+        url: '/favicon-light.svg',
+        rel: 'icon',
+        type: 'image/svg+xml',
+        media: '(prefers-color-scheme: light)',
+      },
+      {
+        url: '/favicon-light.png',
+        rel: 'icon',
+        sizes: 'any',
+        media: '(prefers-color-scheme: light)',
+      },
+      // Dark mode icons
+      {
+        url: '/favicon-dark.ico',
+        rel: 'icon',
+        sizes: '32x32',
+        media: '(prefers-color-scheme: dark)',
+      },
+      {
+        url: '/favicon-dark.svg',
+        rel: 'icon',
+        type: 'image/svg+xml',
+        media: '(prefers-color-scheme: dark)',
+      },
+      {
+        url: '/favicon-dark.png',
+        rel: 'icon',
+        sizes: 'any',
+        media: '(prefers-color-scheme: dark)',
+      },
+      // Apple touch icon
+      {
+        url: '/favicon-light.png',
+        rel: 'apple-touch-icon',
+        sizes: 'any',
+      },
+    ],
   }
 }

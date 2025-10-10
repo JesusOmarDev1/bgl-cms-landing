@@ -7,6 +7,13 @@ const defaultOpenGraph: Metadata['openGraph'] = {
   images: [
     {
       url: `${getServerSideURL()}/website-template-OG.webp`,
+      width: 1200,
+      height: 630,
+    },
+    {
+      url: `${getServerSideURL()}/website-template-OG.png`,
+      width: 1200,
+      height: 630,
     },
   ],
   siteName: 'BGL BASCULAS INDUSTRIALES',

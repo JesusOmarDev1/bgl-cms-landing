@@ -95,6 +95,8 @@ const nextConfig = {
               fontSrc: ["'self'", 'https:', 'data:'],
               objectSrc: ["'none'"],
               mediaSrc: ["'self'"],
+              workerSrc: ["'self'", 'blob:'],
+              childSrc: ["'self'", 'blob:'],
               frameSrc: [
                 "'self'",
                 'https://www.youtube.com',
@@ -145,7 +147,7 @@ const nextConfig = {
           {
             key: 'Content-Security-Policy',
             value:
-              "default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-eval' 'unsafe-inline'; img-src 'self' data: https: blob: https://*.cloudflare.com https://*.r2.cloudflarestorage.com https://*.r2.dev; connect-src 'self' https: wss:; font-src 'self' https: data:; object-src 'none'; media-src 'self'; frame-src 'self' https://www.youtube.com https://youtube.com; form-action 'self'; upgrade-insecure-requests;",
+              "default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-eval' 'unsafe-inline'; img-src 'self' data: https: blob: https://*.cloudflare.com https://*.r2.cloudflarestorage.com https://*.r2.dev; connect-src 'self' https: wss:; font-src 'self' https: data:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; media-src 'self'; frame-src 'self' https://www.youtube.com https://youtube.com; form-action 'self'; upgrade-insecure-requests;",
           },
         ],
       },

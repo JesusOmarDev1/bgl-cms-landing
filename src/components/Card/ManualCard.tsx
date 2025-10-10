@@ -11,7 +11,7 @@ import { Skeleton } from '../ui/skeleton'
 import { formatDateTime } from '@/utilities/formatDateTime'
 import Categories from '../ui/categories'
 import { AspectRatio } from '../ui/aspect-ratio'
-import getReadingTime from '@/lib/readingTime'
+import getReadingTime from '@/utilities/readingTime'
 
 export type CardManualData = Pick<
   Manual,

@@ -10,7 +10,7 @@ import {
   CommandList,
   CommandShortcut,
 } from '@/components/ui/command'
-import { CopyIcon, SearchIcon } from 'lucide-react'
+import { SearchIcon } from 'lucide-react'
 
 export const GlobalSearcher = () => {
   const [open, setOpen] = React.useState(false)
@@ -34,19 +34,29 @@ export const GlobalSearcher = () => {
         onClick={() => setOpen(true)}
       >
         <SearchIcon className="size-4 shrink-0 opacity-50" />
-        <p className="text-zinc-500 dark:text-zinc-400">Buscar...</p>
+        <p className="text-zinc-500 dark:text-zinc-400">Buscar atajos...</p>
       </div>
       <CommandDialog
         showCloseButton={false}
         open={open}
         onOpenChange={setOpen}
-        className="border-zinc-200 dark:border-zinc-800 border z-50 w-full md:min-w-[400px] lg:min-w-[600px] xl:min-w-[800px]"
+        className="border-zinc-200 dark:border-zinc-800 border z-50 w-full md:min-w-[400px]"
       >
-        <CommandInput placeholder="Buscar..." />
+        <CommandInput placeholder="Buscar atajos..." />
         <CommandList>
           <CommandEmpty>No hay resultados</CommandEmpty>
-          <CommandGroup heading="Recientes">
-            <CommandItem></CommandItem>
+          <CommandGroup heading="Atajos">
+            <CommandItem>
+              Buscador
+              <CommandShortcut>⌘K</CommandShortcut>
+            </CommandItem>
+            <CommandItem>
+              Guardar Documento
+              <CommandShortcut>⌘S</CommandShortcut>
+            </CommandItem>
+            <CommandItem>
+              <CommandShortcut>⌘S</CommandShortcut>
+            </CommandItem>
           </CommandGroup>
         </CommandList>
       </CommandDialog>

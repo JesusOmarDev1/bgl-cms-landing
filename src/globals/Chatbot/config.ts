@@ -387,6 +387,27 @@ export const Chatbot: GlobalConfig = {
             },
           ],
         },
+        {
+          label: {
+            en: 'Configuration',
+            es: 'Configuración',
+          },
+          fields: [
+            {
+              name: 'disabled',
+              type: 'checkbox',
+              defaultValue: false,
+              label: {
+                en: 'Disable Chatbot',
+                es: 'Deshabilitar Chatbot',
+              },
+              admin: {
+                description:
+                  'Con esta opción se deshabilitara el chatbot en la página web para que no se muestre temporalmente o indefinidamente.',
+              },
+            },
+          ],
+        },
       ],
     },
   ],

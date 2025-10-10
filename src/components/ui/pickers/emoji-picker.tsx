@@ -1,6 +1,6 @@
-"use client";
+'use client'
 
-import * as ToggleGroupPrimitive from "@radix-ui/react-toggle-group";
+import * as ToggleGroupPrimitive from '@radix-ui/react-toggle-group'
 import {
   type EmojiPickerListCategoryHeaderProps,
   type EmojiPickerListEmojiProps,
@@ -9,17 +9,13 @@ import {
   SkinTone,
   useActiveEmoji,
   useSkinTone,
-} from "frimousse";
-import { LoaderIcon, SearchIcon } from "lucide-react";
-import * as React from "react";
+} from 'frimousse'
+import { LoaderIcon, SearchIcon } from 'lucide-react'
+import * as React from 'react'
 
-import { Button } from "@/components/ui/button";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { cn } from "@/lib/utils";
+import { Button } from '@/components/ui/button'
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
+import { cn } from '@/utilities/ui'
 
 function EmojiPicker({
   className,
@@ -29,12 +25,12 @@ function EmojiPicker({
     <EmojiPickerPrimitive.Root
       data-slot="emoji-picker"
       className={cn(
-        "bg-popover text-popover-foreground isolate flex h-full w-fit flex-col overflow-hidden rounded-md",
+        'bg-popover text-popover-foreground isolate flex h-full w-fit flex-col overflow-hidden rounded-md',
         className,
       )}
       {...props}
     />
-  );
+  )
 }
 
 function EmojiPickerSearch({
@@ -44,7 +40,7 @@ function EmojiPickerSearch({
   return (
     <div
       data-slot="emoji-picker-search-wrapper"
-      className={cn("flex h-9 items-center gap-2 border-b px-3", className)}
+      className={cn('flex h-9 items-center gap-2 border-b px-3', className)}
     >
       <SearchIcon className="size-4 shrink-0 opacity-50" />
       <EmojiPickerPrimitive.Search
@@ -53,7 +49,7 @@ function EmojiPickerSearch({
         {...props}
       />
     </div>
-  );
+  )
 }
 
 function EmojiPickerRow({ children, ...props }: EmojiPickerListRowProps) {
@@ -61,32 +57,25 @@ function EmojiPickerRow({ children, ...props }: EmojiPickerListRowProps) {
     <div data-slot="emoji-picker-row" className="scroll-my-1 px-1" {...props}>
       {children}
     </div>
-  );
+  )
 }
 
-function EmojiPickerEmoji({
-  emoji,
-  className,
-  ...props
-}: EmojiPickerListEmojiProps) {
+function EmojiPickerEmoji({ emoji, className, ...props }: EmojiPickerListEmojiProps) {
   return (
     <button
       data-slot="emoji-picker-emoji"
       className={cn(
-        "data-[active]:bg-accent flex size-7 items-center justify-center rounded-sm text-base",
+        'data-[active]:bg-accent flex size-7 items-center justify-center rounded-sm text-base',
         className,
       )}
       {...props}
     >
       {emoji.emoji}
     </button>
-  );
+  )
 }
 
-function EmojiPickerCategoryHeader({
-  category,
-  ...props
-}: EmojiPickerListCategoryHeaderProps) {
+function EmojiPickerCategoryHeader({ category, ...props }: EmojiPickerListCategoryHeaderProps) {
   return (
     <div
       data-slot="emoji-picker-category-header"
@@ -95,7 +84,7 @@ function EmojiPickerCategoryHeader({
     >
       {category.label}
     </div>
-  );
+  )
 }
 
 function EmojiPickerContent({
@@ -105,7 +94,7 @@ function EmojiPickerContent({
   return (
     <EmojiPickerPrimitive.Viewport
       data-slot="emoji-picker-viewport"
-      className={cn("relative flex-1 outline-hidden", className)}
+      className={cn('relative flex-1 outline-hidden', className)}
       {...props}
     >
       <EmojiPickerPrimitive.Loading
@@ -130,18 +119,15 @@ function EmojiPickerContent({
         }}
       />
     </EmojiPickerPrimitive.Viewport>
-  );
+  )
 }
 
-function EmojiPickerFooter({
-  className,
-  ...props
-}: React.ComponentProps<"div">) {
+function EmojiPickerFooter({ className, ...props }: React.ComponentProps<'div'>) {
   return (
     <div
       data-slot="emoji-picker-footer"
       className={cn(
-        "flex w-full max-w-(--frimousse-viewport-width) min-w-0 items-center justify-between gap-1 border-t p-2",
+        'flex w-full max-w-(--frimousse-viewport-width) min-w-0 items-center justify-between gap-1 border-t p-2',
         className,
       )}
       {...props}
@@ -149,14 +135,11 @@ function EmojiPickerFooter({
       <EmojiPickerActiveEmojiPreview />
       <EmojiPickerSkinToneSelector />
     </div>
-  );
+  )
 }
 
-function EmojiPickerActiveEmojiPreview({
-  className,
-  ...props
-}: React.ComponentProps<"div">) {
-  const emoji = useActiveEmoji();
+function EmojiPickerActiveEmojiPreview({ className, ...props }: React.ComponentProps<'div'>) {
+  const emoji = useActiveEmoji()
 
   if (!emoji) {
     return (
@@ -166,42 +149,32 @@ function EmojiPickerActiveEmojiPreview({
       >
         Select an emoji…
       </div>
-    );
+    )
   }
 
   return (
-    <div className={cn("flex items-center gap-1", className)} {...props}>
+    <div className={cn('flex items-center gap-1', className)} {...props}>
       <div className="flex items-center gap-1">
         <div className="flex size-7 flex-none items-center justify-center text-lg">
           {emoji.emoji}
         </div>
-        <span className="text-secondary-foreground truncate text-xs">
-          {emoji.label}
-        </span>
+        <span className="text-secondary-foreground truncate text-xs">{emoji.label}</span>
       </div>
     </div>
-  );
+  )
 }
 
 function EmojiPickerSkinToneSelector() {
-  const [skinTone, setSkinTone, skinToneVariations] = useSkinTone();
+  const [skinTone, setSkinTone, skinToneVariations] = useSkinTone()
 
   return (
     <Popover>
       <PopoverTrigger asChild>
         <Button variant="outline" size="icon" className="size-7">
-          {
-            skinToneVariations.find(
-              (variation) => variation.skinTone === skinTone,
-            )?.emoji
-          }
+          {skinToneVariations.find((variation) => variation.skinTone === skinTone)?.emoji}
         </Button>
       </PopoverTrigger>
-      <PopoverContent
-        side="left"
-        align="center"
-        className="w-fit overflow-hidden p-0"
-      >
+      <PopoverContent side="left" align="center" className="w-fit overflow-hidden p-0">
         <ToggleGroupPrimitive.Root
           type="single"
           value={skinTone}
@@ -222,12 +195,7 @@ function EmojiPickerSkinToneSelector() {
         </ToggleGroupPrimitive.Root>
       </PopoverContent>
     </Popover>
-  );
+  )
 }
 
-export {
-  EmojiPicker,
-  EmojiPickerSearch,
-  EmojiPickerContent,
-  EmojiPickerFooter,
-};
+export { EmojiPicker, EmojiPickerSearch, EmojiPickerContent, EmojiPickerFooter }

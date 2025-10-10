@@ -9,6 +9,15 @@ import { Skeleton } from '../ui/skeleton'
 import { formatDateTime } from '@/utilities/formatDateTime'
 import Categories from '../ui/categories'
 import { AspectRatio } from '../ui/aspect-ratio'
+import { Badge } from '../ui/badge'
+
+// Mapeo de tipos de documentos obtenidos directamente de las colecciones
+const documentTypeLabels: Record<string, string> = {
+  posts: 'Publicación',
+  products: 'Producto',
+  manuals: 'Manual',
+  services: 'Servicio',
+}
 
 // Tipo para elementos de la colección search
 export type SearchResultData = {
@@ -29,7 +38,7 @@ export type SearchResultData = {
     title?: string
   }> | null
   doc: {
-    relationTo: 'posts' | 'products'
+    relationTo: 'posts' | 'products' | 'manuals' | 'services'
     value: string | number
   }
 }
@@ -56,11 +65,16 @@ export const SearchCard: React.FC<{
 
   const imageToUse = heroImage || metaImage
 
+  const documentTypeLabel = documentTypeLabels[docRef.relationTo] || docRef.relationTo
+
   return (
     <Card role="article" className="h-fit max-w-96 relative z-10">
       <div className="flex flex-col gap-4">
         <CardHeader className="px-0">
           <div className="relative">
+            <Badge variant="default" className="w-fit absolute top-4 right-4 overflow-hidden z-1">
+              {documentTypeLabel}
+            </Badge>
             <Suspense fallback={<Skeleton className="h-56 w-full" />}>
               {imageToUse && typeof imageToUse !== 'string' && typeof imageToUse !== 'number' && (
                 <AspectRatio ratio={1 / 1} className="relative">

@@ -35,7 +35,7 @@ export const Categories: CollectionConfig = {
     slug: true,
   },
   admin: {
-    defaultColumns: ['title', 'slug', 'createdAt'],
+    defaultColumns: ['title', 'slug', 'parent', 'createdAt'],
     useAsTitle: 'title',
     description: 'Administra las categorías del sitio: crea, edita y elimina categorías',
     group: 'Utilidades',

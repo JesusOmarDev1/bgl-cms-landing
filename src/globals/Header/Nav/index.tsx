@@ -27,7 +27,7 @@ export const HeaderNav: React.FC<{
             {navItems.map(({ link }, i) => {
               return (
                 <NavigationMenuLink key={i} asChild>
-                  <CMSLink {...link} />
+                  <CMSLink {...link} title={link.label} label={link.label} />
                 </NavigationMenuLink>
               )
             })}

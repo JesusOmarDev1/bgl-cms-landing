@@ -11,10 +11,11 @@ import { FixedToolbarFeature, HeadingFeature, lexicalEditor } from '@payloadcms/
 import { searchFields } from '@/search/fieldOverrides'
 import { beforeSyncWithSearch } from '@/search/beforeSync'
 import { importExportPlugin } from '@payloadcms/plugin-import-export'
+import { activityLogPlugin } from '@payload-bites/activity-log'
 
 import { Page, Post } from '@/payload-types'
 import { getServerSideURL } from '@/utilities/getURL'
-import { getCloudfareAdapter } from '@/lib/storage'
+import { getCloudfareAdapter } from '@/utilities/storage'
 import { isAdminOrEditor } from '@/access/isAdminOrEditor'
 import { isAdmin } from '@/access/isAdmin'
 import { anyone } from '@/access/anyone'
@@ -410,7 +411,7 @@ export const plugins: Plugin[] = [
     redirectRelationships: ['pages'],
   }),
   searchPlugin({
-    collections: ['posts', 'products'],
+    collections: ['posts', 'products', 'manuals', 'services'],
     beforeSync: beforeSyncWithSearch,
     searchOverrides: {
       fields: ({ defaultFields }) => {
@@ -436,6 +437,81 @@ export const plugins: Plugin[] = [
   importExportPlugin({
     collections: ['posts', 'pages'],
     format: 'csv',
+  }),
+  activityLogPlugin({
+    collections: {
+      posts: {
+        enableUpdateLogging: true,
+        enableDeleteLogging: true,
+        enableDeviceInfoLogging: false,
+        enableIpAddressLogging: false,
+      },
+      pages: {
+        enableUpdateLogging: true,
+        enableDeleteLogging: true,
+        enableDeviceInfoLogging: false,
+        enableIpAddressLogging: false,
+      },
+      manuals: {
+        enableUpdateLogging: true,
+        enableDeleteLogging: true,
+        enableDeviceInfoLogging: false,
+        enableIpAddressLogging: false,
+      },
+      products: {
+        enableUpdateLogging: true,
+        enableDeleteLogging: true,
+        enableDeviceInfoLogging: false,
+        enableIpAddressLogging: false,
+      },
+      services: {
+        enableUpdateLogging: true,
+        enableDeleteLogging: true,
+        enableDeviceInfoLogging: false,
+        enableIpAddressLogging: false,
+      },
+      media: {
+        enableUpdateLogging: true,
+        enableCreateLogging: true,
+        enableDeleteLogging: true,
+        enableDeviceInfoLogging: false,
+        enableIpAddressLogging: false,
+      },
+      users: {
+        enableUpdateLogging: true,
+        enableDeleteLogging: true,
+        enableDeviceInfoLogging: false,
+        enableIpAddressLogging: false,
+      },
+    },
+    globals: {
+      chatbot: {
+        enableDeviceInfoLogging: false,
+        enableIpAddressLogging: false,
+      },
+    },
+    enableDraftAutosaveLogging: false,
+    overrideActivityLogCollection: (collection) => ({
+      ...collection,
+      access: {
+        ...collection?.access,
+        read: isAdmin,
+        update: () => false,
+        create: () => false,
+        delete: isAdmin,
+      },
+      labels: {
+        ...collection?.labels,
+        plural: 'Logs de actividad',
+        singular: 'Log de actividad',
+      },
+      admin: {
+        ...collection?.admin,
+        description:
+          'Esta es una colección de logs de actividad generados automáticamente. Estos logs son utilizados por el sistema para rastrear las acciones realizadas por los usuarios en el CMS.',
+        group: 'Control Interno',
+      },
+    }),
   }),
   payloadCloudPlugin(),
 ]

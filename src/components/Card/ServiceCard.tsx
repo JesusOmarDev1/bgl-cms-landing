@@ -10,7 +10,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui
 import { Skeleton } from '../ui/skeleton'
 import { formatDateTime } from '@/utilities/formatDateTime'
 import { AspectRatio } from '../ui/aspect-ratio'
-import getReadingTime from '@/lib/readingTime'
+import getReadingTime from '@/utilities/readingTime'
 
 export type CardServiceData = Pick<
   Post,

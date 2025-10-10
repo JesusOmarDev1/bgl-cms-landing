@@ -37,7 +37,15 @@ export const HeaderSheetNav: React.FC<{
           </SheetHeader>
           <div className="flex flex-col gap-2 px-4">
             {navItems.map(({ link }, i) => {
-              return <CMSLink key={i} {...link} className="w-full text-lg" />
+              return (
+                <CMSLink
+                  key={i}
+                  {...link}
+                  title={link.label}
+                  label={link.label}
+                  className="w-full text-lg"
+                />
+              )
             })}
           </div>
         </SheetContent>

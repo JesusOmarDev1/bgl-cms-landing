@@ -1,7 +1,7 @@
 'use client'
 
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from './accordion'
-import { cn } from '../../utilities/ui'
+import { cn } from '@/utilities/ui'
 import { useState } from 'react'
 import RichText from '../RichText'
 import type { DefaultTypedEditorState } from '@payloadcms/richtext-lexical'

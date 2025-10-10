@@ -10,7 +10,7 @@ import type { Props as MediaProps } from '../types'
 
 import { cssVariables } from '@/cssVariables'
 import { getMediaUrl } from '@/utilities/getMediaUrl'
-import { placeholderBlur } from '@/lib/placeholder'
+import { placeholderBlur } from '@/utilities/placeholder'
 
 const { breakpoints } = cssVariables
 

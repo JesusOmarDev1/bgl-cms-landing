@@ -18,8 +18,42 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       <html lang="es-MX" suppressHydrationWarning>
         <head>
           <InitTheme />
-          <link href="/favicon.ico" rel="icon" sizes="32x32" />
-          <link href="/favicon.svg" rel="icon" type="image/svg+xml" />
+          <link
+            href="/favicon-light.ico"
+            rel="icon"
+            sizes="32x32"
+            media="(prefers-color-scheme: light)"
+          />
+          <link
+            href="/favicon-light.svg"
+            rel="icon"
+            type="image/svg+xml"
+            media="(prefers-color-scheme: light)"
+          />
+          <link
+            href="favicon-light.png"
+            rel="icon"
+            sizes="any"
+            media="(prefers-color-scheme: light)"
+          />
+          <link
+            href="/favicon-dark.ico"
+            rel="icon"
+            sizes="32x32"
+            media="(prefers-color-scheme: dark)"
+          />
+          <link
+            href="/favicon-dark.svg"
+            rel="icon"
+            type="image/svg+xml"
+            media="(prefers-color-scheme: dark)"
+          />
+          <link
+            href="favicon-dark.png"
+            rel="icon"
+            sizes="any"
+            media="(prefers-color-scheme: dark)"
+          />
         </head>
         <body>
           <Providers>

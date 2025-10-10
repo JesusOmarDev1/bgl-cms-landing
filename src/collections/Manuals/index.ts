@@ -1,6 +1,6 @@
 import type { CollectionConfig } from 'payload'
 
-import { generatePreviewPath } from '../../utilities/generatePreviewPath'
+import { generatePreviewPath } from '@/utilities/generatePreviewPath'
 import { revalidateDelete, revalidateManual } from './hooks/revalidateManuals'
 
 import {

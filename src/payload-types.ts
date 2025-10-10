@@ -84,6 +84,7 @@ export interface Config {
     'form-submissions': FormSubmission;
     search: Search;
     exports: Export;
+    'activity-log': ActivityLog;
     'payload-jobs': PayloadJob;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -108,6 +109,7 @@ export interface Config {
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
     search: SearchSelect<false> | SearchSelect<true>;
     exports: ExportsSelect<false> | ExportsSelect<true>;
+    'activity-log': ActivityLogSelect<false> | ActivityLogSelect<true>;
     'payload-jobs': PayloadJobsSelect<false> | PayloadJobsSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -1151,6 +1153,14 @@ export interface Search {
     | {
         relationTo: 'products';
         value: number | Product;
+      }
+    | {
+        relationTo: 'manuals';
+        value: number | Manual;
+      }
+    | {
+        relationTo: 'services';
+        value: number | Service;
       };
   slug?: string | null;
   content?: {
@@ -1222,6 +1232,35 @@ export interface Export {
   height?: number | null;
   focalX?: number | null;
   focalY?: number | null;
+}
+/**
+ * Esta es una colección de logs de actividad generados automáticamente. Estos logs son utilizados por el sistema para rastrear las acciones realizadas por los usuarios en el CMS.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "activity-log".
+ */
+export interface ActivityLog {
+  id: number;
+  user?: {
+    relationTo: 'users';
+    value: number | User;
+  } | null;
+  operation?: ('create' | 'read' | 'update' | 'delete') | null;
+  timestamp?: string | null;
+  ipAddress?: string | null;
+  deviceInfo?: string | null;
+  locale?: string | null;
+  resource?: string | null;
+  documentId?: string | null;
+  data?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1389,6 +1428,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'exports';
         value: number | Export;
+      } | null)
+    | ({
+        relationTo: 'activity-log';
+        value: number | ActivityLog;
       } | null)
     | ({
         relationTo: 'payload-jobs';
@@ -2126,6 +2169,21 @@ export interface ExportsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "activity-log_select".
+ */
+export interface ActivityLogSelect<T extends boolean = true> {
+  user?: T;
+  operation?: T;
+  timestamp?: T;
+  ipAddress?: T;
+  deviceInfo?: T;
+  locale?: T;
+  resource?: T;
+  documentId?: T;
+  data?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-jobs_select".
  */
 export interface PayloadJobsSelect<T extends boolean = true> {
@@ -2357,6 +2415,10 @@ export interface Chatbot {
         id?: string | null;
       }[]
     | null;
+  /**
+   * Con esta opción se deshabilitara el chatbot en la página web para que no se muestre temporalmente o indefinidamente.
+   */
+  disabled?: boolean | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -2461,6 +2523,7 @@ export interface ChatbotSelect<T extends boolean = true> {
         active?: T;
         id?: T;
       };
+  disabled?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

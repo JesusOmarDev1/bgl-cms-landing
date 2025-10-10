@@ -7,7 +7,7 @@ import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 import React from 'react'
 import PageClient from './page.client'
-import generalMetadata from '@/lib/generalMetadata'
+import generalMetadata from '@/utilities/generalMetadata'
 
 export const dynamic = 'force-static'
 export const revalidate = 600

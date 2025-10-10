@@ -1,5 +1,5 @@
 import { Children, type ReactNode } from 'react'
-import { cn } from '@/lib/utils'
+import { cn } from '@/utilities/ui'
 
 export type AvatarStackProps = {
   children: ReactNode

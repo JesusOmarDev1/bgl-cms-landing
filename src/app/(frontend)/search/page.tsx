@@ -7,7 +7,7 @@ import React from 'react'
 import { Search } from '@/search/Component'
 import PageClient from './page.client'
 import { SearchResultData } from '@/components/Card/SearchCard'
-import generalMetadata from '@/lib/generalMetadata'
+import generalMetadata from '@/utilities/generalMetadata'
 import NoSearchResults from '@/components/States/no-search-results'
 
 type Args = {
@@ -19,7 +19,7 @@ export default async function Page({ searchParams: searchParamsPromise }: Args) 
   const { q: query } = await searchParamsPromise
   const payload = await getPayload({ config: configPromise })
 
-  const posts = await payload.find({
+  const searchResults = await payload.find({
     collection: 'search',
     depth: 1,
     limit: 12,
@@ -72,8 +72,8 @@ export default async function Page({ searchParams: searchParamsPromise }: Args) 
         </div>
       </div>
 
-      {posts.totalDocs > 0 ? (
-        <SearchArchive results={posts.docs as SearchResultData[]} />
+      {searchResults.totalDocs > 0 ? (
+        <SearchArchive results={searchResults.docs as SearchResultData[]} />
       ) : (
         <NoSearchResults />
       )}
