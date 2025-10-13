@@ -115,7 +115,7 @@ export const Nav: FC<ServerProps> = async (props) => {
               <span className="text-sm">{VERSION}</span>
             </div>
           </div>
-          <GlobalSearcher />
+          <GlobalSearcher payload={payload} />
         </div>
         <NavClient groups={groups} navPreferences={navPreferences} />
         {RenderServerComponent({
