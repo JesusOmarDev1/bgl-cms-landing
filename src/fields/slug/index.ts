@@ -33,8 +33,8 @@ export const slugField: Slug = (fieldToUse = 'title', overrides = {}) => {
     type: 'text',
     index: true,
     label: {
-      en: 'Slug',
-      es: 'Slug',
+      en: 'Slug (URL)',
+      es: 'Slug (URL)',
     },
     required: true,
     ...(slugOverrides || {}),

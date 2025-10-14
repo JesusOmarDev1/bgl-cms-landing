@@ -12,19 +12,20 @@ import { searchFields } from '@/search/fieldOverrides'
 import { beforeSyncWithSearch } from '@/search/beforeSync'
 import { importExportPlugin } from '@payloadcms/plugin-import-export'
 import { activityLogPlugin } from '@payload-bites/activity-log'
+import { auditFieldsPlugin } from '@payload-bites/audit-fields'
 
-import { Page, Post } from '@/payload-types'
+import { Page, Post, Service, Manual, Product } from '@/payload-types'
 import { getServerSideURL } from '@/utilities/getURL'
 import { getCloudfareAdapter } from '@/utilities/storage'
 import { isAdminOrEditor } from '@/access/isAdminOrEditor'
 import { isAdmin } from '@/access/isAdmin'
 import { anyone } from '@/access/anyone'
 
-const generateTitle: GenerateTitle<Post | Page> = ({ doc }) => {
+const generateTitle: GenerateTitle<Post | Page | Service | Manual | Product> = ({ doc }) => {
   return doc?.title ? `${doc.title}` : 'BGL BASCULAS INDUSTRIALES'
 }
 
-const generateURL: GenerateURL<Post | Page> = ({ doc }) => {
+const generateURL: GenerateURL<Post | Page | Service | Manual | Product> = ({ doc }) => {
   const url = getServerSideURL()
 
   return doc?.slug ? `${url}/${doc.slug}` : url
@@ -513,6 +514,9 @@ export const plugins: Plugin[] = [
       },
     }),
   }),
-
+  auditFieldsPlugin({
+    createdByLabel: 'Creado por',
+    lastModifiedByLabel: 'Modificado por',
+  }),
   payloadCloudPlugin(),
 ]

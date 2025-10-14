@@ -17,6 +17,12 @@ importers:
       '@payload-bites/activity-log':
         specifier: ^1.3.0
         version: 1.3.0(next@15.4.4(@babel/core@7.28.3)(@opentelemetry/api@1.9.0)(@playwright/test@1.54.1)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(sass@1.77.4))(payload@3.53.0(graphql@16.11.0)(typescript@5.7.3))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+      '@payload-bites/audit-fields':
+        specifier: ^1.2.4
+        version: 1.2.4(next@15.4.4(@babel/core@7.28.3)(@opentelemetry/api@1.9.0)(@playwright/test@1.54.1)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(sass@1.77.4))(payload@3.53.0(graphql@16.11.0)(typescript@5.7.3))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+      '@payload-bites/fullscreen-editor':
+        specifier: ^1.4.5
+        version: 1.4.5(5e36667d724f028912b2ad7744d69116)
       '@payloadcms/admin-bar':
         specifier: 3.53.0
         version: 3.53.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
@@ -1952,6 +1958,25 @@ packages:
   '@payload-bites/activity-log@1.3.0':
     resolution: {integrity: sha512-Dch1pe+fyHP5ogIafnllZj406yB8vQzPwzRtAHE08BzVC00frvUEI9A6tbfzAocbx9VzSLhjVouid7DFJn0rZQ==}
     peerDependencies:
+      next: ^15.2.3
+      payload: ^3
+      react: ^19
+      react-dom: ^19
+
+  '@payload-bites/audit-fields@1.2.4':
+    resolution: {integrity: sha512-qjs/tUIVSzoKqZeSnfRpDshV+wU7dv3gx7Bl2ruoT6alyeEekt4xAsPotRRxfpXvs71tofHwwGfNlitXdln2AQ==}
+    peerDependencies:
+      next: ^15.2.3
+      payload: ^3
+      react: ^19
+      react-dom: ^19
+
+  '@payload-bites/fullscreen-editor@1.4.5':
+    resolution: {integrity: sha512-NDk913TMpYJBV/er9JDERyLW3oYI+KLVmdduNh92m8nJOrmxNgJJSDh4Xav45D1RegncT5geKLLuBcPW2KprvA==}
+    peerDependencies:
+      '@payloadcms/richtext-lexical': ^3
+      '@payloadcms/translations': ^3
+      '@payloadcms/ui': ^3
       next: ^15.2.3
       payload: ^3
       react: ^19
@@ -9642,6 +9667,23 @@ snapshots:
 
   '@payload-bites/activity-log@1.3.0(next@15.4.4(@babel/core@7.28.3)(@opentelemetry/api@1.9.0)(@playwright/test@1.54.1)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(sass@1.77.4))(payload@3.53.0(graphql@16.11.0)(typescript@5.7.3))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)':
     dependencies:
+      next: 15.4.4(@babel/core@7.28.3)(@opentelemetry/api@1.9.0)(@playwright/test@1.54.1)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(sass@1.77.4)
+      payload: 3.53.0(graphql@16.11.0)(typescript@5.7.3)
+      react: 19.1.0
+      react-dom: 19.1.0(react@19.1.0)
+
+  '@payload-bites/audit-fields@1.2.4(next@15.4.4(@babel/core@7.28.3)(@opentelemetry/api@1.9.0)(@playwright/test@1.54.1)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(sass@1.77.4))(payload@3.53.0(graphql@16.11.0)(typescript@5.7.3))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)':
+    dependencies:
+      next: 15.4.4(@babel/core@7.28.3)(@opentelemetry/api@1.9.0)(@playwright/test@1.54.1)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(sass@1.77.4)
+      payload: 3.53.0(graphql@16.11.0)(typescript@5.7.3)
+      react: 19.1.0
+      react-dom: 19.1.0(react@19.1.0)
+
+  '@payload-bites/fullscreen-editor@1.4.5(5e36667d724f028912b2ad7744d69116)':
+    dependencies:
+      '@payloadcms/richtext-lexical': 3.53.0(@faceless-ui/modal@3.0.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(@faceless-ui/scroll-info@2.0.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(@payloadcms/next@3.53.0(@types/react@19.1.8)(graphql@16.11.0)(monaco-editor@0.52.2)(next@15.4.4(@babel/core@7.28.3)(@opentelemetry/api@1.9.0)(@playwright/test@1.54.1)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(sass@1.77.4))(payload@3.53.0(graphql@16.11.0)(typescript@5.7.3))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(typescript@5.7.3))(@types/react@19.1.8)(monaco-editor@0.52.2)(next@15.4.4(@babel/core@7.28.3)(@opentelemetry/api@1.9.0)(@playwright/test@1.54.1)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(sass@1.77.4))(payload@3.53.0(graphql@16.11.0)(typescript@5.7.3))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(typescript@5.7.3)(yjs@13.6.27)
+      '@payloadcms/translations': 3.53.0
+      '@payloadcms/ui': 3.53.0(@types/react@19.1.8)(monaco-editor@0.52.2)(next@15.4.4(@babel/core@7.28.3)(@opentelemetry/api@1.9.0)(@playwright/test@1.54.1)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(sass@1.77.4))(payload@3.53.0(graphql@16.11.0)(typescript@5.7.3))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(typescript@5.7.3)
       next: 15.4.4(@babel/core@7.28.3)(@opentelemetry/api@1.9.0)(@playwright/test@1.54.1)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(sass@1.77.4)
       payload: 3.53.0(graphql@16.11.0)(typescript@5.7.3)
       react: 19.1.0

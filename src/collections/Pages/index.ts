@@ -134,12 +134,31 @@ export const Pages: CollectionConfig<'pages'> = {
             }),
             MetaTitleField({
               hasGenerateFn: true,
+              overrides: {
+                label: {
+                  en: 'Title for SEO',
+                  es: 'Título para SEO',
+                },
+              },
             }),
             MetaImageField({
               relationTo: 'media',
+              overrides: {
+                label: {
+                  en: 'Image for SEO',
+                  es: 'Imagen para SEO',
+                },
+              },
             }),
 
-            MetaDescriptionField({}),
+            MetaDescriptionField({
+              overrides: {
+                label: {
+                  en: 'Description for SEO',
+                  es: 'Descripción para SEO',
+                },
+              },
+            }),
             PreviewField({
               // if the `generateUrl` function is configured
               hasGenerateFn: true,

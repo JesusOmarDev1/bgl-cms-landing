@@ -13,6 +13,8 @@ import {
   lexicalEditor,
 } from '@payloadcms/richtext-lexical'
 
+import { FullscreenEditorFeature } from '@payload-bites/fullscreen-editor'
+
 import { Banner } from '../blocks/Banner/config'
 import { Code } from '../blocks/Code/config'
 import { Button } from '../blocks/Button/config'
@@ -226,6 +228,7 @@ export const contentLexicalEditor = lexicalEditor({
       }),
       ChecklistFeature(),
       BlockquoteFeature(),
+      FullscreenEditorFeature(),
     ]
   },
 })

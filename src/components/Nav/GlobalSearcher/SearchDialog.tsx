@@ -131,7 +131,7 @@ export const SearchDialog: React.FC<SearchDialogProps> = ({ initialResults }) =>
         onClick={handleOpen}
       >
         <SearchIcon className="size-4 shrink-0 opacity-50" />
-        <p className="text-sm text-zinc-500 dark:text-zinc-400">Buscar contenido...</p>
+        <p className="text-lg text-zinc-500 dark:text-zinc-400">Buscar contenido...</p>
         <kbd className="ml-auto pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border border-zinc-200 dark:border-zinc-800 bg-zinc-100 dark:bg-zinc-900 px-1.5 font-mono text-[10px] font-medium text-zinc-600 dark:text-zinc-400 opacity-100">
           <span className="text-xs">⌘</span>K
         </kbd>

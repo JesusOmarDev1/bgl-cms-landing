@@ -193,6 +193,14 @@ export interface Page {
   publishedAt?: string | null;
   slug: string;
   slugLock?: boolean | null;
+  createdBy?: {
+    relationTo: 'users';
+    value: number | User;
+  } | null;
+  lastModifiedBy?: {
+    relationTo: 'users';
+    value: number | User;
+  } | null;
   updatedAt: string;
   createdAt: string;
   deletedAt?: string | null;
@@ -291,6 +299,14 @@ export interface Post {
     | null;
   slug: string;
   slugLock?: boolean | null;
+  createdBy?: {
+    relationTo: 'users';
+    value: number | User;
+  } | null;
+  lastModifiedBy?: {
+    relationTo: 'users';
+    value: number | User;
+  } | null;
   updatedAt: string;
   createdAt: string;
   deletedAt?: string | null;
@@ -319,6 +335,14 @@ export interface Media {
       version: number;
     };
     [k: string]: unknown;
+  } | null;
+  createdBy?: {
+    relationTo: 'users';
+    value: number | User;
+  } | null;
+  lastModifiedBy?: {
+    relationTo: 'users';
+    value: number | User;
   } | null;
   updatedAt: string;
   createdAt: string;
@@ -376,6 +400,46 @@ export interface Media {
   };
 }
 /**
+ * Administra los usuarios del sitio: crea, edita y elimina usuarios
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "users".
+ */
+export interface User {
+  id: number;
+  name: string;
+  firstName: string;
+  lastName?: string | null;
+  avatar?: (number | null) | Media;
+  roles?: ('admin' | 'editor' | 'user')[] | null;
+  createdBy?: {
+    relationTo: 'users';
+    value: number | User;
+  } | null;
+  lastModifiedBy?: {
+    relationTo: 'users';
+    value: number | User;
+  } | null;
+  updatedAt: string;
+  createdAt: string;
+  deletedAt?: string | null;
+  email: string;
+  resetPasswordToken?: string | null;
+  resetPasswordExpiration?: string | null;
+  salt?: string | null;
+  hash?: string | null;
+  loginAttempts?: number | null;
+  lockUntil?: string | null;
+  sessions?:
+    | {
+        id: string;
+        createdAt?: string | null;
+        expiresAt: string;
+      }[]
+    | null;
+  password?: string | null;
+}
+/**
  * Administra las categorías del sitio: crea, edita y elimina categorías
  *
  * This interface was referenced by `Config`'s JSON-Schema
@@ -395,41 +459,17 @@ export interface Category {
         id?: string | null;
       }[]
     | null;
+  createdBy?: {
+    relationTo: 'users';
+    value: number | User;
+  } | null;
+  lastModifiedBy?: {
+    relationTo: 'users';
+    value: number | User;
+  } | null;
   updatedAt: string;
   createdAt: string;
   deletedAt?: string | null;
-}
-/**
- * Administra los usuarios del sitio: crea, edita y elimina usuarios
- *
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "users".
- */
-export interface User {
-  id: number;
-  name: string;
-  firstName: string;
-  lastName?: string | null;
-  avatar?: (number | null) | Media;
-  roles?: ('admin' | 'editor' | 'user')[] | null;
-  updatedAt: string;
-  createdAt: string;
-  deletedAt?: string | null;
-  email: string;
-  resetPasswordToken?: string | null;
-  resetPasswordExpiration?: string | null;
-  salt?: string | null;
-  hash?: string | null;
-  loginAttempts?: number | null;
-  lockUntil?: string | null;
-  sessions?:
-    | {
-        id: string;
-        createdAt?: string | null;
-        expiresAt: string;
-      }[]
-    | null;
-  password?: string | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -709,6 +749,14 @@ export interface Form {
         id?: string | null;
       }[]
     | null;
+  createdBy?: {
+    relationTo: 'users';
+    value: number | User;
+  } | null;
+  lastModifiedBy?: {
+    relationTo: 'users';
+    value: number | User;
+  } | null;
   updatedAt: string;
   createdAt: string;
   deletedAt?: string | null;
@@ -873,6 +921,14 @@ export interface Product {
   iva?: boolean | null;
   total?: number | null;
   stock: number;
+  createdBy?: {
+    relationTo: 'users';
+    value: number | User;
+  } | null;
+  lastModifiedBy?: {
+    relationTo: 'users';
+    value: number | User;
+  } | null;
   updatedAt: string;
   createdAt: string;
   deletedAt?: string | null;
@@ -893,6 +949,14 @@ export interface Brand {
   heroImage?: (number | null) | Media;
   slug: string;
   slugLock?: boolean | null;
+  createdBy?: {
+    relationTo: 'users';
+    value: number | User;
+  } | null;
+  lastModifiedBy?: {
+    relationTo: 'users';
+    value: number | User;
+  } | null;
   updatedAt: string;
   createdAt: string;
   deletedAt?: string | null;
@@ -907,6 +971,14 @@ export interface Model {
   brand: number | Brand;
   slug: string;
   slugLock?: boolean | null;
+  createdBy?: {
+    relationTo: 'users';
+    value: number | User;
+  } | null;
+  lastModifiedBy?: {
+    relationTo: 'users';
+    value: number | User;
+  } | null;
   updatedAt: string;
   createdAt: string;
   deletedAt?: string | null;
@@ -947,6 +1019,14 @@ export interface Supplier {
   slugLock?: boolean | null;
   credit?: string | null;
   discount?: number | null;
+  createdBy?: {
+    relationTo: 'users';
+    value: number | User;
+  } | null;
+  lastModifiedBy?: {
+    relationTo: 'users';
+    value: number | User;
+  } | null;
   updatedAt: string;
   createdAt: string;
   deletedAt?: string | null;
@@ -985,6 +1065,14 @@ export interface Client {
   website?: string | null;
   slug: string;
   slugLock?: boolean | null;
+  createdBy?: {
+    relationTo: 'users';
+    value: number | User;
+  } | null;
+  lastModifiedBy?: {
+    relationTo: 'users';
+    value: number | User;
+  } | null;
   updatedAt: string;
   createdAt: string;
   deletedAt?: string | null;
@@ -1034,6 +1122,14 @@ export interface Service {
    */
   iva?: boolean | null;
   total?: number | null;
+  createdBy?: {
+    relationTo: 'users';
+    value: number | User;
+  } | null;
+  lastModifiedBy?: {
+    relationTo: 'users';
+    value: number | User;
+  } | null;
   updatedAt: string;
   createdAt: string;
   deletedAt?: string | null;
@@ -1077,6 +1173,14 @@ export interface Manual {
   publishedAt?: string | null;
   slug: string;
   slugLock?: boolean | null;
+  createdBy?: {
+    relationTo: 'users';
+    value: number | User;
+  } | null;
+  lastModifiedBy?: {
+    relationTo: 'users';
+    value: number | User;
+  } | null;
   updatedAt: string;
   createdAt: string;
   deletedAt?: string | null;
@@ -1113,6 +1217,14 @@ export interface Redirect {
         } | null);
     url?: string | null;
   };
+  createdBy?: {
+    relationTo: 'users';
+    value: number | User;
+  } | null;
+  lastModifiedBy?: {
+    relationTo: 'users';
+    value: number | User;
+  } | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -1132,6 +1244,14 @@ export interface FormSubmission {
         id?: string | null;
       }[]
     | null;
+  createdBy?: {
+    relationTo: 'users';
+    value: number | User;
+  } | null;
+  lastModifiedBy?: {
+    relationTo: 'users';
+    value: number | User;
+  } | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -1193,6 +1313,14 @@ export interface Search {
         id?: string | null;
       }[]
     | null;
+  createdBy?: {
+    relationTo: 'users';
+    value: number | User;
+  } | null;
+  lastModifiedBy?: {
+    relationTo: 'users';
+    value: number | User;
+  } | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -1221,6 +1349,14 @@ export interface Export {
     | number
     | boolean
     | null;
+  createdBy?: {
+    relationTo: 'users';
+    value: number | User;
+  } | null;
+  lastModifiedBy?: {
+    relationTo: 'users';
+    value: number | User;
+  } | null;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -1261,6 +1397,14 @@ export interface ActivityLog {
     | number
     | boolean
     | null;
+  createdBy?: {
+    relationTo: 'users';
+    value: number | User;
+  } | null;
+  lastModifiedBy?: {
+    relationTo: 'users';
+    value: number | User;
+  } | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1510,6 +1654,8 @@ export interface PagesSelect<T extends boolean = true> {
   publishedAt?: T;
   slug?: T;
   slugLock?: T;
+  createdBy?: T;
+  lastModifiedBy?: T;
   updatedAt?: T;
   createdAt?: T;
   deletedAt?: T;
@@ -1644,6 +1790,8 @@ export interface PostsSelect<T extends boolean = true> {
       };
   slug?: T;
   slugLock?: T;
+  createdBy?: T;
+  lastModifiedBy?: T;
   updatedAt?: T;
   createdAt?: T;
   deletedAt?: T;
@@ -1656,6 +1804,8 @@ export interface PostsSelect<T extends boolean = true> {
 export interface MediaSelect<T extends boolean = true> {
   alt?: T;
   content?: T;
+  createdBy?: T;
+  lastModifiedBy?: T;
   updatedAt?: T;
   createdAt?: T;
   deletedAt?: T;
@@ -1740,6 +1890,8 @@ export interface CategoriesSelect<T extends boolean = true> {
         label?: T;
         id?: T;
       };
+  createdBy?: T;
+  lastModifiedBy?: T;
   updatedAt?: T;
   createdAt?: T;
   deletedAt?: T;
@@ -1754,6 +1906,8 @@ export interface UsersSelect<T extends boolean = true> {
   lastName?: T;
   avatar?: T;
   roles?: T;
+  createdBy?: T;
+  lastModifiedBy?: T;
   updatedAt?: T;
   createdAt?: T;
   deletedAt?: T;
@@ -1801,6 +1955,8 @@ export interface ProductsSelect<T extends boolean = true> {
   iva?: T;
   total?: T;
   stock?: T;
+  createdBy?: T;
+  lastModifiedBy?: T;
   updatedAt?: T;
   createdAt?: T;
   deletedAt?: T;
@@ -1815,6 +1971,8 @@ export interface BrandsSelect<T extends boolean = true> {
   heroImage?: T;
   slug?: T;
   slugLock?: T;
+  createdBy?: T;
+  lastModifiedBy?: T;
   updatedAt?: T;
   createdAt?: T;
   deletedAt?: T;
@@ -1828,6 +1986,8 @@ export interface ModelsSelect<T extends boolean = true> {
   brand?: T;
   slug?: T;
   slugLock?: T;
+  createdBy?: T;
+  lastModifiedBy?: T;
   updatedAt?: T;
   createdAt?: T;
   deletedAt?: T;
@@ -1851,6 +2011,8 @@ export interface SuppliersSelect<T extends boolean = true> {
   slugLock?: T;
   credit?: T;
   discount?: T;
+  createdBy?: T;
+  lastModifiedBy?: T;
   updatedAt?: T;
   createdAt?: T;
   deletedAt?: T;
@@ -1872,6 +2034,8 @@ export interface ClientsSelect<T extends boolean = true> {
   website?: T;
   slug?: T;
   slugLock?: T;
+  createdBy?: T;
+  lastModifiedBy?: T;
   updatedAt?: T;
   createdAt?: T;
   deletedAt?: T;
@@ -1900,6 +2064,8 @@ export interface ServicesSelect<T extends boolean = true> {
   discount?: T;
   iva?: T;
   total?: T;
+  createdBy?: T;
+  lastModifiedBy?: T;
   updatedAt?: T;
   createdAt?: T;
   deletedAt?: T;
@@ -1925,6 +2091,8 @@ export interface ManualsSelect<T extends boolean = true> {
   publishedAt?: T;
   slug?: T;
   slugLock?: T;
+  createdBy?: T;
+  lastModifiedBy?: T;
   updatedAt?: T;
   createdAt?: T;
   deletedAt?: T;
@@ -1943,6 +2111,8 @@ export interface RedirectsSelect<T extends boolean = true> {
         reference?: T;
         url?: T;
       };
+  createdBy?: T;
+  lastModifiedBy?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -2089,6 +2259,8 @@ export interface FormsSelect<T extends boolean = true> {
         message?: T;
         id?: T;
       };
+  createdBy?: T;
+  lastModifiedBy?: T;
   updatedAt?: T;
   createdAt?: T;
   deletedAt?: T;
@@ -2106,6 +2278,8 @@ export interface FormSubmissionsSelect<T extends boolean = true> {
         value?: T;
         id?: T;
       };
+  createdBy?: T;
+  lastModifiedBy?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -2136,6 +2310,8 @@ export interface SearchSelect<T extends boolean = true> {
         title?: T;
         id?: T;
       };
+  createdBy?: T;
+  lastModifiedBy?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -2155,6 +2331,8 @@ export interface ExportsSelect<T extends boolean = true> {
   fields?: T;
   collectionSlug?: T;
   where?: T;
+  createdBy?: T;
+  lastModifiedBy?: T;
   updatedAt?: T;
   createdAt?: T;
   url?: T;
@@ -2181,6 +2359,8 @@ export interface ActivityLogSelect<T extends boolean = true> {
   resource?: T;
   documentId?: T;
   data?: T;
+  createdBy?: T;
+  lastModifiedBy?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -2273,37 +2453,159 @@ export interface Header {
         id?: string | null;
       }[]
     | null;
+  createdBy?: {
+    relationTo: 'users';
+    value: number | User;
+  } | null;
+  lastModifiedBy?: {
+    relationTo: 'users';
+    value: number | User;
+  } | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
 /**
- * Aqui se configura el pie de página global del sitio web
+ * Aquí se configura el pie de página global del sitio web
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "footer".
  */
 export interface Footer {
   id: number;
-  navItems?:
-    | {
-        link: {
-          type?: ('reference' | 'custom') | null;
-          newTab?: boolean | null;
-          reference?:
-            | ({
-                relationTo: 'pages';
-                value: number | Page;
-              } | null)
-            | ({
-                relationTo: 'posts';
-                value: number | Post;
-              } | null);
-          url?: string | null;
-          label: string;
-        };
-        id?: string | null;
-      }[]
-    | null;
+  productSection?: {
+    title?: string | null;
+    items?:
+      | {
+          link: {
+            type?: ('reference' | 'custom') | null;
+            newTab?: boolean | null;
+            reference?:
+              | ({
+                  relationTo: 'pages';
+                  value: number | Page;
+                } | null)
+              | ({
+                  relationTo: 'posts';
+                  value: number | Post;
+                } | null);
+            url?: string | null;
+            label: string;
+          };
+          id?: string | null;
+        }[]
+      | null;
+  };
+  companySection?: {
+    title?: string | null;
+    items?:
+      | {
+          link: {
+            type?: ('reference' | 'custom') | null;
+            newTab?: boolean | null;
+            reference?:
+              | ({
+                  relationTo: 'pages';
+                  value: number | Page;
+                } | null)
+              | ({
+                  relationTo: 'posts';
+                  value: number | Post;
+                } | null);
+            url?: string | null;
+            label: string;
+          };
+          id?: string | null;
+        }[]
+      | null;
+  };
+  resourcesSection?: {
+    title?: string | null;
+    items?:
+      | {
+          link: {
+            type?: ('reference' | 'custom') | null;
+            newTab?: boolean | null;
+            reference?:
+              | ({
+                  relationTo: 'pages';
+                  value: number | Page;
+                } | null)
+              | ({
+                  relationTo: 'posts';
+                  value: number | Post;
+                } | null);
+            url?: string | null;
+            label: string;
+          };
+          id?: string | null;
+        }[]
+      | null;
+  };
+  legalSection?: {
+    title?: string | null;
+    items?:
+      | {
+          link: {
+            type?: ('reference' | 'custom') | null;
+            newTab?: boolean | null;
+            reference?:
+              | ({
+                  relationTo: 'pages';
+                  value: number | Page;
+                } | null)
+              | ({
+                  relationTo: 'posts';
+                  value: number | Post;
+                } | null);
+            url?: string | null;
+            label: string;
+          };
+          id?: string | null;
+        }[]
+      | null;
+  };
+  socialSection?: {
+    title?: string | null;
+    items?:
+      | {
+          link: {
+            type?: ('reference' | 'custom') | null;
+            newTab?: boolean | null;
+            reference?:
+              | ({
+                  relationTo: 'pages';
+                  value: number | Page;
+                } | null)
+              | ({
+                  relationTo: 'posts';
+                  value: number | Post;
+                } | null);
+            url?: string | null;
+            label: string;
+          };
+          id?: string | null;
+        }[]
+      | null;
+  };
+  followUsSection?: {
+    title?: string | null;
+    socialLinks?:
+      | {
+          platform: 'facebook' | 'twitter' | 'instagram' | 'linkedin' | 'youtube' | 'tiktok';
+          url: string;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  copyrightText?: string | null;
+  createdBy?: {
+    relationTo: 'users';
+    value: number | User;
+  } | null;
+  lastModifiedBy?: {
+    relationTo: 'users';
+    value: number | User;
+  } | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -2419,6 +2721,14 @@ export interface Chatbot {
    * Con esta opción se deshabilitara el chatbot en la página web para que no se muestre temporalmente o indefinidamente.
    */
   disabled?: boolean | null;
+  createdBy?: {
+    relationTo: 'users';
+    value: number | User;
+  } | null;
+  lastModifiedBy?: {
+    relationTo: 'users';
+    value: number | User;
+  } | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -2441,6 +2751,8 @@ export interface HeaderSelect<T extends boolean = true> {
             };
         id?: T;
       };
+  createdBy?: T;
+  lastModifiedBy?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
@@ -2450,20 +2762,116 @@ export interface HeaderSelect<T extends boolean = true> {
  * via the `definition` "footer_select".
  */
 export interface FooterSelect<T extends boolean = true> {
-  navItems?:
+  productSection?:
     | T
     | {
-        link?:
+        title?: T;
+        items?:
           | T
           | {
-              type?: T;
-              newTab?: T;
-              reference?: T;
-              url?: T;
-              label?: T;
+              link?:
+                | T
+                | {
+                    type?: T;
+                    newTab?: T;
+                    reference?: T;
+                    url?: T;
+                    label?: T;
+                  };
+              id?: T;
             };
-        id?: T;
       };
+  companySection?:
+    | T
+    | {
+        title?: T;
+        items?:
+          | T
+          | {
+              link?:
+                | T
+                | {
+                    type?: T;
+                    newTab?: T;
+                    reference?: T;
+                    url?: T;
+                    label?: T;
+                  };
+              id?: T;
+            };
+      };
+  resourcesSection?:
+    | T
+    | {
+        title?: T;
+        items?:
+          | T
+          | {
+              link?:
+                | T
+                | {
+                    type?: T;
+                    newTab?: T;
+                    reference?: T;
+                    url?: T;
+                    label?: T;
+                  };
+              id?: T;
+            };
+      };
+  legalSection?:
+    | T
+    | {
+        title?: T;
+        items?:
+          | T
+          | {
+              link?:
+                | T
+                | {
+                    type?: T;
+                    newTab?: T;
+                    reference?: T;
+                    url?: T;
+                    label?: T;
+                  };
+              id?: T;
+            };
+      };
+  socialSection?:
+    | T
+    | {
+        title?: T;
+        items?:
+          | T
+          | {
+              link?:
+                | T
+                | {
+                    type?: T;
+                    newTab?: T;
+                    reference?: T;
+                    url?: T;
+                    label?: T;
+                  };
+              id?: T;
+            };
+      };
+  followUsSection?:
+    | T
+    | {
+        title?: T;
+        socialLinks?:
+          | T
+          | {
+              platform?: T;
+              url?: T;
+              id?: T;
+            };
+      };
+  copyrightText?: T;
+  createdBy?: T;
+  lastModifiedBy?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
@@ -2524,6 +2932,8 @@ export interface ChatbotSelect<T extends boolean = true> {
         id?: T;
       };
   disabled?: T;
+  createdBy?: T;
+  lastModifiedBy?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

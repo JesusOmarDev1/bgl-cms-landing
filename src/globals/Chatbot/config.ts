@@ -396,7 +396,7 @@ export const Chatbot: GlobalConfig = {
             {
               name: 'disabled',
               type: 'checkbox',
-              defaultValue: false,
+              defaultValue: true,
               label: {
                 en: 'Disable Chatbot',
                 es: 'Deshabilitar Chatbot',
