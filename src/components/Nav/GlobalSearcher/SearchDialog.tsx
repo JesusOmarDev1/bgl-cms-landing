@@ -170,9 +170,12 @@ export const SearchDialog: React.FC<SearchDialogProps> = ({ initialResults }) =>
                         key={item.id}
                         href={`/admin/collections/${collection}/${typeof item.doc.value === 'object' ? item.doc.value.id : item.doc.value}`}
                         onClick={handleSelect}
+                        className="no-underline hover:underline"
                       >
-                        <CommandItem className="cursor-pointer">
-                          {Icon && <Icon className="mr-2 h-4 w-4 shrink-0 dark:stroke-zinc-50" />}
+                        <CommandItem className="cursor-pointer px-2">
+                          {Icon && (
+                            <Icon className="mr-2 size-4 md:size-6 lg:size-8 shrink-0 dark:stroke-zinc-50" />
+                          )}
                           <div className="flex flex-col flex-1 min-w-0">
                             <span className="truncate font-medium text-base">
                               {item.title || 'Sin título'}

@@ -97,13 +97,6 @@ const nextConfig = {
               mediaSrc: ["'self'"],
               workerSrc: ["'self'", 'blob:'],
               childSrc: ["'self'", 'blob:'],
-              frameSrc: [
-                "'self'",
-                'https://www.youtube.com',
-                'https://youtube.com',
-                'https://.r2.cloudflarestorage.com',
-                'https://.r2.dev',
-              ],
               formAction: ["'self'"],
               upgradeInsecureRequests: [],
             },
@@ -143,11 +136,6 @@ const nextConfig = {
           {
             key: 'X-Download-Options',
             value: 'noopen',
-          },
-          {
-            key: 'Content-Security-Policy',
-            value:
-              "default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-eval' 'unsafe-inline'; img-src 'self' data: https: blob: https://*.cloudflare.com https://*.r2.cloudflarestorage.com https://*.r2.dev; connect-src 'self' https: wss:; font-src 'self' https: data:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; media-src 'self'; frame-src 'self' https://www.youtube.com https://youtube.com; form-action 'self'; upgrade-insecure-requests;",
           },
         ],
       },

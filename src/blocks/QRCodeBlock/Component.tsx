@@ -63,12 +63,12 @@ export const QRCodeBlock: React.FC<Props> = ({ className, description, url, alig
       >
         <QRCode
           title={description}
-          robustness="Q"
+          robustness="L"
           data={url}
           className={cn(
             size === 'medium' && 'size-32',
             size === 'large' && 'size-48',
-            'rounded border p-2.5',
+            'rounded bg-white p-2.5',
             className,
           )}
         />
