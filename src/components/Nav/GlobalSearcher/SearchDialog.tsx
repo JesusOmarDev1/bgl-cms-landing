@@ -27,14 +27,6 @@ const collectionLabels = {
   services: 'Servicios',
   pages: 'Páginas',
   categories: 'Categorías',
-  media: 'Medios',
-  users: 'Usuarios',
-  brands: 'Marcas',
-  models: 'Modelos',
-  suppliers: 'Proveedores',
-  clients: 'Clientes',
-  forms: 'Formularios',
-  'form-submissions': 'Envíos',
 } as const
 
 export const SearchDialog: React.FC<SearchDialogProps> = ({ initialResults }) => {

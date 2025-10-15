@@ -40,6 +40,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data, display = 'fix
 
   return (
     <header
+      {...(theme ? { 'data-theme': theme } : {})}
       className={cn(
         display === 'sticky' ? 'sticky' : 'fixed',
         'top-0 w-full h-fit z-20 backdrop-filter backdrop-blur-lg bg-background/70 dark:bg-background/70 border-b',
@@ -88,7 +89,3 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data, display = 'fix
     </header>
   )
 }
-
-/*
-{...(theme ? { 'data-theme': theme } : {})}
-*/
