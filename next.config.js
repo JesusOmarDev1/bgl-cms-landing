@@ -9,6 +9,8 @@ const NEXT_PUBLIC_SERVER_URL = process.env.VERCEL_PROJECT_PRODUCTION_URL
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  poweredByHeader: false,
+  compress: true,
   experimental: {
     optimizePackageImports: [
       'motion',
@@ -19,6 +21,7 @@ const nextConfig = {
       'gsap',
       'three',
       'next-share',
+      'qrcode',
     ],
     optimizeCss: true,
   },
@@ -39,10 +42,6 @@ const nextConfig = {
       {
         protocol: 'https',
         hostname: '*.r2.dev',
-      },
-      {
-        protocol: 'https',
-        hostname: 'images.unsplash.com',
       },
     ],
     domains: ['*.r2.cloudflarestorage.com', '*.r2.dev'],

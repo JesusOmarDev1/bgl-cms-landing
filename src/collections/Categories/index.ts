@@ -31,7 +31,6 @@ export const Categories: CollectionConfig = {
   },
   defaultPopulate: {
     title: true,
-    subcategories: true,
     slug: true,
   },
   admin: {

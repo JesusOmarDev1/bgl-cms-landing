@@ -6,7 +6,7 @@
    Require all denied
 </FilesMatch>
 
-<FilesMatch "\.(env|gitignore|)$">
+<FilesMatch "\.(env|gitignore|bgl-cms.db)$">
    Require all denied
 </FilesMatch>
 

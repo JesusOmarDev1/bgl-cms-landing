@@ -300,6 +300,7 @@ export const Products: CollectionConfig = {
         },
         access: {
           read: isAdminOrEditorFieldLevel,
+          update: isAdminOrEditorFieldLevel,
         },
       },
       {
@@ -323,6 +324,7 @@ export const Products: CollectionConfig = {
         },
         access: {
           read: isAdminOrEditorFieldLevel,
+          update: isAdminOrEditorFieldLevel,
         },
       },
       {
@@ -346,6 +348,7 @@ export const Products: CollectionConfig = {
       },
       access: {
         read: isAdminOrEditorFieldLevel,
+        update: isAdminOrEditorFieldLevel,
       },
     },
     ...NumberField(
@@ -392,6 +395,7 @@ export const Products: CollectionConfig = {
         },
         access: {
           read: isAdminOrEditorFieldLevel,
+          update: isAdminOrEditorFieldLevel,
         },
       },
       {
@@ -433,6 +437,6 @@ export const Products: CollectionConfig = {
       },
       schedulePublish: true,
     },
-    maxPerDoc: 50,
+    maxPerDoc: 100,
   },
 }

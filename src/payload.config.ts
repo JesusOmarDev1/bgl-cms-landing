@@ -37,7 +37,11 @@ export default buildConfig({
   email: getEmailAdapter(),
   i18n: {
     supportedLanguages: { es },
-    translations: { es: es },
+    translations: {
+      es: {
+        ...es,
+      },
+    },
   },
   admin: {
     dateFormat: 'dd/MM/yyyy',

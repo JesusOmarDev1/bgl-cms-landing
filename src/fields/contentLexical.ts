@@ -6,10 +6,18 @@ import {
   FixedToolbarFeature,
   HeadingFeature,
   HorizontalRuleFeature,
+  IndentFeature,
   InlineToolbarFeature,
+  LinkFeature,
   OrderedListFeature,
+  ParagraphFeature,
+  RelationshipFeature,
+  SubscriptFeature,
+  SuperscriptFeature,
   TextStateFeature,
+  UnderlineFeature,
   UnorderedListFeature,
+  TreeViewFeature,
   lexicalEditor,
 } from '@payloadcms/richtext-lexical'
 
@@ -25,16 +33,61 @@ export const contentLexicalEditor = lexicalEditor({
   features: ({ rootFeatures }) => {
     return [
       ...rootFeatures,
-      HeadingFeature({ enabledHeadingSizes: ['h1', 'h2', 'h3', 'h4'] }),
+      ParagraphFeature(),
+      HeadingFeature({ enabledHeadingSizes: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'] }),
       BlocksFeature({ blocks: [Banner, Code, Button, MediaBlock, QRCodeBlock] }),
-      FixedToolbarFeature(),
+      FixedToolbarFeature({ applyToFocusedEditor: true }),
       InlineToolbarFeature(),
-      HorizontalRuleFeature(),
-      AlignFeature(),
+      UnderlineFeature(),
+      SubscriptFeature(),
+      SuperscriptFeature(),
+      LinkFeature({
+        enabledCollections: ['posts', 'pages'],
+        fields: [
+          {
+            name: 'rel',
+            label: {
+              en: 'Rel Attribute',
+              es: 'Atributo Rel',
+            },
+            type: 'select',
+            hasMany: true,
+            options: [
+              { label: { en: 'Externo', es: 'Pagina externa' }, value: 'noopener' },
+              { label: { en: 'Interno', es: 'Pagina interna' }, value: 'noreferrer' },
+            ],
+          },
+          {
+            name: 'target',
+            label: {
+              en: 'Target',
+              es: 'Destino',
+            },
+            type: 'select',
+            options: [
+              { label: { en: 'Same Window', es: 'Misma Ventana' }, value: '_self' },
+              { label: { en: 'New Window', es: 'Nueva Ventana' }, value: '_blank' },
+            ],
+          },
+        ],
+      }),
+      RelationshipFeature({
+        enabledCollections: [
+          'posts',
+          'pages',
+          'categories',
+          'services',
+          'products',
+          'manuals',
+          'brands',
+          'models',
+        ],
+      }),
       UnorderedListFeature(),
       OrderedListFeature(),
+      IndentFeature(),
+      AlignFeature(),
       HorizontalRuleFeature(),
-      InlineToolbarFeature(),
       TextStateFeature({
         state: {
           color: {
@@ -228,6 +281,7 @@ export const contentLexicalEditor = lexicalEditor({
       }),
       ChecklistFeature(),
       BlockquoteFeature(),
+      // TreeViewFeature(),
       FullscreenEditorFeature(),
     ]
   },

@@ -20,6 +20,7 @@ import { getCloudfareAdapter } from '@/utilities/storage'
 import { isAdminOrEditor } from '@/access/isAdminOrEditor'
 import { isAdmin } from '@/access/isAdmin'
 import { anyone } from '@/access/anyone'
+import { NumberField } from '@/fields/number'
 
 const generateTitle: GenerateTitle<Post | Page | Service | Manual | Product> = ({ doc }) => {
   return doc?.title ? `${doc.title}` : 'BGL BASCULAS INDUSTRIALES'
@@ -127,6 +128,36 @@ export const plugins: Plugin[] = [
           singular: 'Casilla de verificación',
           plural: 'Casillas de verificación',
         },
+        fields: [
+          {
+            name: 'name',
+            type: 'text',
+            label: 'Nombre (minusculas, sin caracteres especiales)',
+          },
+          {
+            name: 'label',
+            type: 'text',
+            label: 'Etiqueta',
+          },
+          ...NumberField(
+            {
+              name: 'fieldWidth',
+              label: 'Ancho del campo (en porcentaje)',
+            },
+            {
+              prefix: 'Porcentaje ',
+              suffix: ' %',
+              thousandSeparator: ',',
+              decimalScale: 2,
+              fixedDecimalScale: true,
+            },
+          ),
+          {
+            name: 'defaultValue',
+            type: 'checkbox',
+            label: 'Valor por defecto',
+          },
+        ],
       },
       select: {
         labels: {

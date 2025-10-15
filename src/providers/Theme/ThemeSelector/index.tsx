@@ -17,7 +17,7 @@ import { Button } from '@/components/ui/button'
 
 export const ThemeSelector: React.FC = () => {
   const { setTheme } = useTheme()
-  const [value, setValue] = useState('')
+  const [value, setValue] = useState('auto')
 
   const onThemeChange = (themeToSet: Theme | 'auto') => {
     if (themeToSet === 'auto') {
@@ -44,15 +44,24 @@ export const ThemeSelector: React.FC = () => {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuItem onClick={() => onThemeChange('light')}>
+        <DropdownMenuItem
+          className={value === 'light' ? 'bg-accent' : ''}
+          onClick={() => onThemeChange('light')}
+        >
           <Sun className="h-[1.2rem] w-[1.2rem]" />
           <span>Claro</span>
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => onThemeChange('dark')}>
+        <DropdownMenuItem
+          className={value === 'dark' ? 'bg-accent' : ''}
+          onClick={() => onThemeChange('dark')}
+        >
           <Moon className="h-[1.2rem] w-[1.2rem]" />
           <span>Oscuro</span>
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => onThemeChange('auto')}>
+        <DropdownMenuItem
+          className={value === 'auto' ? 'bg-accent' : ''}
+          onClick={() => onThemeChange('auto')}
+        >
           <Monitor className="h-[1.2rem] w-[1.2rem]" />
           <span>Sistema</span>
         </DropdownMenuItem>

@@ -555,10 +555,9 @@ export interface Form {
   fields?:
     | (
         | {
-            name: string;
+            name?: string | null;
             label?: string | null;
-            width?: number | null;
-            required?: boolean | null;
+            fieldWidth?: number | null;
             defaultValue?: boolean | null;
             id?: string | null;
             blockName?: string | null;
@@ -2130,8 +2129,7 @@ export interface FormsSelect<T extends boolean = true> {
           | {
               name?: T;
               label?: T;
-              width?: T;
-              required?: T;
+              fieldWidth?: T;
               defaultValue?: T;
               id?: T;
               blockName?: T;
