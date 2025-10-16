@@ -6,42 +6,48 @@ import { cn } from '@/utilities/ui'
 import { Link } from 'next-view-transitions'
 
 type Props = {
-  title?: string
-  url?: string
   className?: string
-  style?: 'default' | 'destructive' | 'link' | 'ghost' | 'outline' | 'secondary'
-  effect?: 'gooeyRight' | 'gooeyLeft' | 'ringHover' | 'shine' | 'shineHover'
-  align?: 'left' | 'center' | 'right' | 'full' | null
+  align?: 'left' | 'center' | 'right' | 'full'
 } & ButtonBlockProps
 
-export const ButtonBlock: React.FC<Props> = ({
-  className,
-  title,
-  url,
-  style = 'default',
-  effect,
-  align,
-}) => {
+type ButtonItem = NonNullable<ButtonBlockProps['buttons']>[number]
+
+export const ButtonBlock: React.FC<Props> = ({ className, buttons, align }) => {
+  if (!buttons || buttons.length === 0) return null
+
   return (
     <div
       className={cn(
-        'flex min-w-full items-center',
+        'flex flex-col md:flex-row min-w-full flex-wrap items-center gap-3',
         align === 'left' && 'justify-start',
         align === 'center' && 'justify-center',
         align === 'right' && 'justify-end',
         align === 'full' && 'justify-stretch',
         (!align || align === null) && 'justify-start',
+        className,
       )}
     >
-      <Link href={url || ''} passHref title={title}>
-        <Button
-          className={cn(className, align === 'full' && 'w-full')}
-          effect={effect}
-          variant={style}
-        >
-          {title}
-        </Button>
-      </Link>
+      {buttons.map((button: ButtonItem, index) => {
+        const buttonEffect = button.effect === 'none' ? undefined : button.effect
+
+        return (
+          <Link
+            key={`button-${button.id || index}`}
+            href={button.url || ''}
+            passHref
+            title={button.title || undefined}
+            className={cn(align === 'full' && 'flex-1')}
+          >
+            <Button
+              className={cn(align === 'full' && 'w-full')}
+              effect={buttonEffect as any}
+              variant={button.style}
+            >
+              {button.title}
+            </Button>
+          </Link>
+        )
+      })}
     </div>
   )
 }

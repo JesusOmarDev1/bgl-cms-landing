@@ -1,11 +1,6 @@
 import type { Block } from 'payload'
 
-import {
-  FixedToolbarFeature,
-  HeadingFeature,
-  InlineToolbarFeature,
-  lexicalEditor,
-} from '@payloadcms/richtext-lexical'
+import { contentLexicalEditor } from '@/fields/contentLexical'
 
 export const ServiceArchiveBlock: Block = {
   slug: 'service-archive',
@@ -14,16 +9,7 @@ export const ServiceArchiveBlock: Block = {
     {
       name: 'introContent',
       type: 'richText',
-      editor: lexicalEditor({
-        features: ({ rootFeatures }) => {
-          return [
-            ...rootFeatures,
-            HeadingFeature({ enabledHeadingSizes: ['h1', 'h2', 'h3', 'h4'] }),
-            FixedToolbarFeature(),
-            InlineToolbarFeature(),
-          ]
-        },
-      }),
+      editor: contentLexicalEditor,
       label: {
         en: 'Intro Content',
         es: 'Contenido de Introducción',

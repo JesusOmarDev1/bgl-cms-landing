@@ -1,11 +1,6 @@
 import type { Block } from 'payload'
 
-import {
-  FixedToolbarFeature,
-  HeadingFeature,
-  InlineToolbarFeature,
-  lexicalEditor,
-} from '@payloadcms/richtext-lexical'
+import { contentLexicalEditor } from '@/fields/contentLexical'
 
 export const FAQ: Block = {
   slug: 'faq',
@@ -17,6 +12,12 @@ export const FAQ: Block = {
       label: {
         en: 'FAQ Items',
         es: 'Elementos FAQ',
+      },
+      admin: {
+        initCollapsed: true,
+        components: {
+          RowLabel: '@/blocks/FAQ/RowLabel#RowLabel',
+        },
       },
       fields: [
         {
@@ -31,16 +32,7 @@ export const FAQ: Block = {
         {
           name: 'answer',
           type: 'richText',
-          editor: lexicalEditor({
-            features: ({ rootFeatures }) => {
-              return [
-                ...rootFeatures,
-                HeadingFeature({ enabledHeadingSizes: ['h1', 'h2', 'h3', 'h4'] }),
-                FixedToolbarFeature(),
-                InlineToolbarFeature(),
-              ]
-            },
-          }),
+          editor: contentLexicalEditor,
           label: {
             en: 'Answer',
             es: 'Respuesta',

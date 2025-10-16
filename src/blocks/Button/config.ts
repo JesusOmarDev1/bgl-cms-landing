@@ -4,76 +4,23 @@ export const Button: Block = {
   slug: 'button',
   labels: {
     singular: {
-      en: 'Button',
-      es: 'Botón',
+      en: 'Button Group',
+      es: 'Grupo de Botones',
     },
     plural: {
-      en: 'Buttons',
-      es: 'Botones',
+      en: 'Button Groups',
+      es: 'Grupos de Botones',
     },
   },
   fields: [
-    {
-      name: 'style',
-      type: 'select',
-      label: {
-        en: 'Style',
-        es: 'Estilo',
-      },
-      defaultValue: 'default',
-      options: [
-        {
-          label: {
-            en: 'Default',
-            es: 'Por defecto',
-          },
-          value: 'default',
-        },
-        {
-          label: {
-            en: 'Outline',
-            es: 'Con borde',
-          },
-          value: 'outline',
-        },
-        {
-          label: {
-            en: 'Secondary',
-            es: 'Secundario',
-          },
-          value: 'secondary',
-        },
-        {
-          label: {
-            en: 'Link',
-            es: 'Enlace',
-          },
-          value: 'link',
-        },
-        {
-          label: {
-            en: 'Destructive',
-            es: 'Destructivo',
-          },
-          value: 'destructive',
-        },
-        {
-          label: {
-            en: 'Ghost',
-            es: 'Invisible',
-          },
-          value: 'ghost',
-        },
-      ],
-      required: true,
-    },
     {
       name: 'align',
       type: 'select',
       label: {
         en: 'Alignment',
-        es: 'Alineacion',
+        es: 'Alineación',
       },
+      defaultValue: 'left',
       options: [
         {
           label: {
@@ -84,90 +31,177 @@ export const Button: Block = {
         },
         {
           label: {
-            en: 'center',
-            es: 'centro',
+            en: 'Center',
+            es: 'Centro',
           },
           value: 'center',
         },
         {
           label: {
-            en: 'right',
-            es: 'derecha',
+            en: 'Right',
+            es: 'Derecha',
           },
           value: 'right',
         },
         {
           label: {
-            en: 'full',
-            es: 'full',
+            en: 'Full',
+            es: 'Completo',
           },
           value: 'full',
         },
       ],
     },
     {
-      name: 'effect',
-      type: 'select',
+      name: 'buttons',
+      type: 'array',
       label: {
-        en: 'Effect',
-        es: 'Efecto',
+        en: 'Buttons',
+        es: 'Botones',
       },
-      options: [
+      minRows: 1,
+      maxRows: 5,
+      labels: {
+        singular: {
+          en: 'Button',
+          es: 'Botón',
+        },
+        plural: {
+          en: 'Buttons',
+          es: 'Botones',
+        },
+      },
+      admin: {
+        components: {
+          RowLabel: '@/blocks/Button/RowLabel#RowLabel',
+        },
+      },
+      fields: [
         {
+          name: 'title',
+          type: 'text',
           label: {
-            en: 'Gooey Right',
-            es: 'Gooey Derecha',
+            en: 'Title',
+            es: 'Título',
           },
-          value: 'gooeyRight',
+          required: true,
         },
         {
+          name: 'url',
+          type: 'text',
           label: {
-            en: 'Gooey Left',
-            es: 'Gooey Izquierda',
+            en: 'URL',
+            es: 'URL',
           },
-          value: 'gooeyLeft',
+          required: true,
         },
         {
+          name: 'style',
+          type: 'select',
           label: {
-            en: 'Ring Hover',
-            es: 'Rueda Hover',
+            en: 'Style',
+            es: 'Estilo',
           },
-          value: 'ringHover',
+          defaultValue: 'default',
+          options: [
+            {
+              label: {
+                en: 'Default',
+                es: 'Por defecto',
+              },
+              value: 'default',
+            },
+            {
+              label: {
+                en: 'Outline',
+                es: 'Con borde',
+              },
+              value: 'outline',
+            },
+            {
+              label: {
+                en: 'Secondary',
+                es: 'Secundario',
+              },
+              value: 'secondary',
+            },
+            {
+              label: {
+                en: 'Link',
+                es: 'Enlace',
+              },
+              value: 'link',
+            },
+            {
+              label: {
+                en: 'Destructive',
+                es: 'Destructivo',
+              },
+              value: 'destructive',
+            },
+            {
+              label: {
+                en: 'Ghost',
+                es: 'Invisible',
+              },
+              value: 'ghost',
+            },
+          ],
+          required: true,
         },
         {
+          name: 'effect',
+          type: 'select',
           label: {
-            en: 'Shine',
-            es: 'Brillo',
+            en: 'Effect',
+            es: 'Efecto',
           },
-          value: 'shine',
-        },
-        {
-          label: {
-            en: 'Shine Hover',
-            es: 'Brillo al presionar',
-          },
-          value: 'shineHover',
+          options: [
+            {
+              label: {
+                en: 'None',
+                es: 'Ninguno',
+              },
+              value: 'none',
+            },
+            {
+              label: {
+                en: 'Gooey Right',
+                es: 'Gooey Derecha',
+              },
+              value: 'gooeyRight',
+            },
+            {
+              label: {
+                en: 'Gooey Left',
+                es: 'Gooey Izquierda',
+              },
+              value: 'gooeyLeft',
+            },
+            {
+              label: {
+                en: 'Ring Hover',
+                es: 'Rueda Hover',
+              },
+              value: 'ringHover',
+            },
+            {
+              label: {
+                en: 'Shine',
+                es: 'Brillo',
+              },
+              value: 'shine',
+            },
+            {
+              label: {
+                en: 'Shine Hover',
+                es: 'Brillo al presionar',
+              },
+              value: 'shineHover',
+            },
+          ],
         },
       ],
-      required: true,
-    },
-    {
-      name: 'title',
-      type: 'text',
-      label: {
-        en: 'Title',
-        es: 'Título',
-      },
-      required: true,
-    },
-    {
-      name: 'url',
-      type: 'text',
-      label: {
-        en: 'URL',
-        es: 'URL',
-      },
-      required: true,
     },
   ],
   interfaceName: 'ButtonBlock',

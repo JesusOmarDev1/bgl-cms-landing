@@ -231,6 +231,7 @@ export const Rating = ({
           }
 
           return cloneElement(child as ReactElement<RatingButtonProps>, {
+            key: index,
             index,
           })
         })}

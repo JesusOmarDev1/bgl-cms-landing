@@ -3,6 +3,7 @@ import type { GlobalConfig } from 'payload'
 import { link } from '@/fields/link'
 import { revalidateFooter } from './hooks/revalidateFooter'
 import { isAdminOrEditor } from '@/access/isAdminOrEditor'
+import { iconPickerField } from '@/fields/iconPicker'
 
 export const Footer: GlobalConfig = {
   slug: 'footer',
@@ -58,6 +59,22 @@ export const Footer: GlobalConfig = {
                     },
                   },
                   fields: [
+                    iconPickerField({
+                      name: 'icon',
+                      label: {
+                        en: 'Icon',
+                        es: 'Icono',
+                      },
+                      required: false,
+                      iconSize: 28,
+                      columns: 6,
+                      admin: {
+                        description: {
+                          en: 'Select an icon',
+                          es: 'Selecciona un icono',
+                        },
+                      },
+                    }),
                     link({
                       appearances: false,
                     }),
@@ -110,6 +127,22 @@ export const Footer: GlobalConfig = {
                     },
                   },
                   fields: [
+                    iconPickerField({
+                      name: 'icon',
+                      label: {
+                        en: 'Icon',
+                        es: 'Icono',
+                      },
+                      required: false,
+                      iconSize: 28,
+                      columns: 6,
+                      admin: {
+                        description: {
+                          en: 'Select an icon',
+                          es: 'Selecciona un icono',
+                        },
+                      },
+                    }),
                     link({
                       appearances: false,
                     }),
@@ -162,6 +195,22 @@ export const Footer: GlobalConfig = {
                     },
                   },
                   fields: [
+                    iconPickerField({
+                      name: 'icon',
+                      label: {
+                        en: 'Icon',
+                        es: 'Icono',
+                      },
+                      required: false,
+                      iconSize: 28,
+                      columns: 6,
+                      admin: {
+                        description: {
+                          en: 'Select an icon',
+                          es: 'Selecciona un icono',
+                        },
+                      },
+                    }),
                     link({
                       appearances: false,
                     }),
@@ -214,6 +263,22 @@ export const Footer: GlobalConfig = {
                     },
                   },
                   fields: [
+                    iconPickerField({
+                      name: 'icon',
+                      label: {
+                        en: 'Icon',
+                        es: 'Icono',
+                      },
+                      required: false,
+                      iconSize: 28,
+                      columns: 6,
+                      admin: {
+                        description: {
+                          en: 'Select an icon',
+                          es: 'Selecciona un icono',
+                        },
+                      },
+                    }),
                     link({
                       appearances: false,
                     }),
@@ -266,6 +331,22 @@ export const Footer: GlobalConfig = {
                     },
                   },
                   fields: [
+                    iconPickerField({
+                      name: 'icon',
+                      label: {
+                        en: 'Icon',
+                        es: 'Icono',
+                      },
+                      required: false,
+                      iconSize: 28,
+                      columns: 6,
+                      admin: {
+                        description: {
+                          en: 'Select an icon',
+                          es: 'Selecciona un icono',
+                        },
+                      },
+                    }),
                     link({
                       appearances: false,
                     }),
@@ -371,6 +452,10 @@ export const Footer: GlobalConfig = {
           label: {
             en: 'Bottom Section',
             es: 'Sección Inferior',
+          },
+          admin: {
+            description:
+              'Esto es recomendable para que el pie de página tenga un aspecto profesional y legal. Ademas es obligatorio para cumplir con las leyes de privacidad y protección de datos. Por defecto se muestra el texto de derechos reservados y se debe actualizar cada año.',
           },
           fields: [
             {

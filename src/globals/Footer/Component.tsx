@@ -13,6 +13,7 @@ import { LinkedInIcon } from '@/assets/social/linkedIn'
 import { YouTubeIcon } from '@/assets/social/youtube'
 import { TiktokIcon } from '@/assets/social/tiktok'
 import { Link } from 'next-view-transitions'
+import { getIconComponent } from '@/fields/iconPicker'
 
 const socialIcons = {
   facebook: FacebookIcon,
@@ -45,13 +46,24 @@ export async function Footer() {
             <div className="space-y-4">
               <h3 className="font-semibold">{productSection.title || 'Producto'}</h3>
               <nav className="flex flex-col space-y-3">
-                {productSection.items.map((item, i) => (
-                  <CMSLink
-                    key={i}
-                    {...item.link}
-                    className="text-sm text-muted-foreground transition-colors hover:text-foreground"
-                  />
-                ))}
+                {productSection.items.map((item, i) => {
+                  const IconComponent = item.icon ? getIconComponent(item.icon) : null
+                  return (
+                    <CMSLink
+                      key={i}
+                      type={item.link?.type}
+                      url={item.link?.url}
+                      newTab={item.link?.newTab}
+                      reference={item.link?.reference}
+                      className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+                    >
+                      <div className="flex items-center gap-2">
+                        {IconComponent && <IconComponent className="h-4 w-4" />}
+                        <span>{item.link?.label}</span>
+                      </div>
+                    </CMSLink>
+                  )
+                })}
               </nav>
             </div>
           )}
@@ -61,13 +73,24 @@ export async function Footer() {
             <div className="space-y-4">
               <h3 className="font-semibold">{companySection.title || 'Compañía'}</h3>
               <nav className="flex flex-col space-y-3">
-                {companySection.items.map((item, i) => (
-                  <CMSLink
-                    key={i}
-                    {...item.link}
-                    className="text-sm text-muted-foreground transition-colors hover:text-foreground"
-                  />
-                ))}
+                {companySection.items.map((item, i) => {
+                  const IconComponent = item.icon ? getIconComponent(item.icon) : null
+                  return (
+                    <CMSLink
+                      key={i}
+                      type={item.link?.type}
+                      url={item.link?.url}
+                      newTab={item.link?.newTab}
+                      reference={item.link?.reference}
+                      className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+                    >
+                      <div className="flex items-center gap-2">
+                        {IconComponent && <IconComponent className="h-4 w-4" />}
+                        <span>{item.link?.label}</span>
+                      </div>
+                    </CMSLink>
+                  )
+                })}
               </nav>
             </div>
           )}
@@ -77,13 +100,24 @@ export async function Footer() {
             <div className="space-y-4">
               <h3 className="font-semibold">{resourcesSection.title || 'Recursos'}</h3>
               <nav className="flex flex-col space-y-3">
-                {resourcesSection.items.map((item, i) => (
-                  <CMSLink
-                    key={i}
-                    {...item.link}
-                    className="text-sm text-muted-foreground transition-colors hover:text-foreground"
-                  />
-                ))}
+                {resourcesSection.items.map((item, i) => {
+                  const IconComponent = item.icon ? getIconComponent(item.icon) : null
+                  return (
+                    <CMSLink
+                      key={i}
+                      type={item.link?.type}
+                      url={item.link?.url}
+                      newTab={item.link?.newTab}
+                      reference={item.link?.reference}
+                      className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+                    >
+                      <div className="flex items-center gap-2">
+                        {IconComponent && <IconComponent className="h-4 w-4" />}
+                        <span>{item.link?.label}</span>
+                      </div>
+                    </CMSLink>
+                  )
+                })}
               </nav>
             </div>
           )}
@@ -93,13 +127,24 @@ export async function Footer() {
             <div className="space-y-4">
               <h3 className="font-semibold">{legalSection.title || 'Legal'}</h3>
               <nav className="flex flex-col space-y-3">
-                {legalSection.items.map((item, i) => (
-                  <CMSLink
-                    key={i}
-                    {...item.link}
-                    className="text-sm text-muted-foreground transition-colors hover:text-foreground"
-                  />
-                ))}
+                {legalSection.items.map((item, i) => {
+                  const IconComponent = item.icon ? getIconComponent(item.icon) : null
+                  return (
+                    <CMSLink
+                      key={i}
+                      type={item.link?.type}
+                      url={item.link?.url}
+                      newTab={item.link?.newTab}
+                      reference={item.link?.reference}
+                      className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+                    >
+                      <div className="flex items-center gap-2">
+                        {IconComponent && <IconComponent className="h-4 w-4" />}
+                        <span>{item.link?.label}</span>
+                      </div>
+                    </CMSLink>
+                  )
+                })}
               </nav>
             </div>
           )}
@@ -109,13 +154,24 @@ export async function Footer() {
             <div className="space-y-4">
               <h3 className="font-semibold">{socialSection.title || 'Social'}</h3>
               <nav className="flex flex-col space-y-3">
-                {socialSection.items.map((item, i) => (
-                  <CMSLink
-                    key={i}
-                    {...item.link}
-                    className="text-sm text-muted-foreground transition-colors hover:text-foreground"
-                  />
-                ))}
+                {socialSection.items.map((item, i) => {
+                  const IconComponent = item.icon ? getIconComponent(item.icon) : null
+                  return (
+                    <CMSLink
+                      key={i}
+                      type={item.link?.type}
+                      url={item.link?.url}
+                      newTab={item.link?.newTab}
+                      reference={item.link?.reference}
+                      className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+                    >
+                      <div className="flex items-center gap-2">
+                        {IconComponent && <IconComponent className="h-4 w-4" />}
+                        <span>{item.link?.label}</span>
+                      </div>
+                    </CMSLink>
+                  )
+                })}
               </nav>
             </div>
           )}

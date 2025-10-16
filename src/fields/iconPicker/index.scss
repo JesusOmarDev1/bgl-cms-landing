@@ -1,0 +1,283 @@
+.icon-picker-field {
+  .label-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+
+    .clear-button {
+      margin-left: auto;
+    }
+  }
+
+  .icon-picker-container {
+    position: relative;
+    width: 100%;
+  }
+
+  .selected-icon-display {
+    border: 1px solid var(--theme-elevation-150);
+    border-radius: 4px;
+    padding: 0.75rem 1rem;
+    background: var(--theme-elevation-50);
+    min-height: 60px;
+    display: flex;
+    align-items: center;
+    transition: all 0.2s;
+
+    &.clickable {
+      cursor: pointer;
+
+      &:hover {
+        border-color: var(--theme-elevation-400);
+        background: var(--theme-elevation-100);
+      }
+
+      &:focus {
+        outline: 2px solid var(--theme-elevation-500);
+        outline-offset: 2px;
+      }
+    }
+
+    .icon-preview {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+
+      svg {
+        color: var(--theme-text);
+        flex-shrink: 0;
+      }
+
+      .icon-name {
+        font-size: 0.875rem;
+        color: var(--theme-text);
+        font-weight: 500;
+      }
+    }
+
+    .icon-placeholder {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      span {
+        color: var(--theme-elevation-500);
+        font-size: 0.875rem;
+      }
+    }
+  }
+
+  .icon-picker-modal {
+    position: absolute;
+    top: calc(100% + 0.5rem);
+    left: 0;
+    right: 0;
+    background: var(--theme-elevation-0);
+    border: 1px solid var(--theme-elevation-150);
+    border-radius: 8px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    max-height: 500px;
+    display: flex;
+    flex-direction: column;
+
+    .icon-picker-header {
+      padding: 1rem;
+      border-bottom: 1px solid var(--theme-elevation-150);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+
+      .search-container {
+        flex: 1;
+        position: relative;
+        display: flex;
+        align-items: center;
+
+        .search-icon {
+          position: absolute;
+          left: 0.75rem;
+          color: var(--theme-elevation-500);
+          pointer-events: none;
+        }
+
+        .search-input {
+          width: 100%;
+          padding: 0.5rem 0.75rem 0.5rem 2.5rem;
+          border: 1px solid var(--theme-elevation-150);
+          border-radius: 4px;
+          background: var(--theme-elevation-50);
+          color: var(--theme-text);
+          font-size: 0.875rem;
+
+          &:focus {
+            outline: 2px solid var(--theme-elevation-500);
+            outline-offset: 0;
+            border-color: var(--theme-elevation-500);
+          }
+
+          &::placeholder {
+            color: var(--theme-elevation-400);
+          }
+        }
+      }
+
+      .close-button {
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 0.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--theme-elevation-500);
+        border-radius: 4px;
+        transition: all 0.2s;
+
+        &:hover {
+          background: var(--theme-elevation-100);
+          color: var(--theme-text);
+        }
+      }
+    }
+
+    .icon-picker-content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 1rem;
+      scroll-behavior: smooth;
+
+      .icon-grid {
+        display: grid;
+        gap: 0.5rem;
+
+        .icon-item {
+          border: 1px solid var(--theme-elevation-150);
+          border-radius: 4px;
+          background: var(--theme-elevation-50);
+          cursor: pointer;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          gap: 0.5rem;
+          transition: all 0.2s;
+          padding: 0.75rem 0.5rem;
+          min-height: 80px;
+
+          svg {
+            color: var(--theme-text);
+            flex-shrink: 0;
+          }
+
+          .icon-label {
+            font-size: 0.625rem;
+            color: var(--theme-elevation-600);
+            text-align: center;
+            line-height: 1.2;
+            max-width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            line-clamp: 2;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+          }
+
+          &:hover {
+            border-color: var(--theme-elevation-400);
+            background: var(--theme-elevation-100);
+            transform: translateY(-2px);
+
+            .icon-label {
+              color: var(--theme-text);
+            }
+          }
+
+          &:active {
+            transform: translateY(0);
+          }
+
+          &.selected {
+            border-color: var(--theme-success-500);
+            background: var(--theme-success-50);
+
+            svg {
+              color: var(--theme-success-600);
+            }
+
+            .icon-label {
+              color: var(--theme-success-700);
+              font-weight: 500;
+            }
+          }
+
+          &:focus {
+            outline: 2px solid var(--theme-elevation-500);
+            outline-offset: 2px;
+          }
+        }
+      }
+
+      .no-results {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 3rem 1rem;
+
+        p {
+          color: var(--theme-elevation-500);
+          font-size: 0.875rem;
+        }
+      }
+
+      .load-more-container {
+        display: flex;
+        justify-content: center;
+        padding: 1rem;
+        margin-top: 0.5rem;
+
+        .load-more-button {
+          background: var(--theme-elevation-100);
+          border: 1px solid var(--theme-elevation-150);
+          border-radius: 4px;
+          padding: 0.75rem 1.5rem;
+          font-size: 0.875rem;
+          font-weight: 500;
+          color: var(--theme-text);
+          cursor: pointer;
+          transition: all 0.2s;
+
+          &:hover {
+            background: var(--theme-elevation-200);
+            border-color: var(--theme-elevation-400);
+          }
+
+          &:active {
+            transform: translateY(1px);
+          }
+
+          &:focus {
+            outline: 2px solid var(--theme-elevation-500);
+            outline-offset: 2px;
+          }
+        }
+      }
+    }
+
+    .icon-picker-footer {
+      padding: 0.75rem 1rem;
+      border-top: 1px solid var(--theme-elevation-150);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      .icon-count {
+        font-size: 0.75rem;
+        color: var(--theme-elevation-500);
+      }
+    }
+  }
+}

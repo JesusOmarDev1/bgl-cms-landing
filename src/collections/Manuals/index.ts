@@ -243,6 +243,6 @@ export const Manuals: CollectionConfig<'manuals'> = {
       },
       schedulePublish: true,
     },
-    maxPerDoc: 50,
+    maxPerDoc: 100,
   },
 }

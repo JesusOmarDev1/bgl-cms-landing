@@ -7,7 +7,6 @@ import { searchPlugin } from '@payloadcms/plugin-search'
 import { Plugin } from 'payload'
 import { revalidateRedirects } from '@/hooks/revalidateRedirects'
 import { GenerateTitle, GenerateURL } from '@payloadcms/plugin-seo/types'
-import { FixedToolbarFeature, HeadingFeature, lexicalEditor } from '@payloadcms/richtext-lexical'
 import { searchFields } from '@/search/fieldOverrides'
 import { beforeSyncWithSearch } from '@/search/beforeSync'
 import { importExportPlugin } from '@payloadcms/plugin-import-export'
@@ -20,7 +19,7 @@ import { getCloudfareAdapter } from '@/utilities/storage'
 import { isAdminOrEditor } from '@/access/isAdminOrEditor'
 import { isAdmin } from '@/access/isAdmin'
 import { anyone } from '@/access/anyone'
-import { NumberField } from '@/fields/number'
+import { contentLexicalEditor } from '@/fields/contentLexical'
 
 const generateTitle: GenerateTitle<Post | Page | Service | Manual | Product> = ({ doc }) => {
   return doc?.title ? `${doc.title}` : 'BGL BASCULAS INDUSTRIALES'
@@ -273,15 +272,7 @@ export const plugins: Plugin[] = [
             return {
               ...field,
               label: 'Mensaje de confirmación',
-              editor: lexicalEditor({
-                features: ({ rootFeatures }) => {
-                  return [
-                    ...rootFeatures,
-                    FixedToolbarFeature(),
-                    HeadingFeature({ enabledHeadingSizes: ['h1', 'h2', 'h3', 'h4'] }),
-                  ]
-                },
-              }),
+              editor: contentLexicalEditor,
             }
           } else if ('name' in field && field.name === 'confirmationType') {
             return {

@@ -211,7 +211,22 @@ export interface Page {
  * via the `definition` "CallToActionBlock".
  */
 export interface CallToActionBlock {
-  richText?: {
+  /**
+   * Select the style variant for the CTA section
+   */
+  variant: 'default' | 'section-3' | 'section-5' | 'section-6' | 'section-7';
+  /**
+   * Small text above the headline (e.g., "CTA Section")
+   */
+  label?: string | null;
+  /**
+   * Main headline text (will be displayed large)
+   */
+  headline: string;
+  /**
+   * Additional content below the headline
+   */
+  content?: {
     root: {
       type: string;
       children: {
@@ -226,91 +241,13 @@ export interface CallToActionBlock {
     };
     [k: string]: unknown;
   } | null;
-  links?:
-    | {
-        link: {
-          type?: ('reference' | 'custom') | null;
-          newTab?: boolean | null;
-          reference?:
-            | ({
-                relationTo: 'pages';
-                value: number | Page;
-              } | null)
-            | ({
-                relationTo: 'posts';
-                value: number | Post;
-              } | null);
-          url?: string | null;
-          label: string;
-          /**
-           * Elige cómo se debe renderizar el enlace.
-           */
-          appearance?: 'default' | null;
-        };
-        id?: string | null;
-      }[]
-    | null;
+  /**
+   * Image displayed alongside the CTA content
+   */
+  image?: (number | null) | Media;
   id?: string | null;
   blockName?: string | null;
   blockType: 'cta';
-}
-/**
- * Administra las publicaciones del blog: crea, edita y elimina artículos
- *
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "posts".
- */
-export interface Post {
-  id: number;
-  title: string;
-  heroImage: number | Media;
-  content: {
-    root: {
-      type: string;
-      children: {
-        type: string;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  };
-  relatedPosts?: (number | Post)[] | null;
-  categories?: (number | Category)[] | null;
-  meta?: {
-    title?: string | null;
-    /**
-     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
-     */
-    image?: (number | null) | Media;
-    description?: string | null;
-  };
-  publishedAt?: string | null;
-  authors?: (number | User)[] | null;
-  populatedAuthors?:
-    | {
-        id?: string | null;
-        name?: string | null;
-      }[]
-    | null;
-  slug: string;
-  slugLock?: boolean | null;
-  createdBy?: {
-    relationTo: 'users';
-    value: number | User;
-  } | null;
-  lastModifiedBy?: {
-    relationTo: 'users';
-    value: number | User;
-  } | null;
-  updatedAt: string;
-  createdAt: string;
-  deletedAt?: string | null;
-  _status?: ('draft' | 'published') | null;
 }
 /**
  * Administra los archivos del sitio: crea, edita y elimina archivos
@@ -438,38 +375,6 @@ export interface User {
       }[]
     | null;
   password?: string | null;
-}
-/**
- * Administra las categorías del sitio: crea, edita y elimina categorías
- *
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "categories".
- */
-export interface Category {
-  id: number;
-  title: string;
-  slug: string;
-  slugLock?: boolean | null;
-  parent?: (number | null) | Category;
-  breadcrumbs?:
-    | {
-        doc?: (number | null) | Category;
-        url?: string | null;
-        label?: string | null;
-        id?: string | null;
-      }[]
-    | null;
-  createdBy?: {
-    relationTo: 'users';
-    value: number | User;
-  } | null;
-  lastModifiedBy?: {
-    relationTo: 'users';
-    value: number | User;
-  } | null;
-  updatedAt: string;
-  createdAt: string;
-  deletedAt?: string | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -824,6 +729,96 @@ export interface PostArchiveBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'post-archive';
+}
+/**
+ * Administra las categorías del sitio: crea, edita y elimina categorías
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "categories".
+ */
+export interface Category {
+  id: number;
+  title: string;
+  slug: string;
+  slugLock?: boolean | null;
+  parent?: (number | null) | Category;
+  breadcrumbs?:
+    | {
+        doc?: (number | null) | Category;
+        url?: string | null;
+        label?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  createdBy?: {
+    relationTo: 'users';
+    value: number | User;
+  } | null;
+  lastModifiedBy?: {
+    relationTo: 'users';
+    value: number | User;
+  } | null;
+  updatedAt: string;
+  createdAt: string;
+  deletedAt?: string | null;
+}
+/**
+ * Administra las publicaciones del blog: crea, edita y elimina artículos
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "posts".
+ */
+export interface Post {
+  id: number;
+  title: string;
+  heroImage: number | Media;
+  content: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  relatedPosts?: (number | Post)[] | null;
+  categories?: (number | Category)[] | null;
+  meta?: {
+    title?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
+    image?: (number | null) | Media;
+    description?: string | null;
+  };
+  publishedAt?: string | null;
+  authors?: (number | User)[] | null;
+  populatedAuthors?:
+    | {
+        id?: string | null;
+        name?: string | null;
+      }[]
+    | null;
+  slug: string;
+  slugLock?: boolean | null;
+  createdBy?: {
+    relationTo: 'users';
+    value: number | User;
+  } | null;
+  lastModifiedBy?: {
+    relationTo: 'users';
+    value: number | User;
+  } | null;
+  updatedAt: string;
+  createdAt: string;
+  deletedAt?: string | null;
+  _status?: ('draft' | 'published') | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1666,22 +1661,11 @@ export interface PagesSelect<T extends boolean = true> {
  * via the `definition` "CallToActionBlock_select".
  */
 export interface CallToActionBlockSelect<T extends boolean = true> {
-  richText?: T;
-  links?:
-    | T
-    | {
-        link?:
-          | T
-          | {
-              type?: T;
-              newTab?: T;
-              reference?: T;
-              url?: T;
-              label?: T;
-              appearance?: T;
-            };
-        id?: T;
-      };
+  variant?: T;
+  label?: T;
+  headline?: T;
+  content?: T;
+  image?: T;
   id?: T;
   blockName?: T;
 }
@@ -2426,33 +2410,243 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
   createdAt?: T;
 }
 /**
- * Aqui se configura el encabezado global del sitio web
+ * Aquí se configura el encabezado global del sitio web con menús
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "header".
  */
 export interface Header {
   id: number;
-  navItems?:
-    | {
-        link: {
-          type?: ('reference' | 'custom') | null;
-          newTab?: boolean | null;
-          reference?:
-            | ({
-                relationTo: 'pages';
-                value: number | Page;
-              } | null)
-            | ({
-                relationTo: 'posts';
-                value: number | Post;
-              } | null);
-          url?: string | null;
-          label: string;
-        };
-        id?: string | null;
-      }[]
-    | null;
+  productsMenu: {
+    title: string;
+    showInNav?: boolean | null;
+    hasDropdown?: boolean | null;
+    directLink?: {
+      link: {
+        type?: ('reference' | 'custom') | null;
+        newTab?: boolean | null;
+        reference?:
+          | ({
+              relationTo: 'pages';
+              value: number | Page;
+            } | null)
+          | ({
+              relationTo: 'posts';
+              value: number | Post;
+            } | null);
+        url?: string | null;
+        label: string;
+      };
+    };
+    items?:
+      | {
+          /**
+           * Select an icon
+           */
+          icon?: string | null;
+          link: {
+            type?: ('reference' | 'custom') | null;
+            newTab?: boolean | null;
+            reference?:
+              | ({
+                  relationTo: 'pages';
+                  value: number | Page;
+                } | null)
+              | ({
+                  relationTo: 'posts';
+                  value: number | Post;
+                } | null);
+            url?: string | null;
+            label: string;
+          };
+          id?: string | null;
+        }[]
+      | null;
+  };
+  servicesMenu: {
+    title: string;
+    showInNav?: boolean | null;
+    hasDropdown?: boolean | null;
+    directLink?: {
+      link: {
+        type?: ('reference' | 'custom') | null;
+        newTab?: boolean | null;
+        reference?:
+          | ({
+              relationTo: 'pages';
+              value: number | Page;
+            } | null)
+          | ({
+              relationTo: 'posts';
+              value: number | Post;
+            } | null);
+        url?: string | null;
+        label: string;
+      };
+    };
+    items?:
+      | {
+          /**
+           * Select an icon
+           */
+          icon?: string | null;
+          link: {
+            type?: ('reference' | 'custom') | null;
+            newTab?: boolean | null;
+            reference?:
+              | ({
+                  relationTo: 'pages';
+                  value: number | Page;
+                } | null)
+              | ({
+                  relationTo: 'posts';
+                  value: number | Post;
+                } | null);
+            url?: string | null;
+            label: string;
+          };
+          id?: string | null;
+        }[]
+      | null;
+  };
+  resourcesMenu: {
+    title: string;
+    showInNav?: boolean | null;
+    hasDropdown?: boolean | null;
+    directLink?: {
+      link: {
+        type?: ('reference' | 'custom') | null;
+        newTab?: boolean | null;
+        reference?:
+          | ({
+              relationTo: 'pages';
+              value: number | Page;
+            } | null)
+          | ({
+              relationTo: 'posts';
+              value: number | Post;
+            } | null);
+        url?: string | null;
+        label: string;
+      };
+    };
+    items?:
+      | {
+          /**
+           * Select an icon
+           */
+          icon?: string | null;
+          link: {
+            type?: ('reference' | 'custom') | null;
+            newTab?: boolean | null;
+            reference?:
+              | ({
+                  relationTo: 'pages';
+                  value: number | Page;
+                } | null)
+              | ({
+                  relationTo: 'posts';
+                  value: number | Post;
+                } | null);
+            url?: string | null;
+            label: string;
+          };
+          id?: string | null;
+        }[]
+      | null;
+  };
+  companyMenu?: {
+    title?: string | null;
+    showInNav?: boolean | null;
+    hasDropdown?: boolean | null;
+    directLink?: {
+      link: {
+        type?: ('reference' | 'custom') | null;
+        newTab?: boolean | null;
+        reference?:
+          | ({
+              relationTo: 'pages';
+              value: number | Page;
+            } | null)
+          | ({
+              relationTo: 'posts';
+              value: number | Post;
+            } | null);
+        url?: string | null;
+        label: string;
+      };
+    };
+    items?:
+      | {
+          /**
+           * Select an icon
+           */
+          icon?: string | null;
+          link: {
+            type?: ('reference' | 'custom') | null;
+            newTab?: boolean | null;
+            reference?:
+              | ({
+                  relationTo: 'pages';
+                  value: number | Page;
+                } | null)
+              | ({
+                  relationTo: 'posts';
+                  value: number | Post;
+                } | null);
+            url?: string | null;
+            label: string;
+          };
+          id?: string | null;
+        }[]
+      | null;
+  };
+  contactMenu?: {
+    title?: string | null;
+    showInNav?: boolean | null;
+    hasDropdown?: boolean | null;
+    directLink?: {
+      link: {
+        type?: ('reference' | 'custom') | null;
+        newTab?: boolean | null;
+        reference?:
+          | ({
+              relationTo: 'pages';
+              value: number | Page;
+            } | null)
+          | ({
+              relationTo: 'posts';
+              value: number | Post;
+            } | null);
+        url?: string | null;
+        label: string;
+      };
+    };
+    items?:
+      | {
+          /**
+           * Select an icon
+           */
+          icon?: string | null;
+          link: {
+            type?: ('reference' | 'custom') | null;
+            newTab?: boolean | null;
+            reference?:
+              | ({
+                  relationTo: 'pages';
+                  value: number | Page;
+                } | null)
+              | ({
+                  relationTo: 'posts';
+                  value: number | Post;
+                } | null);
+            url?: string | null;
+            label: string;
+          };
+          id?: string | null;
+        }[]
+      | null;
+  };
   createdBy?: {
     relationTo: 'users';
     value: number | User;
@@ -2476,6 +2670,10 @@ export interface Footer {
     title?: string | null;
     items?:
       | {
+          /**
+           * Select an icon
+           */
+          icon?: string | null;
           link: {
             type?: ('reference' | 'custom') | null;
             newTab?: boolean | null;
@@ -2499,6 +2697,10 @@ export interface Footer {
     title?: string | null;
     items?:
       | {
+          /**
+           * Select an icon
+           */
+          icon?: string | null;
           link: {
             type?: ('reference' | 'custom') | null;
             newTab?: boolean | null;
@@ -2522,6 +2724,10 @@ export interface Footer {
     title?: string | null;
     items?:
       | {
+          /**
+           * Select an icon
+           */
+          icon?: string | null;
           link: {
             type?: ('reference' | 'custom') | null;
             newTab?: boolean | null;
@@ -2545,6 +2751,10 @@ export interface Footer {
     title?: string | null;
     items?:
       | {
+          /**
+           * Select an icon
+           */
+          icon?: string | null;
           link: {
             type?: ('reference' | 'custom') | null;
             newTab?: boolean | null;
@@ -2568,6 +2778,10 @@ export interface Footer {
     title?: string | null;
     items?:
       | {
+          /**
+           * Select an icon
+           */
+          icon?: string | null;
           link: {
             type?: ('reference' | 'custom') | null;
             newTab?: boolean | null;
@@ -2737,19 +2951,180 @@ export interface Chatbot {
  * via the `definition` "header_select".
  */
 export interface HeaderSelect<T extends boolean = true> {
-  navItems?:
+  productsMenu?:
     | T
     | {
-        link?:
+        title?: T;
+        showInNav?: T;
+        hasDropdown?: T;
+        directLink?:
           | T
           | {
-              type?: T;
-              newTab?: T;
-              reference?: T;
-              url?: T;
-              label?: T;
+              link?:
+                | T
+                | {
+                    type?: T;
+                    newTab?: T;
+                    reference?: T;
+                    url?: T;
+                    label?: T;
+                  };
             };
-        id?: T;
+        items?:
+          | T
+          | {
+              icon?: T;
+              link?:
+                | T
+                | {
+                    type?: T;
+                    newTab?: T;
+                    reference?: T;
+                    url?: T;
+                    label?: T;
+                  };
+              id?: T;
+            };
+      };
+  servicesMenu?:
+    | T
+    | {
+        title?: T;
+        showInNav?: T;
+        hasDropdown?: T;
+        directLink?:
+          | T
+          | {
+              link?:
+                | T
+                | {
+                    type?: T;
+                    newTab?: T;
+                    reference?: T;
+                    url?: T;
+                    label?: T;
+                  };
+            };
+        items?:
+          | T
+          | {
+              icon?: T;
+              link?:
+                | T
+                | {
+                    type?: T;
+                    newTab?: T;
+                    reference?: T;
+                    url?: T;
+                    label?: T;
+                  };
+              id?: T;
+            };
+      };
+  resourcesMenu?:
+    | T
+    | {
+        title?: T;
+        showInNav?: T;
+        hasDropdown?: T;
+        directLink?:
+          | T
+          | {
+              link?:
+                | T
+                | {
+                    type?: T;
+                    newTab?: T;
+                    reference?: T;
+                    url?: T;
+                    label?: T;
+                  };
+            };
+        items?:
+          | T
+          | {
+              icon?: T;
+              link?:
+                | T
+                | {
+                    type?: T;
+                    newTab?: T;
+                    reference?: T;
+                    url?: T;
+                    label?: T;
+                  };
+              id?: T;
+            };
+      };
+  companyMenu?:
+    | T
+    | {
+        title?: T;
+        showInNav?: T;
+        hasDropdown?: T;
+        directLink?:
+          | T
+          | {
+              link?:
+                | T
+                | {
+                    type?: T;
+                    newTab?: T;
+                    reference?: T;
+                    url?: T;
+                    label?: T;
+                  };
+            };
+        items?:
+          | T
+          | {
+              icon?: T;
+              link?:
+                | T
+                | {
+                    type?: T;
+                    newTab?: T;
+                    reference?: T;
+                    url?: T;
+                    label?: T;
+                  };
+              id?: T;
+            };
+      };
+  contactMenu?:
+    | T
+    | {
+        title?: T;
+        showInNav?: T;
+        hasDropdown?: T;
+        directLink?:
+          | T
+          | {
+              link?:
+                | T
+                | {
+                    type?: T;
+                    newTab?: T;
+                    reference?: T;
+                    url?: T;
+                    label?: T;
+                  };
+            };
+        items?:
+          | T
+          | {
+              icon?: T;
+              link?:
+                | T
+                | {
+                    type?: T;
+                    newTab?: T;
+                    reference?: T;
+                    url?: T;
+                    label?: T;
+                  };
+              id?: T;
+            };
       };
   createdBy?: T;
   lastModifiedBy?: T;
@@ -2769,6 +3144,7 @@ export interface FooterSelect<T extends boolean = true> {
         items?:
           | T
           | {
+              icon?: T;
               link?:
                 | T
                 | {
@@ -2788,6 +3164,7 @@ export interface FooterSelect<T extends boolean = true> {
         items?:
           | T
           | {
+              icon?: T;
               link?:
                 | T
                 | {
@@ -2807,6 +3184,7 @@ export interface FooterSelect<T extends boolean = true> {
         items?:
           | T
           | {
+              icon?: T;
               link?:
                 | T
                 | {
@@ -2826,6 +3204,7 @@ export interface FooterSelect<T extends boolean = true> {
         items?:
           | T
           | {
+              icon?: T;
               link?:
                 | T
                 | {
@@ -2845,6 +3224,7 @@ export interface FooterSelect<T extends boolean = true> {
         items?:
           | T
           | {
+              icon?: T;
               link?:
                 | T
                 | {
@@ -3045,11 +3425,16 @@ export interface CodeBlock {
  * via the `definition` "ButtonBlock".
  */
 export interface ButtonBlock {
-  style: 'default' | 'outline' | 'secondary' | 'link' | 'destructive' | 'ghost';
   align?: ('left' | 'center' | 'right' | 'full') | null;
-  effect: 'gooeyRight' | 'gooeyLeft' | 'ringHover' | 'shine' | 'shineHover';
-  title: string;
-  url: string;
+  buttons?:
+    | {
+        title: string;
+        url: string;
+        style: 'default' | 'outline' | 'secondary' | 'link' | 'destructive' | 'ghost';
+        effect?: ('none' | 'gooeyRight' | 'gooeyLeft' | 'ringHover' | 'shine' | 'shineHover') | null;
+        id?: string | null;
+      }[]
+    | null;
   id?: string | null;
   blockName?: string | null;
   blockType: 'button';
