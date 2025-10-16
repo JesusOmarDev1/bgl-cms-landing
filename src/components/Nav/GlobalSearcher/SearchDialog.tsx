@@ -132,7 +132,7 @@ export const SearchDialog: React.FC<SearchDialogProps> = ({ initialResults }) =>
       <CommandDialog
         open={open}
         onOpenChange={setOpen}
-        className="border-zinc-200 dark:border-zinc-800 border w-full mx-auto md:min-w-[600px] lg:min-w-[1200px]"
+        className="border-zinc-200 dark:border-zinc-800 border w-full mx-auto md:min-w-[600px] xl:min-w-[1200px]"
         shouldFilter={false}
         showCloseButton={false}
       >

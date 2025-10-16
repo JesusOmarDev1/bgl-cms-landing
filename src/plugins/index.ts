@@ -128,36 +128,6 @@ export const plugins: Plugin[] = [
           singular: 'Casilla de verificación',
           plural: 'Casillas de verificación',
         },
-        fields: [
-          {
-            name: 'name',
-            type: 'text',
-            label: 'Nombre (minusculas, sin caracteres especiales)',
-          },
-          {
-            name: 'label',
-            type: 'text',
-            label: 'Etiqueta',
-          },
-          ...NumberField(
-            {
-              name: 'fieldWidth',
-              label: 'Ancho del campo (en porcentaje)',
-            },
-            {
-              prefix: 'Porcentaje ',
-              suffix: ' %',
-              thousandSeparator: ',',
-              decimalScale: 2,
-              fixedDecimalScale: true,
-            },
-          ),
-          {
-            name: 'defaultValue',
-            type: 'checkbox',
-            label: 'Valor por defecto',
-          },
-        ],
       },
       select: {
         labels: {
@@ -242,6 +212,14 @@ export const plugins: Plugin[] = [
       },
     },
     formOverrides: {
+      defaultPopulate: {
+        title: true,
+        fields: true,
+        submitButtonLabel: true,
+        confirmationType: true,
+        confirmationMessage: true,
+        redirect: true,
+      },
       fields: ({ defaultFields }) => {
         return defaultFields.map((field) => {
           if ('name' in field && field.name === 'title') {
@@ -428,9 +406,6 @@ export const plugins: Plugin[] = [
           fields: ['title'],
         },
       ],
-      defaultPopulate: {
-        title: true,
-      },
       trash: true,
       access: {
         read: isAdminOrEditor,
