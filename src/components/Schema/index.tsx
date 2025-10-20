@@ -117,8 +117,7 @@ export const PageSchema = (props: Page) => {
     description: props.meta?.description,
     url: `${url}/${props.slug}`,
     image: metaImage?.url ? `${process.env.S3_ENDPOINT}/${metaImage.filename}` : undefined,
-    datePublished: props.createdAt,
-    dateModified: props.updatedAt,
+    datePublished: props.publishedAt,
     publisher: {
       '@type': 'Organization',
       name: 'BGL Básculas Industriales',

@@ -1,5 +1,5 @@
 import { payloadCloudPlugin } from '@payloadcms/payload-cloud'
-import { formBuilderPlugin } from '@payloadcms/plugin-form-builder'
+import { fields, formBuilderPlugin } from '@payloadcms/plugin-form-builder'
 import { nestedDocsPlugin } from '@payloadcms/plugin-nested-docs'
 import { redirectsPlugin } from '@payloadcms/plugin-redirects'
 import { seoPlugin } from '@payloadcms/plugin-seo'
@@ -117,64 +117,778 @@ export const plugins: Plugin[] = [
     fields: {
       payment: false,
       email: {
+        ...fields.email,
         labels: {
           singular: 'Correo Electrónico',
           plural: 'Correos Electrónicos',
         },
+        fields: [
+          ...(fields.email && 'fields' in fields.email
+            ? fields.email.fields.map((field: any) => {
+                if (field.type === 'row' && field.fields) {
+                  return {
+                    ...field,
+                    fields: field.fields.map((rowField: any) => {
+                      if (rowField.name === 'name') {
+                        return {
+                          ...rowField,
+                          label: 'Nombre',
+                          admin: {
+                            ...rowField.admin,
+                            description:
+                              'El nombre del campo (en minúsculas, sin caracteres especiales)',
+                          },
+                        }
+                      } else if (rowField.name === 'label') {
+                        return {
+                          ...rowField,
+                          label: 'Etiqueta',
+                          admin: {
+                            ...rowField.admin,
+                            description: 'El texto que se mostrará para este campo',
+                          },
+                        }
+                      }
+                      return rowField
+                    }),
+                  }
+                } else if ('name' in field && field.name === 'width') {
+                  return {
+                    ...field,
+                    label: 'Ancho del campo (en porcentaje)',
+                    admin: {
+                      ...field.admin,
+                      description: 'El ancho del campo como porcentaje',
+                    },
+                  }
+                } else if ('name' in field && field.name === 'required') {
+                  return {
+                    ...field,
+                    label: 'Requerido',
+                    admin: {
+                      ...field.admin,
+                      description: 'Si el campo es obligatorio o no',
+                    },
+                  }
+                }
+
+                return field
+              })
+            : []),
+        ],
       },
       checkbox: {
+        ...fields.checkbox,
         labels: {
           singular: 'Casilla de verificación',
           plural: 'Casillas de verificación',
         },
+        fields: [
+          ...(fields.checkbox && 'fields' in fields.checkbox
+            ? fields.checkbox.fields.map((field: any) => {
+                if (field.type === 'row' && field.fields) {
+                  return {
+                    ...field,
+                    fields: field.fields.map((rowField: any) => {
+                      if (rowField.name === 'name') {
+                        return {
+                          ...rowField,
+                          label: 'Nombre',
+                          admin: {
+                            ...rowField.admin,
+                            description:
+                              'El nombre del campo (en minúsculas, sin caracteres especiales)',
+                          },
+                        }
+                      } else if (rowField.name === 'label') {
+                        return {
+                          ...rowField,
+                          label: 'Etiqueta',
+                          admin: {
+                            ...rowField.admin,
+                            description:
+                              'El texto que se mostrará junto a la casilla de verificación',
+                          },
+                        }
+                      } else if (rowField.name === 'width') {
+                        return {
+                          ...rowField,
+                          label: 'Ancho del campo (en porcentaje)',
+                          admin: {
+                            ...rowField.admin,
+                            description: 'El ancho del campo como porcentaje',
+                          },
+                        }
+                      } else if (rowField.name === 'required') {
+                        return {
+                          ...rowField,
+                          label: 'Requerido',
+                          admin: {
+                            ...rowField.admin,
+                            description: 'Si el campo es obligatorio o no',
+                          },
+                        }
+                      }
+                      return rowField
+                    }),
+                  }
+                }
+
+                // Manejar campos directos (no dentro de rows)
+                if ('name' in field && field.name === 'defaultValue') {
+                  return {
+                    ...field,
+                    label: 'Valor predeterminado',
+                    admin: {
+                      ...field.admin,
+                      description: 'El valor predeterminado de la casilla (marcada o desmarcada)',
+                    },
+                  }
+                }
+
+                return field
+              })
+            : []),
+        ],
       },
       select: {
+        ...fields.select,
         labels: {
           singular: 'Seleccionar',
           plural: 'Seleccionar',
         },
+        fields: [
+          ...(fields.select && 'fields' in fields.select
+            ? fields.select.fields.map((field: any) => {
+                if (field.type === 'row' && field.fields) {
+                  return {
+                    ...field,
+                    fields: field.fields.map((rowField: any) => {
+                      if (rowField.name === 'name') {
+                        return {
+                          ...rowField,
+                          label: 'Nombre',
+                          admin: {
+                            ...rowField.admin,
+                            description:
+                              'El nombre del campo (en minúsculas, sin caracteres especiales)',
+                          },
+                        }
+                      } else if (rowField.name === 'label') {
+                        return {
+                          ...rowField,
+                          label: 'Etiqueta',
+                          admin: {
+                            ...rowField.admin,
+                            description: 'El texto que se mostrará para este campo',
+                          },
+                        }
+                      } else if (rowField.name === 'width') {
+                        return {
+                          ...rowField,
+                          label: 'Ancho del campo',
+                          admin: {
+                            ...rowField.admin,
+                            description: 'El ancho del campo como porcentaje',
+                          },
+                        }
+                      } else if (rowField.name === 'required') {
+                        return {
+                          ...rowField,
+                          label: 'Requerido',
+                          admin: {
+                            ...rowField.admin,
+                            description: 'Si el campo es obligatorio o no',
+                          },
+                        }
+                      } else if (rowField.name === 'defaultValue') {
+                        return {
+                          ...rowField,
+                          label: 'Valor predeterminado',
+                          admin: {
+                            ...rowField.admin,
+                            description: 'El valor predeterminado seleccionado',
+                          },
+                        }
+                      } else if (rowField.name === 'placeholder') {
+                        return {
+                          ...rowField,
+                          label: 'Marcador de posición',
+                          admin: {
+                            ...rowField.admin,
+                            description: 'El marcador de posición del campo',
+                          },
+                        }
+                      }
+                      return rowField
+                    }),
+                  }
+                } else if ('name' in field && field.name === 'options') {
+                  return {
+                    ...field,
+                    label: 'Opciones',
+                    labels: {
+                      singular: 'Opción',
+                      plural: 'Opciones',
+                    },
+                    admin: {
+                      ...field.admin,
+                      description: 'Las opciones disponibles para seleccionar',
+                    },
+                    fields: field.fields
+                      ? field.fields.map((subField: any) => {
+                          // Manejar campos dentro de rows
+                          if (subField.type === 'row' && subField.fields) {
+                            return {
+                              ...subField,
+                              fields: subField.fields.map((rowField: any) => {
+                                if (rowField.name === 'label') {
+                                  return {
+                                    ...rowField,
+                                    label: 'Etiqueta',
+                                    admin: {
+                                      ...rowField.admin,
+                                      description: 'El texto que se mostrará para esta opción',
+                                    },
+                                  }
+                                } else if (rowField.name === 'value') {
+                                  return {
+                                    ...rowField,
+                                    label: 'Valor',
+                                    admin: {
+                                      ...rowField.admin,
+                                      description: 'El valor de la opción',
+                                    },
+                                  }
+                                }
+                                return rowField
+                              }),
+                            }
+                          }
+
+                          // Manejar campos directos (no dentro de rows)
+                          if (subField.name === 'label') {
+                            return {
+                              ...subField,
+                              label: 'Etiqueta',
+                              admin: {
+                                ...subField.admin,
+                                description: 'El texto que se mostrará para esta opción',
+                              },
+                            }
+                          } else if (subField.name === 'value') {
+                            return {
+                              ...subField,
+                              label: 'Valor',
+                              admin: {
+                                ...subField.admin,
+                                description: 'El valor de la opción',
+                              },
+                            }
+                          }
+
+                          return subField
+                        })
+                      : [],
+                  }
+                } else if ('name' in field && field.name === 'required') {
+                  return {
+                    ...field,
+                    label: 'Requerido',
+                    admin: {
+                      ...field.admin,
+                      description: 'Si el campo es obligatorio o no',
+                    },
+                  }
+                }
+
+                return field
+              })
+            : []),
+        ],
       },
       text: {
+        ...fields.text,
         labels: {
           singular: 'Texto',
           plural: 'Textos',
         },
+        fields: [
+          ...(fields.text && 'fields' in fields.text
+            ? fields.text.fields.map((field: any) => {
+                if (field.type === 'row' && field.fields) {
+                  return {
+                    ...field,
+                    fields: field.fields.map((rowField: any) => {
+                      if (rowField.name === 'name') {
+                        return {
+                          ...rowField,
+                          label: 'Nombre',
+                          admin: {
+                            ...rowField.admin,
+                            description:
+                              'El nombre del campo (en minúsculas, sin caracteres especiales)',
+                          },
+                        }
+                      } else if (rowField.name === 'label') {
+                        return {
+                          ...rowField,
+                          label: 'Etiqueta',
+                          admin: {
+                            ...rowField.admin,
+                            description: 'El texto que se mostrará para este campo',
+                          },
+                        }
+                      } else if (rowField.name === 'width') {
+                        return {
+                          ...rowField,
+                          label: 'Ancho del campo',
+                          admin: {
+                            ...rowField.admin,
+                            description: 'El ancho del campo como porcentaje',
+                          },
+                        }
+                      } else if (rowField.name === 'defaultValue') {
+                        return {
+                          ...rowField,
+                          label: 'Valor predeterminado',
+                          admin: {
+                            ...rowField.admin,
+                            description: 'El valor predeterminado del campo',
+                          },
+                        }
+                      }
+                      return rowField
+                    }),
+                  }
+                }
+
+                if ('name' in field && field.name === 'required') {
+                  return {
+                    ...field,
+                    label: 'Requerido',
+                    admin: {
+                      ...field.admin,
+                      description: 'Si el campo es obligatorio o no',
+                    },
+                  }
+                }
+
+                return field
+              })
+            : []),
+        ],
       },
       textarea: {
+        ...fields.textarea,
         labels: {
-          singular: 'Area de texto',
-          plural: 'Areas de texto',
+          singular: 'Área de texto',
+          plural: 'Áreas de texto',
         },
+        fields: [
+          ...(fields.textarea && 'fields' in fields.textarea
+            ? fields.textarea.fields.map((field: any) => {
+                if (field.type === 'row' && field.fields) {
+                  return {
+                    ...field,
+                    fields: field.fields.map((rowField: any) => {
+                      if (rowField.name === 'name') {
+                        return {
+                          ...rowField,
+                          label: 'Nombre',
+                          admin: {
+                            ...rowField.admin,
+                            description:
+                              'El nombre del campo (en minúsculas, sin caracteres especiales)',
+                          },
+                        }
+                      } else if (rowField.name === 'label') {
+                        return {
+                          ...rowField,
+                          label: 'Etiqueta',
+                          admin: {
+                            ...rowField.admin,
+                            description: 'El texto que se mostrará para este campo',
+                          },
+                        }
+                      } else if (rowField.name === 'width') {
+                        return {
+                          ...rowField,
+                          label: 'Ancho del campo',
+                          admin: {
+                            ...rowField.admin,
+                            description: 'El ancho del campo como porcentaje',
+                          },
+                        }
+                      } else if (rowField.name === 'defaultValue') {
+                        return {
+                          ...rowField,
+                          label: 'Valor predeterminado',
+                          admin: {
+                            ...rowField.admin,
+                            description: 'El valor predeterminado del campo',
+                          },
+                        }
+                      }
+                      return rowField
+                    }),
+                  }
+                }
+
+                if ('name' in field && field.name === 'required') {
+                  return {
+                    ...field,
+                    label: 'Requerido',
+                    admin: {
+                      ...field.admin,
+                      description: 'Si el campo es obligatorio o no',
+                    },
+                  }
+                }
+
+                return field
+              })
+            : []),
+        ],
       },
       number: {
+        ...fields.number,
         labels: {
-          singular: 'Numero',
-          plural: 'Numeros',
+          singular: 'Número',
+          plural: 'Números',
         },
+        fields: [
+          ...(fields.number && 'fields' in fields.number
+            ? fields.number.fields.map((field: any) => {
+                if (field.type === 'row' && field.fields) {
+                  return {
+                    ...field,
+                    fields: field.fields.map((rowField: any) => {
+                      if (rowField.name === 'name') {
+                        return {
+                          ...rowField,
+                          label: 'Nombre',
+                          admin: {
+                            ...rowField.admin,
+                            description:
+                              'El nombre del campo (en minúsculas, sin caracteres especiales)',
+                          },
+                        }
+                      } else if (rowField.name === 'label') {
+                        return {
+                          ...rowField,
+                          label: 'Etiqueta',
+                          admin: {
+                            ...rowField.admin,
+                            description: 'El texto que se mostrará para este campo',
+                          },
+                        }
+                      } else if (rowField.name === 'width') {
+                        return {
+                          ...rowField,
+                          label: 'Ancho del campo',
+                          admin: {
+                            ...rowField.admin,
+                            description: 'El ancho del campo como porcentaje',
+                          },
+                        }
+                      } else if (rowField.name === 'defaultValue') {
+                        return {
+                          ...rowField,
+                          label: 'Valor predeterminado',
+                          admin: {
+                            ...rowField.admin,
+                            description: 'El número predeterminado del campo',
+                          },
+                        }
+                      }
+                      return rowField
+                    }),
+                  }
+                }
+
+                if ('name' in field && field.name === 'required') {
+                  return {
+                    ...field,
+                    label: 'Requerido',
+                    admin: {
+                      ...field.admin,
+                      description: 'Si el campo es obligatorio o no',
+                    },
+                  }
+                }
+
+                return field
+              })
+            : []),
+        ],
       },
       date: {
+        ...fields.date,
         labels: {
           singular: 'Fecha',
           plural: 'Fechas',
         },
+        fields: [
+          ...(fields.date && 'fields' in fields.date
+            ? fields.date.fields.map((field: any) => {
+                if (field.type === 'row' && field.fields) {
+                  return {
+                    ...field,
+                    fields: field.fields.map((rowField: any) => {
+                      if (rowField.name === 'name') {
+                        return {
+                          ...rowField,
+                          label: 'Nombre',
+                          admin: {
+                            ...rowField.admin,
+                            description:
+                              'El nombre del campo (en minúsculas, sin caracteres especiales)',
+                          },
+                        }
+                      } else if (rowField.name === 'label') {
+                        return {
+                          ...rowField,
+                          label: 'Etiqueta',
+                          admin: {
+                            ...rowField.admin,
+                            description: 'El texto que se mostrará para este campo',
+                          },
+                        }
+                      } else if (rowField.name === 'width') {
+                        return {
+                          ...rowField,
+                          label: 'Ancho del campo',
+                          admin: {
+                            ...rowField.admin,
+                            description: 'El ancho del campo como porcentaje',
+                          },
+                        }
+                      } else if (rowField.name === 'required') {
+                        return {
+                          ...rowField,
+                          label: 'Requerido',
+                          admin: {
+                            ...rowField.admin,
+                            description: 'Si el campo es obligatorio o no',
+                          },
+                        }
+                      }
+                      return rowField
+                    }),
+                  }
+                }
+
+                if ('name' in field && field.name === 'defaultValue') {
+                  return {
+                    ...field,
+                    label: 'Valor predeterminado',
+                    admin: {
+                      ...field.admin,
+                      description: 'La fecha predeterminada del campo',
+                    },
+                  }
+                }
+
+                return field
+              })
+            : []),
+        ],
       },
       country: {
+        ...fields.country,
         labels: {
-          singular: 'Pais',
-          plural: 'Paises',
+          singular: 'País',
+          plural: 'Países',
         },
+        fields: [
+          ...(fields.country && 'fields' in fields.country
+            ? fields.country.fields.map((field: any) => {
+                if (field.type === 'row' && field.fields) {
+                  return {
+                    ...field,
+                    fields: field.fields.map((rowField: any) => {
+                      if (rowField.name === 'name') {
+                        return {
+                          ...rowField,
+                          label: 'Nombre',
+                          admin: {
+                            ...rowField.admin,
+                            description:
+                              'El nombre del campo (en minúsculas, sin caracteres especiales)',
+                          },
+                        }
+                      } else if (rowField.name === 'label') {
+                        return {
+                          ...rowField,
+                          label: 'Etiqueta',
+                          admin: {
+                            ...rowField.admin,
+                            description: 'El texto que se mostrará para este campo',
+                          },
+                        }
+                      }
+                      return rowField
+                    }),
+                  }
+                } else if ('name' in field && field.name === 'label') {
+                  return {
+                    ...field,
+                    label: 'Etiqueta del campo',
+                    admin: {
+                      ...field.admin,
+                      description: 'El texto que se mostrará para este campo',
+                    },
+                  }
+                } else if ('name' in field && field.name === 'width') {
+                  return {
+                    ...field,
+                    label: 'Ancho del campo (en porcentaje)',
+                    admin: {
+                      ...field.admin,
+                      description: 'El ancho del campo como porcentaje',
+                    },
+                  }
+                } else if ('name' in field && field.name === 'required') {
+                  return {
+                    ...field,
+                    label: 'Requerido',
+                    admin: {
+                      ...field.admin,
+                      description: 'Si el campo es obligatorio o no',
+                    },
+                  }
+                }
+
+                return field
+              })
+            : []),
+        ],
       },
       state: {
+        ...fields.state,
         labels: {
           singular: 'Estado',
           plural: 'Estados',
         },
+        fields: [
+          ...(fields.state && 'fields' in fields.state
+            ? fields.state.fields.map((field: any) => {
+                if (field.type === 'row' && field.fields) {
+                  return {
+                    ...field,
+                    fields: field.fields.map((rowField: any) => {
+                      if (rowField.name === 'name') {
+                        return {
+                          ...rowField,
+                          label: 'Nombre',
+                          admin: {
+                            ...rowField.admin,
+                            description:
+                              'El nombre del campo (en minúsculas, sin caracteres especiales)',
+                          },
+                        }
+                      } else if (rowField.name === 'label') {
+                        return {
+                          ...rowField,
+                          label: 'Etiqueta',
+                          admin: {
+                            ...rowField.admin,
+                            description: 'El texto que se mostrará para este campo',
+                          },
+                        }
+                      } else if (rowField.name === 'width') {
+                        return {
+                          ...rowField,
+                          label: 'Ancho del campo (en porcentaje)',
+                          admin: {
+                            ...rowField.admin,
+                            description: 'El ancho del campo como porcentaje',
+                          },
+                        }
+                      } else if (rowField.name === 'required') {
+                        return {
+                          ...rowField,
+                          label: 'Requerido',
+                          admin: {
+                            ...rowField.admin,
+                            description: 'Si el campo es obligatorio o no',
+                          },
+                        }
+                      }
+                      return rowField
+                    }),
+                  }
+                }
+
+                // Manejar campos directos (no dentro de rows)
+                if ('name' in field && field.name === 'name') {
+                  return {
+                    ...field,
+                    label: 'Nombre',
+                    admin: {
+                      ...field.admin,
+                      description: 'El nombre del campo (en minúsculas, sin caracteres especiales)',
+                    },
+                  }
+                } else if ('name' in field && field.name === 'label') {
+                  return {
+                    ...field,
+                    label: 'Etiqueta',
+                    admin: {
+                      ...field.admin,
+                      description: 'El texto que se mostrará para este campo',
+                    },
+                  }
+                } else if ('name' in field && field.name === 'width') {
+                  return {
+                    ...field,
+                    label: 'Ancho del campo',
+                    admin: {
+                      ...field.admin,
+                      description: 'El ancho del campo como porcentaje',
+                    },
+                  }
+                } else if ('name' in field && field.name === 'required') {
+                  return {
+                    ...field,
+                    label: 'Requerido',
+                    admin: {
+                      ...field.admin,
+                      description: 'Si el campo es obligatorio o no',
+                    },
+                  }
+                }
+
+                return field
+              })
+            : []),
+        ],
       },
       message: {
+        ...fields.message,
         labels: {
           singular: 'Mensaje',
           plural: 'Mensajes',
         },
+        fields: [
+          ...(fields.message && 'fields' in fields.message
+            ? fields.message.fields.map((field: any) => {
+                if ('name' in field && field.name === 'message') {
+                  return {
+                    ...field,
+                    label: 'Mensaje',
+                    admin: {
+                      ...field.admin,
+                      description: 'El contenido del mensaje que se mostrará',
+                    },
+                  }
+                }
+
+                return field
+              })
+            : []),
+        ],
       },
     },
     formSubmissionOverrides: {
@@ -227,12 +941,10 @@ export const plugins: Plugin[] = [
               label: 'Titulo',
             }
           } else if ('name' in field && field.name === 'fields') {
-            // También personalizar los campos dentro del array de fields
             const fieldsField = field as any
             return {
               ...fieldsField,
               label: 'Campos',
-              // Personalizar los blocks dentro de fields si existen
               blocks: fieldsField.blocks
                 ? fieldsField.blocks.map((block: any) => {
                     if (block.slug === 'email') {
@@ -275,13 +987,46 @@ export const plugins: Plugin[] = [
               editor: contentLexicalEditor,
             }
           } else if ('name' in field && field.name === 'confirmationType') {
+            const confirmationTypeField = field as any
             return {
-              ...field,
+              ...confirmationTypeField,
               label: 'Tipo de confirmación',
               admin: {
+                ...confirmationTypeField.admin,
                 description:
                   'Elija si desea mostrar un mensaje en la página o redirigir a una página diferente después de enviar el formulario.',
               },
+              options: confirmationTypeField.options
+                ? confirmationTypeField.options.map((option: any) => {
+                    if (option.value === 'message') {
+                      return {
+                        ...option,
+                        label: 'Mensaje',
+                      }
+                    } else if (option.value === 'redirect') {
+                      return {
+                        ...option,
+                        label: 'Redirigir',
+                      }
+                    }
+                    return option
+                  })
+                : [],
+              fields: confirmationTypeField.fields
+                ? confirmationTypeField.fields.map((subField: any) => {
+                    if (subField.name === 'redirect') {
+                      return {
+                        ...subField,
+                        label: 'Redirigir a',
+                        admin: {
+                          ...subField.admin,
+                          description: 'Seleccione la página a la que desea redirigir',
+                        },
+                      }
+                    }
+                    return subField
+                  })
+                : [],
             }
           } else if ('name' in field && field.name === 'emails') {
             const emailsField = field as any
@@ -295,15 +1040,12 @@ export const plugins: Plugin[] = [
                 description:
                   'Envíe correos electrónicos personalizados al enviar el formulario. Use listas separadas por comas para enviar el mismo correo electrónico a varios destinatarios. Para hacer referencia a un valor de este formulario, escriba el nombre del campo entre llaves dobles, por ejemplo, {{firstName}}. Puede usar el comodín {{*}} para mostrar todos los datos y {{*:table}} para formatearlos como una tabla HTML en el correo electrónico.',
               },
-              // Personalizar los subcampos dentro del array emails
               fields: emailsField.fields
                 ? emailsField.fields.map((subField: any) => {
-                    // Si es una fila, necesitamos procesar los campos dentro de la fila
                     if (subField.type === 'row' && subField.fields) {
                       return {
                         ...subField,
                         fields: subField.fields.map((rowField: any) => {
-                          // Personalizar campos dentro de la fila
                           if (rowField.name === 'emailTo') {
                             return {
                               ...rowField,
@@ -355,12 +1097,12 @@ export const plugins: Plugin[] = [
                       }
                     }
 
-                    // Campos directos (como subject y message)
                     if (subField.name === 'subject') {
                       return {
                         ...subField,
                         label: 'Asunto',
                         admin: {
+                          ...subField.admin,
                           description:
                             'Asunto del correo electrónico. Puede usar variables dinámicas como {{nombreCampo}}.',
                         },
@@ -370,6 +1112,7 @@ export const plugins: Plugin[] = [
                         ...subField,
                         label: 'Mensaje',
                         admin: {
+                          ...subField.admin,
                           description:
                             'Contenido del correo electrónico. Use {{nombreCampo}} para variables dinámicas, {{*}} para todos los datos, o {{*:table}} para formato de tabla.',
                         },

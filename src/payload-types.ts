@@ -460,34 +460,76 @@ export interface Form {
   fields?:
     | (
         | {
+            /**
+             * El nombre del campo (en minúsculas, sin caracteres especiales)
+             */
             name: string;
+            /**
+             * El texto que se mostrará junto a la casilla de verificación
+             */
             label?: string | null;
+            /**
+             * El ancho del campo como porcentaje
+             */
             width?: number | null;
+            /**
+             * Si el campo es obligatorio o no
+             */
             required?: boolean | null;
+            /**
+             * El valor predeterminado de la casilla (marcada o desmarcada)
+             */
             defaultValue?: boolean | null;
             id?: string | null;
             blockName?: string | null;
             blockType: 'checkbox';
           }
         | {
+            /**
+             * El nombre del campo (en minúsculas, sin caracteres especiales)
+             */
             name: string;
+            /**
+             * El texto que se mostrará para este campo
+             */
             label?: string | null;
+            /**
+             * El ancho del campo como porcentaje
+             */
             width?: number | null;
+            /**
+             * Si el campo es obligatorio o no
+             */
             required?: boolean | null;
             id?: string | null;
             blockName?: string | null;
             blockType: 'country';
           }
         | {
+            /**
+             * El nombre del campo (en minúsculas, sin caracteres especiales)
+             */
             name: string;
+            /**
+             * El texto que se mostrará para este campo
+             */
             label?: string | null;
+            /**
+             * El ancho del campo como porcentaje
+             */
             width?: number | null;
+            /**
+             * Si el campo es obligatorio o no
+             */
             required?: boolean | null;
             id?: string | null;
             blockName?: string | null;
             blockType: 'email';
           }
         | {
+            /**
+             * El contenido del mensaje que se mostrará
+             */
             message?: {
               root: {
                 type: string;
@@ -508,67 +550,166 @@ export interface Form {
             blockType: 'message';
           }
         | {
+            /**
+             * El nombre del campo (en minúsculas, sin caracteres especiales)
+             */
             name: string;
+            /**
+             * El texto que se mostrará para este campo
+             */
             label?: string | null;
+            /**
+             * El ancho del campo como porcentaje
+             */
             width?: number | null;
+            /**
+             * El número predeterminado del campo
+             */
             defaultValue?: number | null;
+            /**
+             * Si el campo es obligatorio o no
+             */
             required?: boolean | null;
             id?: string | null;
             blockName?: string | null;
             blockType: 'number';
           }
         | {
+            /**
+             * El nombre del campo (en minúsculas, sin caracteres especiales)
+             */
             name: string;
+            /**
+             * El texto que se mostrará para este campo
+             */
             label?: string | null;
+            /**
+             * El ancho del campo como porcentaje
+             */
             width?: number | null;
+            /**
+             * El valor predeterminado seleccionado
+             */
             defaultValue?: string | null;
+            /**
+             * El marcador de posición del campo
+             */
             placeholder?: string | null;
+            /**
+             * Las opciones disponibles para seleccionar
+             */
             options?:
               | {
+                  /**
+                   * El texto que se mostrará para esta opción
+                   */
                   label: string;
+                  /**
+                   * El valor de la opción
+                   */
                   value: string;
                   id?: string | null;
                 }[]
               | null;
+            /**
+             * Si el campo es obligatorio o no
+             */
             required?: boolean | null;
             id?: string | null;
             blockName?: string | null;
             blockType: 'select';
           }
         | {
+            /**
+             * El nombre del campo (en minúsculas, sin caracteres especiales)
+             */
             name: string;
+            /**
+             * El texto que se mostrará para este campo
+             */
             label?: string | null;
+            /**
+             * El ancho del campo como porcentaje
+             */
             width?: number | null;
+            /**
+             * Si el campo es obligatorio o no
+             */
             required?: boolean | null;
             id?: string | null;
             blockName?: string | null;
             blockType: 'state';
           }
         | {
+            /**
+             * El nombre del campo (en minúsculas, sin caracteres especiales)
+             */
             name: string;
+            /**
+             * El texto que se mostrará para este campo
+             */
             label?: string | null;
+            /**
+             * El ancho del campo como porcentaje
+             */
             width?: number | null;
+            /**
+             * El valor predeterminado del campo
+             */
             defaultValue?: string | null;
+            /**
+             * Si el campo es obligatorio o no
+             */
             required?: boolean | null;
             id?: string | null;
             blockName?: string | null;
             blockType: 'text';
           }
         | {
+            /**
+             * El nombre del campo (en minúsculas, sin caracteres especiales)
+             */
             name: string;
+            /**
+             * El texto que se mostrará para este campo
+             */
             label?: string | null;
+            /**
+             * El ancho del campo como porcentaje
+             */
             width?: number | null;
+            /**
+             * El valor predeterminado del campo
+             */
             defaultValue?: string | null;
+            /**
+             * Si el campo es obligatorio o no
+             */
             required?: boolean | null;
             id?: string | null;
             blockName?: string | null;
             blockType: 'textarea';
           }
         | {
+            /**
+             * El nombre del campo (en minúsculas, sin caracteres especiales)
+             */
             name: string;
+            /**
+             * El texto que se mostrará para este campo
+             */
             label?: string | null;
+            /**
+             * El ancho del campo como porcentaje
+             */
             width?: number | null;
+            /**
+             * Si el campo es obligatorio o no
+             */
             required?: boolean | null;
+            /**
+             * La fecha predeterminada del campo
+             */
             defaultValue?: string | null;
             id?: string | null;
             blockName?: string | null;

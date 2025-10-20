@@ -46,10 +46,10 @@ const chartConfig = {
 
 const BeforeDashboard: React.FC = () => {
   return (
-    <div className="flex flex-col h-fit w-full">
+    <section className="flex flex-col h-fit w-full">
       <h2 className="md:text-3xl text-[17px] font-semibold py-2">Estadísticas</h2>
       <div className="before-dashboard w-full h-fit p-0 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
-        <Card className="border border-zinc-100 dark:border-zinc-800">
+        <Card className="border border-zinc-100 dark:border-zinc-800 ">
           <CardHeader className="p-6">
             <CardTitle>Area Chart - Legend</CardTitle>
             <CardDescription>Showing total visitors for the last 6 months</CardDescription>
@@ -125,7 +125,7 @@ const BeforeDashboard: React.FC = () => {
           </CardFooter>
         </Card>
       </div>
-    </div>
+    </section>
   )
 }
 

@@ -157,7 +157,7 @@ table {
 }
 
 .card {
-  @apply bg-primary text-primary-foreground hover:shadow border border-zinc-200 dark:border-zinc-800;
+  @apply bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 hover:shadow border border-zinc-200 dark:border-zinc-800;
 }
 
 .card__title {

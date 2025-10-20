@@ -177,9 +177,16 @@ const jsxConverters: JSXConvertersFunction<NodeTypes> = ({ defaultConverters }) 
     banner: ({ node }: { node: SerializedBlockNode<BannerBlockProps> }) => (
       <BannerBlock className="col-start-2 mb-4" {...node.fields} />
     ),
-    button: ({ node }: { node: SerializedBlockNode<ButtonBlockProps> }) => (
-      <ButtonBlock className="col-start-2 mb-4" {...node.fields} />
-    ),
+    button: ({ node }: { node: SerializedBlockNode<ButtonBlockProps> }) => {
+      const { align, ...rest } = node.fields
+      return (
+        <ButtonBlock
+          className="col-start-2 mb-4"
+          align={align ?? undefined}
+          {...rest}
+        />
+      )
+    },
     'qr-code-block': ({ node }: { node: SerializedBlockNode<QRCodeBlockProps> }) => (
       <QRCodeBlock className="col-start-2 mb-4" {...node.fields} />
     ),

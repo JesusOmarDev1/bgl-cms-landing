@@ -15,12 +15,12 @@ export const Text: React.FC<
   }
 > = ({ name, defaultValue, errors, label, register, required, width }) => {
   return (
-    <Width width={width}>
+    <Width width={width} className="space-y-2">
       <Label htmlFor={name}>
         {label}
 
         {required && (
-          <span className="required">
+          <span className="required text-red-500">
             * <span className="sr-only">(required)</span>
           </span>
         )}

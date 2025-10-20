@@ -2,6 +2,7 @@
 
 import { Button } from '@/components/ui/button'
 import { StaticLogo } from '@/components/Logo/StaticLogo'
+import { Badge } from '@/components/ui/badge'
 
 export default function Error({
   error,
@@ -13,7 +14,7 @@ export default function Error({
   return (
     <div className="flex flex-col items-center justify-center gap-2.5 w-full h-dvh -mt-24">
       <StaticLogo className="size-24" />
-      <h1>Error</h1>
+      <Badge>Error</Badge>
       <h2>Lo sentimos, algo salió mal.</h2>
       <Button onClick={() => reset()}>Intenta de nuevo</Button>
     </div>

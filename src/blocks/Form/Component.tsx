@@ -10,6 +10,7 @@ import type { SerializedEditorState } from '@payloadcms/richtext-lexical/lexical
 
 import { fields } from './fields'
 import { getClientSideURL } from '@/utilities/getURL'
+import { Spinner } from '@/components/ui/spinner'
 
 export type FormBlockType = {
   blockName?: string
@@ -116,37 +117,17 @@ export const FormBlock: React.FC<
   return (
     <div className="container lg:max-w-3xl">
       {enableIntro && introContent && !hasSubmitted && (
-        <RichText className="mb-8 lg:mb-12" data={introContent} enableGutter={false} />
+        <RichText className="mb-4" data={introContent} enableGutter={false} />
       )}
       <div className="p-4 lg:p-6 border border-border rounded-[0.8rem]">
         <FormProvider {...formMethods}>
           {!isLoading && hasSubmitted && confirmationType === 'message' && (
             <RichText data={confirmationMessage} />
           )}
-          {isLoading && !hasSubmitted && <p>Loading, please wait...</p>}
+          {isLoading && !hasSubmitted && <Spinner className="size-20" />}
           {error && <div>{`${error.status || '500'}: ${error.message || ''}`}</div>}
           {!hasSubmitted && (
             <form id={formID} onSubmit={handleSubmit(onSubmit)}>
-              {/* Debug: Mostrar si no hay campos */}
-              {(!formFromProps?.fields || formFromProps.fields.length === 0) && (
-                <div className="mb-4 p-4 bg-yellow-100 dark:bg-yellow-900/20 border border-yellow-400 rounded text-sm">
-                  <p className="font-semibold">⚠️ No hay campos configurados en este formulario</p>
-                  <p className="mt-2">
-                    Por favor, ve al admin de Payload y agrega campos al formulario.
-                  </p>
-                  <pre className="mt-2 text-xs overflow-auto">
-                    {JSON.stringify(
-                      {
-                        formId: formID,
-                        hasFields: !!formFromProps?.fields,
-                        fieldsCount: formFromProps?.fields?.length || 0,
-                      },
-                      null,
-                      2,
-                    )}
-                  </pre>
-                </div>
-              )}
               <div className="mb-4 last:mb-0">
                 {formFromProps &&
                   formFromProps.fields &&

@@ -23,12 +23,12 @@ export const Country: React.FC<
   }
 > = ({ name, control, errors, label, required, width }) => {
   return (
-    <Width width={width}>
-      <Label className="" htmlFor={name}>
+    <Width width={width} className="space-y-2">
+      <Label htmlFor={name}>
         {label}
 
         {required && (
-          <span className="required">
+          <span className="required text-red-500">
             * <span className="sr-only">(required)</span>
           </span>
         )}

@@ -58,7 +58,7 @@ export default async function Post({ params: paramsPromise }: Args) {
       <Script
         type="application/ld+json"
         strategy="lazyOnload"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schema).replace(/</g, '\\u003c') }}
         key={service.slug}
       />
       <PageClient />
