@@ -4,8 +4,8 @@ import { slugField } from '@/fields/slug'
 import { isAdminOrEditor } from '@/access/isAdminOrEditor'
 import { isAdmin } from '@/access/isAdmin'
 import { contentLexicalEditor } from '@/fields/contentLexical'
-import { NumberField } from '@/fields/number'
-import { TelephoneField } from '@/fields/telephone'
+import { NumberField } from '@/fields/Number'
+import { TelephoneField } from '@/fields/Telephone'
 
 export const Suppliers: CollectionConfig = {
   slug: 'suppliers',

@@ -25,6 +25,9 @@ import { contentLexicalEditor } from './fields/contentLexical'
 import { Chatbot } from './globals/Chatbot/config'
 import { Services } from './collections/Services'
 import { Manuals } from './collections/Manuals'
+import { Forms } from './collections/Forms'
+import { FormSubmissions } from './collections/FormsSubmission'
+import { sendForm } from './endpoints/sendForm'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -105,9 +108,18 @@ export default buildConfig({
     Clients,
     Services,
     Manuals,
+    Forms,
+    FormSubmissions,
   ],
   cors: [getServerSideURL()].filter(Boolean),
   csrf: [getServerSideURL()].filter(Boolean),
+  endpoints: [
+    {
+      path: '/send-form',
+      method: 'post',
+      handler: sendForm,
+    },
+  ],
   globals: [Header, Footer, Chatbot],
   plugins: [...plugins],
   secret: process.env.PAYLOAD_SECRET,

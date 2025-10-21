@@ -1,5 +1,5 @@
 'use client'
-import type { FormFieldBlock, Form as FormType } from '@payloadcms/plugin-form-builder/types'
+import type { Form } from '@/payload-types'
 
 import { useRouter } from 'next/navigation'
 import React, { useCallback, useState } from 'react'
@@ -16,7 +16,7 @@ export type FormBlockType = {
   blockName?: string
   blockType?: 'formBlock'
   enableIntro: boolean
-  form: FormType
+  form: Form
   introContent?: SerializedEditorState
 }
 
@@ -28,12 +28,19 @@ export const FormBlock: React.FC<
   const {
     enableIntro,
     form: formFromProps,
-    form: { id: formID, confirmationMessage, confirmationType, redirect, submitButtonLabel } = {},
     introContent,
   } = props
 
+  const formID = formFromProps?.id
+  const submitConfig = (formFromProps as any)?.submitConfig
+  const confirmationMessage = submitConfig?.confirmationMessage
+  const confirmationType = submitConfig?.confirmationType
+  const redirectPage = submitConfig?.redirectPage
+  const submitButtonLabel = submitConfig?.buttonLabel || 'Enviar'
+
   const formMethods = useForm({
-    defaultValues: formFromProps.fields,
+    // @ts-ignore - Los tipos se generarán después de ejecutar generate:types
+    defaultValues: formFromProps?.fields || {},
   })
   const {
     control,
@@ -48,15 +55,10 @@ export const FormBlock: React.FC<
   const router = useRouter()
 
   const onSubmit = useCallback(
-    (data: FormFieldBlock[]) => {
+    (data: any) => {
       let loadingTimerID: ReturnType<typeof setTimeout>
       const submitForm = async () => {
         setError(undefined)
-
-        const dataToSend = Object.entries(data).map(([name, value]) => ({
-          field: name,
-          value,
-        }))
 
         // delay loading indicator by 1s
         loadingTimerID = setTimeout(() => {
@@ -64,10 +66,10 @@ export const FormBlock: React.FC<
         }, 1000)
 
         try {
-          const req = await fetch(`${getClientSideURL()}/api/form-submissions`, {
+          const req = await fetch(`${getClientSideURL()}/api/send-form`, {
             body: JSON.stringify({
-              form: formID,
-              submissionData: dataToSend,
+              formId: formID,
+              data: data,
             }),
             headers: {
               'Content-Type': 'application/json',
@@ -93,12 +95,10 @@ export const FormBlock: React.FC<
           setIsLoading(false)
           setHasSubmitted(true)
 
-          if (confirmationType === 'redirect' && redirect) {
-            const { url } = redirect
+          if (confirmationType === 'redirect' && redirectPage) {
+            const url = typeof redirectPage === 'object' ? redirectPage.slug : redirectPage
 
-            const redirectUrl = url
-
-            if (redirectUrl) router.push(redirectUrl)
+            if (url) router.push(`/${url}`)
           }
         } catch (err) {
           console.warn(err)
@@ -111,7 +111,7 @@ export const FormBlock: React.FC<
 
       void submitForm()
     },
-    [router, formID, redirect, confirmationType],
+    [router, formID, redirectPage, confirmationType],
   )
 
   return (
@@ -127,19 +127,22 @@ export const FormBlock: React.FC<
           {isLoading && !hasSubmitted && <Spinner className="size-20" />}
           {error && <div>{`${error.status || '500'}: ${error.message || ''}`}</div>}
           {!hasSubmitted && (
-            <form id={formID} onSubmit={handleSubmit(onSubmit)}>
+            <form id={formID?.toString()} onSubmit={handleSubmit(onSubmit)}>
               <div className="mb-4 last:mb-0">
                 {formFromProps &&
                   formFromProps.fields &&
-                  formFromProps.fields?.map((field, index) => {
+                  formFromProps.fields?.map((field: any, index) => {
+                    // Mapear fieldType a blockType para compatibilidad
+                    const blockType = field.fieldType || field.blockType
                     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                    const Field: React.FC<any> = fields?.[field.blockType as keyof typeof fields]
+                    const Field: React.FC<any> = fields?.[blockType as keyof typeof fields]
                     if (Field) {
                       return (
                         <div className="mb-6 last:mb-0" key={index}>
                           <Field
                             form={formFromProps}
                             {...field}
+                            blockType={blockType}
                             {...formMethods}
                             control={control}
                             errors={errors}
@@ -152,7 +155,7 @@ export const FormBlock: React.FC<
                   })}
               </div>
 
-              <Button form={formID} type="submit" variant="default">
+              <Button form={formID?.toString()} type="submit" variant="default">
                 {submitButtonLabel}
               </Button>
             </form>

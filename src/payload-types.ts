@@ -79,9 +79,9 @@ export interface Config {
     clients: Client;
     services: Service;
     manuals: Manual;
-    redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
+    redirects: Redirect;
     search: Search;
     exports: Export;
     'activity-log': ActivityLog;
@@ -104,9 +104,9 @@ export interface Config {
     clients: ClientsSelect<false> | ClientsSelect<true>;
     services: ServicesSelect<false> | ServicesSelect<true>;
     manuals: ManualsSelect<false> | ManualsSelect<true>;
-    redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
+    redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     search: SearchSelect<false> | SearchSelect<true>;
     exports: ExportsSelect<false> | ExportsSelect<true>;
     'activity-log': ActivityLogSelect<false> | ActivityLogSelect<true>;
@@ -449,352 +449,130 @@ export interface FormBlock {
   blockType: 'formBlock';
 }
 /**
- * Esta es una colección de formularios que se crean en el CMS. Estos formularios son utilizados por el formulario de envío del sitio.
+ * Crea y gestiona formularios personalizados para tu sitio web.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "forms".
  */
 export interface Form {
   id: number;
+  /**
+   * Nombre descriptivo del formulario
+   */
   title: string;
+  /**
+   * Categoría del formulario
+   */
+  type: 'contacto' | 'cotizacion' | 'soporte' | 'suscripcion' | 'otro';
+  /**
+   * Define los campos que aparecerán en el formulario
+   */
   fields?:
-    | (
-        | {
-            /**
-             * El nombre del campo (en minúsculas, sin caracteres especiales)
-             */
-            name: string;
-            /**
-             * El texto que se mostrará junto a la casilla de verificación
-             */
-            label?: string | null;
-            /**
-             * El ancho del campo como porcentaje
-             */
-            width?: number | null;
-            /**
-             * Si el campo es obligatorio o no
-             */
-            required?: boolean | null;
-            /**
-             * El valor predeterminado de la casilla (marcada o desmarcada)
-             */
-            defaultValue?: boolean | null;
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'checkbox';
-          }
-        | {
-            /**
-             * El nombre del campo (en minúsculas, sin caracteres especiales)
-             */
-            name: string;
-            /**
-             * El texto que se mostrará para este campo
-             */
-            label?: string | null;
-            /**
-             * El ancho del campo como porcentaje
-             */
-            width?: number | null;
-            /**
-             * Si el campo es obligatorio o no
-             */
-            required?: boolean | null;
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'country';
-          }
-        | {
-            /**
-             * El nombre del campo (en minúsculas, sin caracteres especiales)
-             */
-            name: string;
-            /**
-             * El texto que se mostrará para este campo
-             */
-            label?: string | null;
-            /**
-             * El ancho del campo como porcentaje
-             */
-            width?: number | null;
-            /**
-             * Si el campo es obligatorio o no
-             */
-            required?: boolean | null;
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'email';
-          }
-        | {
-            /**
-             * El contenido del mensaje que se mostrará
-             */
-            message?: {
-              root: {
-                type: string;
-                children: {
-                  type: string;
-                  version: number;
-                  [k: string]: unknown;
-                }[];
-                direction: ('ltr' | 'rtl') | null;
-                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-                indent: number;
-                version: number;
-              };
-              [k: string]: unknown;
-            } | null;
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'message';
-          }
-        | {
-            /**
-             * El nombre del campo (en minúsculas, sin caracteres especiales)
-             */
-            name: string;
-            /**
-             * El texto que se mostrará para este campo
-             */
-            label?: string | null;
-            /**
-             * El ancho del campo como porcentaje
-             */
-            width?: number | null;
-            /**
-             * El número predeterminado del campo
-             */
-            defaultValue?: number | null;
-            /**
-             * Si el campo es obligatorio o no
-             */
-            required?: boolean | null;
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'number';
-          }
-        | {
-            /**
-             * El nombre del campo (en minúsculas, sin caracteres especiales)
-             */
-            name: string;
-            /**
-             * El texto que se mostrará para este campo
-             */
-            label?: string | null;
-            /**
-             * El ancho del campo como porcentaje
-             */
-            width?: number | null;
-            /**
-             * El valor predeterminado seleccionado
-             */
-            defaultValue?: string | null;
-            /**
-             * El marcador de posición del campo
-             */
-            placeholder?: string | null;
-            /**
-             * Las opciones disponibles para seleccionar
-             */
-            options?:
-              | {
-                  /**
-                   * El texto que se mostrará para esta opción
-                   */
-                  label: string;
-                  /**
-                   * El valor de la opción
-                   */
-                  value: string;
-                  id?: string | null;
-                }[]
-              | null;
-            /**
-             * Si el campo es obligatorio o no
-             */
-            required?: boolean | null;
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'select';
-          }
-        | {
-            /**
-             * El nombre del campo (en minúsculas, sin caracteres especiales)
-             */
-            name: string;
-            /**
-             * El texto que se mostrará para este campo
-             */
-            label?: string | null;
-            /**
-             * El ancho del campo como porcentaje
-             */
-            width?: number | null;
-            /**
-             * Si el campo es obligatorio o no
-             */
-            required?: boolean | null;
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'state';
-          }
-        | {
-            /**
-             * El nombre del campo (en minúsculas, sin caracteres especiales)
-             */
-            name: string;
-            /**
-             * El texto que se mostrará para este campo
-             */
-            label?: string | null;
-            /**
-             * El ancho del campo como porcentaje
-             */
-            width?: number | null;
-            /**
-             * El valor predeterminado del campo
-             */
-            defaultValue?: string | null;
-            /**
-             * Si el campo es obligatorio o no
-             */
-            required?: boolean | null;
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'text';
-          }
-        | {
-            /**
-             * El nombre del campo (en minúsculas, sin caracteres especiales)
-             */
-            name: string;
-            /**
-             * El texto que se mostrará para este campo
-             */
-            label?: string | null;
-            /**
-             * El ancho del campo como porcentaje
-             */
-            width?: number | null;
-            /**
-             * El valor predeterminado del campo
-             */
-            defaultValue?: string | null;
-            /**
-             * Si el campo es obligatorio o no
-             */
-            required?: boolean | null;
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'textarea';
-          }
-        | {
-            /**
-             * El nombre del campo (en minúsculas, sin caracteres especiales)
-             */
-            name: string;
-            /**
-             * El texto que se mostrará para este campo
-             */
-            label?: string | null;
-            /**
-             * El ancho del campo como porcentaje
-             */
-            width?: number | null;
-            /**
-             * Si el campo es obligatorio o no
-             */
-            required?: boolean | null;
-            /**
-             * La fecha predeterminada del campo
-             */
-            defaultValue?: string | null;
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'date';
-          }
-      )[]
-    | null;
-  submitButtonLabel?: string | null;
-  /**
-   * Elija si desea mostrar un mensaje en la página o redirigir a una página diferente después de enviar el formulario.
-   */
-  confirmationType?: ('message' | 'redirect') | null;
-  confirmationMessage?: {
-    root: {
-      type: string;
-      children: {
-        type: string;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
-  redirect?: {
-    type?: ('reference' | 'custom') | null;
-    reference?: {
-      relationTo: 'pages';
-      value: number | Page;
-    } | null;
-    url?: string | null;
-  };
-  /**
-   * Envíe correos electrónicos personalizados al enviar el formulario. Use listas separadas por comas para enviar el mismo correo electrónico a varios destinatarios. Para hacer referencia a un valor de este formulario, escriba el nombre del campo entre llaves dobles, por ejemplo, {{firstName}}. Puede usar el comodín {{*}} para mostrar todos los datos y {{*:table}} para formatearlos como una tabla HTML en el correo electrónico.
-   */
-  emails?:
     | {
         /**
-         * Direcciones de correo electrónico de los destinatarios principales. Separar múltiples direcciones con comas.
+         * Identificador único (sin espacios ni caracteres especiales)
          */
-        emailTo?: string | null;
+        name: string;
         /**
-         * Direcciones de correo electrónico que recibirán una copia visible del mensaje.
+         * Texto que verá el usuario
          */
-        cc?: string | null;
+        label: string;
+        fieldType: 'text' | 'textarea' | 'email' | 'tel' | 'number' | 'date' | 'select' | 'checkbox' | 'file';
         /**
-         * Direcciones de correo electrónico que recibirán una copia oculta del mensaje.
+         * 25, 50, 75 o 100%
          */
-        bcc?: string | null;
+        width?: number | null;
+        required?: boolean | null;
         /**
-         * Dirección de correo electrónico a la que se enviarán las respuestas.
+         * Texto que aparece cuando el campo está vacío
          */
-        replyTo?: string | null;
+        placeholder?: string | null;
         /**
-         * Dirección de correo electrónico del remitente del mensaje.
+         * Define las opciones disponibles
          */
-        emailFrom?: string | null;
+        options?:
+          | {
+              label: string;
+              value: string;
+              id?: string | null;
+            }[]
+          | null;
         /**
-         * Asunto del correo electrónico. Puede usar variables dinámicas como {{nombreCampo}}.
+         * Valor inicial del campo
          */
-        subject: string;
-        /**
-         * Contenido del correo electrónico. Use {{nombreCampo}} para variables dinámicas, {{*}} para todos los datos, o {{*:table}} para formato de tabla.
-         */
-        message?: {
-          root: {
-            type: string;
-            children: {
-              type: string;
-              version: number;
-              [k: string]: unknown;
-            }[];
-            direction: ('ltr' | 'rtl') | null;
-            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-            indent: number;
-            version: number;
-          };
-          [k: string]: unknown;
-        } | null;
+        defaultValue?: string | null;
         id?: string | null;
       }[]
     | null;
+  /**
+   * Configura qué sucede cuando se envía el formulario
+   */
+  submitConfig: {
+    buttonLabel: string;
+    confirmationType?: ('message' | 'redirect') | null;
+    /**
+     * Mensaje que se muestra después de enviar el formulario
+     */
+    confirmationMessage?: {
+      root: {
+        type: string;
+        children: {
+          type: string;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+    /**
+     * Página a la que se redirige después de enviar
+     */
+    redirectPage?: (number | null) | Page;
+  };
+  /**
+   * Configura los emails que se enviarán cuando alguien complete el formulario. Usa {{nombreCampo}} para insertar valores del formulario.
+   */
+  emailNotifications?:
+    | {
+        /**
+         * Direcciones separadas por comas
+         */
+        emailTo: string;
+        /**
+         * Email del remitente
+         */
+        emailFrom?: string | null;
+        /**
+         * Copia visible
+         */
+        cc?: string | null;
+        /**
+         * Copia oculta
+         */
+        bcc?: string | null;
+        /**
+         * Email para respuestas
+         */
+        replyTo?: string | null;
+        /**
+         * Usa {{nombreCampo}} para valores dinámicos
+         */
+        subject: string;
+        /**
+         * Usa {{nombreCampo}} para valores dinámicos, {{*}} para todos los datos, o {{*:tabla}} para formato tabla HTML
+         */
+        message: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Desactiva el formulario para dejar de recibir envíos
+   */
+  active?: boolean | null;
   createdBy?: {
     relationTo: 'users';
     value: number | User;
@@ -805,7 +583,6 @@ export interface Form {
   } | null;
   updatedAt: string;
   createdAt: string;
-  deletedAt?: string | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1323,6 +1100,57 @@ export interface Manual {
   _status?: ('draft' | 'published') | null;
 }
 /**
+ * Registro de todos los envíos de formularios recibidos. Los datos se guardan automáticamente cuando un usuario completa un formulario.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "form-submissions".
+ */
+export interface FormSubmission {
+  id: number;
+  /**
+   * El formulario del cual proviene este envío
+   */
+  form: number | Form;
+  /**
+   * Datos enviados por el usuario en formato JSON
+   */
+  submissionData:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  /**
+   * Dirección IP desde donde se realizó el envío
+   */
+  userIp?: string | null;
+  /**
+   * Información del navegador del usuario
+   */
+  userAgent?: string | null;
+  /**
+   * Estado actual del envío
+   */
+  status?: ('new' | 'in-progress' | 'completed' | 'archived') | null;
+  /**
+   * Notas para uso interno del equipo
+   */
+  notes?: string | null;
+  createdBy?: {
+    relationTo: 'users';
+    value: number | User;
+  } | null;
+  lastModifiedBy?: {
+    relationTo: 'users';
+    value: number | User;
+  } | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * Esta es una colección de redirecciones de URL que se crean en el CMS. Estas redirecciones son utilizadas por el sitio web.
  *
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1353,33 +1181,6 @@ export interface Redirect {
         } | null);
     url?: string | null;
   };
-  createdBy?: {
-    relationTo: 'users';
-    value: number | User;
-  } | null;
-  lastModifiedBy?: {
-    relationTo: 'users';
-    value: number | User;
-  } | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * Esta es una colección de formularios de envío generados automáticamente. Estos formularios son utilizados por el formulario de envío del sitio y se actualizan automáticamente a medida que se crean o actualizan documentos en el CMS.
- *
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "form-submissions".
- */
-export interface FormSubmission {
-  id: number;
-  form: number | Form;
-  submissionData?:
-    | {
-        field: string;
-        value: string;
-        id?: string | null;
-      }[]
-    | null;
   createdBy?: {
     relationTo: 'users';
     value: number | User;
@@ -1690,16 +1491,16 @@ export interface PayloadLockedDocument {
         value: number | Manual;
       } | null)
     | ({
-        relationTo: 'redirects';
-        value: number | Redirect;
-      } | null)
-    | ({
         relationTo: 'forms';
         value: number | Form;
       } | null)
     | ({
         relationTo: 'form-submissions';
         value: number | FormSubmission;
+      } | null)
+    | ({
+        relationTo: 'redirects';
+        value: number | Redirect;
       } | null)
     | ({
         relationTo: 'search';
@@ -2225,6 +2026,74 @@ export interface ManualsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "forms_select".
+ */
+export interface FormsSelect<T extends boolean = true> {
+  title?: T;
+  type?: T;
+  fields?:
+    | T
+    | {
+        name?: T;
+        label?: T;
+        fieldType?: T;
+        width?: T;
+        required?: T;
+        placeholder?: T;
+        options?:
+          | T
+          | {
+              label?: T;
+              value?: T;
+              id?: T;
+            };
+        defaultValue?: T;
+        id?: T;
+      };
+  submitConfig?:
+    | T
+    | {
+        buttonLabel?: T;
+        confirmationType?: T;
+        confirmationMessage?: T;
+        redirectPage?: T;
+      };
+  emailNotifications?:
+    | T
+    | {
+        emailTo?: T;
+        emailFrom?: T;
+        cc?: T;
+        bcc?: T;
+        replyTo?: T;
+        subject?: T;
+        message?: T;
+        id?: T;
+      };
+  active?: T;
+  createdBy?: T;
+  lastModifiedBy?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "form-submissions_select".
+ */
+export interface FormSubmissionsSelect<T extends boolean = true> {
+  form?: T;
+  submissionData?: T;
+  userIp?: T;
+  userAgent?: T;
+  status?: T;
+  notes?: T;
+  createdBy?: T;
+  lastModifiedBy?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects_select".
  */
 export interface RedirectsSelect<T extends boolean = true> {
@@ -2235,173 +2104,6 @@ export interface RedirectsSelect<T extends boolean = true> {
         type?: T;
         reference?: T;
         url?: T;
-      };
-  createdBy?: T;
-  lastModifiedBy?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "forms_select".
- */
-export interface FormsSelect<T extends boolean = true> {
-  title?: T;
-  fields?:
-    | T
-    | {
-        checkbox?:
-          | T
-          | {
-              name?: T;
-              label?: T;
-              width?: T;
-              required?: T;
-              defaultValue?: T;
-              id?: T;
-              blockName?: T;
-            };
-        country?:
-          | T
-          | {
-              name?: T;
-              label?: T;
-              width?: T;
-              required?: T;
-              id?: T;
-              blockName?: T;
-            };
-        email?:
-          | T
-          | {
-              name?: T;
-              label?: T;
-              width?: T;
-              required?: T;
-              id?: T;
-              blockName?: T;
-            };
-        message?:
-          | T
-          | {
-              message?: T;
-              id?: T;
-              blockName?: T;
-            };
-        number?:
-          | T
-          | {
-              name?: T;
-              label?: T;
-              width?: T;
-              defaultValue?: T;
-              required?: T;
-              id?: T;
-              blockName?: T;
-            };
-        select?:
-          | T
-          | {
-              name?: T;
-              label?: T;
-              width?: T;
-              defaultValue?: T;
-              placeholder?: T;
-              options?:
-                | T
-                | {
-                    label?: T;
-                    value?: T;
-                    id?: T;
-                  };
-              required?: T;
-              id?: T;
-              blockName?: T;
-            };
-        state?:
-          | T
-          | {
-              name?: T;
-              label?: T;
-              width?: T;
-              required?: T;
-              id?: T;
-              blockName?: T;
-            };
-        text?:
-          | T
-          | {
-              name?: T;
-              label?: T;
-              width?: T;
-              defaultValue?: T;
-              required?: T;
-              id?: T;
-              blockName?: T;
-            };
-        textarea?:
-          | T
-          | {
-              name?: T;
-              label?: T;
-              width?: T;
-              defaultValue?: T;
-              required?: T;
-              id?: T;
-              blockName?: T;
-            };
-        date?:
-          | T
-          | {
-              name?: T;
-              label?: T;
-              width?: T;
-              required?: T;
-              defaultValue?: T;
-              id?: T;
-              blockName?: T;
-            };
-      };
-  submitButtonLabel?: T;
-  confirmationType?: T;
-  confirmationMessage?: T;
-  redirect?:
-    | T
-    | {
-        type?: T;
-        reference?: T;
-        url?: T;
-      };
-  emails?:
-    | T
-    | {
-        emailTo?: T;
-        cc?: T;
-        bcc?: T;
-        replyTo?: T;
-        emailFrom?: T;
-        subject?: T;
-        message?: T;
-        id?: T;
-      };
-  createdBy?: T;
-  lastModifiedBy?: T;
-  updatedAt?: T;
-  createdAt?: T;
-  deletedAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "form-submissions_select".
- */
-export interface FormSubmissionsSelect<T extends boolean = true> {
-  form?: T;
-  submissionData?:
-    | T
-    | {
-        field?: T;
-        value?: T;
-        id?: T;
       };
   createdBy?: T;
   lastModifiedBy?: T;

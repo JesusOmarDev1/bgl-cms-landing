@@ -1,4 +1,4 @@
-import type { EmailField } from '@payloadcms/plugin-form-builder/types'
+import type { EmailField } from '../types'
 import type { FieldErrorsImpl, FieldValues, UseFormRegister } from 'react-hook-form'
 
 import { Input } from '@/components/ui/input'

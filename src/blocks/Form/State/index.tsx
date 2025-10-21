@@ -1,4 +1,4 @@
-import type { StateField } from '@payloadcms/plugin-form-builder/types'
+import type { StateField } from '../types'
 import type { Control, FieldErrorsImpl } from 'react-hook-form'
 
 import { Label } from '@/components/ui/label'

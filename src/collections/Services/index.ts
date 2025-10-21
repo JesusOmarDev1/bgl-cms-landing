@@ -13,7 +13,7 @@ import {
 } from '@payloadcms/plugin-seo/fields'
 import { generatePreviewPath } from '@/utilities/generatePreviewPath'
 import { contentLexicalEditor } from '@/fields/contentLexical'
-import { NumberField } from '@/fields/number'
+import { NumberField } from '@/fields/Number'
 import { revalidateProduct, revalidateDelete } from '../Products/hooks/revalidateProducts'
 
 export const Services: CollectionConfig = {
