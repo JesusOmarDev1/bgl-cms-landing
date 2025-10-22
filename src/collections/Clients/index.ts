@@ -3,9 +3,8 @@ import type { CollectionConfig } from 'payload'
 import { slugField } from '@/fields/slug'
 import { isAdminOrEditor } from '@/access/isAdminOrEditor'
 import { isAdmin } from '@/access/isAdmin'
-import { anyone } from '@/access/anyone'
 import { contentLexicalEditor } from '@/fields/contentLexical'
-import { TelephoneField } from '@/fields/Telephone'
+import { TelephoneField } from '@/fields/telephone'
 
 export const Clients: CollectionConfig = {
   slug: 'clients',

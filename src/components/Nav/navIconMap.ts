@@ -24,6 +24,7 @@ import {
   UsersRound,
   Wrench,
   Activity,
+  Ticket,
 } from 'lucide-react'
 import { ExoticComponent } from 'react'
 
@@ -54,6 +55,7 @@ export const navIconMap: Partial<
   services: Wrench,
   manuals: BookText,
   'activity-log': Activity,
+  coupons: Ticket,
 }
 
 export const getNavIcon = (slug: string) =>

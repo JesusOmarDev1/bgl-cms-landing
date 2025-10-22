@@ -12,6 +12,7 @@ import '@/styles/globals.css'
 import { Toaster } from '@/components/ui/sonner'
 import { ChatbotWrapper } from '@/globals/Chatbot/ChatbotWidget/ChatbotWrapper'
 import { Footer } from '@/globals/Footer/Component'
+import { Coupons } from '@/globals/Coupons/Component'
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -62,6 +63,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
             <Toaster position="bottom-right" richColors closeButton />
             <div className="mt-24">{children}</div>
             <ChatbotWrapper />
+            <Coupons />
             <Footer />
           </Providers>
         </body>

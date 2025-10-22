@@ -23,11 +23,12 @@ import { Suppliers } from './collections/Suppliers'
 import { Clients } from './collections/Clients'
 import { contentLexicalEditor } from './fields/contentLexical'
 import { Chatbot } from './globals/Chatbot/config'
+import { Coupons } from './globals/Coupons/config'
 import { Services } from './collections/Services'
 import { Manuals } from './collections/Manuals'
 import { Forms } from './collections/Forms'
 import { FormSubmissions } from './collections/FormsSubmission'
-import { sendForm } from './endpoints/sendForm'
+import { formSubmission } from './endpoints/formSubmission'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -115,12 +116,12 @@ export default buildConfig({
   csrf: [getServerSideURL()].filter(Boolean),
   endpoints: [
     {
-      path: '/send-form',
+      path: '/form-submission',
       method: 'post',
-      handler: sendForm,
+      handler: formSubmission,
     },
   ],
-  globals: [Header, Footer, Chatbot],
+  globals: [Header, Footer, Chatbot, Coupons],
   plugins: [...plugins],
   secret: process.env.PAYLOAD_SECRET,
   sharp,

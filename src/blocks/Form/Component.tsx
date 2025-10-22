@@ -2,7 +2,7 @@
 import type { Form } from '@/payload-types'
 
 import { useRouter } from 'next/navigation'
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useState, useEffect } from 'react'
 import { useForm, FormProvider } from 'react-hook-form'
 import RichText from '@/components/RichText'
 import { Button } from '@/components/ui/button'
@@ -31,8 +31,43 @@ export const FormBlock: React.FC<
     introContent,
   } = props
 
-  const formID = formFromProps?.id
-  const submitConfig = (formFromProps as any)?.submitConfig
+  // Debug: ver qué datos recibe el componente
+  console.log('FormBlock props:', props)
+  console.log('Form data:', formFromProps)
+  console.log('Form fields:', formFromProps?.fields)
+
+  // Estado para el formulario cargado
+  const [loadedForm, setLoadedForm] = useState<Form | null>(
+    typeof formFromProps === 'object' ? formFromProps : null,
+  )
+  const [isLoadingForm, setIsLoadingForm] = useState(
+    typeof formFromProps === 'number' || typeof formFromProps === 'string',
+  )
+
+  // Cargar el formulario si solo tenemos el ID
+  useEffect(() => {
+    const loadForm = async () => {
+      if (typeof formFromProps === 'number' || typeof formFromProps === 'string') {
+        try {
+          const response = await fetch(
+            `${getClientSideURL()}/api/forms/${formFromProps}?depth=2`,
+          )
+          const data = await response.json()
+          console.log('Loaded form data:', data)
+          setLoadedForm(data)
+        } catch (err) {
+          console.error('Error loading form:', err)
+        } finally {
+          setIsLoadingForm(false)
+        }
+      }
+    }
+    loadForm()
+  }, [formFromProps])
+
+  const formToUse = loadedForm
+  const formID = typeof formFromProps === 'object' ? formFromProps?.id : formFromProps
+  const submitConfig = formToUse?.submitConfig
   const confirmationMessage = submitConfig?.confirmationMessage
   const confirmationType = submitConfig?.confirmationType
   const redirectPage = submitConfig?.redirectPage
@@ -40,7 +75,7 @@ export const FormBlock: React.FC<
 
   const formMethods = useForm({
     // @ts-ignore - Los tipos se generarán después de ejecutar generate:types
-    defaultValues: formFromProps?.fields || {},
+    defaultValues: formToUse?.fields || {},
   })
   const {
     control,
@@ -66,10 +101,16 @@ export const FormBlock: React.FC<
         }, 1000)
 
         try {
-          const req = await fetch(`${getClientSideURL()}/api/send-form`, {
+          // Convertir datos del formulario al formato esperado por el endpoint
+          const submissionData = Object.entries(data).map(([field, value]) => ({
+            field,
+            value: String(value),
+          }))
+
+          const req = await fetch(`${getClientSideURL()}/api/form-submission`, {
             body: JSON.stringify({
               formId: formID,
-              data: data,
+              submissionData,
             }),
             headers: {
               'Content-Type': 'application/json',
@@ -85,7 +126,7 @@ export const FormBlock: React.FC<
             setIsLoading(false)
 
             setError({
-              message: res.errors?.[0]?.message || 'Error Interno del Servidor',
+              message: res.message || res.error || 'Error Interno del Servidor',
               status: res.status,
             })
 
@@ -121,28 +162,34 @@ export const FormBlock: React.FC<
       )}
       <div className="p-4 lg:p-6 border border-border rounded-[0.8rem]">
         <FormProvider {...formMethods}>
-          {!isLoading && hasSubmitted && confirmationType === 'message' && (
+          {!isLoading && hasSubmitted && confirmationType === 'message' && confirmationMessage && (
             <RichText data={confirmationMessage} />
           )}
-          {isLoading && !hasSubmitted && <Spinner className="size-20" />}
+          {(isLoading || isLoadingForm) && !hasSubmitted && <Spinner className="size-20" />}
           {error && <div>{`${error.status || '500'}: ${error.message || ''}`}</div>}
-          {!hasSubmitted && (
+          {!hasSubmitted && !isLoadingForm && (
             <form id={formID?.toString()} onSubmit={handleSubmit(onSubmit)}>
               <div className="mb-4 last:mb-0">
-                {formFromProps &&
-                  formFromProps.fields &&
-                  formFromProps.fields?.map((field: any, index) => {
-                    // Mapear fieldType a blockType para compatibilidad
-                    const blockType = field.fieldType || field.blockType
+                {formToUse &&
+                  formToUse.fields &&
+                  formToUse.fields?.map((field: any, index) => {
+                    // Debug: ver la estructura del campo
+                    console.log('Field data:', field)
+                    
+                    // Los campos ahora son blocks, usar blockType directamente
+                    const blockType = field.blockType
+                    console.log('Block type:', blockType)
+                    
                     // eslint-disable-next-line @typescript-eslint/no-explicit-any
                     const Field: React.FC<any> = fields?.[blockType as keyof typeof fields]
+                    console.log('Field component found:', !!Field)
+                    
                     if (Field) {
                       return (
                         <div className="mb-6 last:mb-0" key={index}>
                           <Field
-                            form={formFromProps}
+                            form={formToUse}
                             {...field}
-                            blockType={blockType}
                             {...formMethods}
                             control={control}
                             errors={errors}
@@ -151,6 +198,7 @@ export const FormBlock: React.FC<
                         </div>
                       )
                     }
+                    console.warn('No component found for blockType:', blockType)
                     return null
                   })}
               </div>

@@ -32,25 +32,8 @@ export const Forms: CollectionConfig = {
       },
     },
     {
-      name: 'type',
-      type: 'select',
-      label: 'Tipo de formulario',
-      required: true,
-      defaultValue: 'contacto',
-      options: [
-        { label: 'Contacto', value: 'contacto' },
-        { label: 'Cotización', value: 'cotizacion' },
-        { label: 'Soporte', value: 'soporte' },
-        { label: 'Suscripción', value: 'suscripcion' },
-        { label: 'Otro', value: 'otro' },
-      ],
-      admin: {
-        description: 'Categoría del formulario',
-      },
-    },
-    {
       name: 'fields',
-      type: 'array',
+      type: 'blocks',
       label: 'Campos del formulario',
       labels: {
         singular: 'Campo',
@@ -61,9 +44,14 @@ export const Forms: CollectionConfig = {
         description: 'Define los campos que aparecerán en el formulario',
         initCollapsed: false,
       },
-      fields: [
+      blocks: [
         {
-          type: 'row',
+          slug: 'text',
+          interfaceName: 'TextFormField',
+          labels: {
+            singular: 'Texto',
+            plural: 'Textos',
+          },
           fields: [
             {
               name: 'name',
@@ -71,45 +59,14 @@ export const Forms: CollectionConfig = {
               label: 'Nombre del campo',
               required: true,
               admin: {
-                width: '50%',
-                description: 'Identificador único (sin espacios ni caracteres especiales)',
+                description: 'Identificador único (sin espacios)',
               },
             },
             {
-              name: 'etiqueta',
+              name: 'label',
               type: 'text',
-              label: 'Etiqueta visible',
+              label: 'Etiqueta',
               required: true,
-              admin: {
-                width: '50%',
-                description: 'Texto que verá el usuario',
-              },
-            },
-          ],
-        },
-        {
-          type: 'row',
-          fields: [
-            {
-              name: 'fieldType',
-              type: 'select',
-              label: 'Tipo de campo',
-              required: true,
-              defaultValue: 'text',
-              options: [
-                { label: 'Texto corto', value: 'text' },
-                { label: 'Texto largo', value: 'textarea' },
-                { label: 'Email', value: 'email' },
-                { label: 'Teléfono', value: 'tel' },
-                { label: 'Número', value: 'number' },
-                { label: 'Fecha', value: 'date' },
-                { label: 'Selección única', value: 'select' },
-                { label: 'Casilla de verificación', value: 'checkbox' },
-                { label: 'Archivo', value: 'file' },
-              ],
-              admin: {
-                width: '33%',
-              },
             },
             {
               name: 'width',
@@ -118,80 +75,332 @@ export const Forms: CollectionConfig = {
               defaultValue: 100,
               min: 25,
               max: 100,
-              admin: {
-                width: '33%',
-                description: '25, 50, 75 o 100%',
-              },
             },
             {
               name: 'required',
               type: 'checkbox',
               label: 'Campo obligatorio',
               defaultValue: false,
-              admin: {
-                width: '34%',
-              },
+            },
+            {
+              name: 'defaultValue',
+              type: 'text',
+              label: 'Valor predeterminado',
             },
           ],
         },
         {
-          name: 'placeholder',
-          type: 'text',
-          label: 'Texto de ejemplo (placeholder)',
-          admin: {
-            description: 'Texto que aparece cuando el campo está vacío',
-            condition: (data, siblingData) => {
-              return ['text', 'textarea', 'email', 'tel', 'number'].includes(siblingData?.fieldType)
-            },
-          },
-        },
-        {
-          name: 'options',
-          type: 'array',
-          label: 'Opciones',
+          slug: 'textarea',
+          interfaceName: 'TextareaFormField',
           labels: {
-            singular: 'Opción',
-            plural: 'Opciones',
-          },
-          admin: {
-            description: 'Define las opciones disponibles',
-            condition: (data, siblingData) => {
-              return siblingData?.fieldType === 'select'
-            },
+            singular: 'Texto largo',
+            plural: 'Textos largos',
           },
           fields: [
             {
-              type: 'row',
+              name: 'name',
+              type: 'text',
+              label: 'Nombre del campo',
+              required: true,
+            },
+            {
+              name: 'label',
+              type: 'text',
+              label: 'Etiqueta',
+              required: true,
+            },
+            {
+              name: 'width',
+              type: 'number',
+              label: 'Ancho (%)',
+              defaultValue: 100,
+              min: 25,
+              max: 100,
+            },
+            {
+              name: 'required',
+              type: 'checkbox',
+              label: 'Campo obligatorio',
+              defaultValue: false,
+            },
+            {
+              name: 'defaultValue',
+              type: 'text',
+              label: 'Valor predeterminado',
+            },
+          ],
+        },
+        {
+          slug: 'email',
+          interfaceName: 'EmailFormField',
+          labels: {
+            singular: 'Email',
+            plural: 'Emails',
+          },
+          fields: [
+            {
+              name: 'name',
+              type: 'text',
+              label: 'Nombre del campo',
+              required: true,
+            },
+            {
+              name: 'label',
+              type: 'text',
+              label: 'Etiqueta',
+              required: true,
+            },
+            {
+              name: 'width',
+              type: 'number',
+              label: 'Ancho (%)',
+              defaultValue: 100,
+              min: 25,
+              max: 100,
+            },
+            {
+              name: 'required',
+              type: 'checkbox',
+              label: 'Campo obligatorio',
+              defaultValue: false,
+            },
+          ],
+        },
+        {
+          slug: 'number',
+          interfaceName: 'NumberFormField',
+          labels: {
+            singular: 'Número',
+            plural: 'Números',
+          },
+          fields: [
+            {
+              name: 'name',
+              type: 'text',
+              label: 'Nombre del campo',
+              required: true,
+            },
+            {
+              name: 'label',
+              type: 'text',
+              label: 'Etiqueta',
+              required: true,
+            },
+            {
+              name: 'width',
+              type: 'number',
+              label: 'Ancho (%)',
+              defaultValue: 100,
+              min: 25,
+              max: 100,
+            },
+            {
+              name: 'required',
+              type: 'checkbox',
+              label: 'Campo obligatorio',
+              defaultValue: false,
+            },
+            {
+              name: 'defaultValue',
+              type: 'number',
+              label: 'Valor predeterminado',
+            },
+          ],
+        },
+        {
+          slug: 'select',
+          interfaceName: 'SelectFormField',
+          labels: {
+            singular: 'Selección',
+            plural: 'Selecciones',
+          },
+          fields: [
+            {
+              name: 'name',
+              type: 'text',
+              label: 'Nombre del campo',
+              required: true,
+            },
+            {
+              name: 'label',
+              type: 'text',
+              label: 'Etiqueta',
+              required: true,
+            },
+            {
+              name: 'width',
+              type: 'number',
+              label: 'Ancho (%)',
+              defaultValue: 100,
+              min: 25,
+              max: 100,
+            },
+            {
+              name: 'required',
+              type: 'checkbox',
+              label: 'Campo obligatorio',
+              defaultValue: false,
+            },
+            {
+              name: 'options',
+              type: 'array',
+              label: 'Opciones',
+              labels: {
+                singular: 'Opción',
+                plural: 'Opciones',
+              },
               fields: [
                 {
                   name: 'label',
                   type: 'text',
                   label: 'Etiqueta',
                   required: true,
-                  admin: {
-                    width: '50%',
-                  },
                 },
                 {
                   name: 'value',
                   type: 'text',
                   label: 'Valor',
                   required: true,
-                  admin: {
-                    width: '50%',
-                  },
                 },
               ],
+            },
+            {
+              name: 'defaultValue',
+              type: 'text',
+              label: 'Valor predeterminado',
             },
           ],
         },
         {
-          name: 'defaultValue',
-          type: 'text',
-          label: 'Valor predeterminado',
-          admin: {
-            description: 'Valor inicial del campo',
+          slug: 'checkbox',
+          interfaceName: 'CheckboxFormField',
+          labels: {
+            singular: 'Casilla de verificación',
+            plural: 'Casillas de verificación',
           },
+          fields: [
+            {
+              name: 'name',
+              type: 'text',
+              label: 'Nombre del campo',
+              required: true,
+            },
+            {
+              name: 'label',
+              type: 'text',
+              label: 'Etiqueta',
+              required: true,
+            },
+            {
+              name: 'width',
+              type: 'number',
+              label: 'Ancho (%)',
+              defaultValue: 100,
+              min: 25,
+              max: 100,
+            },
+            {
+              name: 'required',
+              type: 'checkbox',
+              label: 'Campo obligatorio',
+              defaultValue: false,
+            },
+            {
+              name: 'defaultValue',
+              type: 'checkbox',
+              label: 'Valor predeterminado',
+              defaultValue: false,
+            },
+          ],
+        },
+        {
+          slug: 'country',
+          interfaceName: 'CountryFormField',
+          labels: {
+            singular: 'País',
+            plural: 'Países',
+          },
+          fields: [
+            {
+              name: 'name',
+              type: 'text',
+              label: 'Nombre del campo',
+              required: true,
+            },
+            {
+              name: 'label',
+              type: 'text',
+              label: 'Etiqueta',
+              required: true,
+            },
+            {
+              name: 'width',
+              type: 'number',
+              label: 'Ancho (%)',
+              defaultValue: 100,
+              min: 25,
+              max: 100,
+            },
+            {
+              name: 'required',
+              type: 'checkbox',
+              label: 'Campo obligatorio',
+              defaultValue: false,
+            },
+          ],
+        },
+        {
+          slug: 'state',
+          interfaceName: 'StateFormField',
+          labels: {
+            singular: 'Estado',
+            plural: 'Estados',
+          },
+          fields: [
+            {
+              name: 'name',
+              type: 'text',
+              label: 'Nombre del campo',
+              required: true,
+            },
+            {
+              name: 'label',
+              type: 'text',
+              label: 'Etiqueta',
+              required: true,
+            },
+            {
+              name: 'width',
+              type: 'number',
+              label: 'Ancho (%)',
+              defaultValue: 100,
+              min: 25,
+              max: 100,
+            },
+            {
+              name: 'required',
+              type: 'checkbox',
+              label: 'Campo obligatorio',
+              defaultValue: false,
+            },
+          ],
+        },
+        {
+          slug: 'message',
+          interfaceName: 'MessageFormField',
+          labels: {
+            singular: 'Mensaje',
+            plural: 'Mensajes',
+          },
+          fields: [
+            {
+              name: 'message',
+              type: 'richText',
+              label: 'Mensaje',
+              editor: contentLexicalEditor,
+              required: true,
+            },
+          ],
         },
       ],
     },

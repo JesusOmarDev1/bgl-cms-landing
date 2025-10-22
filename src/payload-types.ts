@@ -122,11 +122,13 @@ export interface Config {
     header: Header;
     footer: Footer;
     chatbot: Chatbot;
+    coupons: Coupon;
   };
   globalsSelect: {
     header: HeaderSelect<false> | HeaderSelect<true>;
     footer: FooterSelect<false> | FooterSelect<true>;
     chatbot: ChatbotSelect<false> | ChatbotSelect<true>;
+    coupons: CouponsSelect<false> | CouponsSelect<true>;
   };
   locale: null;
   user: User & {
@@ -461,48 +463,20 @@ export interface Form {
    */
   title: string;
   /**
-   * Categoría del formulario
-   */
-  type: 'contacto' | 'cotizacion' | 'soporte' | 'suscripcion' | 'otro';
-  /**
    * Define los campos que aparecerán en el formulario
    */
   fields?:
-    | {
-        /**
-         * Identificador único (sin espacios ni caracteres especiales)
-         */
-        name: string;
-        /**
-         * Texto que verá el usuario
-         */
-        label: string;
-        fieldType: 'text' | 'textarea' | 'email' | 'tel' | 'number' | 'date' | 'select' | 'checkbox' | 'file';
-        /**
-         * 25, 50, 75 o 100%
-         */
-        width?: number | null;
-        required?: boolean | null;
-        /**
-         * Texto que aparece cuando el campo está vacío
-         */
-        placeholder?: string | null;
-        /**
-         * Define las opciones disponibles
-         */
-        options?:
-          | {
-              label: string;
-              value: string;
-              id?: string | null;
-            }[]
-          | null;
-        /**
-         * Valor inicial del campo
-         */
-        defaultValue?: string | null;
-        id?: string | null;
-      }[]
+    | (
+        | TextFormField
+        | TextareaFormField
+        | EmailFormField
+        | NumberFormField
+        | SelectFormField
+        | CheckboxFormField
+        | CountryFormField
+        | StateFormField
+        | MessageFormField
+      )[]
     | null;
   /**
    * Configura qué sucede cuando se envía el formulario
@@ -583,6 +557,149 @@ export interface Form {
   } | null;
   updatedAt: string;
   createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TextFormField".
+ */
+export interface TextFormField {
+  /**
+   * Identificador único (sin espacios)
+   */
+  name: string;
+  label: string;
+  width?: number | null;
+  required?: boolean | null;
+  defaultValue?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'text';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TextareaFormField".
+ */
+export interface TextareaFormField {
+  name: string;
+  label: string;
+  width?: number | null;
+  required?: boolean | null;
+  defaultValue?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'textarea';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "EmailFormField".
+ */
+export interface EmailFormField {
+  name: string;
+  label: string;
+  width?: number | null;
+  required?: boolean | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'email';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "NumberFormField".
+ */
+export interface NumberFormField {
+  name: string;
+  label: string;
+  width?: number | null;
+  required?: boolean | null;
+  defaultValue?: number | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'number';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "SelectFormField".
+ */
+export interface SelectFormField {
+  name: string;
+  label: string;
+  width?: number | null;
+  required?: boolean | null;
+  options?:
+    | {
+        label: string;
+        value: string;
+        id?: string | null;
+      }[]
+    | null;
+  defaultValue?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'select';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CheckboxFormField".
+ */
+export interface CheckboxFormField {
+  name: string;
+  label: string;
+  width?: number | null;
+  required?: boolean | null;
+  defaultValue?: boolean | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'checkbox';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CountryFormField".
+ */
+export interface CountryFormField {
+  name: string;
+  label: string;
+  width?: number | null;
+  required?: boolean | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'country';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "StateFormField".
+ */
+export interface StateFormField {
+  name: string;
+  label: string;
+  width?: number | null;
+  required?: boolean | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'state';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "MessageFormField".
+ */
+export interface MessageFormField {
+  message: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'message';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1107,38 +1224,14 @@ export interface Manual {
  */
 export interface FormSubmission {
   id: number;
-  /**
-   * El formulario del cual proviene este envío
-   */
   form: number | Form;
-  /**
-   * Datos enviados por el usuario en formato JSON
-   */
-  submissionData:
+  submissionData?:
     | {
-        [k: string]: unknown;
-      }
-    | unknown[]
-    | string
-    | number
-    | boolean
+        field: string;
+        value: string;
+        id?: string | null;
+      }[]
     | null;
-  /**
-   * Dirección IP desde donde se realizó el envío
-   */
-  userIp?: string | null;
-  /**
-   * Información del navegador del usuario
-   */
-  userAgent?: string | null;
-  /**
-   * Estado actual del envío
-   */
-  status?: ('new' | 'in-progress' | 'completed' | 'archived') | null;
-  /**
-   * Notas para uso interno del equipo
-   */
-  notes?: string | null;
   createdBy?: {
     relationTo: 'users';
     value: number | User;
@@ -2030,25 +2123,18 @@ export interface ManualsSelect<T extends boolean = true> {
  */
 export interface FormsSelect<T extends boolean = true> {
   title?: T;
-  type?: T;
   fields?:
     | T
     | {
-        name?: T;
-        label?: T;
-        fieldType?: T;
-        width?: T;
-        required?: T;
-        placeholder?: T;
-        options?:
-          | T
-          | {
-              label?: T;
-              value?: T;
-              id?: T;
-            };
-        defaultValue?: T;
-        id?: T;
+        text?: T | TextFormFieldSelect<T>;
+        textarea?: T | TextareaFormFieldSelect<T>;
+        email?: T | EmailFormFieldSelect<T>;
+        number?: T | NumberFormFieldSelect<T>;
+        select?: T | SelectFormFieldSelect<T>;
+        checkbox?: T | CheckboxFormFieldSelect<T>;
+        country?: T | CountryFormFieldSelect<T>;
+        state?: T | StateFormFieldSelect<T>;
+        message?: T | MessageFormFieldSelect<T>;
       };
   submitConfig?:
     | T
@@ -2078,15 +2164,134 @@ export interface FormsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TextFormField_select".
+ */
+export interface TextFormFieldSelect<T extends boolean = true> {
+  name?: T;
+  label?: T;
+  width?: T;
+  required?: T;
+  defaultValue?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TextareaFormField_select".
+ */
+export interface TextareaFormFieldSelect<T extends boolean = true> {
+  name?: T;
+  label?: T;
+  width?: T;
+  required?: T;
+  defaultValue?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "EmailFormField_select".
+ */
+export interface EmailFormFieldSelect<T extends boolean = true> {
+  name?: T;
+  label?: T;
+  width?: T;
+  required?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "NumberFormField_select".
+ */
+export interface NumberFormFieldSelect<T extends boolean = true> {
+  name?: T;
+  label?: T;
+  width?: T;
+  required?: T;
+  defaultValue?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "SelectFormField_select".
+ */
+export interface SelectFormFieldSelect<T extends boolean = true> {
+  name?: T;
+  label?: T;
+  width?: T;
+  required?: T;
+  options?:
+    | T
+    | {
+        label?: T;
+        value?: T;
+        id?: T;
+      };
+  defaultValue?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CheckboxFormField_select".
+ */
+export interface CheckboxFormFieldSelect<T extends boolean = true> {
+  name?: T;
+  label?: T;
+  width?: T;
+  required?: T;
+  defaultValue?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CountryFormField_select".
+ */
+export interface CountryFormFieldSelect<T extends boolean = true> {
+  name?: T;
+  label?: T;
+  width?: T;
+  required?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "StateFormField_select".
+ */
+export interface StateFormFieldSelect<T extends boolean = true> {
+  name?: T;
+  label?: T;
+  width?: T;
+  required?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "MessageFormField_select".
+ */
+export interface MessageFormFieldSelect<T extends boolean = true> {
+  message?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "form-submissions_select".
  */
 export interface FormSubmissionsSelect<T extends boolean = true> {
   form?: T;
-  submissionData?: T;
-  userIp?: T;
-  userAgent?: T;
-  status?: T;
-  notes?: T;
+  submissionData?:
+    | T
+    | {
+        field?: T;
+        value?: T;
+        id?: T;
+      };
   createdBy?: T;
   lastModifiedBy?: T;
   updatedAt?: T;
@@ -2790,6 +2995,84 @@ export interface Chatbot {
   createdAt?: string | null;
 }
 /**
+ * Manage promotional coupons and discounts with countdown timers
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "coupons".
+ */
+export interface Coupon {
+  id: number;
+  /**
+   * Show/hide the coupons section on the website
+   */
+  enabled?: boolean | null;
+  /**
+   * Main title for the coupons section
+   */
+  title?: string | null;
+  /**
+   * Subtitle or description for the coupons section
+   */
+  subtitle?: string | null;
+  /**
+   * Add promotional coupons (maximum 6)
+   */
+  coupons?:
+    | {
+        /**
+         * Enable/disable this coupon
+         */
+        active?: boolean | null;
+        /**
+         * Unique coupon code (e.g., SAVE20, WELCOME10)
+         */
+        code: string;
+        /**
+         * Short descriptive title
+         */
+        title: string;
+        /**
+         * Detailed description of the offer
+         */
+        description?: string | null;
+        discountType: 'percentage' | 'fixed' | 'shipping';
+        /**
+         * Percentage (e.g., 20 for 20%) or fixed amount (e.g., 100 for $100)
+         */
+        discountValue?: number | null;
+        /**
+         * Date and time when the coupon expires
+         */
+        expiryDate: string;
+        /**
+         * Minimum purchase amount required (optional)
+         */
+        minPurchase?: number | null;
+        /**
+         * Maximum number of times this coupon can be used (optional)
+         */
+        maxUses?: number | null;
+        backgroundColor?: ('red' | 'blue' | 'green' | 'orange' | 'purple' | 'pink') | null;
+        ctaText?: string | null;
+        /**
+         * Link when clicking the CTA button (e.g., /productos, /contacto)
+         */
+        ctaLink?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  createdBy?: {
+    relationTo: 'users';
+    value: number | User;
+  } | null;
+  lastModifiedBy?: {
+    relationTo: 'users';
+    value: number | User;
+  } | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "header_select".
  */
@@ -3155,6 +3438,37 @@ export interface ChatbotSelect<T extends boolean = true> {
         id?: T;
       };
   disabled?: T;
+  createdBy?: T;
+  lastModifiedBy?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "coupons_select".
+ */
+export interface CouponsSelect<T extends boolean = true> {
+  enabled?: T;
+  title?: T;
+  subtitle?: T;
+  coupons?:
+    | T
+    | {
+        active?: T;
+        code?: T;
+        title?: T;
+        description?: T;
+        discountType?: T;
+        discountValue?: T;
+        expiryDate?: T;
+        minPurchase?: T;
+        maxUses?: T;
+        backgroundColor?: T;
+        ctaText?: T;
+        ctaLink?: T;
+        id?: T;
+      };
   createdBy?: T;
   lastModifiedBy?: T;
   updatedAt?: T;
