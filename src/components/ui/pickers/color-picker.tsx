@@ -1,383 +1,472 @@
 'use client'
-import Color from 'color'
-import { PipetteIcon } from 'lucide-react'
-import { Slider } from 'radix-ui'
-import {
-  type ComponentProps,
-  createContext,
-  type HTMLAttributes,
-  memo,
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react'
-import { Button } from '@/components/ui/button'
+
+import React, { useState, useRef, useEffect, useCallback } from 'react'
 import { Input } from '@/components/ui/input'
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select'
+import { Button } from '@/components/ui/button'
 import { cn } from '@/utilities/ui'
-interface ColorPickerContextValue {
+
+// Color utility functions
+const hexToHsv = (hex: string): [number, number, number] => {
+  const r = parseInt(hex.slice(1, 3), 16) / 255
+  const g = parseInt(hex.slice(3, 5), 16) / 255
+  const b = parseInt(hex.slice(5, 7), 16) / 255
+
+  const max = Math.max(r, g, b)
+  const min = Math.min(r, g, b)
+  const diff = max - min
+
+  let h = 0
+  let s = 0
+  const v = max
+
+  if (diff !== 0) {
+    s = diff / max
+    switch (max) {
+      case r:
+        h = ((g - b) / diff) % 6
+        break
+      case g:
+        h = (b - r) / diff + 2
+        break
+      case b:
+        h = (r - g) / diff + 4
+        break
+    }
+    h = h * 60
+    if (h < 0) h += 360
+  }
+
+  return [Math.round(h), Math.round(s * 100), Math.round(v * 100)]
+}
+
+const hsvToHex = (h: number, s: number, v: number): string => {
+  const hNorm = h / 360
+  const sNorm = s / 100
+  const vNorm = v / 100
+
+  const c = vNorm * sNorm
+  const x = c * (1 - Math.abs(((hNorm * 6) % 2) - 1))
+  const m = vNorm - c
+
+  let r = 0,
+    g = 0,
+    b = 0
+
+  if (0 <= hNorm && hNorm < 1 / 6) {
+    r = c
+    g = x
+    b = 0
+  } else if (1 / 6 <= hNorm && hNorm < 2 / 6) {
+    r = x
+    g = c
+    b = 0
+  } else if (2 / 6 <= hNorm && hNorm < 3 / 6) {
+    r = 0
+    g = c
+    b = x
+  } else if (3 / 6 <= hNorm && hNorm < 4 / 6) {
+    r = 0
+    g = x
+    b = c
+  } else if (4 / 6 <= hNorm && hNorm < 5 / 6) {
+    r = x
+    g = 0
+    b = c
+  } else if (5 / 6 <= hNorm && hNorm < 1) {
+    r = c
+    g = 0
+    b = x
+  }
+
+  r = Math.round((r + m) * 255)
+  g = Math.round((g + m) * 255)
+  b = Math.round((b + m) * 255)
+
+  return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`
+}
+
+const isValidHex = (hex: string): boolean => {
+  return /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/.test(hex)
+}
+
+const normalizeHex = (hex: string): string => {
+  if (hex.length === 4) {
+    return `#${hex[1]}${hex[1]}${hex[2]}${hex[2]}${hex[3]}${hex[3]}`
+  }
+  return hex
+}
+
+// Color Picker Components
+interface ColorAreaProps {
   hue: number
   saturation: number
-  lightness: number
-  alpha: number
-  mode: string
-  setHue: (hue: number) => void
-  setSaturation: (saturation: number) => void
-  setLightness: (lightness: number) => void
-  setAlpha: (alpha: number) => void
-  setMode: (mode: string) => void
+  value: number
+  onChange: (s: number, v: number) => void
 }
-const ColorPickerContext = createContext<ColorPickerContextValue | undefined>(undefined)
-export const useColorPicker = () => {
-  const context = useContext(ColorPickerContext)
-  if (!context) {
-    throw new Error('useColorPicker must be used within a ColorPickerProvider')
-  }
-  return context
-}
-export type ColorPickerProps = HTMLAttributes<HTMLDivElement> & {
-  value?: Parameters<typeof Color>[0]
-  defaultValue?: Parameters<typeof Color>[0]
-  onChange?: (value: Parameters<typeof Color.rgb>[0]) => void
-}
-export const ColorPicker = ({
-  value,
-  defaultValue = '#000000',
-  onChange,
-  className,
-  ...props
-}: ColorPickerProps) => {
-  const selectedColor = Color(value)
-  const defaultColor = Color(defaultValue)
-  const [hue, setHue] = useState(selectedColor.hue() || defaultColor.hue() || 0)
-  const [saturation, setSaturation] = useState(
-    selectedColor.saturationl() || defaultColor.saturationl() || 100,
-  )
-  const [lightness, setLightness] = useState(
-    selectedColor.lightness() || defaultColor.lightness() || 50,
-  )
-  const [alpha, setAlpha] = useState(selectedColor.alpha() * 100 || defaultColor.alpha() * 100)
-  const [mode, setMode] = useState('hex')
-  // Update color when controlled value changes
-  useEffect(() => {
-    if (value) {
-      const color = Color.rgb(value).rgb().object()
-      setHue(color.r)
-      setSaturation(color.g)
-      setLightness(color.b)
-      setAlpha(color.a)
-    }
-  }, [value])
-  // Notify parent of changes
-  useEffect(() => {
-    if (onChange) {
-      const color = Color.hsl(hue, saturation, lightness).alpha(alpha / 100)
-      const rgba = color.rgb().array()
-      onChange([rgba[0], rgba[1], rgba[2], alpha / 100])
-    }
-  }, [hue, saturation, lightness, alpha, onChange])
-  return (
-    <ColorPickerContext.Provider
-      value={{
-        hue,
-        saturation,
-        lightness,
-        alpha,
-        mode,
-        setHue,
-        setSaturation,
-        setLightness,
-        setAlpha,
-        setMode,
-      }}
-    >
-      <div className={cn('flex size-full flex-col gap-4', className)} {...props} />
-    </ColorPickerContext.Provider>
-  )
-}
-export type ColorPickerSelectionProps = HTMLAttributes<HTMLDivElement>
-export const ColorPickerSelection = memo(({ className, ...props }: ColorPickerSelectionProps) => {
-  const containerRef = useRef<HTMLDivElement>(null)
+
+const ColorArea: React.FC<ColorAreaProps> = ({ hue, saturation, value, onChange }) => {
+  const areaRef = useRef<HTMLDivElement>(null)
   const [isDragging, setIsDragging] = useState(false)
-  const [positionX, setPositionX] = useState(0)
-  const [positionY, setPositionY] = useState(0)
-  const { hue, setSaturation, setLightness } = useColorPicker()
-  const backgroundGradient = useMemo(() => {
-    return `linear-gradient(0deg, rgba(0,0,0,1), rgba(0,0,0,0)),
-            linear-gradient(90deg, rgba(255,255,255,1), rgba(255,255,255,0)),
-            hsl(${hue}, 100%, 50%)`
-  }, [hue])
-  const handlePointerMove = useCallback(
-    (event: PointerEvent) => {
-      if (!(isDragging && containerRef.current)) {
-        return
-      }
-      const rect = containerRef.current.getBoundingClientRect()
-      const x = Math.max(0, Math.min(1, (event.clientX - rect.left) / rect.width))
-      const y = Math.max(0, Math.min(1, (event.clientY - rect.top) / rect.height))
-      setPositionX(x)
-      setPositionY(y)
-      setSaturation(x * 100)
-      const topLightness = x < 0.01 ? 100 : 50 + 50 * (1 - x)
-      const lightness = topLightness * (1 - y)
-      setLightness(lightness)
+
+  const handleMouseDown = useCallback((e: React.MouseEvent) => {
+    setIsDragging(true)
+    updateColor(e)
+  }, [])
+
+  const updateColor = useCallback(
+    (e: React.MouseEvent | MouseEvent) => {
+      if (!areaRef.current) return
+
+      const rect = areaRef.current.getBoundingClientRect()
+      const x = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width))
+      const y = Math.max(0, Math.min(1, 1 - (e.clientY - rect.top) / rect.height))
+
+      onChange(Math.round(x * 100), Math.round(y * 100))
     },
-    [isDragging, setSaturation, setLightness],
+    [onChange],
   )
+
   useEffect(() => {
-    const handlePointerUp = () => setIsDragging(false)
+    const handleMouseMove = (e: MouseEvent) => {
+      if (isDragging) {
+        updateColor(e)
+      }
+    }
+
+    const handleMouseUp = () => {
+      setIsDragging(false)
+    }
+
     if (isDragging) {
-      window.addEventListener('pointermove', handlePointerMove)
-      window.addEventListener('pointerup', handlePointerUp)
+      document.addEventListener('mousemove', handleMouseMove)
+      document.addEventListener('mouseup', handleMouseUp)
     }
+
     return () => {
-      window.removeEventListener('pointermove', handlePointerMove)
-      window.removeEventListener('pointerup', handlePointerUp)
+      document.removeEventListener('mousemove', handleMouseMove)
+      document.removeEventListener('mouseup', handleMouseUp)
     }
-  }, [isDragging, handlePointerMove])
+  }, [isDragging, updateColor])
+
+  const areaStyle = {
+    background: `
+      linear-gradient(to top, #000, transparent),
+      linear-gradient(to right, #fff, hsl(${hue}, 100%, 50%))
+    `,
+  }
+
+  const pointerStyle = {
+    left: `${saturation}%`,
+    top: `${100 - value}%`,
+  }
+
   return (
     <div
-      className={cn('relative size-full cursor-crosshair rounded', className)}
-      onPointerDown={(e) => {
-        e.preventDefault()
-        setIsDragging(true)
-        handlePointerMove(e.nativeEvent)
-      }}
-      ref={containerRef}
-      style={{
-        background: backgroundGradient,
-      }}
-      {...props}
+      ref={areaRef}
+      className="relative w-full h-48 cursor-crosshair rounded-lg overflow-hidden"
+      style={areaStyle}
+      onMouseDown={handleMouseDown}
     >
       <div
-        className="-translate-x-1/2 -translate-y-1/2 pointer-events-none absolute h-4 w-4 rounded-full border-2 border-white"
-        style={{
-          left: `${positionX * 100}%`,
-          top: `${positionY * 100}%`,
-          boxShadow: '0 0 0 1px rgba(0,0,0,0.5)',
-        }}
+        className="absolute w-4 h-4 border-2 border-white rounded-full shadow-lg transform -translate-x-1/2 -translate-y-1/2 pointer-events-none"
+        style={pointerStyle}
       />
     </div>
   )
-})
-ColorPickerSelection.displayName = 'ColorPickerSelection'
-export type ColorPickerHueProps = ComponentProps<typeof Slider.Root>
-export const ColorPickerHue = ({ className, ...props }: ColorPickerHueProps) => {
-  const { hue, setHue } = useColorPicker()
+}
+
+interface HueSliderProps {
+  hue: number
+  onChange: (hue: number) => void
+}
+
+const HueSlider: React.FC<HueSliderProps> = ({ hue, onChange }) => {
+  const sliderRef = useRef<HTMLDivElement>(null)
+  const [isDragging, setIsDragging] = useState(false)
+
+  const handleMouseDown = useCallback((e: React.MouseEvent) => {
+    setIsDragging(true)
+    updateHue(e)
+  }, [])
+
+  const updateHue = useCallback(
+    (e: React.MouseEvent | MouseEvent) => {
+      if (!sliderRef.current) return
+
+      const rect = sliderRef.current.getBoundingClientRect()
+      const x = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width))
+      onChange(Math.round(x * 360))
+    },
+    [onChange],
+  )
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      if (isDragging) {
+        updateHue(e)
+      }
+    }
+
+    const handleMouseUp = () => {
+      setIsDragging(false)
+    }
+
+    if (isDragging) {
+      document.addEventListener('mousemove', handleMouseMove)
+      document.addEventListener('mouseup', handleMouseUp)
+    }
+
+    return () => {
+      document.removeEventListener('mousemove', handleMouseMove)
+      document.removeEventListener('mouseup', handleMouseUp)
+    }
+  }, [isDragging, updateHue])
+
+  const sliderStyle = {
+    background:
+      'linear-gradient(to right, #ff0000, #ffff00, #00ff00, #00ffff, #0000ff, #ff00ff, #ff0000)',
+  }
+
+  const thumbStyle = {
+    left: `${(hue / 360) * 100}%`,
+  }
+
   return (
-    <Slider.Root
-      className={cn('relative flex h-4 w-full touch-none', className)}
-      max={360}
-      onValueChange={([hue]) => setHue(hue)}
-      step={1}
-      value={[hue]}
-      {...props}
-    >
-      <Slider.Track className="relative my-0.5 h-3 w-full grow rounded-full bg-[linear-gradient(90deg,#FF0000,#FFFF00,#00FF00,#00FFFF,#0000FF,#FF00FF,#FF0000)]">
-        <Slider.Range className="absolute h-full" />
-      </Slider.Track>
-      <Slider.Thumb className="block h-4 w-4 rounded-full border border-primary/50 bg-background shadow transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50" />
-    </Slider.Root>
+    <div className="relative w-full h-4 mt-4">
+      <div
+        ref={sliderRef}
+        className="w-full h-full rounded-lg cursor-pointer"
+        style={sliderStyle}
+        onMouseDown={handleMouseDown}
+      />
+      <div
+        className="absolute w-4 h-4 border-2 border-white rounded-full shadow-lg transform -translate-x-1/2 -translate-y-1/2 pointer-events-none top-1/2"
+        style={thumbStyle}
+      />
+    </div>
   )
 }
-export type ColorPickerAlphaProps = ComponentProps<typeof Slider.Root>
-export const ColorPickerAlpha = ({ className, ...props }: ColorPickerAlphaProps) => {
-  const { alpha, setAlpha } = useColorPicker()
+
+// Main Color Picker Component
+export interface ColorPickerProps {
+  value?: string
+  defaultValue?: string
+  onChange?: (value: string) => void
+  disabled?: boolean
+  className?: string
+}
+
+export const ColorPicker: React.FC<ColorPickerProps> = ({
+  value,
+  defaultValue = '#ff0000',
+  onChange,
+  disabled = false,
+  className,
+}) => {
+  const initialColor = value || defaultValue
+  const [inputValue, setInputValue] = useState(initialColor)
+  const [hsv, setHsv] = useState(() => {
+    const validHex = isValidHex(initialColor) ? normalizeHex(initialColor) : '#ff0000'
+    return hexToHsv(validHex)
+  })
+
+  // Update HSV when value prop changes
+  useEffect(() => {
+    if (value && isValidHex(value)) {
+      const normalizedHex = normalizeHex(value)
+      setInputValue(normalizedHex)
+      setHsv(hexToHsv(normalizedHex))
+    }
+  }, [value])
+
+  const handleHsvChange = useCallback(
+    (newH?: number, newS?: number, newV?: number) => {
+      const [h, s, v] = hsv
+      const updatedHsv: [number, number, number] = [
+        newH !== undefined ? newH : h,
+        newS !== undefined ? newS : s,
+        newV !== undefined ? newV : v,
+      ]
+
+      const hexColor = hsvToHex(...updatedHsv)
+
+      // Update state in batch to avoid multiple renders
+      setHsv(updatedHsv)
+      setInputValue(hexColor)
+
+      // Call onChange only if the color actually changed
+      if (onChange && hexColor !== hsvToHex(...hsv)) {
+        onChange(hexColor)
+      }
+    },
+    [hsv, onChange],
+  )
+
+  const handleInputChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const newValue = e.target.value
+      setInputValue(newValue)
+
+      if (isValidHex(newValue)) {
+        const normalizedHex = normalizeHex(newValue)
+        setHsv(hexToHsv(normalizedHex))
+        onChange?.(normalizedHex)
+      }
+    },
+    [onChange],
+  )
+
+  const handleInputBlur = useCallback(() => {
+    if (!isValidHex(inputValue)) {
+      // Reset to current valid color if input is invalid
+      const currentHex = hsvToHex(...hsv)
+      setInputValue(currentHex)
+    }
+  }, [inputValue, hsv])
+
+  const [h, s, v] = hsv
+  const currentColor = hsvToHex(h, s, v)
+
   return (
-    <Slider.Root
-      className={cn('relative flex h-4 w-full touch-none', className)}
-      max={100}
-      onValueChange={([alpha]) => setAlpha(alpha)}
-      step={1}
-      value={[alpha]}
-      {...props}
-    >
-      <Slider.Track
-        className="relative my-0.5 h-3 w-full grow rounded-full"
-        style={{
-          background:
-            'url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAMUlEQVQ4T2NkYGAQYcAP3uCTZhw1gGGYhAGBZIA/nYDCgBDAm9BGDWAAJyRCgLaBCAAgXwixzAS0pgAAAABJRU5ErkJggg==") left center',
-        }}
-      >
-        <div className="absolute inset-0 rounded-full bg-gradient-to-r from-transparent to-black/50" />
-        <Slider.Range className="absolute h-full rounded-full bg-transparent" />
-      </Slider.Track>
-      <Slider.Thumb className="block h-4 w-4 rounded-full border border-primary/50 bg-background shadow transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50" />
-    </Slider.Root>
+    <div className={cn('p-4 bg-background border rounded-lg shadow-lg', className)}>
+      <div className="space-y-4">
+        {/* Color Area */}
+        <ColorArea
+          hue={h}
+          saturation={s}
+          value={v}
+          onChange={(newS, newV) => handleHsvChange(undefined, newS, newV)}
+        />
+
+        {/* Hue Slider */}
+        <HueSlider hue={h} onChange={(newH) => handleHsvChange(newH)} />
+
+        {/* Color Preview and Input */}
+        <div className="flex items-center gap-3">
+          <div
+            className="w-12 h-10 rounded border-2 border-border flex-shrink-0"
+            style={{ backgroundColor: currentColor }}
+          />
+          <Input
+            value={inputValue}
+            onChange={handleInputChange}
+            onBlur={handleInputBlur}
+            disabled={disabled}
+            placeholder="#000000"
+            className="font-mono text-sm"
+          />
+        </div>
+      </div>
+    </div>
   )
 }
-export type ColorPickerEyeDropperProps = ComponentProps<typeof Button>
-export const ColorPickerEyeDropper = ({ className, ...props }: ColorPickerEyeDropperProps) => {
-  const { setHue, setSaturation, setLightness, setAlpha } = useColorPicker()
-  const handleEyeDropper = async () => {
-    try {
-      // @ts-expect-error - EyeDropper API is experimental
-      const eyeDropper = new EyeDropper()
-      const result = await eyeDropper.open()
-      const color = Color(result.sRGBHex)
-      const [h, s, l] = color.hsl().array()
-      setHue(h)
-      setSaturation(s)
-      setLightness(l)
-      setAlpha(100)
-    } catch (error) {
-      console.error('EyeDropper failed:', error)
+
+// Color Picker with Trigger (Dropdown)
+export interface ColorPickerWithTriggerProps {
+  value?: string
+  defaultValue?: string
+  onChange?: (value: string) => void
+  disabled?: boolean
+  className?: string
+}
+
+export const ColorPickerWithTrigger: React.FC<ColorPickerWithTriggerProps> = ({
+  value,
+  defaultValue = '#ff0000',
+  onChange,
+  disabled = false,
+  className,
+}) => {
+  const [isOpen, setIsOpen] = useState(false)
+  const [tempValue, setTempValue] = useState(value || defaultValue)
+  const dropdownRef = useRef<HTMLDivElement>(null)
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsOpen(false)
+      }
+    }
+
+    if (isOpen) {
+      document.addEventListener('mousedown', handleClickOutside)
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [isOpen])
+
+  // Update temp value when value changes
+  useEffect(() => {
+    setTempValue(value || defaultValue)
+  }, [value, defaultValue])
+
+  const handleColorChange = (newColor: string) => {
+    setTempValue(newColor)
+    onChange?.(newColor)
+  }
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = e.target.value
+    setTempValue(newValue)
+
+    // Only call onChange if it's a valid color
+    if (isValidHex(newValue)) {
+      onChange?.(normalizeHex(newValue))
     }
   }
+
+  const getContrastColor = (hexColor: string): string => {
+    if (!hexColor || !hexColor.startsWith('#')) return '#000000'
+
+    const r = parseInt(hexColor.slice(1, 3), 16)
+    const g = parseInt(hexColor.slice(3, 5), 16)
+    const b = parseInt(hexColor.slice(5, 7), 16)
+
+    // Calculate luminance
+    const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255
+
+    return luminance > 0.5 ? '#000000' : '#FFFFFF'
+  }
+
   return (
-    <Button
-      className={cn('shrink-0 text-muted-foreground', className)}
-      onClick={handleEyeDropper}
-      size="icon"
-      variant="outline"
-      type="button"
-      {...props}
-    >
-      <PipetteIcon size={16} />
-    </Button>
-  )
-}
-export type ColorPickerOutputProps = ComponentProps<typeof SelectTrigger>
-const formats = ['hex', 'rgb', 'css', 'hsl']
-export const ColorPickerOutput = ({ className, ...props }: ColorPickerOutputProps) => {
-  const { mode, setMode } = useColorPicker()
-  return (
-    <Select onValueChange={setMode} value={mode}>
-      <SelectTrigger className="h-8 w-20 shrink-0 text-xs" {...props}>
-        <SelectValue placeholder="Mode" />
-      </SelectTrigger>
-      <SelectContent>
-        {formats.map((format) => (
-          <SelectItem className="text-xs" key={format} value={format}>
-            {format.toUpperCase()}
-          </SelectItem>
-        ))}
-      </SelectContent>
-    </Select>
-  )
-}
-type PercentageInputProps = ComponentProps<typeof Input>
-const PercentageInput = ({ className, ...props }: PercentageInputProps) => {
-  return (
-    <div className="relative">
-      <Input
-        readOnly
-        type="text"
-        {...props}
-        className={cn(
-          'h-8 w-[3.25rem] rounded-l-none bg-secondary px-2 text-xs shadow-none',
-          className,
-        )}
-      />
-      <span className="-translate-y-1/2 absolute top-1/2 right-2 text-muted-foreground text-xs">
-        %
-      </span>
+    <div className={cn('relative', className)} ref={dropdownRef}>
+      <div className="flex items-center gap-3">
+        <Button
+          type="button"
+          onClick={() => !disabled && setIsOpen(!isOpen)}
+          disabled={disabled}
+          variant="outline"
+          className="w-12 h-10 p-0 border-2"
+          style={{ backgroundColor: tempValue || '#FFFFFF' }}
+          aria-label="Open color picker"
+        >
+          <span className="text-xs font-medium" style={{ color: getContrastColor(tempValue) }}>
+            {tempValue && tempValue.length <= 7 ? tempValue.toUpperCase() : '●'}
+          </span>
+        </Button>
+        <div className="flex-1">
+          <Input
+            value={tempValue}
+            onChange={handleInputChange}
+            placeholder="#000000"
+            disabled={disabled}
+            className="font-mono transition-colors"
+            style={{
+              backgroundColor: isValidHex(tempValue) ? `${tempValue}10` : undefined,
+              borderColor: isValidHex(tempValue) ? tempValue : undefined,
+            }}
+          />
+        </div>
+      </div>
+
+      {isOpen && !disabled && (
+        <div className="absolute top-12 left-0 z-50">
+          <ColorPicker value={tempValue} onChange={handleColorChange} className="w-80" />
+        </div>
+      )}
     </div>
   )
-}
-export type ColorPickerFormatProps = HTMLAttributes<HTMLDivElement>
-export const ColorPickerFormat = ({ className, ...props }: ColorPickerFormatProps) => {
-  const { hue, saturation, lightness, alpha, mode } = useColorPicker()
-  const color = Color.hsl(hue, saturation, lightness, alpha / 100)
-  if (mode === 'hex') {
-    const hex = color.hex()
-    return (
-      <div
-        className={cn(
-          '-space-x-px relative flex w-full items-center rounded-md shadow-sm',
-          className,
-        )}
-        {...props}
-      >
-        <Input
-          className="h-8 rounded-r-none bg-secondary px-2 text-xs shadow-none"
-          readOnly
-          type="text"
-          value={hex}
-        />
-        <PercentageInput value={alpha} />
-      </div>
-    )
-  }
-  if (mode === 'rgb') {
-    const rgb = color
-      .rgb()
-      .array()
-      .map((value) => Math.round(value))
-    return (
-      <div
-        className={cn('-space-x-px flex items-center rounded-md shadow-sm', className)}
-        {...props}
-      >
-        {rgb.map((value, index) => (
-          <Input
-            className={cn(
-              'h-8 rounded-r-none bg-secondary px-2 text-xs shadow-none',
-              index && 'rounded-l-none',
-              className,
-            )}
-            key={index}
-            readOnly
-            type="text"
-            value={value}
-          />
-        ))}
-        <PercentageInput value={alpha} />
-      </div>
-    )
-  }
-  if (mode === 'css') {
-    const rgb = color
-      .rgb()
-      .array()
-      .map((value) => Math.round(value))
-    return (
-      <div className={cn('w-full rounded-md shadow-sm', className)} {...props}>
-        <Input
-          className="h-8 w-full bg-secondary px-2 text-xs shadow-none"
-          readOnly
-          type="text"
-          value={`rgba(${rgb.join(', ')}, ${alpha}%)`}
-          {...props}
-        />
-      </div>
-    )
-  }
-  if (mode === 'hsl') {
-    const hsl = color
-      .hsl()
-      .array()
-      .map((value) => Math.round(value))
-    return (
-      <div
-        className={cn('-space-x-px flex items-center rounded-md shadow-sm', className)}
-        {...props}
-      >
-        {hsl.map((value, index) => (
-          <Input
-            className={cn(
-              'h-8 rounded-r-none bg-secondary px-2 text-xs shadow-none',
-              index && 'rounded-l-none',
-              className,
-            )}
-            key={index}
-            readOnly
-            type="text"
-            value={value}
-          />
-        ))}
-        <PercentageInput value={alpha} />
-      </div>
-    )
-  }
-  return null
 }

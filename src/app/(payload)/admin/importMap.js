@@ -30,6 +30,7 @@ import { PreviewComponent as PreviewComponent_a8a977ebc872c5d5ea7ee689724c0860 }
 import { SlugComponent as SlugComponent_92cc057d0a2abb4f6cf0307edf59f986 } from '@/fields/slug/SlugComponent'
 import { ExportListMenuItem as ExportListMenuItem_cdf7e044479f899a31f804427d568b36 } from '@payloadcms/plugin-import-export/rsc'
 import { NumberComponent as NumberComponent_cc8ffb4d72cccd0f4440f5702b1e4139 } from '@nouance/payload-better-fields-plugin/Number/client'
+import { ColorPickerField as ColorPickerField_2fa0440e3f3cf9741fc818bf6ea78e1b } from '@/fields/colorPicker/Component'
 import { TelephoneComponent as TelephoneComponent_6e5fb4301273a9fa708a50ac0479cad5 } from '@nouance/payload-better-fields-plugin/Telephone/client'
 import { LinkToDoc as LinkToDoc_aead06e4cbf6b2620c5c51c9ab283634 } from '@payloadcms/plugin-search/client'
 import { ReindexButton as ReindexButton_aead06e4cbf6b2620c5c51c9ab283634 } from '@payloadcms/plugin-search/client'
@@ -45,6 +46,7 @@ import { IconPickerComponent as IconPickerComponent_042cf854913d02507a50578fe829
 import { RowLabel as RowLabel_17c6ef4bfe47bfa29d923fb5718170b7 } from '@/globals/Header/RowLabel'
 import { RowLabel as RowLabel_e5f2ea2a3ff3620de63526e885e3b034 } from '@/globals/Footer/RowLabel'
 import { SocialRowLabel as SocialRowLabel_cfa6422f113032f27791fdfa7e51faa8 } from '@/globals/Footer/SocialRowLabel'
+import { RowLabel as RowLabel_5b7559d800e68ff65b2db6109c522908 } from '@/globals/Announcements/RowLabel'
 import { default as default_3f2d35de62e7465174b08474d8303528 } from '@/components/Avatar'
 import { Nav as Nav_c90fd20be30cdbe847d42ed5a649fb25 } from '@/components/Nav/index.tsx'
 import { Icon as Icon_9c1a3ff8a9adb7b1e4b7a5cd42725bdb } from '../../../graphics/Icon/index.tsx'
@@ -87,6 +89,7 @@ export const importMap = {
   "@/fields/slug/SlugComponent#SlugComponent": SlugComponent_92cc057d0a2abb4f6cf0307edf59f986,
   "@payloadcms/plugin-import-export/rsc#ExportListMenuItem": ExportListMenuItem_cdf7e044479f899a31f804427d568b36,
   "@nouance/payload-better-fields-plugin/Number/client#NumberComponent": NumberComponent_cc8ffb4d72cccd0f4440f5702b1e4139,
+  "@/fields/colorPicker/Component#ColorPickerField": ColorPickerField_2fa0440e3f3cf9741fc818bf6ea78e1b,
   "@nouance/payload-better-fields-plugin/Telephone/client#TelephoneComponent": TelephoneComponent_6e5fb4301273a9fa708a50ac0479cad5,
   "@payloadcms/plugin-search/client#LinkToDoc": LinkToDoc_aead06e4cbf6b2620c5c51c9ab283634,
   "@payloadcms/plugin-search/client#ReindexButton": ReindexButton_aead06e4cbf6b2620c5c51c9ab283634,
@@ -102,6 +105,7 @@ export const importMap = {
   "@/globals/Header/RowLabel#RowLabel": RowLabel_17c6ef4bfe47bfa29d923fb5718170b7,
   "@/globals/Footer/RowLabel#RowLabel": RowLabel_e5f2ea2a3ff3620de63526e885e3b034,
   "@/globals/Footer/SocialRowLabel#SocialRowLabel": SocialRowLabel_cfa6422f113032f27791fdfa7e51faa8,
+  "@/globals/Announcements/RowLabel#RowLabel": RowLabel_5b7559d800e68ff65b2db6109c522908,
   "@/components/Avatar#default": default_3f2d35de62e7465174b08474d8303528,
   "@/components/Nav/index.tsx#Nav": Nav_c90fd20be30cdbe847d42ed5a649fb25,
   "/graphics/Icon/index.tsx#Icon": Icon_9c1a3ff8a9adb7b1e4b7a5cd42725bdb,

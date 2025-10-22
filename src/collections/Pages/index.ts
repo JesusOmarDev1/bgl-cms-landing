@@ -196,6 +196,6 @@ export const Pages: CollectionConfig<'pages'> = {
       },
       schedulePublish: true,
     },
-    maxPerDoc: 100,
+    maxPerDoc: 50,
   },
 }

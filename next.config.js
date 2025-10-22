@@ -21,7 +21,6 @@ const nextConfig = {
       'gsap',
       'three',
       'next-share',
-      'qrcode',
     ],
     optimizeCss: true,
   },

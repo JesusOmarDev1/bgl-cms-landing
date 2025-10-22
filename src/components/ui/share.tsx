@@ -10,9 +10,10 @@ interface ShareProps {
   text?: string
   url?: string
   className?: string
+  disabled?: boolean
 }
 
-export default function Share({ title, text, url, className }: ShareProps) {
+export default function Share({ title, text, url, className, disabled }: ShareProps) {
   const share = useShare({
     onSuccess: () => toast.info('Compartiendo publicación...'),
     onError: (error) => toast.error('Error al compartir. Intentalo mas tarde.'),
@@ -20,11 +21,19 @@ export default function Share({ title, text, url, className }: ShareProps) {
   })
 
   const handleShare = async () => {
-    await share.share({ title, text, url })
+    if (!disabled) {
+      await share.share({ title, text, url })
+    }
   }
 
   return (
-    <Button className={className} onClick={handleShare} icon={ShareIcon} iconPlacement="left">
+    <Button
+      className={className}
+      onClick={handleShare}
+      icon={ShareIcon}
+      iconPlacement="left"
+      disabled={disabled}
+    >
       Compartir
     </Button>
   )

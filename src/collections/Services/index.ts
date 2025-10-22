@@ -332,6 +332,6 @@ export const Services: CollectionConfig = {
       },
       schedulePublish: true,
     },
-    maxPerDoc: 100,
+    maxPerDoc: 50,
   },
 }

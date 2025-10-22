@@ -123,12 +123,14 @@ export interface Config {
     footer: Footer;
     chatbot: Chatbot;
     coupons: Coupon;
+    announcements: Announcement;
   };
   globalsSelect: {
     header: HeaderSelect<false> | HeaderSelect<true>;
     footer: FooterSelect<false> | FooterSelect<true>;
     chatbot: ChatbotSelect<false> | ChatbotSelect<true>;
     coupons: CouponsSelect<false> | CouponsSelect<true>;
+    announcements: AnnouncementsSelect<false> | AnnouncementsSelect<true>;
   };
   locale: null;
   user: User & {
@@ -346,10 +348,25 @@ export interface Media {
  */
 export interface User {
   id: number;
+  /**
+   * Nombre(s) completo(s) del usuario
+   */
   name: string;
+  /**
+   * Apellido paterno del usuario
+   */
   firstName: string;
+  /**
+   * Apellido materno del usuario (opcional)
+   */
   lastName?: string | null;
+  /**
+   * Imagen de perfil del usuario
+   */
   avatar?: (number | null) | Media;
+  /**
+   * Roles y permisos del usuario en el sistema
+   */
   roles?: ('admin' | 'editor' | 'user')[] | null;
   createdBy?: {
     relationTo: 'users';
@@ -897,11 +914,17 @@ export interface ServiceArchiveBlock {
  */
 export interface Product {
   id: number;
+  /**
+   * Nombre del producto que aparecerá en el sitio web
+   */
   title: string;
   /**
    * La marca es el fabricante del producto
    */
   brand: number | Brand;
+  /**
+   * El modelo específico del producto
+   */
   model: number | Model;
   /**
    * Los proveedores son las empresas que suministran el producto
@@ -911,12 +934,18 @@ export interface Product {
    * La garantía es el periodo de tiempo que se ofrece por el producto
    */
   warranty?: string | null;
-  type?: ('general' | 'scale') | null;
+  type?: ('general' | 'scale' | 'consumable') | null;
   /**
    * Puede ser una categoria general o por ejemplo "Basculas Comerciales", "Cargadores", etc.
    */
   categories?: (number | Category)[] | null;
+  /**
+   * Imagen principal que representa el producto
+   */
   heroImage: number | Media;
+  /**
+   * Descripción detallada del producto
+   */
   content: {
     root: {
       type: string;
@@ -932,25 +961,135 @@ export interface Product {
     };
     [k: string]: unknown;
   };
-  meta?: {
-    title?: string | null;
-    /**
-     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
-     */
-    image?: (number | null) | Media;
-    description?: string | null;
-  };
-  publishedAt?: string | null;
-  slug: string;
-  slugLock?: boolean | null;
-  price?: number | null;
+  /**
+   * Precio base del producto antes de descuentos e impuestos
+   */
+  price: number;
+  /**
+   * Descuento en pesos mexicanos a aplicar al precio base
+   */
   discount?: number | null;
   /**
    * Se aplica el 16% de IVA al precio final
    */
   iva?: boolean | null;
+  /**
+   * Precio final calculado automáticamente (precio - descuento + IVA)
+   */
   total?: number | null;
+  /**
+   * Cantidad disponible en inventario
+   */
   stock: number;
+  generalSpecs?: {
+    dimensions?: {
+      length?: number | null;
+      width?: number | null;
+      height?: number | null;
+      weight?: number | null;
+    };
+    /**
+     * Selecciona un color para describir al producto
+     */
+    color?: string | null;
+    material?: string | null;
+    operatingTemperature?: {
+      min?: number | null;
+      max?: number | null;
+    };
+    certifications?:
+      | {
+          name: string;
+          number?: string | null;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  scaleSpecs?: {
+    capacity: {
+      maximum: number;
+      minimum?: number | null;
+    };
+    readability: {
+      division: number;
+      verificationDivision?: number | null;
+    };
+    platform?: {
+      dimensions?: {
+        length?: number | null;
+        width?: number | null;
+      };
+      material?: ('stainless_steel' | 'aluminum' | 'steel' | 'plastic') | null;
+    };
+    display?: {
+      type?: ('lcd' | 'led' | 'digital') | null;
+      size?: string | null;
+      backlight?: boolean | null;
+    };
+    accuracy?: ('class_1' | 'class_2' | 'class_3' | 'class_4') | null;
+  };
+  consumSpecs?: {
+    electrical?: {
+      voltage?: string | null;
+      current?: string | null;
+      power?: string | null;
+      frequency?: string | null;
+    };
+    connectivity?: {
+      interfaces?:
+        | {
+            type: 'usb' | 'rs232' | 'rs485' | 'minidin' | 'ethernet' | 'wifi' | 'bluetooth';
+            description?: string | null;
+            id?: string | null;
+          }[]
+        | null;
+      cables?:
+        | {
+            type: string;
+            length?: string | null;
+            id?: string | null;
+          }[]
+        | null;
+    };
+    compatibility?: {
+      operatingSystems?:
+        | {
+            name: 'windows' | 'macos' | 'linux' | 'android' | 'ios';
+            version?: string | null;
+            id?: string | null;
+          }[]
+        | null;
+      software?:
+        | {
+            name: string;
+            version?: string | null;
+            id?: string | null;
+          }[]
+        | null;
+    };
+    lifespan?: {
+      expectedLife?: string | null;
+      usageConditions?: string | null;
+      storageConditions?: string | null;
+    };
+  };
+  meta?: {
+    /**
+     * Título que aparecerá en los resultados de búsqueda y redes sociales
+     */
+    title?: string | null;
+    /**
+     * Imagen que aparecerá cuando se comparta en redes sociales
+     */
+    image?: (number | null) | Media;
+    /**
+     * Descripción que aparecerá en los resultados de búsqueda
+     */
+    description?: string | null;
+  };
+  publishedAt?: string | null;
+  slug: string;
+  slugLock?: boolean | null;
   createdBy?: {
     relationTo: 'users';
     value: number | User;
@@ -977,6 +1116,10 @@ export interface Brand {
    * La imagen debe de tener la extension .svg para tener la mejor calidad posible
    */
   heroImage?: (number | null) | Media;
+  /**
+   * Color principal de la marca para elementos destacados y temas
+   */
+  brandColor?: string | null;
   slug: string;
   slugLock?: boolean | null;
   createdBy?: {
@@ -1959,6 +2102,128 @@ export interface ProductsSelect<T extends boolean = true> {
   categories?: T;
   heroImage?: T;
   content?: T;
+  price?: T;
+  discount?: T;
+  iva?: T;
+  total?: T;
+  stock?: T;
+  generalSpecs?:
+    | T
+    | {
+        dimensions?:
+          | T
+          | {
+              length?: T;
+              width?: T;
+              height?: T;
+              weight?: T;
+            };
+        color?: T;
+        material?: T;
+        operatingTemperature?:
+          | T
+          | {
+              min?: T;
+              max?: T;
+            };
+        certifications?:
+          | T
+          | {
+              name?: T;
+              number?: T;
+              id?: T;
+            };
+      };
+  scaleSpecs?:
+    | T
+    | {
+        capacity?:
+          | T
+          | {
+              maximum?: T;
+              minimum?: T;
+            };
+        readability?:
+          | T
+          | {
+              division?: T;
+              verificationDivision?: T;
+            };
+        platform?:
+          | T
+          | {
+              dimensions?:
+                | T
+                | {
+                    length?: T;
+                    width?: T;
+                  };
+              material?: T;
+            };
+        display?:
+          | T
+          | {
+              type?: T;
+              size?: T;
+              backlight?: T;
+            };
+        accuracy?: T;
+      };
+  consumSpecs?:
+    | T
+    | {
+        electrical?:
+          | T
+          | {
+              voltage?: T;
+              current?: T;
+              power?: T;
+              frequency?: T;
+            };
+        connectivity?:
+          | T
+          | {
+              interfaces?:
+                | T
+                | {
+                    type?: T;
+                    description?: T;
+                    id?: T;
+                  };
+              cables?:
+                | T
+                | {
+                    type?: T;
+                    length?: T;
+                    id?: T;
+                  };
+            };
+        compatibility?:
+          | T
+          | {
+              operatingSystems?:
+                | T
+                | {
+                    name?: T;
+                    version?: T;
+                    id?: T;
+                  };
+              software?:
+                | T
+                | {
+                    name?: T;
+                    version?: T;
+                    id?: T;
+                  };
+            };
+        lifespan?:
+          | T
+          | {
+              expectedLife?: T;
+              usageConditions?: T;
+              storageConditions?: T;
+            };
+      };
   meta?:
     | T
     | {
@@ -1969,11 +2234,6 @@ export interface ProductsSelect<T extends boolean = true> {
   publishedAt?: T;
   slug?: T;
   slugLock?: T;
-  price?: T;
-  discount?: T;
-  iva?: T;
-  total?: T;
-  stock?: T;
   createdBy?: T;
   lastModifiedBy?: T;
   updatedAt?: T;
@@ -1988,6 +2248,7 @@ export interface ProductsSelect<T extends boolean = true> {
 export interface BrandsSelect<T extends boolean = true> {
   title?: T;
   heroImage?: T;
+  brandColor?: T;
   slug?: T;
   slugLock?: T;
   createdBy?: T;
@@ -3074,6 +3335,48 @@ export interface Coupon {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "announcements".
+ */
+export interface Announcement {
+  id: number;
+  announcements?:
+    | {
+        title: string;
+        message?: string | null;
+        type?: ('announcement' | 'info' | 'warning' | 'success') | null;
+        /**
+         * Etiqueta opcional (ej: "NUEVO", "URGENTE")
+         */
+        tag?: string | null;
+        /**
+         * URL opcional para más información
+         */
+        link?: string | null;
+        /**
+         * Texto del enlace (por defecto: "Ver más")
+         */
+        linkText?: string | null;
+        /**
+         * Permite al usuario cerrar este anuncio
+         */
+        dismissible?: boolean | null;
+        active?: boolean | null;
+        id?: string | null;
+      }[]
+    | null;
+  createdBy?: {
+    relationTo: 'users';
+    value: number | User;
+  } | null;
+  lastModifiedBy?: {
+    relationTo: 'users';
+    value: number | User;
+  } | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "header_select".
  */
 export interface HeaderSelect<T extends boolean = true> {
@@ -3467,6 +3770,30 @@ export interface CouponsSelect<T extends boolean = true> {
         backgroundColor?: T;
         ctaText?: T;
         ctaLink?: T;
+        id?: T;
+      };
+  createdBy?: T;
+  lastModifiedBy?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "announcements_select".
+ */
+export interface AnnouncementsSelect<T extends boolean = true> {
+  announcements?:
+    | T
+    | {
+        title?: T;
+        message?: T;
+        type?: T;
+        tag?: T;
+        link?: T;
+        linkText?: T;
+        dismissible?: T;
+        active?: T;
         id?: T;
       };
   createdBy?: T;

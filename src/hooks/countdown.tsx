@@ -40,9 +40,16 @@ export const useCountdown = ({ targetDate, onExpire }: UseCountdownProps) => {
     }
   }
 
-  const [timeRemaining, setTimeRemaining] = useState<TimeRemaining>(calculateTimeRemaining())
+  // Initialize with null to prevent hydration mismatch
+  const [timeRemaining, setTimeRemaining] = useState<TimeRemaining | null>(null)
+  const [isClient, setIsClient] = useState(false)
+  const [lastTargetDate, setLastTargetDate] = useState<string | Date>(targetDate)
 
   useEffect(() => {
+    // Mark as client-side and set initial time
+    setIsClient(true)
+    setTimeRemaining(calculateTimeRemaining())
+
     const interval = setInterval(() => {
       const newTime = calculateTimeRemaining()
       setTimeRemaining(newTime)
@@ -55,6 +62,25 @@ export const useCountdown = ({ targetDate, onExpire }: UseCountdownProps) => {
 
     return () => clearInterval(interval)
   }, [targetDate, onExpire])
+
+  // Efecto adicional para reaccionar inmediatamente a cambios en targetDate
+  useEffect(() => {
+    if (isClient && targetDate !== lastTargetDate) {
+      setLastTargetDate(targetDate)
+      setTimeRemaining(calculateTimeRemaining())
+    }
+  }, [targetDate, isClient, lastTargetDate])
+
+  // Return default values during SSR/hydration
+  if (!isClient || !timeRemaining) {
+    return {
+      days: 0,
+      hours: 0,
+      minutes: 0,
+      seconds: 0,
+      total: 1, // Ensure it's not expired during SSR
+    }
+  }
 
   return timeRemaining
 }
@@ -79,7 +105,9 @@ export const CountdownDisplay = ({ targetDate, onExpire, className }: CountdownD
         {timeRemaining.days > 0 && (
           <>
             <div className="flex flex-col items-center">
-              <span className="text-2xl font-bold">{String(timeRemaining.days).padStart(2, '0')}</span>
+              <span className="text-2xl font-bold">
+                {String(timeRemaining.days).padStart(2, '0')}
+              </span>
               <span className="text-xs uppercase">Días</span>
             </div>
             <span className="text-2xl font-bold">:</span>
@@ -91,12 +119,16 @@ export const CountdownDisplay = ({ targetDate, onExpire, className }: CountdownD
         </div>
         <span className="text-2xl font-bold">:</span>
         <div className="flex flex-col items-center">
-          <span className="text-2xl font-bold">{String(timeRemaining.minutes).padStart(2, '0')}</span>
+          <span className="text-2xl font-bold">
+            {String(timeRemaining.minutes).padStart(2, '0')}
+          </span>
           <span className="text-xs uppercase">Min</span>
         </div>
         <span className="text-2xl font-bold">:</span>
         <div className="flex flex-col items-center">
-          <span className="text-2xl font-bold">{String(timeRemaining.seconds).padStart(2, '0')}</span>
+          <span className="text-2xl font-bold">
+            {String(timeRemaining.seconds).padStart(2, '0')}
+          </span>
           <span className="text-xs uppercase">Seg</span>
         </div>
       </div>

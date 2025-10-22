@@ -2,6 +2,7 @@ import type { GlobalConfig } from 'payload'
 
 import { isAdminOrEditor } from '@/access/isAdminOrEditor'
 import { anyone } from '@/access/anyone'
+import { revalidateCoupons } from './hooks/revalidateCoupons'
 
 export const Coupons: GlobalConfig = {
   slug: 'coupons',
@@ -314,4 +315,7 @@ export const Coupons: GlobalConfig = {
       ],
     },
   ],
+  hooks: {
+    afterChange: [revalidateCoupons],
+  },
 }

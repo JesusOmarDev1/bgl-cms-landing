@@ -24,6 +24,7 @@ import { Clients } from './collections/Clients'
 import { contentLexicalEditor } from './fields/contentLexical'
 import { Chatbot } from './globals/Chatbot/config'
 import { Coupons } from './globals/Coupons/config'
+import { Announcements } from './globals/Announcements/config'
 import { Services } from './collections/Services'
 import { Manuals } from './collections/Manuals'
 import { Forms } from './collections/Forms'
@@ -121,7 +122,7 @@ export default buildConfig({
       handler: formSubmission,
     },
   ],
-  globals: [Header, Footer, Chatbot, Coupons],
+  globals: [Header, Footer, Chatbot, Coupons, Announcements],
   plugins: [...plugins],
   secret: process.env.PAYLOAD_SECRET,
   sharp,
