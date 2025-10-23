@@ -213,28 +213,6 @@ export const generalFields: Field[] = [
           es: 'Imagen',
         },
       },
-      {
-        name: 'alt',
-        type: 'text',
-        label: {
-          en: 'Alt Text',
-          es: 'Texto Alternativo',
-        },
-        admin: {
-          placeholder: 'Descripción de la imagen para accesibilidad',
-        },
-      },
-      {
-        name: 'caption',
-        type: 'text',
-        label: {
-          en: 'Caption',
-          es: 'Leyenda',
-        },
-        admin: {
-          placeholder: 'Leyenda opcional para la imagen',
-        },
-      },
     ],
     admin: {
       description: 'Imágenes adicionales del producto',

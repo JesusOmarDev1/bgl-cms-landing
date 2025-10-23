@@ -18,7 +18,7 @@ export default function Categories({ showCategories, hasCategories, categories }
 
               return (
                 <Badge key={index} variant={'secondary'} className="text-xs font-normal uppercase">
-                  {categoryTitle}
+                  #{categoryTitle}
                 </Badge>
               )
             }

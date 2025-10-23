@@ -189,3 +189,57 @@
 h1 > span {
   @apply text-4xl md:text-5xl leading-[1.15]! font-semibold tracking-tighter;
 }
+
+/* Product Carousel Improvements */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Product Image Container */
+.product-image-container {
+  @apply relative overflow-hidden rounded-lg border bg-white shadow-sm transition-all duration-300 hover:shadow-md;
+}
+
+/* Responsive Grid Improvements */
+@media (max-width: 640px) {
+  .product-specs-grid {
+    @apply grid-cols-1 gap-4;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 1024px) {
+  .product-specs-grid {
+    @apply grid-cols-1 gap-5;
+  }
+}
+
+@media (min-width: 1025px) {
+  .product-specs-grid {
+    @apply grid-cols-2 gap-6;
+  }
+}
+
+/* Status Badge Animations */
+.status-badge {
+  @apply transition-all duration-200 hover:scale-105;
+}
+
+/* Feature Cards Hover Effect */
+.feature-card {
+  @apply transition-all duration-200 hover:bg-muted/50 hover:scale-[1.02];
+}
+
+/* Specification Cards */
+.spec-card {
+  @apply transition-all duration-200 hover:shadow-md hover:border-primary/20;
+}
+
+/* Thumbnail Navigation */
+.thumbnail-nav {
+  @apply transition-all duration-200 hover:border-primary hover:shadow-sm;
+}

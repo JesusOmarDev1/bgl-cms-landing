@@ -100,12 +100,12 @@ export const PostArchiveBlock: Block = {
   ],
   labels: {
     singular: {
-      en: 'Archive',
-      es: 'Archivo',
+      en: 'Archive of Post',
+      es: 'Archivo de Publicacion',
     },
     plural: {
-      en: 'Archives',
-      es: 'Archivos',
+      en: 'Archive of Posts',
+      es: 'Archivos de Publicaciones',
     },
   },
 }

@@ -22,36 +22,38 @@ const typeIcons = {
 
 const typeStyles = {
   info: {
-    bg: 'bg-gradient-to-r from-blue-50 to-indigo-50',
-    border: 'border-blue-200/50',
-    text: 'text-blue-900',
-    accent: 'text-blue-600',
-    button: 'bg-blue-600 hover:bg-blue-700 text-white',
-    tag: 'bg-blue-100 text-blue-700 border-blue-200',
+    bg: 'bg-blue-50/70 dark:bg-blue-950/70 backdrop-blur-lg',
+    border: 'border-blue-200/50 dark:border-blue-800/50',
+    text: 'text-blue-900 dark:text-blue-100',
+    accent: 'text-blue-600 dark:text-blue-400',
+    button: 'bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 text-white',
+    tag: 'bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-blue-300 border-blue-200 dark:border-blue-700',
   },
   warning: {
-    bg: 'bg-gradient-to-r from-amber-50 to-orange-50',
-    border: 'border-amber-200/50',
-    text: 'text-amber-900',
-    accent: 'text-amber-600',
-    button: 'bg-amber-600 hover:bg-amber-700 text-white',
-    tag: 'bg-amber-100 text-amber-700 border-amber-200',
+    bg: 'bg-amber-50/70 dark:bg-amber-950/70 backdrop-blur-lg',
+    border: 'border-amber-200/50 dark:border-amber-800/50',
+    text: 'text-amber-900 dark:text-amber-100',
+    accent: 'text-amber-600 dark:text-amber-400',
+    button: 'bg-amber-600 hover:bg-amber-700 dark:bg-amber-500 dark:hover:bg-amber-600 text-white',
+    tag: 'bg-amber-100 dark:bg-amber-900/50 text-amber-700 dark:text-amber-300 border-amber-200 dark:border-amber-700',
   },
   success: {
-    bg: 'bg-gradient-to-r from-emerald-50 to-green-50',
-    border: 'border-emerald-200/50',
-    text: 'text-emerald-900',
-    accent: 'text-emerald-600',
-    button: 'bg-emerald-600 hover:bg-emerald-700 text-white',
-    tag: 'bg-emerald-100 text-emerald-700 border-emerald-200',
+    bg: 'bg-emerald-50/70 dark:bg-emerald-950/70 backdrop-blur-lg',
+    border: 'border-emerald-200/50 dark:border-emerald-800/50',
+    text: 'text-emerald-900 dark:text-emerald-100',
+    accent: 'text-emerald-600 dark:text-emerald-400',
+    button:
+      'bg-emerald-600 hover:bg-emerald-700 dark:bg-emerald-500 dark:hover:bg-emerald-600 text-white',
+    tag: 'bg-emerald-100 dark:bg-emerald-900/50 text-emerald-700 dark:text-emerald-300 border-emerald-200 dark:border-emerald-700',
   },
   announcement: {
-    bg: 'bg-gradient-to-r from-purple-50 via-pink-50 to-indigo-50',
-    border: 'border-purple-200/50',
-    text: 'text-purple-900',
-    accent: 'text-purple-600',
-    button: 'bg-purple-600 hover:bg-purple-700 text-white',
-    tag: 'bg-purple-100 text-purple-700 border-purple-200',
+    bg: 'bg-purple-50/70 dark:bg-purple-950/70 backdrop-blur-lg',
+    border: 'border-purple-200/50 dark:border-purple-800/50',
+    text: 'text-purple-900 dark:text-purple-100',
+    accent: 'text-purple-600 dark:text-purple-400',
+    button:
+      'bg-purple-600 hover:bg-purple-700 dark:bg-purple-500 dark:hover:bg-purple-600 text-white',
+    tag: 'bg-purple-100 dark:bg-purple-900/50 text-purple-700 dark:text-purple-300 border-purple-200 dark:border-purple-700',
   },
 }
 
@@ -107,7 +109,7 @@ export const AnnouncementsClient: React.FC<AnnouncementsClientProps> = ({ data }
 
   return (
     <motion.div
-      className={cn('w-full border-b backdrop-blur-sm fixed mt-24', styles.bg, styles.border)}
+      className={cn('w-full border-b fixed mt-[89px] h-fit', styles.bg, styles.border)}
       initial={{ height: 0, opacity: 0 }}
       animate={{ height: 'auto', opacity: 1 }}
       exit={{ height: 0, opacity: 0 }}
@@ -165,8 +167,8 @@ export const AnnouncementsClient: React.FC<AnnouncementsClientProps> = ({ data }
               <button
                 onClick={() => handleDismiss(announcement)}
                 className={cn(
-                  'p-1.5 rounded-md transition-colors hover:bg-black/10 focus:outline-none focus:ring-2 focus:ring-offset-2',
-                  'focus:ring-black/20',
+                  'p-1.5 rounded-md transition-colors hover:bg-black/10 dark:hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-offset-2',
+                  'focus:ring-black/20 dark:focus:ring-white/20',
                 )}
                 aria-label="Cerrar anuncio"
               >

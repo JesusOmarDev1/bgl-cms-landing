@@ -968,8 +968,6 @@ export interface Product {
   gallery?:
     | {
         image: number | Media;
-        alt?: string | null;
-        caption?: string | null;
         id?: string | null;
       }[]
     | null;
@@ -1055,6 +1053,10 @@ export interface Product {
     includes?:
       | {
           item: string;
+          /**
+           * Nombre del icono de Lucide (ej: package, zap, scale)
+           */
+          icon?: string | null;
           id?: string | null;
         }[]
       | null;
@@ -1116,6 +1118,7 @@ export interface Product {
     includes?:
       | {
           item: string;
+          icon?: string | null;
           id?: string | null;
         }[]
       | null;
@@ -2186,8 +2189,6 @@ export interface ProductsSelect<T extends boolean = true> {
     | T
     | {
         image?: T;
-        alt?: T;
-        caption?: T;
         id?: T;
       };
   features?:
@@ -2243,6 +2244,7 @@ export interface ProductsSelect<T extends boolean = true> {
           | T
           | {
               item?: T;
+              icon?: T;
               id?: T;
             };
       };
@@ -2314,6 +2316,7 @@ export interface ProductsSelect<T extends boolean = true> {
           | T
           | {
               item?: T;
+              icon?: T;
               id?: T;
             };
       };

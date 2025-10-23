@@ -16,7 +16,7 @@
   }
 
   .selected-icon-display {
-    border: 1px solid var(--theme-elevation-150);
+    border: 2px solid var(--theme-elevation-200);
     border-radius: 4px;
     padding: 0.75rem 1rem;
     background: var(--theme-elevation-50);
@@ -24,6 +24,7 @@
     display: flex;
     align-items: center;
     transition: all 0.2s;
+    border-style: dashed;
 
     &.clickable {
       cursor: pointer;
@@ -64,7 +65,7 @@
 
       span {
         color: var(--theme-elevation-500);
-        font-size: 0.875rem;
+        font-size: 1rem;
       }
     }
   }

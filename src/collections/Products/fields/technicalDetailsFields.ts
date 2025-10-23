@@ -1,3 +1,4 @@
+import { iconPickerField } from '@/fields/iconPicker'
 import type { Field } from 'payload'
 
 export const technicalDetailsFields: Field[] = [
@@ -272,6 +273,19 @@ export const technicalDetailsFields: Field[] = [
                     required: true,
                     admin: {
                       placeholder: 'ej: Plataforma y pedestal',
+                    },
+                  },
+                  {
+                    name: 'icon',
+                    type: 'text',
+                    label: {
+                      en: 'Icon',
+                      es: 'Icono',
+                    },
+                    required: false,
+                    admin: {
+                      description: 'Nombre del icono de Lucide (ej: package, zap, scale)',
+                      placeholder: 'ej: package',
                     },
                   },
                 ],
@@ -851,6 +865,13 @@ export const technicalDetailsFields: Field[] = [
                       placeholder: 'ej: Software iTegra, 5000 memorias PLU expandibles',
                     },
                   },
+                  iconPickerField({
+                    name: 'icon',
+                    label: {
+                      en: 'Item Icon',
+                      es: 'Ícono',
+                    },
+                  }),
                 ],
               },
             ],

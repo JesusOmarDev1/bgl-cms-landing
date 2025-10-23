@@ -37,6 +37,12 @@ export const availableIcons = [
   'ZoomIn',
   'ZoomOut',
   'Fullscreen',
+  'SidebarOpen',
+  'SidebarClose',
+  'PanelLeft',
+  'PanelRight',
+  'PanelTop',
+  'PanelBottom',
 
   // Acciones y Edición
   'Plus',
@@ -74,6 +80,8 @@ export const availableIcons = [
   'Forward',
   'Reply',
   'ReplyAll',
+  'Import',
+  'Export',
 
   // Usuarios y Perfiles
   'User',
@@ -90,6 +98,9 @@ export const availableIcons = [
   'Heart',
   'ThumbsUp',
   'ThumbsDown',
+  'Users2',
+  'UserCircle',
+  'UserSquare',
 
   // Comunicación
   'Mail',
@@ -108,6 +119,8 @@ export const availableIcons = [
   'VideoOff',
   'Voicemail',
   'AtSign',
+  'Inbox',
+  'Mails',
 
   // Alertas y Notificaciones
   'Bell',
@@ -123,6 +136,7 @@ export const availableIcons = [
   'ShieldCheck',
   'Shield',
   'ShieldOff',
+  'Siren',
 
   // Archivos y Documentos
   'File',
@@ -144,6 +158,11 @@ export const availableIcons = [
   'FileVideo',
   'FileAudio',
   'FilePdf',
+  'FileType',
+  'FileX',
+  'FileCheck',
+  'FolderX',
+  'FolderCheck',
 
   // Multimedia
   'Image',
@@ -166,6 +185,9 @@ export const availableIcons = [
   'Mic',
   'MicOff',
   'Film',
+  'PlayCircle',
+  'PauseCircle',
+  'StopCircle',
 
   // Comercio y Finanzas
   'ShoppingCart',
@@ -195,6 +217,8 @@ export const availableIcons = [
   'LineChart',
   'PieChart',
   'Activity',
+  'Calculator',
+  'Coins',
 
   // Tiempo y Calendario
   'Calendar',
@@ -220,6 +244,7 @@ export const availableIcons = [
   'TimerOff',
   'Hourglass',
   'AlarmClock',
+  'CalendarRange',
 
   // Ubicación y Mapas
   'MapPin',
@@ -233,6 +258,8 @@ export const availableIcons = [
   'Locate',
   'LocateFixed',
   'LocateOff',
+  'Route',
+  'Signpost',
 
   // Dispositivos y Tecnología
   'Laptop',
@@ -268,6 +295,9 @@ export const availableIcons = [
   'Plug',
   'Zap',
   'ZapOff',
+  'MonitorSpeaker',
+  'Gamepad',
+  'Gamepad2',
 
   // Desarrollo y Código
   'Code',
@@ -286,6 +316,9 @@ export const availableIcons = [
   'Sliders',
   'SlidersHorizontal',
   'Construction',
+  'Binary',
+  'Braces',
+  'Brackets',
 
   // Seguridad
   'Lock',
@@ -298,6 +331,8 @@ export const availableIcons = [
   'Fingerprint',
   'Scan',
   'ScanLine',
+  'ShieldX',
+  'KeySquare',
 
   // Organización y Layout
   'Grid',
@@ -312,13 +347,11 @@ export const availableIcons = [
   'Rows',
   'Table',
   'Table2',
-  'PanelLeft',
-  'PanelRight',
-  'PanelTop',
-  'PanelBottom',
   'Sidebar',
-  'SidebarOpen',
-  'SidebarClose',
+  'AlignLeft',
+  'AlignCenter',
+  'AlignRight',
+  'AlignJustify',
 
   // Ordenamiento y Filtros
   'Filter',
@@ -331,6 +364,8 @@ export const availableIcons = [
   'MoveDown',
   'MoveLeft',
   'MoveRight',
+  'Move3d',
+  'Shuffle',
 
   // Marcadores y Favoritos
   'Star',
@@ -340,6 +375,8 @@ export const availableIcons = [
   'BookOpen',
   'Book',
   'Library',
+  'StarHalf',
+  'StarOff',
 
   // Conectividad y Enlaces
   'Link',
@@ -348,6 +385,8 @@ export const availableIcons = [
   'Unlink',
   'Paperclip',
   'Anchor',
+  'Chain',
+  'Unplug',
 
   // Clima
   'Sun',
@@ -369,6 +408,8 @@ export const availableIcons = [
   'Droplet',
   'Droplets',
   'Umbrella',
+  'Rainbow',
+  'Tornado',
 
   // Transporte
   'Car',
@@ -382,6 +423,9 @@ export const availableIcons = [
   'Train',
   'Rocket',
   'Fuel',
+  'CarFront',
+  'Ambulance',
+  'Taxi',
 
   // Edificios y Lugares
   'Building',
@@ -389,7 +433,6 @@ export const availableIcons = [
   'Factory',
   'Warehouse',
   'Store',
-  'Home',
   'Hotel',
   'Church',
   'School',
@@ -397,6 +440,8 @@ export const availableIcons = [
   'TreePine',
   'Trees',
   'Tent',
+  'Castle',
+  'Landmark',
 
   // Comida y Bebida
   'Coffee',
@@ -410,10 +455,11 @@ export const availableIcons = [
   'UtensilsCrossed',
   'CupSoda',
   'IceCream',
+  'Cherry',
+  'Grape',
+  'Sandwich',
 
   // Formas y Símbolos
-  'Circle',
-  'Square',
   'Triangle',
   'Pentagon',
   'Hexagon',
@@ -421,10 +467,9 @@ export const availableIcons = [
   'Diamond',
   'Hash',
   'Asterisk',
-  'Minus',
-  'Plus',
   'Equal',
   'Infinity',
+  'Shapes',
 
   // Herramientas
   'Briefcase',
@@ -437,6 +482,8 @@ export const availableIcons = [
   'Magnet',
   'Drill',
   'Saw',
+  'Screwdriver',
+  'Spanner',
 
   // Salud y Médico
   'HeartPulse',
@@ -444,8 +491,8 @@ export const availableIcons = [
   'Syringe',
   'Pill',
   'Bandage',
-  'Activity',
   'Cross',
+  'Dna',
 
   // Accesibilidad
   'Accessibility',
@@ -455,14 +502,28 @@ export const availableIcons = [
   'Glasses',
   'Contrast',
 
-  // Otros
+  // Deportes y Actividades
+  'Dumbbell',
+  'Football',
+  'Trophy',
+  'Medal',
+  'Target',
   'Flame',
+
+  // Naturaleza
+  'Leaf',
+  'Flower',
+  'Flower2',
+  'Bug',
+  'Fish',
+  'Bird',
+  'Rabbit',
+  'Squirrel',
+
+  // Otros
   'Sparkles',
   'Lightbulb',
   'Crown',
-  'Medal',
-  'Trophy',
-  'Target',
   'Radio',
   'Rss',
   'QrCode',
@@ -470,10 +531,19 @@ export const availableIcons = [
   'ScanBarcode',
   'CircleDot',
   'Gauge',
+  'Palette',
+  'Brush',
+  'Wand',
+  'Wand2',
+  'Dice1',
+  'Dice2',
+  'Dice3',
+  'Dice4',
+  'Dice5',
+  'Dice6',
 ] as const
 
 export type IconName = (typeof availableIcons)[number]
-
 // Mapeo de iconos a sus labels en español
 export const iconLabelsES: Record<IconName, string> = {
   // Navegación y UI Básico
@@ -512,6 +582,12 @@ export const iconLabelsES: Record<IconName, string> = {
   ZoomIn: 'Acercar',
   ZoomOut: 'Alejar',
   Fullscreen: 'Pantalla Completa',
+  SidebarOpen: 'Barra Lateral Abierta',
+  SidebarClose: 'Barra Lateral Cerrada',
+  PanelLeft: 'Panel Izquierdo',
+  PanelRight: 'Panel Derecho',
+  PanelTop: 'Panel Superior',
+  PanelBottom: 'Panel Inferior',
 
   // Acciones y Edición
   Plus: 'Más',
@@ -549,6 +625,8 @@ export const iconLabelsES: Record<IconName, string> = {
   Forward: 'Reenviar',
   Reply: 'Responder',
   ReplyAll: 'Responder a Todos',
+  Import: 'Importar',
+  Export: 'Exportar',
 
   // Usuarios y Perfiles
   User: 'Usuario',
@@ -565,6 +643,9 @@ export const iconLabelsES: Record<IconName, string> = {
   Heart: 'Corazón',
   ThumbsUp: 'Me Gusta',
   ThumbsDown: 'No Me Gusta',
+  Users2: 'Usuarios 2',
+  UserCircle: 'Usuario Círculo',
+  UserSquare: 'Usuario Cuadrado',
 
   // Comunicación
   Mail: 'Correo',
@@ -583,6 +664,8 @@ export const iconLabelsES: Record<IconName, string> = {
   VideoOff: 'Video Desactivado',
   Voicemail: 'Buzón de Voz',
   AtSign: 'Arroba',
+  Inbox: 'Bandeja de Entrada',
+  Mails: 'Correos',
 
   // Alertas y Notificaciones
   Bell: 'Notificación',
@@ -598,6 +681,7 @@ export const iconLabelsES: Record<IconName, string> = {
   ShieldCheck: 'Escudo Verificado',
   Shield: 'Escudo',
   ShieldOff: 'Escudo Desactivado',
+  Siren: 'Sirena',
 
   // Archivos y Documentos
   File: 'Archivo',
@@ -619,6 +703,11 @@ export const iconLabelsES: Record<IconName, string> = {
   FileVideo: 'Video',
   FileAudio: 'Audio',
   FilePdf: 'PDF',
+  FileType: 'Tipo de Archivo',
+  FileX: 'Archivo Eliminado',
+  FileCheck: 'Archivo Verificado',
+  FolderX: 'Carpeta Eliminada',
+  FolderCheck: 'Carpeta Verificada',
 
   // Multimedia
   Image: 'Imagen',
@@ -641,6 +730,9 @@ export const iconLabelsES: Record<IconName, string> = {
   Mic: 'Micrófono',
   MicOff: 'Micrófono Desactivado',
   Film: 'Película',
+  PlayCircle: 'Reproducir Círculo',
+  PauseCircle: 'Pausar Círculo',
+  StopCircle: 'Detener Círculo',
 
   // Comercio y Finanzas
   ShoppingCart: 'Carrito',
@@ -670,6 +762,8 @@ export const iconLabelsES: Record<IconName, string> = {
   LineChart: 'Gráfico de Líneas',
   PieChart: 'Gráfico Circular',
   Activity: 'Actividad',
+  Calculator: 'Calculadora',
+  Coins: 'Monedas',
 
   // Tiempo y Calendario
   Calendar: 'Calendario',
@@ -695,6 +789,7 @@ export const iconLabelsES: Record<IconName, string> = {
   TimerOff: 'Temporizador Desactivado',
   Hourglass: 'Reloj de Arena',
   AlarmClock: 'Despertador',
+  CalendarRange: 'Rango de Calendario',
 
   // Ubicación y Mapas
   MapPin: 'Ubicación',
@@ -708,6 +803,8 @@ export const iconLabelsES: Record<IconName, string> = {
   Locate: 'Localizar',
   LocateFixed: 'Ubicación Fija',
   LocateOff: 'Localización Desactivada',
+  Route: 'Ruta',
+  Signpost: 'Señal',
 
   // Dispositivos y Tecnología
   Laptop: 'Portátil',
@@ -743,6 +840,9 @@ export const iconLabelsES: Record<IconName, string> = {
   Plug: 'Enchufe',
   Zap: 'Rayo',
   ZapOff: 'Rayo Desactivado',
+  MonitorSpeaker: 'Monitor con Altavoz',
+  Gamepad: 'Mando de Juego',
+  Gamepad2: 'Mando de Juego 2',
 
   // Desarrollo y Código
   Code: 'Código',
@@ -761,6 +861,9 @@ export const iconLabelsES: Record<IconName, string> = {
   Sliders: 'Controles',
   SlidersHorizontal: 'Controles Horizontales',
   Construction: 'Construcción',
+  Binary: 'Binario',
+  Braces: 'Llaves',
+  Brackets: 'Corchetes',
 
   // Seguridad
   Lock: 'Bloqueado',
@@ -773,6 +876,8 @@ export const iconLabelsES: Record<IconName, string> = {
   Fingerprint: 'Huella Digital',
   Scan: 'Escanear',
   ScanLine: 'Línea de Escaneo',
+  ShieldX: 'Escudo Rechazado',
+  KeySquare: 'Llave Cuadrada',
 
   // Organización y Layout
   Grid: 'Cuadrícula',
@@ -787,13 +892,11 @@ export const iconLabelsES: Record<IconName, string> = {
   Rows: 'Filas',
   Table: 'Tabla',
   Table2: 'Tabla 2',
-  PanelLeft: 'Panel Izquierdo',
-  PanelRight: 'Panel Derecho',
-  PanelTop: 'Panel Superior',
-  PanelBottom: 'Panel Inferior',
   Sidebar: 'Barra Lateral',
-  SidebarOpen: 'Barra Lateral Abierta',
-  SidebarClose: 'Barra Lateral Cerrada',
+  AlignLeft: 'Alinear Izquierda',
+  AlignCenter: 'Alinear Centro',
+  AlignRight: 'Alinear Derecha',
+  AlignJustify: 'Justificar',
 
   // Ordenamiento y Filtros
   Filter: 'Filtro',
@@ -806,6 +909,8 @@ export const iconLabelsES: Record<IconName, string> = {
   MoveDown: 'Mover Abajo',
   MoveLeft: 'Mover Izquierda',
   MoveRight: 'Mover Derecha',
+  Move3d: 'Mover 3D',
+  Shuffle: 'Mezclar',
 
   // Marcadores y Favoritos
   Star: 'Estrella',
@@ -815,6 +920,8 @@ export const iconLabelsES: Record<IconName, string> = {
   BookOpen: 'Libro Abierto',
   Book: 'Libro',
   Library: 'Biblioteca',
+  StarHalf: 'Media Estrella',
+  StarOff: 'Sin Estrella',
 
   // Conectividad y Enlaces
   Link: 'Enlace',
@@ -823,6 +930,8 @@ export const iconLabelsES: Record<IconName, string> = {
   Unlink: 'Desvincular',
   Paperclip: 'Clip',
   Anchor: 'Ancla',
+  Chain: 'Cadena',
+  Unplug: 'Desconectar',
 
   // Clima
   Sun: 'Sol',
@@ -844,6 +953,8 @@ export const iconLabelsES: Record<IconName, string> = {
   Droplet: 'Gota',
   Droplets: 'Gotas',
   Umbrella: 'Paraguas',
+  Rainbow: 'Arcoíris',
+  Tornado: 'Tornado',
 
   // Transporte
   Car: 'Automóvil',
@@ -857,6 +968,9 @@ export const iconLabelsES: Record<IconName, string> = {
   Train: 'Tren',
   Rocket: 'Cohete',
   Fuel: 'Combustible',
+  CarFront: 'Frente del Coche',
+  Ambulance: 'Ambulancia',
+  Taxi: 'Taxi',
 
   // Edificios y Lugares
   Building: 'Edificio',
@@ -871,6 +985,8 @@ export const iconLabelsES: Record<IconName, string> = {
   TreePine: 'Pino',
   Trees: 'Árboles',
   Tent: 'Tienda de Campaña',
+  Castle: 'Castillo',
+  Landmark: 'Monumento',
 
   // Comida y Bebida
   Coffee: 'Café',
@@ -884,6 +1000,9 @@ export const iconLabelsES: Record<IconName, string> = {
   UtensilsCrossed: 'Cubiertos Cruzados',
   CupSoda: 'Refresco',
   IceCream: 'Helado',
+  Cherry: 'Cereza',
+  Grape: 'Uva',
+  Sandwich: 'Sándwich',
 
   // Formas y Símbolos
   Triangle: 'Triángulo',
@@ -895,6 +1014,7 @@ export const iconLabelsES: Record<IconName, string> = {
   Asterisk: 'Asterisco',
   Equal: 'Igual',
   Infinity: 'Infinito',
+  Shapes: 'Formas',
 
   // Herramientas
   Briefcase: 'Maletín',
@@ -907,6 +1027,8 @@ export const iconLabelsES: Record<IconName, string> = {
   Magnet: 'Imán',
   Drill: 'Taladro',
   Saw: 'Sierra',
+  Screwdriver: 'Destornillador',
+  Spanner: 'Llave Inglesa',
 
   // Salud y Médico
   HeartPulse: 'Pulso',
@@ -915,6 +1037,7 @@ export const iconLabelsES: Record<IconName, string> = {
   Pill: 'Pastilla',
   Bandage: 'Vendaje',
   Cross: 'Cruz',
+  Dna: 'ADN',
 
   // Accesibilidad
   Accessibility: 'Accesibilidad',
@@ -924,14 +1047,27 @@ export const iconLabelsES: Record<IconName, string> = {
   Glasses: 'Gafas',
   Contrast: 'Contraste',
 
-  // Otros
+  // Deportes y Actividades
+  Dumbbell: 'Mancuerna',
+  Football: 'Fútbol',
+  Trophy: 'Trofeo',
+  Medal: 'Medalla',
+  Target: 'Objetivo',
   Flame: 'Fuego',
+
+  // Naturaleza
+  Leaf: 'Hoja',
+  Flower: 'Flor',
+  Flower2: 'Flor 2',
+  Fish: 'Pez',
+  Bird: 'Pájaro',
+  Rabbit: 'Conejo',
+  Squirrel: 'Ardilla',
+
+  // Otros
   Sparkles: 'Destellos',
   Lightbulb: 'Bombilla',
   Crown: 'Corona',
-  Medal: 'Medalla',
-  Trophy: 'Trofeo',
-  Target: 'Objetivo',
   Radio: 'Radio',
   Rss: 'RSS',
   QrCode: 'Código QR',
@@ -939,6 +1075,16 @@ export const iconLabelsES: Record<IconName, string> = {
   ScanBarcode: 'Escanear Código',
   CircleDot: 'Punto Circular',
   Gauge: 'Indicador',
+  Palette: 'Paleta',
+  Brush: 'Brocha',
+  Wand: 'Varita',
+  Wand2: 'Varita 2',
+  Dice1: 'Dado 1',
+  Dice2: 'Dado 2',
+  Dice3: 'Dado 3',
+  Dice4: 'Dado 4',
+  Dice5: 'Dado 5',
+  Dice6: 'Dado 6',
 }
 
 // Función para obtener el componente de icono por nombre

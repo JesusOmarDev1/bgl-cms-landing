@@ -100,12 +100,12 @@ export const ServiceArchiveBlock: Block = {
   ],
   labels: {
     singular: {
-      en: 'Archive',
-      es: 'Archivo',
+      en: 'Archive of Service',
+      es: 'Archivo de Servicio',
     },
     plural: {
-      en: 'Archives',
-      es: 'Archivos',
+      en: 'Archive of Services',
+      es: 'Archivos de Servicios',
     },
   },
 }
