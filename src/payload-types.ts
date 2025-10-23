@@ -791,6 +791,10 @@ export interface PostArchiveBlock {
 export interface Category {
   id: number;
   title: string;
+  /**
+   * Color principal de la marca para elementos destacados y temas
+   */
+  brandColor?: string | null;
   slug: string;
   slugLock?: boolean | null;
   parent?: (number | null) | Category;
@@ -919,6 +923,10 @@ export interface Product {
    */
   title: string;
   /**
+   * Breve descripción del producto que aparecerá como introducción
+   */
+  excerpt?: string | null;
+  /**
    * La marca es el fabricante del producto
    */
   brand: number | Brand;
@@ -934,7 +942,18 @@ export interface Product {
    * La garantía es el periodo de tiempo que se ofrece por el producto
    */
   warranty?: string | null;
-  type?: ('general' | 'scale' | 'consumable') | null;
+  /**
+   * Selecciona el tipo de producto para mostrar campos específicos en la pestaña de detalles técnicos
+   */
+  type: 'general' | 'scale' | 'consumable';
+  /**
+   * Código interno del producto (SKU)
+   */
+  productCode?: string | null;
+  /**
+   * Estado actual del producto en el catálogo
+   */
+  status?: ('active' | 'discontinued' | 'coming_soon' | 'out_of_stock') | null;
   /**
    * Puede ser una categoria general o por ejemplo "Basculas Comerciales", "Cargadores", etc.
    */
@@ -944,9 +963,39 @@ export interface Product {
    */
   heroImage: number | Media;
   /**
-   * Descripción detallada del producto
+   * Imágenes adicionales del producto
    */
-  content: {
+  gallery?:
+    | {
+        image: number | Media;
+        alt?: string | null;
+        caption?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Características destacadas que aparecerán en la ficha técnica
+   */
+  features?:
+    | {
+        feature: string;
+        icon?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Aplicaciones y usos recomendados para el producto
+   */
+  applications?:
+    | {
+        application: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Descripción completa del producto con detalles adicionales
+   */
+  content?: {
     root: {
       type: string;
       children: {
@@ -960,7 +1009,7 @@ export interface Product {
       version: number;
     };
     [k: string]: unknown;
-  };
+  } | null;
   /**
    * Precio base del producto antes de descuentos e impuestos
    */
@@ -982,109 +1031,141 @@ export interface Product {
    */
   stock: number;
   generalSpecs?: {
-    dimensions?: {
-      length?: number | null;
-      width?: number | null;
-      height?: number | null;
-      weight?: number | null;
+    physicalSpecs?: {
+      dimensions?: string | null;
+      weight?: string | null;
+      material?: string | null;
     };
-    /**
-     * Selecciona un color para describir al producto
-     */
-    color?: string | null;
-    material?: string | null;
-    operatingTemperature?: {
-      min?: number | null;
-      max?: number | null;
+    powerSupply?: {
+      type?: ('ac_electric' | 'rechargeable_battery' | 'internal_battery' | 'usb' | 'eliminator' | 'none') | null;
+      specifications?: string | null;
+      batteryLife?: string | null;
     };
-    certifications?:
+    connectivity?:
       | {
-          name: string;
-          number?: string | null;
+          type: 'usb' | 'rs232' | 'wifi' | 'bluetooth' | 'ethernet';
+          description?: string | null;
+          id?: string | null;
+        }[]
+      | null;
+    operatingConditions?: {
+      temperature?: string | null;
+      humidity?: string | null;
+    };
+    includes?:
+      | {
+          item: string;
           id?: string | null;
         }[]
       | null;
   };
-  scaleSpecs?: {
+  scaleSpecs: {
     capacity: {
-      maximum: number;
-      minimum?: number | null;
-    };
-    readability: {
-      division: number;
-      verificationDivision?: number | null;
-    };
-    platform?: {
-      dimensions?: {
-        length?: number | null;
-        width?: number | null;
-      };
-      material?: ('stainless_steel' | 'aluminum' | 'steel' | 'plastic') | null;
+      type?: ('multirange' | 'single_range' | 'configurable') | null;
+      maximum: string;
+      minimumDivision?: string | null;
+      ranges?:
+        | {
+            range: string;
+            id?: string | null;
+          }[]
+        | null;
     };
     display?: {
-      type?: ('lcd' | 'led' | 'digital') | null;
-      size?: string | null;
-      backlight?: boolean | null;
+      type?:
+        | ('lcd_backlit' | 'led_high_visibility' | 'lcd_green' | 'double_red' | 'led_red_tower' | 'led_6_digits')
+        | null;
+      description?: string | null;
     };
-    accuracy?: ('class_1' | 'class_2' | 'class_3' | 'class_4') | null;
+    platform: {
+      dimensions: string;
+      material?: ('stainless_steel' | 'plastic' | 'stainless_steel_coating') | null;
+      type?: ('standard_plate' | 'heavy_duty_wheels' | 'platform_pedestal') | null;
+    };
+    functions?:
+      | {
+          function: string;
+          description?: string | null;
+          id?: string | null;
+        }[]
+      | null;
+    units?:
+      | {
+          unit: 'kg' | 'g' | 'mg' | 'mc' | 'lb' | 'oz' | 't';
+          id?: string | null;
+        }[]
+      | null;
+    powerSupply?: {
+      type?: ('ac_electric' | 'rechargeable_battery' | 'eliminator') | null;
+      specifications?: string | null;
+      batteryDetails?: string | null;
+    };
+    communication?:
+      | {
+          type: 'rs232' | 'usb' | 'wifi' | 'ethernet' | 'bluetooth';
+          description?: string | null;
+          id?: string | null;
+        }[]
+      | null;
+    keyboard?: {
+      keys?: number | null;
+      description?: string | null;
+    };
+    operatingTemperature?: string | null;
+    dimensions?: string | null;
+    includes?:
+      | {
+          item: string;
+          id?: string | null;
+        }[]
+      | null;
   };
-  consumSpecs?: {
-    electrical?: {
-      voltage?: string | null;
-      current?: string | null;
+  consumableSpecs: {
+    consumableType: 'charger_eliminator' | 'battery' | 'cable' | 'accessory' | 'spare_part';
+    electricalSpecs?: {
+      inputVoltage?: string | null;
+      outputVoltage?: string | null;
       power?: string | null;
       frequency?: string | null;
     };
-    connectivity?: {
-      interfaces?:
-        | {
-            type: 'usb' | 'rs232' | 'rs485' | 'minidin' | 'ethernet' | 'wifi' | 'bluetooth';
-            description?: string | null;
-            id?: string | null;
-          }[]
-        | null;
-      cables?:
-        | {
-            type: string;
-            length?: string | null;
-            id?: string | null;
-          }[]
-        | null;
-    };
-    compatibility?: {
-      operatingSystems?:
-        | {
-            name: 'windows' | 'macos' | 'linux' | 'android' | 'ios';
-            version?: string | null;
-            id?: string | null;
-          }[]
-        | null;
-      software?:
-        | {
-            name: string;
-            version?: string | null;
-            id?: string | null;
-          }[]
-        | null;
+    compatibility?:
+      | {
+          model: string;
+          id?: string | null;
+        }[]
+      | null;
+    physicalSpecs?: {
+      dimensions?: string | null;
+      weight?: string | null;
+      cableLength?: string | null;
     };
     lifespan?: {
       expectedLife?: string | null;
-      usageConditions?: string | null;
-      storageConditions?: string | null;
+      warrantyPeriod?: string | null;
     };
+    certifications?:
+      | {
+          certification: 'ce' | 'fcc' | 'ul' | 'rohs';
+          id?: string | null;
+        }[]
+      | null;
+    operatingConditions?: {
+      temperature?: string | null;
+      humidity?: string | null;
+    };
+    includes?:
+      | {
+          item: string;
+          id?: string | null;
+        }[]
+      | null;
   };
   meta?: {
-    /**
-     * Título que aparecerá en los resultados de búsqueda y redes sociales
-     */
     title?: string | null;
     /**
-     * Imagen que aparecerá cuando se comparta en redes sociales
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
      */
     image?: (number | null) | Media;
-    /**
-     * Descripción que aparecerá en los resultados de búsqueda
-     */
     description?: string | null;
   };
   publishedAt?: string | null;
@@ -1116,10 +1197,6 @@ export interface Brand {
    * La imagen debe de tener la extension .svg para tener la mejor calidad posible
    */
   heroImage?: (number | null) | Media;
-  /**
-   * Color principal de la marca para elementos destacados y temas
-   */
-  brandColor?: string | null;
   slug: string;
   slugLock?: boolean | null;
   createdBy?: {
@@ -2041,6 +2118,7 @@ export interface MediaSelect<T extends boolean = true> {
  */
 export interface CategoriesSelect<T extends boolean = true> {
   title?: T;
+  brandColor?: T;
   slug?: T;
   slugLock?: T;
   parent?: T;
@@ -2094,13 +2172,37 @@ export interface UsersSelect<T extends boolean = true> {
  */
 export interface ProductsSelect<T extends boolean = true> {
   title?: T;
+  excerpt?: T;
   brand?: T;
   model?: T;
   supplier?: T;
   warranty?: T;
   type?: T;
+  productCode?: T;
+  status?: T;
   categories?: T;
   heroImage?: T;
+  gallery?:
+    | T
+    | {
+        image?: T;
+        alt?: T;
+        caption?: T;
+        id?: T;
+      };
+  features?:
+    | T
+    | {
+        feature?: T;
+        icon?: T;
+        id?: T;
+      };
+  applications?:
+    | T
+    | {
+        application?: T;
+        id?: T;
+      };
   content?: T;
   price?: T;
   discount?: T;
@@ -2110,27 +2212,37 @@ export interface ProductsSelect<T extends boolean = true> {
   generalSpecs?:
     | T
     | {
-        dimensions?:
+        physicalSpecs?:
           | T
           | {
-              length?: T;
-              width?: T;
-              height?: T;
+              dimensions?: T;
               weight?: T;
+              material?: T;
             };
-        color?: T;
-        material?: T;
-        operatingTemperature?:
+        powerSupply?:
           | T
           | {
-              min?: T;
-              max?: T;
+              type?: T;
+              specifications?: T;
+              batteryLife?: T;
             };
-        certifications?:
+        connectivity?:
           | T
           | {
-              name?: T;
-              number?: T;
+              type?: T;
+              description?: T;
+              id?: T;
+            };
+        operatingConditions?:
+          | T
+          | {
+              temperature?: T;
+              humidity?: T;
+            };
+        includes?:
+          | T
+          | {
+              item?: T;
               id?: T;
             };
       };
@@ -2140,88 +2252,119 @@ export interface ProductsSelect<T extends boolean = true> {
         capacity?:
           | T
           | {
+              type?: T;
               maximum?: T;
-              minimum?: T;
-            };
-        readability?:
-          | T
-          | {
-              division?: T;
-              verificationDivision?: T;
-            };
-        platform?:
-          | T
-          | {
-              dimensions?:
+              minimumDivision?: T;
+              ranges?:
                 | T
                 | {
-                    length?: T;
-                    width?: T;
+                    range?: T;
+                    id?: T;
                   };
-              material?: T;
             };
         display?:
           | T
           | {
               type?: T;
-              size?: T;
-              backlight?: T;
+              description?: T;
             };
-        accuracy?: T;
+        platform?:
+          | T
+          | {
+              dimensions?: T;
+              material?: T;
+              type?: T;
+            };
+        functions?:
+          | T
+          | {
+              function?: T;
+              description?: T;
+              id?: T;
+            };
+        units?:
+          | T
+          | {
+              unit?: T;
+              id?: T;
+            };
+        powerSupply?:
+          | T
+          | {
+              type?: T;
+              specifications?: T;
+              batteryDetails?: T;
+            };
+        communication?:
+          | T
+          | {
+              type?: T;
+              description?: T;
+              id?: T;
+            };
+        keyboard?:
+          | T
+          | {
+              keys?: T;
+              description?: T;
+            };
+        operatingTemperature?: T;
+        dimensions?: T;
+        includes?:
+          | T
+          | {
+              item?: T;
+              id?: T;
+            };
       };
-  consumSpecs?:
+  consumableSpecs?:
     | T
     | {
-        electrical?:
+        consumableType?: T;
+        electricalSpecs?:
           | T
           | {
-              voltage?: T;
-              current?: T;
+              inputVoltage?: T;
+              outputVoltage?: T;
               power?: T;
               frequency?: T;
-            };
-        connectivity?:
-          | T
-          | {
-              interfaces?:
-                | T
-                | {
-                    type?: T;
-                    description?: T;
-                    id?: T;
-                  };
-              cables?:
-                | T
-                | {
-                    type?: T;
-                    length?: T;
-                    id?: T;
-                  };
             };
         compatibility?:
           | T
           | {
-              operatingSystems?:
-                | T
-                | {
-                    name?: T;
-                    version?: T;
-                    id?: T;
-                  };
-              software?:
-                | T
-                | {
-                    name?: T;
-                    version?: T;
-                    id?: T;
-                  };
+              model?: T;
+              id?: T;
+            };
+        physicalSpecs?:
+          | T
+          | {
+              dimensions?: T;
+              weight?: T;
+              cableLength?: T;
             };
         lifespan?:
           | T
           | {
               expectedLife?: T;
-              usageConditions?: T;
-              storageConditions?: T;
+              warrantyPeriod?: T;
+            };
+        certifications?:
+          | T
+          | {
+              certification?: T;
+              id?: T;
+            };
+        operatingConditions?:
+          | T
+          | {
+              temperature?: T;
+              humidity?: T;
+            };
+        includes?:
+          | T
+          | {
+              item?: T;
+              id?: T;
             };
       };
   meta?:
@@ -2248,7 +2391,6 @@ export interface ProductsSelect<T extends boolean = true> {
 export interface BrandsSelect<T extends boolean = true> {
   title?: T;
   heroImage?: T;
-  brandColor?: T;
   slug?: T;
   slugLock?: T;
   createdBy?: T;

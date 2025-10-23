@@ -1,4 +1,6 @@
-// Simple CSS loader for Node.js ESM
+import { register } from 'node:module'
+import { pathToFileURL } from 'node:url'
+
 export async function resolve(specifier, context, nextResolve) {
   if (specifier.endsWith('.css')) {
     return {
@@ -19,3 +21,6 @@ export async function load(url, context, nextLoad) {
   }
   return nextLoad(url, context)
 }
+
+// Auto-register this loader when imported
+register(import.meta.url, pathToFileURL('./'))

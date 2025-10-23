@@ -249,6 +249,11 @@ export const Forms: CollectionConfig = {
                 singular: 'Opción',
                 plural: 'Opciones',
               },
+              admin: {
+                components: {
+                  RowLabel: '@/collections/Forms/components/OptionsRowLabel#OptionsRowLabel',
+                },
+              },
               fields: [
                 {
                   name: 'label',
@@ -469,6 +474,10 @@ export const Forms: CollectionConfig = {
       admin: {
         description:
           'Configura los emails que se enviarán cuando alguien complete el formulario. Usa {{nombreCampo}} para insertar valores del formulario.',
+        components: {
+          RowLabel:
+            '@/collections/Forms/components/EmailNotificationsRowLabel#EmailNotificationsRowLabel',
+        },
       },
       fields: [
         {

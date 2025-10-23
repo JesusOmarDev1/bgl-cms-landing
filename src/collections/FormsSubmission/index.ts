@@ -43,8 +43,16 @@ export const FormSubmissions: CollectionConfig = {
     {
       name: 'submissionData',
       type: 'array',
+      labels: {
+        singular: 'Dato del Formulario',
+        plural: 'Datos del Formulario',
+      },
       admin: {
         readOnly: true,
+        components: {
+          RowLabel:
+            '@/collections/FormsSubmission/components/SubmissionDataRowLabel#SubmissionDataRowLabel',
+        },
       },
       fields: [
         {

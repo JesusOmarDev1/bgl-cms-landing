@@ -7,10 +7,16 @@ import { slugField } from '@/fields/slug'
 import { generatePreviewPath } from '@/utilities/generatePreviewPath'
 import { revalidateDelete, revalidateProduct } from './hooks/revalidateProducts'
 import { validateProduct } from './hooks/validateProduct'
-import { seoFields } from './fields/seoFields'
 import { generalFields } from './fields/generalFields'
 import { pricingFields } from './fields/pricingFields'
 import { technicalDetailsFields } from './fields/technicalDetailsFields'
+import {
+  MetaDescriptionField,
+  MetaImageField,
+  MetaTitleField,
+  OverviewField,
+  PreviewField,
+} from '@payloadcms/plugin-seo/fields'
 
 export const Products: CollectionConfig = {
   slug: 'products',
@@ -81,6 +87,7 @@ export const Products: CollectionConfig = {
   // 🚀 Performance: DefaultPopulate optimizado
   defaultPopulate: {
     title: true,
+    excerpt: true,
     slug: true,
     total: true,
     stock: true,
@@ -160,7 +167,48 @@ export const Products: CollectionConfig = {
             en: 'SEO & Metadata',
             es: 'SEO y Metadatos',
           },
-          fields: seoFields,
+          fields: [
+            OverviewField({
+              titlePath: 'meta.title',
+              descriptionPath: 'meta.description',
+              imagePath: 'meta.image',
+            }),
+            MetaTitleField({
+              hasGenerateFn: true,
+              overrides: {
+                label: {
+                  en: 'Title for SEO',
+                  es: 'Título para SEO',
+                },
+              },
+            }),
+            MetaImageField({
+              relationTo: 'media',
+              overrides: {
+                label: {
+                  en: 'Image for SEO',
+                  es: 'Imagen para SEO',
+                },
+              },
+            }),
+
+            MetaDescriptionField({
+              overrides: {
+                label: {
+                  en: 'Description for SEO',
+                  es: 'Descripción para SEO',
+                },
+              },
+            }),
+            PreviewField({
+              // if the `generateUrl` function is configured
+              hasGenerateFn: true,
+
+              // field paths to match the target field for data
+              titlePath: 'meta.title',
+              descriptionPath: 'meta.description',
+            }),
+          ],
         },
       ],
     },

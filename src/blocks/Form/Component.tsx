@@ -25,16 +25,7 @@ export const FormBlock: React.FC<
     id?: string
   } & FormBlockType
 > = (props) => {
-  const {
-    enableIntro,
-    form: formFromProps,
-    introContent,
-  } = props
-
-  // Debug: ver qué datos recibe el componente
-  console.log('FormBlock props:', props)
-  console.log('Form data:', formFromProps)
-  console.log('Form fields:', formFromProps?.fields)
+  const { enableIntro, form: formFromProps, introContent } = props
 
   // Estado para el formulario cargado
   const [loadedForm, setLoadedForm] = useState<Form | null>(
@@ -49,11 +40,8 @@ export const FormBlock: React.FC<
     const loadForm = async () => {
       if (typeof formFromProps === 'number' || typeof formFromProps === 'string') {
         try {
-          const response = await fetch(
-            `${getClientSideURL()}/api/forms/${formFromProps}?depth=2`,
-          )
+          const response = await fetch(`${getClientSideURL()}/api/forms/${formFromProps}?depth=2`)
           const data = await response.json()
-          console.log('Loaded form data:', data)
           setLoadedForm(data)
         } catch (err) {
           console.error('Error loading form:', err)
@@ -74,8 +62,19 @@ export const FormBlock: React.FC<
   const submitButtonLabel = submitConfig?.buttonLabel || 'Enviar'
 
   const formMethods = useForm({
-    // @ts-ignore - Los tipos se generarán después de ejecutar generate:types
-    defaultValues: formToUse?.fields || {},
+    defaultValues: React.useMemo(() => {
+      if (!formToUse?.fields) return {}
+
+      const defaults: Record<string, any> = {}
+
+      formToUse.fields.forEach((field: any) => {
+        if (field.name && field.defaultValue !== undefined) {
+          defaults[field.name] = field.defaultValue
+        }
+      })
+
+      return defaults
+    }, [formToUse?.fields]),
   })
   const {
     control,
@@ -175,15 +174,15 @@ export const FormBlock: React.FC<
                   formToUse.fields?.map((field: any, index) => {
                     // Debug: ver la estructura del campo
                     console.log('Field data:', field)
-                    
+
                     // Los campos ahora son blocks, usar blockType directamente
                     const blockType = field.blockType
                     console.log('Block type:', blockType)
-                    
+
                     // eslint-disable-next-line @typescript-eslint/no-explicit-any
                     const Field: React.FC<any> = fields?.[blockType as keyof typeof fields]
                     console.log('Field component found:', !!Field)
-                    
+
                     if (Field) {
                       return (
                         <div className="mb-6 last:mb-0" key={index}>

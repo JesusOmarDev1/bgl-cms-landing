@@ -1,11 +1,11 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
-import { Announcement, AnnouncementTag, AnnouncementTitle } from '@/components/ui/announcement'
-import { X, Megaphone, AlertCircle, Info, CheckCircle, ExternalLink } from 'lucide-react'
+import { X, AlertCircle, CheckCircle, ExternalLink, Megaphone, Bell } from 'lucide-react'
 import { cn } from '@/utilities/ui'
 
 import type { Announcement as AnnouncementType } from '@/payload-types'
+import { motion } from 'motion/react'
 
 type AnnouncementItem = NonNullable<AnnouncementType['announcements']>[0]
 
@@ -14,17 +14,45 @@ interface AnnouncementsClientProps {
 }
 
 const typeIcons = {
-  info: Info,
+  info: Bell,
   warning: AlertCircle,
   success: CheckCircle,
   announcement: Megaphone,
 }
 
-const typeColors = {
-  info: 'text-blue-600 bg-blue-50 border-blue-200 hover:bg-blue-100',
-  warning: 'text-orange-600 bg-orange-50 border-orange-200 hover:bg-orange-100',
-  success: 'text-green-600 bg-green-50 border-green-200 hover:bg-green-100',
-  announcement: 'text-purple-600 bg-purple-50 border-purple-200 hover:bg-purple-100',
+const typeStyles = {
+  info: {
+    bg: 'bg-gradient-to-r from-blue-50 to-indigo-50',
+    border: 'border-blue-200/50',
+    text: 'text-blue-900',
+    accent: 'text-blue-600',
+    button: 'bg-blue-600 hover:bg-blue-700 text-white',
+    tag: 'bg-blue-100 text-blue-700 border-blue-200',
+  },
+  warning: {
+    bg: 'bg-gradient-to-r from-amber-50 to-orange-50',
+    border: 'border-amber-200/50',
+    text: 'text-amber-900',
+    accent: 'text-amber-600',
+    button: 'bg-amber-600 hover:bg-amber-700 text-white',
+    tag: 'bg-amber-100 text-amber-700 border-amber-200',
+  },
+  success: {
+    bg: 'bg-gradient-to-r from-emerald-50 to-green-50',
+    border: 'border-emerald-200/50',
+    text: 'text-emerald-900',
+    accent: 'text-emerald-600',
+    button: 'bg-emerald-600 hover:bg-emerald-700 text-white',
+    tag: 'bg-emerald-100 text-emerald-700 border-emerald-200',
+  },
+  announcement: {
+    bg: 'bg-gradient-to-r from-purple-50 via-pink-50 to-indigo-50',
+    border: 'border-purple-200/50',
+    text: 'text-purple-900',
+    accent: 'text-purple-600',
+    button: 'bg-purple-600 hover:bg-purple-700 text-white',
+    tag: 'bg-purple-100 text-purple-700 border-purple-200',
+  },
 }
 
 export const AnnouncementsClient: React.FC<AnnouncementsClientProps> = ({ data }) => {
@@ -71,70 +99,83 @@ export const AnnouncementsClient: React.FC<AnnouncementsClientProps> = ({ data }
     return null
   }
 
+  // Show only the first announcement as a banner
+  const announcement = visibleAnnouncements[0]
+  const type = announcement.type || 'announcement'
+  const Icon = typeIcons[type as keyof typeof typeIcons]
+  const styles = typeStyles[type as keyof typeof typeStyles]
+
   return (
-    <div className="w-full bg-background border-b animate-in slide-in-from-top-2 duration-500">
-      <div className="container px-4 md:px-8 py-3">
-        <div className="flex flex-col gap-2">
-          {visibleAnnouncements.map((announcement: AnnouncementItem, index: number) => {
-            const type = announcement.type || 'announcement'
-            const Icon = typeIcons[type as keyof typeof typeIcons]
-            const id = announcement.id || announcement.title
+    <motion.div
+      className={cn('w-full border-b backdrop-blur-sm fixed mt-24', styles.bg, styles.border)}
+      initial={{ height: 0, opacity: 0 }}
+      animate={{ height: 'auto', opacity: 1 }}
+      exit={{ height: 0, opacity: 0 }}
+      transition={{ duration: 0.3 }}
+    >
+      <div className="container mx-auto px-4">
+        <div className="flex items-center justify-between gap-4 py-3">
+          {/* Content */}
+          <div className="flex items-center gap-3 flex-1 min-w-0">
+            <div className={cn('p-1.5 rounded-md', styles.tag)}>
+              <Icon className="size-4" />
+            </div>
 
-            return (
-              <Announcement
-                key={id || index}
-                themed
-                className={cn(
-                  'relative w-full justify-between transition-all duration-200',
-                  typeColors[type as keyof typeof typeColors],
-                )}
-              >
-                <AnnouncementTitle className="flex-1 min-w-0">
-                  <Icon className="w-4 h-4 shrink-0" />
-                  <div className="flex flex-col sm:flex-row sm:items-center gap-1 min-w-0">
-                    <span className="font-semibold truncate">{announcement.title}</span>
-                    {announcement.message && (
-                      <span className="text-sm opacity-90 line-clamp-2 sm:line-clamp-1">
-                        {announcement.message}
-                      </span>
+            <div className="flex items-center gap-3 flex-1 min-w-0">
+              <div className="flex items-center gap-2">
+                <h3 className={cn('font-medium text-sm', styles.text)}>{announcement.title}</h3>
+                {announcement.tag && (
+                  <span
+                    className={cn(
+                      'inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium border',
+                      styles.tag,
                     )}
-                  </div>
-                </AnnouncementTitle>
+                  >
+                    {announcement.tag}
+                  </span>
+                )}
+              </div>
 
-                <div className="flex items-center gap-2 shrink-0">
-                  {announcement.tag && (
-                    <AnnouncementTag className="hidden sm:block">
-                      {announcement.tag}
-                    </AnnouncementTag>
-                  )}
+              {announcement.message && (
+                <p className={cn('text-sm truncate', styles.text, 'opacity-75')}>
+                  {announcement.message}
+                </p>
+              )}
+            </div>
+          </div>
 
-                  {announcement.link && (
-                    <a
-                      href={announcement.link}
-                      className="flex items-center gap-1 text-sm font-medium underline hover:no-underline transition-colors"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <span className="hidden sm:inline">{announcement.linkText || 'Ver más'}</span>
-                      <ExternalLink className="w-3 h-3" />
-                    </a>
-                  )}
+          {/* Actions */}
+          <div className="flex items-center gap-2 shrink-0">
+            {announcement.link && (
+              <a
+                href={announcement.link}
+                className={cn(
+                  'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium transition-colors',
+                  styles.button,
+                )}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <span>{announcement.linkText || 'Ver más'}</span>
+                <ExternalLink className="size-3" />
+              </a>
+            )}
 
-                  {announcement.dismissible !== false && (
-                    <button
-                      onClick={() => handleDismiss(announcement)}
-                      className="p-1 rounded-full hover:bg-black/10 transition-colors"
-                      aria-label="Cerrar anuncio"
-                    >
-                      <X className="w-4 h-4" />
-                    </button>
-                  )}
-                </div>
-              </Announcement>
-            )
-          })}
+            {announcement.dismissible !== false && (
+              <button
+                onClick={() => handleDismiss(announcement)}
+                className={cn(
+                  'p-1.5 rounded-md transition-colors hover:bg-black/10 focus:outline-none focus:ring-2 focus:ring-offset-2',
+                  'focus:ring-black/20',
+                )}
+                aria-label="Cerrar anuncio"
+              >
+                <X className="size-4" />
+              </button>
+            )}
+          </div>
         </div>
       </div>
-    </div>
+    </motion.div>
   )
 }

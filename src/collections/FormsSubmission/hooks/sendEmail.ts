@@ -7,11 +7,6 @@ import type { CollectionBeforeChangeHook } from 'payload'
 import { replaceDoubleCurlys } from '@/utilities/replaceDoubleCurlys'
 import { serializeLexical } from '@/utilities/serializeLexical'
 
-interface EmailVariable {
-  field: string
-  value: string
-}
-
 interface Email {
   emailTo: string
   emailFrom?: string
@@ -73,9 +68,7 @@ export const sendEmail: CollectionBeforeChangeHook = async ({ data, req, operati
         const from = emailFrom
           ? replaceDoubleCurlys(emailFrom, submissionData)
           : process.env.RESEND_DEFAULT_EMAIL || 'noreply@example.com'
-        const replyToFormatted = replyTo
-          ? replaceDoubleCurlys(replyTo, submissionData)
-          : from
+        const replyToFormatted = replyTo ? replaceDoubleCurlys(replyTo, submissionData) : from
 
         // Serializar el mensaje de Lexical a HTML
         let html = ''

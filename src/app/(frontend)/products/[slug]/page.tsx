@@ -59,11 +59,13 @@ export default async function Product({ params: paramsPromise }: Args) {
 
       <ProductHero product={product} />
 
-      <div className="flex flex-col items-center gap-4 pt-8">
-        <div className="container">
-          <RichText className="max-w-5xl mx-auto" data={product.content} enableGutter={false} />
+      {product.content && (
+        <div className="flex flex-col items-center gap-4 pt-8">
+          <div className="container">
+            <RichText className="max-w-5xl mx-auto" data={product.content} enableGutter={false} />
+          </div>
         </div>
-      </div>
+      )}
     </article>
   )
 }
@@ -72,7 +74,14 @@ export async function generateMetadata({ params: paramsPromise }: Args): Promise
   const { slug = '' } = await paramsPromise
   const product = await queryProductBySlug({ slug })
 
-  return generateMeta({ doc: product })
+  const docForMeta = product
+    ? {
+        meta: product.meta,
+        slug: product.slug,
+      }
+    : null
+
+  return generateMeta({ doc: docForMeta })
 }
 
 const queryProductBySlug = cache(async ({ slug }: { slug: string }) => {

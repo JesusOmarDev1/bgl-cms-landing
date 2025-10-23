@@ -136,7 +136,7 @@ export const plugins: Plugin[] = [
     },
   }),
   importExportPlugin({
-    collections: ['posts', 'pages'],
+    collections: ['posts', 'pages', 'products', 'clients', 'services'],
     format: 'csv',
   }),
   activityLogPlugin({
@@ -187,6 +187,22 @@ export const plugins: Plugin[] = [
     },
     globals: {
       chatbot: {
+        enableDeviceInfoLogging: false,
+        enableIpAddressLogging: false,
+      },
+      announcements: {
+        enableDeviceInfoLogging: false,
+        enableIpAddressLogging: false,
+      },
+      coupons: {
+        enableDeviceInfoLogging: false,
+        enableIpAddressLogging: false,
+      },
+      footer: {
+        enableDeviceInfoLogging: false,
+        enableIpAddressLogging: false,
+      },
+      header: {
         enableDeviceInfoLogging: false,
         enableIpAddressLogging: false,
       },

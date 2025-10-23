@@ -37,6 +37,7 @@ export const OrderServices: CollectionConfig = {
     defaultColumns: ['title', 'slug', 'createdAt'],
     description:
       'Administra las ordenes de servicio del sitio: crea, edita y elimina ordenes de servicio',
+    group: 'Control Interno',
   },
   fields: [
     {
@@ -52,6 +53,11 @@ export const OrderServices: CollectionConfig = {
       name: 'products',
       type: 'relationship',
       relationTo: 'products',
+      label: {
+        en: 'Products',
+        es: 'Productos',
+      },
+      hasMany: true,
       required: true,
     },
     ...slugField(),

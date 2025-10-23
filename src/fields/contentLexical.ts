@@ -29,10 +29,6 @@ import { Button } from '../blocks/Button/config'
 import { MediaBlock } from '../blocks/MediaBlock/config'
 import { QRCodeBlock } from '@/blocks/QRCodeBlock/config'
 
-interface ContentLexicalEditorProps {
-  hasBlocks: boolean
-}
-
 export const contentLexicalEditor = lexicalEditor({
   features: ({ rootFeatures }) => {
     return [

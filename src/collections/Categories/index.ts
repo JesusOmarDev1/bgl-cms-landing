@@ -3,6 +3,7 @@ import type { CollectionConfig } from 'payload'
 import { slugField } from '@/fields/slug'
 import { isAdminOrEditor } from '@/access/isAdminOrEditor'
 import { anyone } from '@/access/anyone'
+import { colorPickerField } from '@/fields/colorPicker'
 
 export const Categories: CollectionConfig = {
   slug: 'categories',
@@ -49,6 +50,17 @@ export const Categories: CollectionConfig = {
       },
       required: true,
     },
+    colorPickerField({
+      name: 'brandColor',
+      label: {
+        en: 'Brand Color',
+        es: 'Color de Marca',
+      },
+      defaultValue: '#000000',
+      admin: {
+        description: 'Color principal de la marca para elementos destacados y temas',
+      },
+    }),
     ...slugField(),
   ],
 }

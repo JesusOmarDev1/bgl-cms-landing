@@ -2,7 +2,15 @@
 import React, { useCallback } from 'react'
 import { TextFieldClientProps } from 'payload'
 
-import { useField, Button, TextInput, FieldLabel, useFormFields, useForm } from '@payloadcms/ui'
+import {
+  useField,
+  Button,
+  TextInput,
+  FieldLabel,
+  useFormFields,
+  useForm,
+  FieldError,
+} from '@payloadcms/ui'
 
 import { formatSlug } from './formatSlug'
 import './index.scss'
@@ -25,7 +33,9 @@ export const SlugComponent: React.FC<SlugComponentProps> = ({
     ? `${path}.${checkboxFieldPathFromProps}`
     : checkboxFieldPathFromProps
 
-  const { value, setValue } = useField<string>({ path: path || field.name })
+  const { value, setValue, showError, errorMessage } = useField<string>({
+    path: path || field.name,
+  })
 
   const { dispatchFields, getDataByPath } = useForm()
 
@@ -82,6 +92,7 @@ export const SlugComponent: React.FC<SlugComponentProps> = ({
         path={path || field.name}
         readOnly={Boolean(readOnlyFromProps || isLocked)}
       />
+      {showError && errorMessage && <FieldError message={errorMessage} />}
     </div>
   )
 }
