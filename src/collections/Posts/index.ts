@@ -58,7 +58,6 @@ export const Posts: CollectionConfig<'posts'> = {
         const path = generatePreviewPath({
           slug: typeof data?.slug === 'string' ? data.slug : '',
           collection: 'posts',
-          req,
         })
 
         return path
@@ -68,7 +67,6 @@ export const Posts: CollectionConfig<'posts'> = {
       generatePreviewPath({
         slug: typeof data?.slug === 'string' ? data.slug : '',
         collection: 'posts',
-        req,
       }),
     useAsTitle: 'title',
     description: 'Administra las publicaciones del blog: crea, edita y elimina artículos',

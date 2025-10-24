@@ -12,7 +12,7 @@ export const technicalDetailsFields: Field[] = [
           es: 'Especificaciones Generales',
         },
         admin: {
-          condition: (data) => data?.type !== 'scale' && data?.type !== 'consumable',
+          condition: (data, _siblingData) => data?.type !== 'scale' && data?.type !== 'consumable',
         },
         fields: [
           {
@@ -301,7 +301,7 @@ export const technicalDetailsFields: Field[] = [
           es: 'Especificaciones de Báscula',
         },
         admin: {
-          condition: (data) => data?.type === 'scale',
+          condition: (data, _siblingData) => data?.type === 'scale',
         },
         fields: [
           {
@@ -885,7 +885,7 @@ export const technicalDetailsFields: Field[] = [
           es: 'Especificaciones de Consumible',
         },
         admin: {
-          condition: (data) => data?.type === 'consumable',
+          condition: (data, _siblingData) => data?.type === 'consumable',
         },
         fields: [
           {

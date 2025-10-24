@@ -64,7 +64,6 @@ export const Pages: CollectionConfig<'pages'> = {
         const path = generatePreviewPath({
           slug: typeof data?.slug === 'string' ? data.slug : '',
           collection: 'pages',
-          req,
         })
 
         return path
@@ -74,7 +73,6 @@ export const Pages: CollectionConfig<'pages'> = {
       generatePreviewPath({
         slug: typeof data?.slug === 'string' ? data.slug : '',
         collection: 'pages',
-        req,
       }),
     useAsTitle: 'title',
     description: 'Administra las páginas del sitio: crea, edita y elimina páginas',

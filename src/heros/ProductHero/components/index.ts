@@ -1,0 +1,7 @@
+export { ProductImageCarousel } from './ProductImageCarousel'
+export { ProductInfo } from './ProductInfo'
+export { SpecificationTabs } from './SpecificationTabs'
+export { PhysicalSpecsTab } from './tabs/PhysicalSpecsTab'
+export { TechnicalSpecsTab } from './tabs/TechnicalSpecsTab'
+export { ConnectivityTab } from './tabs/ConnectivityTab'
+export { AdditionalInfoTab } from './tabs/AdditionalInfoTab'

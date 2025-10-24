@@ -53,21 +53,19 @@ export const Manuals: CollectionConfig<'manuals'> = {
   admin: {
     defaultColumns: ['heroImage', 'title', 'slug', 'updatedAt', 'publishedAt'],
     livePreview: {
-      url: ({ data, req }) => {
+      url: ({ data, req: _req }) => {
         const path = generatePreviewPath({
           slug: typeof data?.slug === 'string' ? data.slug : '',
           collection: 'manuals',
-          req,
         })
 
         return path
       },
     },
-    preview: (data, { req }) =>
+    preview: (data, { req: _req }) =>
       generatePreviewPath({
         slug: typeof data?.slug === 'string' ? data.slug : '',
-        collection: 'posts',
-        req,
+        collection: 'manuals',
       }),
     useAsTitle: 'title',
     description: 'Administra las publicaciones del blog: crea, edita y elimina artículos',

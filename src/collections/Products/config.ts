@@ -121,11 +121,10 @@ export const Products: CollectionConfig = {
       limits: [10, 25, 50, 100],
     },
     livePreview: {
-      url: ({ data, req }) => {
+      url: ({ data, req: _req }) => {
         const path = generatePreviewPath({
           slug: typeof data?.slug === 'string' ? data.slug : '',
           collection: 'products',
-          req,
         })
         return path
       },
