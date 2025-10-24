@@ -21,7 +21,7 @@ const WebPreviewContext = createContext<WebPreviewContextValue | null>(null)
 const useWebPreview = () => {
   const context = useContext(WebPreviewContext)
   if (!context) {
-    throw new Error('WebPreview components must be used within a WebPreview')
+    throw new Error('Los componentes de WebPreview deben usarse dentro de un WebPreview')
   }
   return context
 }

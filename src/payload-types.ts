@@ -194,9 +194,9 @@ export interface Page {
     image?: (number | null) | Media;
     description?: string | null;
   };
-  publishedAt?: string | null;
   slug: string;
   slugLock?: boolean | null;
+  publishedAt?: string | null;
   createdBy?: {
     relationTo: 'users';
     value: number | User;
@@ -853,6 +853,8 @@ export interface Post {
     image?: (number | null) | Media;
     description?: string | null;
   };
+  slug: string;
+  slugLock?: boolean | null;
   publishedAt?: string | null;
   authors?: (number | User)[] | null;
   populatedAuthors?:
@@ -861,8 +863,6 @@ export interface Post {
         name?: string | null;
       }[]
     | null;
-  slug: string;
-  slugLock?: boolean | null;
   createdBy?: {
     relationTo: 'users';
     value: number | User;
@@ -1332,7 +1332,7 @@ export interface Client {
   _status?: ('draft' | 'published') | null;
 }
 /**
- * Administra los servicios del sitio: crea, edita y elimina artículos
+ * Administra los servicios del sitio: crea, edita y elimina servicios
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "services".
@@ -1365,9 +1365,9 @@ export interface Service {
     image?: (number | null) | Media;
     description?: string | null;
   };
-  publishedAt?: string | null;
   slug: string;
   slugLock?: boolean | null;
+  publishedAt?: string | null;
   price?: number | null;
   discount?: number | null;
   /**
@@ -1448,6 +1448,10 @@ export interface Manual {
 export interface FormSubmission {
   id: number;
   form: number | Form;
+  /**
+   * Marcar para evitar el envío de emails de notificación (útil para testing)
+   */
+  skipEmailNotification?: boolean | null;
   submissionData?:
     | {
         field: string;
@@ -1904,9 +1908,9 @@ export interface PagesSelect<T extends boolean = true> {
         image?: T;
         description?: T;
       };
-  publishedAt?: T;
   slug?: T;
   slugLock?: T;
+  publishedAt?: T;
   createdBy?: T;
   lastModifiedBy?: T;
   updatedAt?: T;
@@ -2022,6 +2026,8 @@ export interface PostsSelect<T extends boolean = true> {
         image?: T;
         description?: T;
       };
+  slug?: T;
+  slugLock?: T;
   publishedAt?: T;
   authors?: T;
   populatedAuthors?:
@@ -2030,8 +2036,6 @@ export interface PostsSelect<T extends boolean = true> {
         id?: T;
         name?: T;
       };
-  slug?: T;
-  slugLock?: T;
   createdBy?: T;
   lastModifiedBy?: T;
   updatedAt?: T;
@@ -2482,9 +2486,9 @@ export interface ServicesSelect<T extends boolean = true> {
         image?: T;
         description?: T;
       };
-  publishedAt?: T;
   slug?: T;
   slugLock?: T;
+  publishedAt?: T;
   price?: T;
   discount?: T;
   iva?: T;
@@ -2691,6 +2695,7 @@ export interface MessageFormFieldSelect<T extends boolean = true> {
  */
 export interface FormSubmissionsSelect<T extends boolean = true> {
   form?: T;
+  skipEmailNotification?: T;
   submissionData?:
     | T
     | {

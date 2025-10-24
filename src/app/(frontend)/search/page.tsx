@@ -7,7 +7,7 @@ import React from 'react'
 import { Search } from '@/search/Component'
 import PageClient from './page.client'
 import { SearchResultData } from '@/components/Card/SearchCard'
-import generalMetadata from '@/utilities/generalMetadata'
+import { generalMetadata } from '@/utilities/meta'
 import NoSearchResults from '@/components/States/no-search-results'
 
 type Args = {

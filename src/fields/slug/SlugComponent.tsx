@@ -12,8 +12,8 @@ import {
   FieldError,
 } from '@payloadcms/ui'
 
-import { formatSlug } from './formatSlug'
 import './index.scss'
+import { formatSlug } from '@/utilities/string'
 
 type SlugComponentProps = {
   fieldToUse: string

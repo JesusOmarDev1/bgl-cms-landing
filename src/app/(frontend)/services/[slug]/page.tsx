@@ -10,7 +10,7 @@ import RichText from '@/components/RichText'
 import type { Media, Service } from '@/payload-types'
 
 import { ServiceHero } from '@/heros/ServiceHero'
-import { generateMeta } from '@/utilities/generateMeta'
+import { generateMeta } from '@/utilities/meta'
 import PageClient from './page.client'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
 import { MediaSchema, ServiceSchema } from '@/components/Schema'

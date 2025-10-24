@@ -2,7 +2,7 @@
 import { Button } from '@/components/ui/button'
 import { Check, Copy } from 'lucide-react'
 import React from 'react'
-import { useCopyToClipboard } from '@/hooks/use-copy-to-clipboard'
+import { useCopyToClipboard } from '@/utilities/hooks/useCopyToClipboard'
 interface CopyButtonProps {
   link: string
 }

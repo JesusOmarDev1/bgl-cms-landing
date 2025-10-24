@@ -6,10 +6,10 @@ import { NavWrapper } from './NavWrapper'
 import { RenderServerComponent } from '@payloadcms/ui/elements/RenderServerComponent'
 import { NavClient } from './index.client'
 import { NavHamburger } from './NavHamburguer'
-import { APP_NAME, VERSION } from '@/utilities/app'
 import { StaticLogoNav } from '@/graphics/StaticLogoNav'
 import { LogOut } from './LogOut'
 import GlobalSearcher from './GlobalSearcher'
+import { APP_NAME, VERSION } from '@/utilities/config'
 
 export const baseClass = 'nav'
 

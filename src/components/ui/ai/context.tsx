@@ -27,7 +27,7 @@ const useContextValue = () => {
   const context = useContext(ContextContext)
 
   if (!context) {
-    throw new Error('Context components must be used within Context')
+    throw new Error('Los componentes de contexto deben usarse dentro de Context')
   }
 
   return context

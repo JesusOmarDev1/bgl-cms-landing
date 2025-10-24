@@ -5,7 +5,7 @@ import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 import React from 'react'
 import PageClient from './page.client'
-import generalMetadata from '@/utilities/generalMetadata'
+import { generalMetadata } from '@/utilities/meta'
 import { ManualsRange } from '@/components/PageRange/ManualsRange'
 import { ManualArchive } from '@/components/CollectionArchive/ManualArchive'
 

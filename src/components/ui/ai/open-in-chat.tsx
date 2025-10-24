@@ -147,7 +147,7 @@ const OpenInContext = createContext<{ query: string } | undefined>(undefined)
 const useOpenInContext = () => {
   const context = useContext(OpenInContext)
   if (!context) {
-    throw new Error('OpenIn components must be used within an OpenIn provider')
+    throw new Error('Los componentes OpenIng deben usarse dentro de un proveedor OpenId')
   }
   return context
 }

@@ -41,13 +41,13 @@ const StepItemContext = createContext<StepItemContextValue | undefined>(undefine
 
 function useStepper() {
   const ctx = useContext(StepperContext)
-  if (!ctx) throw new Error('useStepper must be used within a Stepper')
+  if (!ctx) throw new Error('useStepper debe usarse dentro de un Stepper')
   return ctx
 }
 
 function useStepItem() {
   const ctx = useContext(StepItemContext)
-  if (!ctx) throw new Error('useStepItem must be used within a StepperItem')
+  if (!ctx) throw new Error('useStepItem debe usarse dentro de un StepperItem')
   return ctx
 }
 

@@ -21,6 +21,8 @@ const nextConfig = {
       'gsap',
       'three',
       'next-share',
+      'leaflet',
+      'next-secure-headers',
     ],
     optimizeCss: true,
   },
@@ -44,7 +46,7 @@ const nextConfig = {
       },
     ],
     domains: ['*.r2.cloudflarestorage.com', '*.r2.dev'],
-    unoptimized: process.env.NODE_ENV === 'development',
+    unoptimized: true, // Disable Sharp optimization to avoid Turbopack issues
   },
   webpack: (webpackConfig) => {
     webpackConfig.resolve.extensionAlias = {
@@ -52,6 +54,10 @@ const nextConfig = {
       '.js': ['.ts', '.tsx', '.js', '.jsx'],
       '.mjs': ['.mts', '.mjs'],
     }
+
+    // Exclude Sharp from webpack processing
+    webpackConfig.externals = webpackConfig.externals || []
+    webpackConfig.externals.push('sharp')
 
     return webpackConfig
   },

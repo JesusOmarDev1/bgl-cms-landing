@@ -281,7 +281,7 @@ function MapLayers({
       !tileLayers.some((tileLayer) => tileLayer.name === defaultTileLayer)
     ) {
       throw new Error(
-        `Invalid defaultTileLayer "${defaultTileLayer}" provided to MapLayers. It must match a MapTileLayer's name prop.`,
+        `El valor predeterminado "${defaultTileLayer}" proporcionado a MapLayers no es válido. Debe coincidir con la propiedad "name" de MapTileLayer.`,
       )
     }
 
@@ -301,7 +301,7 @@ function MapLayers({
       defaultLayerGroups.some((name) => !layerGroups.some((group) => group.name === name))
     ) {
       throw new Error(
-        `Invalid defaultLayerGroups value provided to MapLayers. All names must match a MapLayerGroup's name prop.`,
+        `El valor predeterminado de "DefaultLayerGroups" proporcionado a MapLayers no es válido. Todos los nombres deben coincidir con la propiedad "name" de un MapLayerGroup.`,
       )
     }
   }, [tileLayers, defaultTileLayer, selectedTileLayer, layerGroups, defaultLayerGroups])
@@ -334,7 +334,7 @@ function MapLayersControl({
 }) {
   const layersContext = useMapLayersContext()
   if (!layersContext) {
-    throw new Error('MapLayersControl must be used within MapLayers')
+    throw new Error('MapLayersControl debe usarse dentro de MapLayers')
   }
 
   const {
@@ -371,7 +371,7 @@ function MapLayersControl({
         <Button
           type="button"
           variant="secondary"
-          size="icon-sm"
+          size="icon"
           aria-label="Select layers"
           title="Select layers"
           className={cn('absolute top-1 right-1 z-1000 border', className)}
@@ -567,7 +567,7 @@ function MapZoomControl({ className, ...props }: React.ComponentProps<'div'>) {
     >
       <Button
         type="button"
-        size="icon-sm"
+        size="icon"
         variant="secondary"
         aria-label="Zoom in"
         title="Zoom in"
@@ -579,7 +579,7 @@ function MapZoomControl({ className, ...props }: React.ComponentProps<'div'>) {
       </Button>
       <Button
         type="button"
-        size="icon-sm"
+        size="icon"
         variant="secondary"
         aria-label="Zoom out"
         title="Zoom out"
@@ -648,7 +648,7 @@ function MapLocateControl({
     <>
       <Button
         type="button"
-        size="icon-sm"
+        size="icon"
         variant={position ? 'default' : 'secondary'}
         onClick={position ? stopLocating : startLocating}
         disabled={isLocating}
@@ -760,7 +760,7 @@ function MapDrawShapeButton<T extends Draw.Feature>({
 }) {
   const drawContext = useMapDrawContext()
   if (!drawContext) {
-    throw new Error('MapDrawShapeButton must be used within MapDrawControl')
+    throw new Error('MapDrawShapeButton debe usarse dentro de MapDrawControl')
   }
   const { L } = useLeaflet()
   const map = useMap()
@@ -790,7 +790,7 @@ function MapDrawShapeButton<T extends Draw.Feature>({
   return (
     <Button
       type="button"
-      size="icon-sm"
+      size="icon"
       aria-label={`Draw ${drawMode}`}
       title={`Draw ${drawMode}`}
       className={cn('border', className)}
@@ -956,7 +956,7 @@ function MapDrawActionButton<T extends EditToolbar.Edit | EditToolbar.Delete>({
   controlRef: React.RefObject<T | null>
 }) {
   const drawContext = useMapDrawContext()
-  if (!drawContext) throw new Error('MapDrawActionButton must be used within MapDrawControl')
+  if (!drawContext) throw new Error('MapDrawActionButton debe usarse dentro de MapDrawControl')
 
   const { L } = useLeaflet()
   const map = useMap()
@@ -987,7 +987,7 @@ function MapDrawActionButton<T extends EditToolbar.Edit | EditToolbar.Delete>({
   return (
     <Button
       type="button"
-      size="icon-sm"
+      size="icon"
       aria-label={`${drawAction === 'edit' ? 'Edit' : 'Remove'} shapes`}
       title={`${drawAction === 'edit' ? 'Edit' : 'Remove'} shapes`}
       variant={isActive ? 'default' : 'secondary'}
@@ -1011,7 +1011,7 @@ function MapDrawEdit({
   const mapDrawHandleIcon = useMapDrawHandleIcon()
   const drawContext = useMapDrawContext()
   if (!drawContext) {
-    throw new Error('MapDrawEdit must be used within MapDrawControl')
+    throw new Error('MapDrawEdit debe utilizarse dentro de MapDrawControl')
   }
 
   useEffect(() => {
@@ -1059,7 +1059,7 @@ function MapDrawEdit({
 function MapDrawDelete() {
   const drawContext = useMapDrawContext()
   if (!drawContext) {
-    throw new Error('MapDrawDelete must be used within MapDrawControl')
+    throw new Error('MapDrawDelete debe usarse dentro de MapDrawControl')
   }
 
   return (
@@ -1075,7 +1075,7 @@ function MapDrawDelete() {
 
 function MapDrawUndo({ className, ...props }: React.ComponentProps<'button'>) {
   const drawContext = useMapDrawContext()
-  if (!drawContext) throw new Error('MapDrawUndo must be used within MapDrawControl')
+  if (!drawContext) throw new Error('MapDrawUndo debe usarse dentro de MapDrawControl')
 
   const { activeMode, setActiveMode, editControlRef, deleteControlRef } = drawContext
 
@@ -1095,7 +1095,7 @@ function MapDrawUndo({ className, ...props }: React.ComponentProps<'button'>) {
   return (
     <Button
       type="button"
-      size="icon-sm"
+      size="icon"
       variant="secondary"
       aria-label={`Undo ${activeMode}`}
       title={`Undo ${activeMode}`}

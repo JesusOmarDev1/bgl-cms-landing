@@ -11,11 +11,12 @@ declare global {
       S3_ENDPOINT: string
       S3_PUBLIC_URL: string
       S3_REGION: string
-      GMAIL_USER: string
-      GMAIL_PASS: string
-      GMAIL_NAME: string
+      NODEMAILER_USER: string
+      NODEMAILER_PASS: string
+      NODEMAILER_NAME: string
+      NODEMAILER_SUPPORT_EMAIL: string
       RESEND_API_KEY: string
-      RESEND_DEFAULT_EMAIL: string
+      RESEND_DEFAULT_USER: string
       RESEND_DEFAULT_NAME: string
     }
   }

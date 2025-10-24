@@ -4,8 +4,8 @@
  */
 
 import type { CollectionBeforeChangeHook } from 'payload'
-import { replaceDoubleCurlys } from '@/utilities/replaceDoubleCurlys'
-import { serializeLexical } from '@/utilities/serializeLexical'
+import { replaceDoubleCurlys } from '@/utilities/string'
+import { serializeLexical } from '@/utilities/content'
 
 interface Email {
   emailTo: string
@@ -30,6 +30,14 @@ interface FormattedEmail {
 export const sendEmail: CollectionBeforeChangeHook = async ({ data, req, operation }) => {
   // Solo ejecutar en creación
   if (operation !== 'create') {
+    return data
+  }
+
+  // Verificar si se debe enviar email (campo opcional para control desde admin)
+  if (data?.skipEmailNotification === true) {
+    req.payload.logger.info({
+      msg: 'Form submission configurado para no enviar emails',
+    })
     return data
   }
 

@@ -1,6 +1,6 @@
 'use client'
 import React from 'react'
-import useShare from '../../hooks/useShare'
+import { useShare } from '@/utilities/hooks/useShare'
 import { toast } from 'sonner'
 import { Button } from '../ui/button'
 import { ShareIcon } from 'lucide-react'

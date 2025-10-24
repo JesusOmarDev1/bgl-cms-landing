@@ -34,7 +34,7 @@ const RatingContext = createContext<RatingContextValue | null>(null)
 const useRating = () => {
   const context = useContext(RatingContext)
   if (!context) {
-    throw new Error('useRating must be used within a Rating component')
+    throw new Error('useRating debe usarse dentro de un componente de calificación')
   }
   return context
 }

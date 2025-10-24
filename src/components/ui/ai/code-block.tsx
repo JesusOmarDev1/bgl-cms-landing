@@ -2,9 +2,10 @@
 
 import { Button } from '@/components/ui/button'
 import { cn } from '@/utilities/ui'
+import useCopyToClipboard from '@/utilities/hooks/useCopyToClipboard'
 import { CheckIcon, CopyIcon } from 'lucide-react'
 import type { ComponentProps, HTMLAttributes, ReactNode } from 'react'
-import { createContext, useContext, useState } from 'react'
+import { createContext, useContext } from 'react'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { oneDark, oneLight } from 'react-syntax-highlighter/dist/esm/styles/prism'
 
@@ -108,22 +109,18 @@ export const CodeBlockCopyButton = ({
   className,
   ...props
 }: CodeBlockCopyButtonProps) => {
-  const [isCopied, setIsCopied] = useState(false)
   const { code } = useContext(CodeBlockContext)
+  const { copyToClipboard, isCopied } = useCopyToClipboard({
+    onSuccess: onCopy,
+    onError,
+    timeout,
+  })
 
-  const copyToClipboard = async () => {
-    if (typeof window === 'undefined' || !navigator.clipboard.writeText) {
-      onError?.(new Error('Clipboard API not available'))
-      return
-    }
-
+  const handleCopy = async () => {
     try {
-      await navigator.clipboard.writeText(code)
-      setIsCopied(true)
-      onCopy?.()
-      setTimeout(() => setIsCopied(false), timeout)
+      await copyToClipboard(code)
     } catch (error) {
-      onError?.(error as Error)
+      // Error is already handled by the hook
     }
   }
 
@@ -132,7 +129,7 @@ export const CodeBlockCopyButton = ({
   return (
     <Button
       className={cn('shrink-0', className)}
-      onClick={copyToClipboard}
+      onClick={handleCopy}
       size="icon"
       variant="ghost"
       {...props}

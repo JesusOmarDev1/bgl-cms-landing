@@ -11,7 +11,7 @@ import { Link } from 'next-view-transitions'
 import { ThemeSelector } from '@/providers/Theme/ThemeSelector'
 import { SearchIcon } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { cn } from '@/utilities/ui'
+import { cn } from '@/utilities/client'
 import { HeaderSheetNav } from './Sheet'
 import { StaticLogo } from '@/components/Logo/StaticLogo'
 
@@ -40,7 +40,6 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data, display = 'fix
 
   return (
     <header
-      {...(theme ? { 'data-theme': theme } : {})}
       className={cn(
         display === 'sticky' ? 'sticky' : 'fixed',
         'top-0 w-full h-fit z-20 backdrop-filter backdrop-blur-lg bg-background/70 dark:bg-background/70 border-b',
@@ -89,3 +88,5 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data, display = 'fix
     </header>
   )
 }
+
+//       {...(theme ? { 'data-theme': theme } : {})}

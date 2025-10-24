@@ -1,15 +1,15 @@
-import { formatDateTime } from 'src/utilities/formatDateTime'
 import React from 'react'
 
 import type { Post } from '@/payload-types'
 
 import { Media } from '@/components/Media'
-import { formatAuthors } from '@/utilities/formatAuthors'
 import { Separator } from '@/components/ui/separator'
 import { readingTime } from 'reading-time-estimator'
 import { AspectRatio } from '@/components/ui/aspect-ratio'
 import Categories from '@/components/ui/categories'
 import Share from '@/components/ui/share'
+import { formatAuthors } from '@/utilities/content'
+import { formatDateTime } from '@/utilities/date'
 
 export const PostHero: React.FC<{
   post: Post

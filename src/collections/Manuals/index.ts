@@ -1,6 +1,5 @@
 import type { CollectionConfig } from 'payload'
 
-import { generatePreviewPath } from '@/utilities/generatePreviewPath'
 import { revalidateDelete, revalidateManual } from './hooks/revalidateManuals'
 
 import {
@@ -15,6 +14,7 @@ import { isAdminOrEditor } from '@/access/isAdminOrEditor'
 import { isAdmin } from '@/access/isAdmin'
 import { isAuthenticatedOrPublished } from '@/access/isLoggedInOrPublished'
 import { contentLexicalEditor } from '@/fields/contentLexical'
+import { generatePreviewPath } from '@/utilities/url'
 
 export const Manuals: CollectionConfig<'manuals'> = {
   slug: 'manuals',

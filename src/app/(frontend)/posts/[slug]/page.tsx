@@ -11,7 +11,7 @@ import RichText from '@/components/RichText'
 import type { Media, Post } from '@/payload-types'
 
 import { PostHero } from '@/heros/PostHero'
-import { generateMeta } from '@/utilities/generateMeta'
+import { generateMeta } from '@/utilities/meta'
 import PageClient from './page.client'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
 import { MediaSchema, PostSchema } from '@/components/Schema'

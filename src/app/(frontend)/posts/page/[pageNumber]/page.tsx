@@ -1,7 +1,7 @@
 import type { Metadata } from 'next/types'
 
 import { PostArchive } from '@/components/CollectionArchive/PostArchive'
-import { PageRange } from '@/components/PageRange'
+import { PageRange } from '@/components/PageRange/PagesRange'
 import { Pagination } from '@/components/Pagination'
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'

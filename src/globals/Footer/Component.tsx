@@ -1,5 +1,5 @@
 import { FooterClient } from './Component.client'
-import { getCachedGlobal } from '@/utilities/getGlobals'
+import { getCachedGlobal } from '@/utilities/payload'
 import React from 'react'
 
 import type { Footer as FooterType } from '@/payload-types'

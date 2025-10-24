@@ -6,15 +6,14 @@
 
 import type { CollectionBeforeValidateHook } from 'payload'
 
-export const validateFormData: CollectionBeforeValidateHook = async ({
-  data,
-  req,
-  operation,
-}) => {
+export const validateFormData: CollectionBeforeValidateHook = async ({ data, req, operation }) => {
   // Solo validar en creación
   if (operation !== 'create') {
     return data
   }
+
+  // Validación más flexible desde el admin panel
+  const isAdminCreation = !!req.user
 
   const { payload } = req
   const { form: formID, submissionData } = data || {}
@@ -42,9 +41,7 @@ export const validateFormData: CollectionBeforeValidateHook = async ({
       }
 
       // Buscar el valor enviado para este campo
-      const submittedField = submissionData.find(
-        (item: any) => item.field === formField.name,
-      )
+      const submittedField = submissionData.find((item: any) => item.field === formField.name)
 
       // Validar campo requerido
       if (formField.required) {
@@ -106,9 +103,15 @@ export const validateFormData: CollectionBeforeValidateHook = async ({
       }
     }
 
-    // Si hay errores, lanzar excepción
+    // Si hay errores, lanzar excepción (más permisivo desde admin)
     if (errors.length > 0) {
-      throw new Error(`Errores de validación: ${errors.join(', ')}`)
+      if (isAdminCreation) {
+        // Solo advertir en el admin, no fallar
+        payload.logger.warn({ msg: `Advertencias de validación desde admin: ${errors.join(', ')}` })
+      } else {
+        // Fallar en frontend
+        throw new Error(`Errores de validación: ${errors.join(', ')}`)
+      }
     }
   } catch (error) {
     // Si es un error de validación, propagarlo

@@ -5,14 +5,14 @@ import React from 'react'
 import { Header } from '@/globals/Header'
 import { Providers } from '@/providers'
 import { InitTheme } from '@/providers/Theme/InitTheme'
-import { mergeOpenGraph } from '@/utilities/mergeOpenGraph'
 import { ViewTransitions } from 'next-view-transitions'
-import { getServerSideURL } from '@/utilities/getURL'
 import '@/styles/globals.css'
 import { Toaster } from '@/components/ui/sonner'
 import { ChatbotWrapper } from '@/globals/Chatbot/ChatbotWidget/ChatbotWrapper'
 import { Footer } from '@/globals/Footer'
 import { Coupons } from '@/globals/Coupons'
+import { getServerSideURL } from '@/utilities/url'
+import { mergeOpenGraph } from '@/utilities/meta'
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   return (

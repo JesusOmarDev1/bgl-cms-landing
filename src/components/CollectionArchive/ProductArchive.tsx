@@ -17,7 +17,7 @@ export const ProductArchive: React.FC<Props> = (props) => {
             if (typeof result === 'object' && result !== null) {
               return (
                 <div className="col-span-4" key={index}>
-                  <CardProducts doc={result} relationTo="products" showCategories />
+                  <CardProducts doc={result} relationTo="products" />
                 </div>
               )
             }

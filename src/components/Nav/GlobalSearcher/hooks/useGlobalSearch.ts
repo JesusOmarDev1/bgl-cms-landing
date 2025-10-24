@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react'
-import { useDebounce } from '@/utilities/useDebounce'
+import { useDebounce } from '@/utilities/hooks/useDebounceWindowed'
 import { searchContent, loadMoreSearchResults } from '../searchAction'
 import type { SearchResult } from '../types'
 import { SEARCH_SETTINGS } from '../config'

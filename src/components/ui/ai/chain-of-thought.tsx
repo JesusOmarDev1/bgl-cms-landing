@@ -18,7 +18,7 @@ const ChainOfThoughtContext = createContext<ChainOfThoughtContextValue | null>(n
 const useChainOfThought = () => {
   const context = useContext(ChainOfThoughtContext)
   if (!context) {
-    throw new Error('ChainOfThought components must be used within ChainOfThought')
+    throw new Error('Los componentes de ChainOfThought deben usarse dentro de ChainOfThought')
   }
   return context
 }

@@ -1,17 +1,20 @@
-import BlankCanvasIllustration from '@/assets/undraw/blank-canvas'
-import { Empty, EmptyContent, EmptyTitle } from '../ui/empty'
+import { SearchX } from 'lucide-react'
+import { Empty, EmptyContent, EmptyTitle, EmptyDescription } from '../ui/empty'
 
 export default function NoSearchResults() {
   return (
     <Empty>
-      <EmptyTitle className="text-lg font-semibold" role="log">
-        No se encontraron resultados para la búsqueda.
-      </EmptyTitle>
-      <EmptyContent>
-        <div className="container flex flex-col items-center gap-4 text-center mt-10">
-          <BlankCanvasIllustration className="size-48" />
+      <div className="flex flex-col items-center gap-3">
+        <div className="flex size-12 items-center justify-center rounded-full bg-muted">
+          <SearchX className="size-6 text-muted-foreground" />
         </div>
-      </EmptyContent>
+        <EmptyTitle className="text-base font-medium" role="log">
+          No se encontraron resultados
+        </EmptyTitle>
+        <EmptyDescription className="text-sm text-center max-w-sm">
+          Intenta ajustar tu búsqueda o usar términos diferentes
+        </EmptyDescription>
+      </div>
     </Empty>
   )
 }

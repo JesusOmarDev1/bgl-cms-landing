@@ -63,7 +63,7 @@ export const usePromptInputAttachments = () => {
   const context = useContext(AttachmentsContext)
 
   if (!context) {
-    throw new Error('usePromptInputAttachments must be used within a PromptInput')
+    throw new Error('usePromptInputAttachments debe usarse dentro de un PromptInput')
   }
 
   return context

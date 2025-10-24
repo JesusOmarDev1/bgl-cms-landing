@@ -50,7 +50,7 @@ const ReelContext = createContext<ReelContextType | undefined>(undefined)
 const useReelContext = () => {
   const context = useContext(ReelContext)
   if (!context) {
-    throw new Error('useReelContext must be used within a Reel')
+    throw new Error('useReelContext debe usarse dentro de un Reel')
   }
   return context
 }

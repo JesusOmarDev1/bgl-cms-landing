@@ -20,7 +20,7 @@ const ReasoningContext = createContext<ReasoningContextValue | null>(null)
 const useReasoning = () => {
   const context = useContext(ReasoningContext)
   if (!context) {
-    throw new Error('Reasoning components must be used within Reasoning')
+    throw new Error('Los componentes de razonamiento deben utilizarse dentro del razonamiento.')
   }
   return context
 }

@@ -1,17 +1,15 @@
 'use client'
-import useClickableCard from '@/utilities/useClickableCard'
+import { useClickableCard } from '@/utilities/ui'
 import { Link } from 'next-view-transitions'
 import React, { Suspense } from 'react'
 
 import { Media } from '@/components/Media'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card'
 import { Skeleton } from '../ui/skeleton'
-import { formatDateTime } from '@/utilities/formatDateTime'
-import Categories from '../ui/categories'
 import { AspectRatio } from '../ui/aspect-ratio'
 import { Badge } from '../ui/badge'
 
-// Mapeo de tipos de documentos obtenidos directamente de las colecciones
+// Mapeo de tipos de documentos
 const documentTypeLabels: Record<string, string> = {
   posts: 'Publicación',
   products: 'Producto',
@@ -43,74 +41,75 @@ export type SearchResultData = {
   }
 }
 
+// Search image component
+const SearchImage: React.FC<{ imageToUse: any; documentType: string }> = ({
+  imageToUse,
+  documentType,
+}) => (
+  <div className="relative">
+    <Badge variant="secondary" className="absolute top-3 right-3 z-10 text-xs">
+      {documentType}
+    </Badge>
+    <Suspense fallback={<Skeleton className="h-56 w-full" />}>
+      {imageToUse && typeof imageToUse !== 'string' && typeof imageToUse !== 'number' ? (
+        <AspectRatio ratio={1 / 1} className="relative">
+          <Media priority resource={imageToUse} fill />
+        </AspectRatio>
+      ) : (
+        <div
+          role="img"
+          aria-label="Imagen no disponible"
+          className="text-center flex items-center justify-center h-56 w-full bg-muted/20 rounded-md"
+        >
+          <span className="text-muted-foreground text-sm">No se encontró imagen</span>
+        </div>
+      )}
+    </Suspense>
+  </div>
+)
+
 export const SearchCard: React.FC<{
   className?: string
   doc?: SearchResultData
-  showCategories?: boolean
-}> = (props) => {
+}> = ({ doc, className }) => {
   const { link } = useClickableCard({})
-  const { doc, showCategories } = props
 
   if (!doc) return null
 
-  const { slug, meta, title, categories, doc: docRef, heroImage, publishedAt } = doc
+  const { slug, meta, title, doc: docRef, heroImage } = doc
   const { description, image: metaImage } = meta || {}
 
   const href = `/${docRef.relationTo}/${slug}`
-
-  const sanitizedTitle = title || meta?.title
-  const sanitizedDescription = description?.replace(/\s/g, ' ')
-
-  const hasCategories = categories && Array.isArray(categories) && categories.length > 0
-
+  const displayTitle = title || meta?.title
+  const displayDescription = description?.replace(/\s+/g, ' ').trim()
   const imageToUse = heroImage || metaImage
-
   const documentTypeLabel = documentTypeLabels[docRef.relationTo] || docRef.relationTo
 
   return (
-    <Card role="article" className="h-fit max-w-96 relative z-10">
+    <Card role="article" className={`h-fit max-w-96 relative z-10 ${className || ''}`}>
       <div className="flex flex-col gap-4">
         <CardHeader className="px-0">
-          <div className="relative">
-            <Badge variant="default" className="w-fit absolute top-4 right-4 overflow-hidden z-1">
-              {documentTypeLabel}
-            </Badge>
-            <Suspense fallback={<Skeleton className="h-56 w-full" />}>
-              {imageToUse && typeof imageToUse !== 'string' && typeof imageToUse !== 'number' && (
-                <AspectRatio ratio={1 / 1} className="relative">
-                  <Media priority resource={imageToUse} fill />
-                </AspectRatio>
-              )}
-              {(!imageToUse ||
-                typeof imageToUse === 'string' ||
-                typeof imageToUse === 'number') && (
-                <div
-                  role="log"
-                  className="text-center flex items-center justify-center h-56 w-full"
-                >
-                  No se encontro imagen.
-                </div>
-              )}
-            </Suspense>
-          </div>
+          <SearchImage imageToUse={imageToUse} documentType={documentTypeLabel} />
         </CardHeader>
-        <CardContent className="flex flex-col gap-2 py-1">
-          <Categories
-            showCategories={showCategories}
-            hasCategories={hasCategories}
-            categories={categories}
-          />
-          <CardTitle className="text-lg font-semibold line-clamp-2">
-            <Link className="not-prose hover:underline" href={href as any} ref={link.ref}>
-              {sanitizedTitle}
-            </Link>
-          </CardTitle>
-          <p className="text-sm">
-            Fecha de publicación: {publishedAt && <span>{formatDateTime(publishedAt)}</span>}
-          </p>
-          <CardDescription className="text-sm text-muted-foreground line-clamp-2">
-            {sanitizedDescription}
-          </CardDescription>
+
+        <CardContent className="flex flex-col gap-3 py-1">
+          <div className="space-y-2">
+            <CardTitle className="text-lg font-semibold line-clamp-2 leading-tight">
+              <Link
+                className="not-prose hover:underline transition-colors"
+                href={href}
+                ref={link.ref}
+              >
+                {displayTitle}
+              </Link>
+            </CardTitle>
+
+            {displayDescription && (
+              <CardDescription className="text-sm text-muted-foreground line-clamp-3 leading-relaxed">
+                {displayDescription}
+              </CardDescription>
+            )}
+          </div>
         </CardContent>
       </div>
     </Card>

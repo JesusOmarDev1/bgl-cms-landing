@@ -1,13 +1,13 @@
 import type { Metadata } from 'next/types'
 
 import { PostArchive } from '@/components/CollectionArchive/PostArchive'
-import { PageRange } from '@/components/PageRange'
+import { PageRange } from '@/components/PageRange/PagesRange'
 import { Pagination } from '@/components/Pagination'
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 import React from 'react'
 import PageClient from './page.client'
-import generalMetadata from '@/utilities/generalMetadata'
+import { generalMetadata } from '@/utilities/meta'
 
 export const dynamic = 'force-static'
 export const revalidate = 600

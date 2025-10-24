@@ -18,7 +18,7 @@ export const ManualArchive: React.FC<Props> = (props) => {
             if (typeof result === 'object' && result !== null) {
               return (
                 <div className="col-span-4" key={index}>
-                  <CardManual className="h-full" doc={result} relationTo="manuals" showCategories />
+                  <CardManual className="h-full" doc={result} relationTo="manuals" />
                 </div>
               )
             }

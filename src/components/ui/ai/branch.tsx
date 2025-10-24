@@ -22,7 +22,7 @@ const useBranch = () => {
   const context = useContext(BranchContext)
 
   if (!context) {
-    throw new Error('Branch components must be used within Branch')
+    throw new Error('Los componentes de la rama deben usarse dentro de la rama')
   }
 
   return context

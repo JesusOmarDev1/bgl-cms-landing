@@ -17,7 +17,7 @@ export const SearchArchive: React.FC<Props> = (props) => {
         <div className="my-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2.5 place-items-center justify-items-center md:place-items-start md:justify-items-start">
           {results?.map((result, index) => {
             if (typeof result === 'object' && result !== null) {
-              return <SearchCard key={index} className="h-full" doc={result} showCategories />
+              return <SearchCard key={index} className="h-full" doc={result} />
             }
             return null
           })}

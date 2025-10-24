@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react'
 import { X, AlertCircle, CheckCircle, ExternalLink, Megaphone, Bell } from 'lucide-react'
-import { cn } from '@/utilities/ui'
+import { cn } from '@/utilities/client'
 
 import type { Announcement as AnnouncementType } from '@/payload-types'
 import { motion } from 'motion/react'
@@ -22,38 +22,16 @@ const typeIcons = {
 
 const typeStyles = {
   info: {
-    bg: 'bg-blue-50/70 dark:bg-blue-950/70 backdrop-blur-lg',
-    border: 'border-blue-200/50 dark:border-blue-800/50',
-    text: 'text-blue-900 dark:text-blue-100',
-    accent: 'text-blue-600 dark:text-blue-400',
-    button: 'bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 text-white',
-    tag: 'bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-blue-300 border-blue-200 dark:border-blue-700',
+    icon: 'text-blue-600 dark:text-blue-400',
   },
   warning: {
-    bg: 'bg-amber-50/70 dark:bg-amber-950/70 backdrop-blur-lg',
-    border: 'border-amber-200/50 dark:border-amber-800/50',
-    text: 'text-amber-900 dark:text-amber-100',
-    accent: 'text-amber-600 dark:text-amber-400',
-    button: 'bg-amber-600 hover:bg-amber-700 dark:bg-amber-500 dark:hover:bg-amber-600 text-white',
-    tag: 'bg-amber-100 dark:bg-amber-900/50 text-amber-700 dark:text-amber-300 border-amber-200 dark:border-amber-700',
+    icon: 'text-amber-600 dark:text-amber-400',
   },
   success: {
-    bg: 'bg-emerald-50/70 dark:bg-emerald-950/70 backdrop-blur-lg',
-    border: 'border-emerald-200/50 dark:border-emerald-800/50',
-    text: 'text-emerald-900 dark:text-emerald-100',
-    accent: 'text-emerald-600 dark:text-emerald-400',
-    button:
-      'bg-emerald-600 hover:bg-emerald-700 dark:bg-emerald-500 dark:hover:bg-emerald-600 text-white',
-    tag: 'bg-emerald-100 dark:bg-emerald-900/50 text-emerald-700 dark:text-emerald-300 border-emerald-200 dark:border-emerald-700',
+    icon: 'text-emerald-600 dark:text-emerald-400',
   },
   announcement: {
-    bg: 'bg-purple-50/70 dark:bg-purple-950/70 backdrop-blur-lg',
-    border: 'border-purple-200/50 dark:border-purple-800/50',
-    text: 'text-purple-900 dark:text-purple-100',
-    accent: 'text-purple-600 dark:text-purple-400',
-    button:
-      'bg-purple-600 hover:bg-purple-700 dark:bg-purple-500 dark:hover:bg-purple-600 text-white',
-    tag: 'bg-purple-100 dark:bg-purple-900/50 text-purple-700 dark:text-purple-300 border-purple-200 dark:border-purple-700',
+    icon: 'text-purple-600 dark:text-purple-400',
   },
 }
 
@@ -109,7 +87,9 @@ export const AnnouncementsClient: React.FC<AnnouncementsClientProps> = ({ data }
 
   return (
     <motion.div
-      className={cn('w-full border-b fixed mt-[89px] h-fit', styles.bg, styles.border)}
+      className={cn(
+        'w-full border-b fixed mt-[89px] h-fit bg-background backdrop-blur-lg border-border',
+      )}
       initial={{ height: 0, opacity: 0 }}
       animate={{ height: 'auto', opacity: 1 }}
       exit={{ height: 0, opacity: 0 }}
@@ -119,29 +99,22 @@ export const AnnouncementsClient: React.FC<AnnouncementsClientProps> = ({ data }
         <div className="flex items-center justify-between gap-4 py-3">
           {/* Content */}
           <div className="flex items-center gap-3 flex-1 min-w-0">
-            <div className={cn('p-1.5 rounded-md', styles.tag)}>
-              <Icon className="size-4" />
+            <div className="p-1.5 rounded-md bg-muted">
+              <Icon className={cn('size-4', styles.icon)} />
             </div>
 
             <div className="flex items-center gap-3 flex-1 min-w-0">
               <div className="flex items-center gap-2">
-                <h3 className={cn('font-medium text-sm', styles.text)}>{announcement.title}</h3>
+                <h3 className="font-medium text-sm text-foreground">{announcement.title}</h3>
                 {announcement.tag && (
-                  <span
-                    className={cn(
-                      'inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium border',
-                      styles.tag,
-                    )}
-                  >
+                  <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium border bg-muted text-muted-foreground border-border">
                     {announcement.tag}
                   </span>
                 )}
               </div>
 
               {announcement.message && (
-                <p className={cn('text-sm truncate', styles.text, 'opacity-75')}>
-                  {announcement.message}
-                </p>
+                <p className="text-sm truncate text-muted-foreground">{announcement.message}</p>
               )}
             </div>
           </div>
@@ -151,10 +124,7 @@ export const AnnouncementsClient: React.FC<AnnouncementsClientProps> = ({ data }
             {announcement.link && (
               <a
                 href={announcement.link}
-                className={cn(
-                  'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium transition-colors',
-                  styles.button,
-                )}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium transition-colors bg-primary hover:bg-primary/90 text-primary-foreground"
                 target="_blank"
                 rel="noopener noreferrer"
               >

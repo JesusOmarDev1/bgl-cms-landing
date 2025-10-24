@@ -35,7 +35,9 @@ export function createSearchConditions(
 ): SearchConditions {
   const config = getCollectionConfig(collection)
   if (!config) {
-    throw new Error(`No search configuration found for collection: ${collection}`)
+    throw new Error(
+      `No se encontró ninguna configuración de búsqueda para la colección: ${collection}`,
+    )
   }
 
   const conditions: Record<string, unknown>[] = []

@@ -1,14 +1,14 @@
 'use client'
 
 import React, { useEffect, useState } from 'react'
-import { CountdownDisplay } from '@/hooks/countdown'
-import { useCopyToClipboard } from '@/hooks/use-copy-to-clipboard'
+import { CountdownDisplay } from '@/utilities/hooks/useCountdown'
+import { useCopyToClipboard } from '@/utilities/hooks/useCopyToClipboard'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Clock, Copy, Check, Truck, TicketCheck, CircleDollarSign, Ticket } from 'lucide-react'
 import { Link } from 'next-view-transitions'
-import { cn } from '@/utilities/ui'
+import { cn } from '@/utilities/client'
 import Share from '@/components/ui/share'
 import { Separator } from '@/components/ui/separator'
 import {

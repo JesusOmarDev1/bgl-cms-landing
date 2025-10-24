@@ -9,8 +9,8 @@ import React from 'react'
 import type { Props as MediaProps } from '../types'
 
 import { cssVariables } from '@/cssVariables'
-import { getMediaUrl } from '@/utilities/getMediaUrl'
-import { placeholderBlur } from '@/utilities/placeholder'
+import { getMediaUrl } from '@/utilities/media'
+import { placeholderBlur } from '@/utilities/media/placeholder'
 
 const { breakpoints } = cssVariables
 
@@ -75,6 +75,8 @@ export const ImageMedia: React.FC<MediaProps> = (props) => {
         src={src}
         fetchPriority="auto"
         width={!fill ? width : undefined}
+        role="img"
+        decoding="async"
       />
     </picture>
   )

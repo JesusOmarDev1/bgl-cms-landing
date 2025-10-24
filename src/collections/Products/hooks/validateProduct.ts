@@ -3,7 +3,7 @@ import type { CollectionBeforeValidateHook } from 'payload'
 export const validateProduct: CollectionBeforeValidateHook = async ({ data, req: { payload } }) => {
   // Guard clause to ensure data exists
   if (!data) {
-    throw new Error('No data provided for validation')
+    throw new Error('No se proporcionaron datos para la validación')
   }
 
   // Validar que el descuento no sea mayor al precio
@@ -20,14 +20,6 @@ export const validateProduct: CollectionBeforeValidateHook = async ({ data, req:
   if (data.price !== undefined && data.price < 0) {
     throw new Error('El precio no puede ser negativo')
   }
-
-  // Log para debugging
-  payload.logger.info('Product validation passed', {
-    title: data.title,
-    price: data.price,
-    discount: data.discount,
-    stock: data.stock,
-  })
 
   return data
 }

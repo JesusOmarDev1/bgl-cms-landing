@@ -10,7 +10,7 @@ import {
   CommandList,
 } from '@/components/ui/command'
 import { ChevronRightIcon, SearchIcon, Loader2 } from 'lucide-react'
-import { useDebounce } from '@/utilities/useDebounce'
+import { useDebounce } from '@/utilities/hooks/useDebounceWindowed'
 import Link from 'next/link'
 import { searchContent, loadMoreSearchResults } from './searchAction'
 import { getNavIcon } from '@/components/Nav/navIconMap'

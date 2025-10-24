@@ -7,10 +7,10 @@ import { draftMode } from 'next/headers'
 import React, { cache } from 'react'
 
 import { RenderBlocks } from '@/blocks/RenderBlocks'
-import { generateMeta } from '@/utilities/generateMeta'
 import PageClient from './page.client'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
 import { PageSchema } from '@/components/Schema'
+import { generateMeta } from '@/utilities/meta'
 
 export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise })
