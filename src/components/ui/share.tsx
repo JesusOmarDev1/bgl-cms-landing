@@ -28,7 +28,7 @@ export default function Share({ title, text, url, className, disabled }: SharePr
 
   return (
     <Button
-      className={className}
+      className={`${className} cursor-pointer`}
       onClick={handleShare}
       icon={ShareIcon}
       iconPlacement="left"

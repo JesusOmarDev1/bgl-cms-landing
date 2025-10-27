@@ -261,7 +261,7 @@ export interface CallToActionBlock {
  */
 export interface Media {
   id: number;
-  alt: string;
+  title: string;
   content?: {
     root: {
       type: string;
@@ -436,7 +436,27 @@ export interface ContentBlock {
  * via the `definition` "MediaBlock".
  */
 export interface MediaBlock {
-  media: number | Media;
+  /**
+   * Choose whether to display a single media item or multiple media items in a carousel
+   */
+  displayType: 'single' | 'carousel';
+  /**
+   * Single media item to display
+   */
+  media?: (number | null) | Media;
+  /**
+   * Multiple media items to display in a carousel
+   */
+  mediaItems?:
+    | {
+        media: number | Media;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Choose how the media should be displayed. Square is great for uniform galleries, widescreen for cinematic content, and auto preserves original dimensions.
+   */
+  aspectRatio?: ('1/1' | '16/9' | 'auto') | null;
   id?: string | null;
   blockName?: string | null;
   blockType: 'mediaBlock';
@@ -525,7 +545,7 @@ export interface Form {
     redirectPage?: (number | null) | Page;
   };
   /**
-   * Configura los emails que se enviarán cuando alguien complete el formulario. Usa {{nombreCampo}} para insertar valores del formulario.
+   * Configura los correos que se enviarán cuando alguien complete el formulario. Usa {{nombreCampo}} para insertar valores del formulario.
    */
   emailNotifications?:
     | {
@@ -1946,7 +1966,15 @@ export interface ContentBlockSelect<T extends boolean = true> {
  * via the `definition` "MediaBlock_select".
  */
 export interface MediaBlockSelect<T extends boolean = true> {
+  displayType?: T;
   media?: T;
+  mediaItems?:
+    | T
+    | {
+        media?: T;
+        id?: T;
+      };
+  aspectRatio?: T;
   id?: T;
   blockName?: T;
 }
@@ -2043,7 +2071,7 @@ export interface PostsSelect<T extends boolean = true> {
  * via the `definition` "media_select".
  */
 export interface MediaSelect<T extends boolean = true> {
-  alt?: T;
+  title?: T;
   content?: T;
   createdBy?: T;
   lastModifiedBy?: T;
@@ -3502,9 +3530,9 @@ export interface Announcement {
          */
         linkText?: string | null;
         /**
-         * Permite al usuario cerrar este anuncio
+         * El anuncio se ocultará automáticamente después de esta fecha
          */
-        dismissible?: boolean | null;
+        expiryDate: string;
         active?: boolean | null;
         id?: string | null;
       }[]
@@ -3937,7 +3965,7 @@ export interface AnnouncementsSelect<T extends boolean = true> {
         tag?: T;
         link?: T;
         linkText?: T;
-        dismissible?: T;
+        expiryDate?: T;
         active?: T;
         id?: T;
       };

@@ -16,6 +16,16 @@ export const Announcements: GlobalConfig = {
       name: 'announcements',
       type: 'array',
       label: 'Anuncios',
+      labels: {
+        singular: {
+          en: 'Announcement',
+          es: 'Anuncio',
+        },
+        plural: {
+          en: 'Announcements',
+          es: 'Anuncios',
+        },
+      },
       minRows: 0,
       maxRows: 5,
       admin: {
@@ -88,12 +98,15 @@ export const Announcements: GlobalConfig = {
           },
         },
         {
-          name: 'dismissible',
-          type: 'checkbox',
-          label: 'Puede cerrarse',
-          defaultValue: true,
+          name: 'expiryDate',
+          type: 'date',
+          label: 'Fecha de expiración',
+          required: true,
           admin: {
-            description: 'Permite al usuario cerrar este anuncio',
+            description: 'El anuncio se ocultará automáticamente después de esta fecha',
+            date: {
+              pickerAppearance: 'dayAndTime',
+            },
           },
         },
         {

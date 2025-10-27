@@ -11,6 +11,8 @@ const ProfilePicture: React.FC = () => {
     <AvatarImage
       src={(user?.avatar as Media)?.url || undefined}
       alt={user?.name || 'Imagen de perfil'}
+      role="img"
+      aria-label={(user?.avatar as Media)?.title || undefined}
     />
   )
 }

@@ -1,5 +1,4 @@
 'use client'
-
 import { useControllableState } from '@radix-ui/react-use-controllable-state'
 import { type LucideIcon, XIcon } from 'lucide-react'
 import {
@@ -11,24 +10,20 @@ import {
 } from 'react'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/utilities/ui/cn'
-
 type BannerContextProps = {
   show: boolean
   setShow: (show: boolean) => void
 }
-
 export const BannerContext = createContext<BannerContextProps>({
   show: true,
   setShow: () => {},
 })
-
 export type BannerProps = HTMLAttributes<HTMLDivElement> & {
   visible?: boolean
   defaultVisible?: boolean
   onClose?: () => void
   inset?: boolean
 }
-
 export const Banner = ({
   children,
   visible,
@@ -43,16 +38,14 @@ export const Banner = ({
     prop: visible,
     onChange: onClose,
   })
-
   if (!show) {
     return null
   }
-
   return (
     <BannerContext.Provider value={{ show, setShow }}>
       <div
         className={cn(
-          'flex w-full items-center justify-between gap-2 bg-primary px-4 py-2 text-primary-foreground',
+          'flex w-full items-center justify-between gap-2 bg-primary/80 backdrop-blur-3xl backdrop-filter px-4 py-2 text-primary-foreground',
           inset && 'rounded-lg',
           className,
         )}
@@ -63,31 +56,19 @@ export const Banner = ({
     </BannerContext.Provider>
   )
 }
-
 export type BannerIconProps = HTMLAttributes<HTMLDivElement> & {
   icon: LucideIcon
 }
-
 export const BannerIcon = ({ icon: Icon, className, ...props }: BannerIconProps) => (
-  <div
-    className={cn(
-      'rounded-full border border-background/20 bg-background/10 p-1 shadow-sm',
-      className,
-    )}
-    {...props}
-  >
-    <Icon size={16} />
+  <div className={cn('rounded-full bg-white text-zinc-900 p-2 shadow-sm', className)} {...props}>
+    <Icon size={18} />
   </div>
 )
-
 export type BannerTitleProps = HTMLAttributes<HTMLParagraphElement>
-
 export const BannerTitle = ({ className, ...props }: BannerTitleProps) => (
-  <p className={cn('flex-1 text-sm', className)} {...props} />
+  <p className={cn('flex-1 md:text-base text-xs lg:text-lg', className)} {...props} />
 )
-
 export type BannerActionProps = ComponentProps<typeof Button>
-
 export const BannerAction = ({
   variant = 'outline',
   size = 'sm',
@@ -104,9 +85,7 @@ export const BannerAction = ({
     {...props}
   />
 )
-
 export type BannerCloseProps = ComponentProps<typeof Button>
-
 export const BannerClose = ({
   variant = 'ghost',
   size = 'icon',
@@ -115,12 +94,10 @@ export const BannerClose = ({
   ...props
 }: BannerCloseProps) => {
   const { setShow } = useContext(BannerContext)
-
   const handleClick: MouseEventHandler<HTMLButtonElement> = (e) => {
     setShow(false)
     onClick?.(e)
   }
-
   return (
     <Button
       className={cn(

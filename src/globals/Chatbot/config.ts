@@ -61,6 +61,16 @@ export const Chatbot: GlobalConfig = {
                     en: 'Quick Options',
                     es: 'Opciones Rápidas',
                   },
+                  labels: {
+                    singular: {
+                      en: 'Quick Option',
+                      es: 'Opcion Rapida',
+                    },
+                    plural: {
+                      en: 'Quick Options',
+                      es: 'Opciones Rapidas',
+                    },
+                  },
                   admin: {
                     description: {
                       en: 'Quick action buttons shown in the welcome message. Use URL for links (blue) or leave empty to send as message (red)',
@@ -152,6 +162,16 @@ export const Chatbot: GlobalConfig = {
                     en: 'Follow-up Suggestions',
                     es: 'Sugerencias de Seguimiento',
                   },
+                  labels: {
+                    singular: {
+                      en: 'Follow-up Suggestion',
+                      es: 'Sugerencia de Seguimiento',
+                    },
+                    plural: {
+                      en: 'Follow-up Suggestions',
+                      es: 'Sugerencias de Seguimiento',
+                    },
+                  },
                   admin: {
                     description: {
                       en: 'Buttons shown after the default response. With URL = link (blue), without URL = sends message (red)',
@@ -218,6 +238,16 @@ export const Chatbot: GlobalConfig = {
                 en: 'Questions',
                 es: 'Preguntas',
               },
+              labels: {
+                singular: {
+                  en: 'Question',
+                  es: 'Pregunta',
+                },
+                plural: {
+                  en: 'Questions',
+                  es: 'Preguntas',
+                },
+              },
               admin: {
                 description: {
                   en: 'All chatbot questions and their answers',
@@ -246,6 +276,16 @@ export const Chatbot: GlobalConfig = {
                   label: {
                     en: 'Keywords',
                     es: 'Palabras Clave',
+                  },
+                  labels: {
+                    singular: {
+                      en: 'Keyword',
+                      es: 'Palabra Clave',
+                    },
+                    plural: {
+                      en: 'Keywords',
+                      es: 'Palabras Clave',
+                    },
                   },
                   admin: {
                     description: {
@@ -286,6 +326,16 @@ export const Chatbot: GlobalConfig = {
                   label: {
                     en: 'Follow-up Questions',
                     es: 'Preguntas de Seguimiento',
+                  },
+                  labels: {
+                    singular: {
+                      en: 'Follow-up Question',
+                      es: 'Pregunta de Seguimiento',
+                    },
+                    plural: {
+                      en: 'Follow-up Questions',
+                      es: 'Preguntas de Seguimiento',
+                    },
                   },
                   admin: {
                     description: {

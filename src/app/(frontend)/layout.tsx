@@ -7,8 +7,8 @@ import { Providers } from '@/providers'
 import { InitTheme } from '@/providers/Theme/InitTheme'
 import { ViewTransitions } from 'next-view-transitions'
 import '@/styles/globals.css'
-import { Toaster } from '@/components/ui/sonner'
-import { ChatbotWrapper } from '@/globals/Chatbot/ChatbotWidget/ChatbotWrapper'
+
+import { Chatbot } from '@/globals/Chatbot'
 import { Footer } from '@/globals/Footer'
 import { Coupons } from '@/globals/Coupons'
 import { getServerSideURL } from '@/utilities/url/utils'
@@ -60,9 +60,8 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <body>
           <Providers>
             <Header />
-            <Toaster position="bottom-right" richColors closeButton />
-            <div className="mt-24">{children}</div>
-            <ChatbotWrapper />
+            <div className="mt-36">{children}</div>
+            <Chatbot />
             <Coupons />
             <Footer />
           </Providers>

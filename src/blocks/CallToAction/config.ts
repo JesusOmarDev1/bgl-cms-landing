@@ -5,6 +5,7 @@ import { contentLexicalEditor } from '@/fields/contentLexical'
 export const CallToAction: Block = {
   slug: 'cta',
   interfaceName: 'CallToActionBlock',
+
   fields: [
     {
       name: 'variant',

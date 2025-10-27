@@ -38,7 +38,7 @@ export const ImageMedia: React.FC<MediaProps> = (props) => {
       src = resource
     } else if (typeof resource === 'object') {
       // Handle Payload media objects
-      const { alt: altFromResource, height: fullHeight, url, width: fullWidth } = resource
+      const { title: altFromResource, height: fullHeight, url, width: fullWidth } = resource
 
       width = fullWidth!
       height = fullHeight!

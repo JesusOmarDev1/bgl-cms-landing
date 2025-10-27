@@ -172,16 +172,10 @@ export const FormBlock: React.FC<
                 {formToUse &&
                   formToUse.fields &&
                   formToUse.fields?.map((field: any, index) => {
-                    // Debug: ver la estructura del campo
-                    console.log('Field data:', field)
-
-                    // Los campos ahora son blocks, usar blockType directamente
                     const blockType = field.blockType
-                    console.log('Block type:', blockType)
 
                     // eslint-disable-next-line @typescript-eslint/no-explicit-any
                     const Field: React.FC<any> = fields?.[blockType as keyof typeof fields]
-                    console.log('Field component found:', !!Field)
 
                     if (Field) {
                       return (

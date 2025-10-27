@@ -5,6 +5,7 @@ import { contentLexicalEditor } from '@/fields/contentLexical'
 export const PostArchiveBlock: Block = {
   slug: 'post-archive',
   interfaceName: 'PostArchiveBlock',
+
   fields: [
     {
       name: 'introContent',

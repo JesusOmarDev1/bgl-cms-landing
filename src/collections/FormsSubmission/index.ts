@@ -43,6 +43,10 @@ export const FormSubmissions: CollectionConfig = {
   fields: [
     {
       name: 'form',
+      label: {
+        en: 'Form',
+        es: 'Formulario',
+      },
       type: 'relationship',
       relationTo: 'forms',
       required: true,
@@ -53,16 +57,25 @@ export const FormSubmissions: CollectionConfig = {
       label: 'No enviar notificaciones por email',
       admin: {
         description: 'Marcar para evitar el envío de emails de notificación (útil para testing)',
-        condition: (data, siblingData, { user }) => !!user, // Solo mostrar en admin
       },
       defaultValue: false,
     },
     {
       name: 'submissionData',
       type: 'array',
+      label: {
+        en: 'Submissions Data',
+        es: 'Datos del Formulario',
+      },
       labels: {
-        singular: 'Dato del Formulario',
-        plural: 'Datos del Formulario',
+        singular: {
+          en: 'Submission Data',
+          es: 'Dato del Formulario',
+        },
+        plural: {
+          en: 'Submissions Data',
+          es: 'Datos del Formulario',
+        },
       },
       admin: {
         readOnly: false,
@@ -83,13 +96,6 @@ export const FormSubmissions: CollectionConfig = {
           type: 'text',
           required: true,
           label: 'Valor',
-          validate: (value: unknown) => {
-            if (typeof value !== 'undefined') {
-              return true
-            }
-
-            return 'El campo es obligatorio.'
-          },
         },
       ],
     },

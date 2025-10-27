@@ -13,6 +13,16 @@ export const FAQ: Block = {
         en: 'FAQ Items',
         es: 'Elementos FAQ',
       },
+      labels: {
+        singular: {
+          en: 'FAQ Item',
+          es: 'Elemento FAQ',
+        },
+        plural: {
+          en: 'FAQ Items',
+          es: 'Elementos FAQ',
+        },
+      },
       admin: {
         initCollapsed: true,
         components: {

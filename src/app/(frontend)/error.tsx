@@ -12,7 +12,7 @@ export default function Error({
   reset: () => void
 }) {
   return (
-    <div className="flex flex-col items-center justify-center gap-2.5 w-full h-dvh -mt-24">
+    <div className="flex flex-col items-center justify-center gap-2.5 w-full h-dvh -mt-36">
       <StaticLogo className="size-24" />
       <Badge>Error</Badge>
       <h2>Lo sentimos, algo salió mal.</h2>

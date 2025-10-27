@@ -39,13 +39,15 @@ export const VideoMedia: React.FC<MediaProps> = (props) => {
   if (resource && typeof resource === 'object') {
     const { filename } = resource
 
+    const cacheTag = resource.updatedAt
+
     return (
       <VideoPlayer className="overflow-hidden rounded-lg border">
         <VideoPlayerContent
           onClick={onClick}
           className={cn(videoClassName)}
           ref={videoRef}
-          source={getMediaUrl(`/media/${filename}`) || ''}
+          source={getMediaUrl(`/media/${filename}`, cacheTag) || ''}
         />
         <VideoPlayerControlBar>
           <VideoPlayerPlayButton />

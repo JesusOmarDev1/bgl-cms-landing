@@ -9,7 +9,7 @@ export const Certificates: CollectionConfig = {
   trash: true,
   indexes: [
     {
-      fields: ['alt'],
+      fields: ['title'],
     },
   ],
   access: {

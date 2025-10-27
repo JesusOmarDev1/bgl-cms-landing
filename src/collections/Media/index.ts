@@ -9,7 +9,7 @@ export const Media: CollectionConfig = {
   trash: true,
   indexes: [
     {
-      fields: ['alt'],
+      fields: ['title'],
     },
   ],
   access: {
@@ -29,18 +29,18 @@ export const Media: CollectionConfig = {
     },
   },
   admin: {
-    useAsTitle: 'alt',
-    defaultColumns: ['alt', 'content', 'createdAt'],
+    useAsTitle: 'title',
+    defaultColumns: ['title', 'content', 'createdAt'],
     description: 'Administra los archivos del sitio: crea, edita y elimina archivos',
     group: 'Contenido',
   },
   fields: [
     {
-      name: 'alt',
+      name: 'title',
       type: 'text',
       label: {
-        en: 'Alt Text',
-        es: 'Texto Alternativo',
+        en: 'Title',
+        es: 'Titulo',
       },
       required: true,
     },

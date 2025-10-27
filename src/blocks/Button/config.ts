@@ -2,6 +2,7 @@ import type { Block } from 'payload'
 
 export const Button: Block = {
   slug: 'button',
+  interfaceName: 'ButtonBlock',
   labels: {
     singular: {
       en: 'Button Group',
@@ -204,5 +205,4 @@ export const Button: Block = {
       ],
     },
   ],
-  interfaceName: 'ButtonBlock',
 }

@@ -5,6 +5,7 @@ import { contentLexicalEditor } from '@/fields/contentLexical'
 export const FormBlock: Block = {
   slug: 'formBlock',
   interfaceName: 'FormBlock',
+
   fields: [
     {
       name: 'form',

@@ -246,8 +246,14 @@ export const Forms: CollectionConfig = {
               type: 'array',
               label: 'Opciones',
               labels: {
-                singular: 'Opción',
-                plural: 'Opciones',
+                singular: {
+                  en: 'Option',
+                  es: 'Opcion',
+                },
+                plural: {
+                  en: 'Options',
+                  es: 'Opciones',
+                },
               },
               admin: {
                 components: {
@@ -466,14 +472,20 @@ export const Forms: CollectionConfig = {
     {
       name: 'emailNotifications',
       type: 'array',
-      label: 'Notificaciones por email',
+      label: 'Notificaciones por correo',
       labels: {
-        singular: 'Notificación',
-        plural: 'Notificaciones',
+        singular: {
+          en: 'Email Notification',
+          es: 'Notificaciones de Correo',
+        },
+        plural: {
+          en: 'Email Notifications',
+          es: 'Notificaciones de Correo',
+        },
       },
       admin: {
         description:
-          'Configura los emails que se enviarán cuando alguien complete el formulario. Usa {{nombreCampo}} para insertar valores del formulario.',
+          'Configura los correos que se enviarán cuando alguien complete el formulario. Usa {{nombreCampo}} para insertar valores del formulario.',
         components: {
           RowLabel:
             '@/collections/Forms/components/EmailNotificationsRowLabel#EmailNotificationsRowLabel',

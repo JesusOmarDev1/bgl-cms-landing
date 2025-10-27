@@ -4,7 +4,7 @@ import { usePathname } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import { motion, useScroll } from 'motion/react'
 
-import type { Header } from '@/payload-types'
+import type { Header, Announcement } from '@/payload-types'
 
 import { HeaderNav } from './Nav'
 import { Link } from 'next-view-transitions'
@@ -14,13 +14,19 @@ import { Button } from '@/components/ui/button'
 import { cn } from '@/utilities/ui/cn'
 import { HeaderSheetNav } from './Sheet'
 import { StaticLogo } from '@/components/Logo/StaticLogo'
+import { AnnouncementsClient } from '@/globals/Announcements/Component.client'
 
 interface HeaderClientProps {
   data: Header
   display?: 'sticky' | 'fixed'
+  announcements?: Announcement
 }
 
-export const HeaderClient: React.FC<HeaderClientProps> = ({ data, display = 'fixed' }) => {
+export const HeaderClient: React.FC<HeaderClientProps> = ({
+  data,
+  display = 'fixed',
+  announcements,
+}) => {
   /* Storing the value in a useState to avoid hydration errors */
   const [theme, setTheme] = useState<string | null>(null)
   const { headerTheme, setHeaderTheme } = useHeaderTheme()
@@ -46,7 +52,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data, display = 'fix
       )}
     >
       <div className="flex flex-col">
-        <div
+        <motion.div
           id="scroll-indicator"
           style={{
             scaleX: scrollYProgress,
@@ -59,6 +65,10 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data, display = 'fix
           }}
           className="bg-[#EC2224]"
         />
+
+        {/* Announcements Banner */}
+        {announcements && <AnnouncementsClient data={announcements} />}
+
         <nav className="p-4 flex justify-between items-center ">
           <div className="flex gap-4 justify-center items-center">
             <HeaderSheetNav props={{ className: 'lg:hidden' }} data={data} />

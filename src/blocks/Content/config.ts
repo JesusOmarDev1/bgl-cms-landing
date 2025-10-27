@@ -300,6 +300,7 @@ export const Content: Block = {
     },
   },
   interfaceName: 'ContentBlock',
+
   fields: [
     {
       name: 'columns',
@@ -308,6 +309,16 @@ export const Content: Block = {
         es: 'Columnas de Contenido',
       },
       type: 'array',
+      labels: {
+        singular: {
+          en: 'Content Column',
+          es: 'Columna de Contenido',
+        },
+        plural: {
+          en: 'Content Columns',
+          es: 'Columnas de Contenido',
+        },
+      },
       admin: {
         description: {
           en: 'Add columns to create your layout. Each column can have different sizes and content.',

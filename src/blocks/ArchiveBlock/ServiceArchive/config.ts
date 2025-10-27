@@ -5,6 +5,7 @@ import { contentLexicalEditor } from '@/fields/contentLexical'
 export const ServiceArchiveBlock: Block = {
   slug: 'service-archive',
   interfaceName: 'ServiceArchiveBlock',
+
   fields: [
     {
       name: 'introContent',

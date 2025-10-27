@@ -73,6 +73,16 @@ export const Coupons: GlobalConfig = {
         en: 'Coupons',
         es: 'Cupones',
       },
+      labels: {
+        singular: {
+          en: 'Coupon',
+          es: 'Cupon',
+        },
+        plural: {
+          en: 'Coupons',
+          es: 'Cupones',
+        },
+      },
       minRows: 1,
       maxRows: 6,
       admin: {

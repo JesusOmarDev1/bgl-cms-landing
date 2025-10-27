@@ -7,6 +7,7 @@ import { ContentBlock } from '@/blocks/Content/Component'
 import { FormBlock } from '@/blocks/Form/Component'
 import { MediaBlock } from '@/blocks/MediaBlock/Component'
 import { FAQBlock } from '@/blocks/FAQ/Component'
+import { ClientsLoopBlock } from '@/blocks/ClientsLoop/Component'
 import { PostArchiveBlock } from './ArchiveBlock/PostArchive/Component'
 import { ServiceArchiveBlock } from './ArchiveBlock/ServiceArchive/Component'
 
@@ -18,6 +19,7 @@ const blockComponents = {
   formBlock: FormBlock,
   mediaBlock: MediaBlock,
   faq: FAQBlock,
+  clientsLoop: ClientsLoopBlock,
 }
 
 export const RenderBlocks: React.FC<{

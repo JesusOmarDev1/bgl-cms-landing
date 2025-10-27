@@ -41,6 +41,16 @@ export const sidebarFields: Field[] = [
   {
     name: 'populatedAuthors',
     type: 'array',
+    labels: {
+      singular: {
+        en: 'Author',
+        es: 'Autor',
+      },
+      plural: {
+        en: 'Authors',
+        es: 'Autores',
+      },
+    },
     access: {
       update: () => false,
     },

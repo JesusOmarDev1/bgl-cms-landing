@@ -161,11 +161,11 @@ const CouponCard = ({ coupon }: { coupon: Coupon }) => {
             {/* Countdown */}
             <div className={cn('rounded-lg p-4 border-2 border-dashed mb-4')}>
               <div className="flex items-center justify-center gap-2 mb-2">
-                <Clock className={cn('w-5 h-5', isExpired ? 'text-red-600' : 'text-gray-600')} />
+                <Clock className={cn('w-5 h-5', isExpired ? 'text-red-600' : 'text-zinc-400')} />
                 <span
                   className={cn(
                     'text-sm font-semibold uppercase',
-                    isExpired ? 'text-red-600' : 'text-gray-600',
+                    isExpired ? 'text-red-600' : 'text-zinc-400',
                   )}
                 >
                   {isExpired ? 'Cupón Expirado' : 'Termina en:'}
@@ -182,7 +182,7 @@ const CouponCard = ({ coupon }: { coupon: Coupon }) => {
                   key={`countdown-${coupon.code}-${coupon.expiryDate}`}
                   targetDate={coupon.expiryDate}
                   onExpire={handleExpire}
-                  className="text-gray-900"
+                  className="text-primary"
                 />
               )}
             </div>
@@ -191,30 +191,6 @@ const CouponCard = ({ coupon }: { coupon: Coupon }) => {
           {/* Botones de acción - siempre al final */}
           <div className="mt-auto space-y-4">
             <div className="flex flex-col gap-3">
-              <Button
-                onClick={handleCopy}
-                variant="outline"
-                className="w-full font-semibold"
-                disabled={isExpired}
-              >
-                {isExpired ? (
-                  <>
-                    <Clock className="w-5 h-5 mr-2" />
-                    Expirado
-                  </>
-                ) : isCopied ? (
-                  <>
-                    <Check className="w-5 h-5 mr-2" />
-                    ¡Copiado!
-                  </>
-                ) : (
-                  <>
-                    <Copy className="w-5 h-5 mr-2" />
-                    Copiar Código
-                  </>
-                )}
-              </Button>
-
               <div className="flex gap-3">
                 <Share className="flex-1" text={coupon.code} disabled={isExpired} />
 
