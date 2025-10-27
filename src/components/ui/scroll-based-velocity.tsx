@@ -12,7 +12,7 @@ import {
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import type { MotionValue } from 'motion/react'
 
-import { cn } from '@/utilities/ui'
+import { cn } from '@/utilities/ui/cn'
 
 interface ScrollVelocityRowProps extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode
@@ -164,7 +164,7 @@ function ScrollVelocityRowImpl({
       className={cn('w-full overflow-hidden whitespace-nowrap', className)}
       {...props}
     >
-      <motion.div
+      <div
         className="inline-flex items-center will-change-transform transform-gpu select-none"
         style={{ x }}
       >
@@ -178,7 +178,7 @@ function ScrollVelocityRowImpl({
             {children}
           </div>
         ))}
-      </motion.div>
+      </div>
     </div>
   )
 }

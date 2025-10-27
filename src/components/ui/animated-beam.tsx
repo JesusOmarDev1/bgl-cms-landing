@@ -1,7 +1,7 @@
 'use client'
 import { motion } from 'motion/react'
 import { RefObject, useEffect, useId, useState } from 'react'
-import { cn } from '@/utilities/ui'
+import { cn } from '@/utilities/ui/cn'
 export interface AnimatedBeamProps {
   className?: string
   containerRef: RefObject<HTMLElement | null> // Container ref

@@ -6,7 +6,7 @@ import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 import React from 'react'
 import PageClient from './page.client'
-import { generalMetadata } from '@/utilities/meta'
+import { generalMetadata } from '@/utilities/meta/generalMetadata'
 import { ServicesRange } from '@/components/PageRange/ServicesRange'
 
 export const dynamic = 'force-static'

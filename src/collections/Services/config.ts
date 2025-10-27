@@ -11,7 +11,7 @@ import {
   OverviewField,
   PreviewField,
 } from '@payloadcms/plugin-seo/fields'
-import { generatePreviewPath } from '@/utilities/url'
+import { generatePreviewPath } from '@/utilities/url/generatePreviewPath'
 import { revalidateProduct, revalidateDelete } from '../Products/hooks/revalidateProducts'
 import { generalFields } from './fields/generalFields'
 import { pricingFields } from './fields/pricingFields'

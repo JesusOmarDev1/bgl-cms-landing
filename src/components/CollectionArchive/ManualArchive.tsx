@@ -1,4 +1,4 @@
-import { cn } from '@/utilities/ui'
+import { cn } from '@/utilities/ui/cn'
 import React from 'react'
 
 import { CardManual, CardManualData } from '@/components/Card/ManualCard'

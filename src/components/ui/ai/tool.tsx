@@ -2,7 +2,7 @@
 
 import { Badge } from '@/components/ui/badge'
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible'
-import { cn } from '@/utilities/ui'
+import { cn } from '@/utilities/ui/cn'
 import type { ToolUIPart } from 'ai'
 import {
   CheckCircleIcon,

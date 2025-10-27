@@ -1,5 +1,5 @@
 import { Button, type ButtonProps } from '@/components/ui/button'
-import { cn } from '@/utilities/ui'
+import { cn } from '@/utilities/ui/cn'
 import { Link } from 'next-view-transitions'
 import React from 'react'
 

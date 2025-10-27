@@ -1,5 +1,5 @@
 import type { SearchConditions, SearchResult, CollectionSlug } from './types'
-import { ACCENT_MAP, getCollectionConfig } from './config'
+import { ACCENT_MAP } from './config'
 
 /**
  * Normaliza el texto de búsqueda removiendo acentos y caracteres especiales
@@ -26,103 +26,34 @@ export function createFlexiblePattern(text: string): string {
 }
 
 /**
- * Crea las condiciones de búsqueda para una colección específica
+ * Crea las condiciones de búsqueda para cualquier colección
+ * Siempre busca solo en el campo 'title' para máxima compatibilidad
  */
 export function createSearchConditions(
   query: string,
   flexiblePattern: string,
-  collection: CollectionSlug,
+  _collection: CollectionSlug,
 ): SearchConditions {
-  const config = getCollectionConfig(collection)
-  if (!config) {
-    throw new Error(
-      `No se encontró ninguna configuración de búsqueda para la colección: ${collection}`,
-    )
-  }
-
-  const conditions: Record<string, unknown>[] = []
-
-  // Crear condiciones para cada campo de búsqueda configurado
-  config.searchFields.forEach((field) => {
-    conditions.push({ [field]: { like: query } }, { [field]: { like: flexiblePattern } })
-  })
-
-  return { or: conditions } as SearchConditions
+  // Búsqueda simple y confiable solo en el título
+  return {
+    or: [{ title: { like: query } }, { title: { like: flexiblePattern } }],
+  } as SearchConditions
 }
 
 /**
- * Transforma un documento de Payload a SearchResult
+ * Transforma cualquier documento de Payload a SearchResult
+ * Función genérica que funciona con cualquier colección
  */
 export function transformToSearchResult(
   doc: Record<string, unknown>,
   collection: CollectionSlug,
 ): SearchResult {
-  const baseResult = {
+  return {
     id: String(doc.id),
     title: (doc.title as string) || 'Sin título',
     slug: doc.slug as string | undefined,
-    meta: doc.meta || null,
     collection,
     updatedAt: (doc.updatedAt as string) || new Date().toISOString(),
-  }
-
-  // Agregar campos específicos por colección
-  switch (collection) {
-    case 'posts':
-      return {
-        ...baseResult,
-        collection: 'posts',
-        publishedAt: (doc.publishedAt as string) || null,
-        categories: (doc.categories as Array<{ id: string | number; title: string }>) || null,
-      }
-
-    case 'products':
-      return {
-        ...baseResult,
-        collection: 'products',
-        brand: (doc.brand as string) || null,
-        model: (doc.model as string) || null,
-        stock: doc.stock as string | number | null,
-        description: (doc.description as string) || null,
-      }
-
-    case 'manuals':
-      return {
-        ...baseResult,
-        collection: 'manuals',
-        description: (doc.description as string) || null,
-      }
-
-    case 'services':
-      return {
-        ...baseResult,
-        collection: 'services',
-        description: (doc.description as string) || null,
-      }
-
-    case 'pages':
-      return {
-        ...baseResult,
-        collection: 'pages',
-        description: (doc.description as string) || null,
-      }
-
-    case 'suppliers':
-      return {
-        ...baseResult,
-        collection: 'suppliers',
-        description: (doc.description as string) || null,
-      }
-
-    case 'clients':
-      return {
-        ...baseResult,
-        collection: 'clients',
-        description: (doc.description as string) || null,
-      }
-
-    default:
-      return baseResult as SearchResult
   }
 }
 
@@ -144,9 +75,6 @@ export function calculateRelevance(result: SearchResult, query: string): number 
 
   // Coincidencia en slug
   if (result.slug?.toLowerCase().includes(queryLower)) score += 10
-
-  // Coincidencia en meta descripción
-  if (result.meta?.description?.toLowerCase().includes(queryLower)) score += 5
 
   // Bonificación por fecha reciente (últimos 30 días)
   const daysSinceUpdate =
@@ -175,6 +103,20 @@ export function sortSearchResults(results: SearchResult[], query: string): Searc
 }
 
 /**
+ * Valida si una cadena es una consulta de búsqueda válida
+ */
+export function isValidSearchQuery(query: string): boolean {
+  return query.trim().length >= 2
+}
+
+/**
+ * Limpia y valida una consulta de búsqueda
+ */
+export function sanitizeSearchQuery(query: string): string {
+  return query.trim().slice(0, 100) // Limitar a 100 caracteres
+}
+
+/**
  * Agrupa los resultados por colección
  */
 export function groupResultsByCollection(results: SearchResult[]): Record<string, SearchResult[]> {
@@ -189,18 +131,4 @@ export function groupResultsByCollection(results: SearchResult[]): Record<string
     },
     {} as Record<string, SearchResult[]>,
   )
-}
-
-/**
- * Valida si una cadena es una consulta de búsqueda válida
- */
-export function isValidSearchQuery(query: string): boolean {
-  return query.trim().length >= 2
-}
-
-/**
- * Limpia y valida una consulta de búsqueda
- */
-export function sanitizeSearchQuery(query: string): string {
-  return query.trim().slice(0, 100) // Limitar a 100 caracteres
 }

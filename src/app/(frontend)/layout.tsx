@@ -11,8 +11,8 @@ import { Toaster } from '@/components/ui/sonner'
 import { ChatbotWrapper } from '@/globals/Chatbot/ChatbotWidget/ChatbotWrapper'
 import { Footer } from '@/globals/Footer'
 import { Coupons } from '@/globals/Coupons'
-import { getServerSideURL } from '@/utilities/url'
-import { mergeOpenGraph } from '@/utilities/meta'
+import { getServerSideURL } from '@/utilities/url/utils'
+import { mergeOpenGraph } from '@/utilities/meta/mergeOpenGraph'
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   return (

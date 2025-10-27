@@ -42,7 +42,12 @@ async function searchInCollection(
       page,
       sort: '-updatedAt',
       depth: 0,
-      select: config.selectFields,
+      select: {
+        id: true,
+        title: true,
+        slug: true,
+        updatedAt: true,
+      },
     })
 
     const transformedResults = response.docs.map((doc) =>
@@ -161,7 +166,12 @@ export async function getInitialResults(): Promise<SearchResult[]> {
           limit: SEARCH_SETTINGS.initialResultsPerCollection,
           sort: '-updatedAt',
           depth: 0,
-          select: config.selectFields,
+          select: {
+            id: true,
+            title: true,
+            slug: true,
+            updatedAt: true,
+          },
         })
 
         return response.docs.map((doc) =>

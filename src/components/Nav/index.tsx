@@ -9,7 +9,7 @@ import { NavHamburger } from './NavHamburguer'
 import { StaticLogoNav } from '@/graphics/StaticLogoNav'
 import { LogOut } from './LogOut'
 import GlobalSearcher from './GlobalSearcher'
-import { APP_NAME, VERSION } from '@/utilities/config'
+import { APP_NAME, VERSION } from '@/utilities/config/app'
 
 export const baseClass = 'nav'
 

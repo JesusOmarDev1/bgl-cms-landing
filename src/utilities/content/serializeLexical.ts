@@ -1,5 +1,5 @@
 import escapeHTML from 'escape-html'
-import { replaceDoubleCurlys } from '../string'
+import { replaceDoubleCurlys } from '../string/replaceDoubleCurlys'
 
 interface EmailVariable {
   field: string

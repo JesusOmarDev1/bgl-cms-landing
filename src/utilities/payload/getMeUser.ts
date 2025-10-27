@@ -2,7 +2,7 @@ import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 
 import type { User } from '../../payload-types'
-import { getClientSideURL } from '../url'
+import { getClientSideURL } from '../url/utils'
 
 /**
  * Get the current authenticated user

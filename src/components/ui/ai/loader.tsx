@@ -1,4 +1,4 @@
-import { cn } from '@/utilities/ui'
+import { cn } from '@/utilities/ui/cn'
 import type { HTMLAttributes } from 'react'
 
 type LoaderIconProps = {

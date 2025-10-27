@@ -1,4 +1,4 @@
-import { cn } from '@/utilities/ui'
+import { cn } from '@/utilities/ui/cn'
 import { ChevronDown } from 'lucide-react'
 import { ServerProps } from 'payload'
 import { FC } from 'react'

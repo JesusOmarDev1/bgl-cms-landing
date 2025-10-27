@@ -1,5 +1,5 @@
 import { HeaderClient } from './Component.client'
-import { getCachedGlobal } from '@/utilities/payload'
+import { getCachedGlobal } from '@/utilities/payload/getGlobals'
 import React from 'react'
 import { Announcements } from '@/globals/Announcements'
 

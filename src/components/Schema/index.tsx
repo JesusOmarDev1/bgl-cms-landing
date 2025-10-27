@@ -10,7 +10,7 @@ import type {
   Service,
   Manual,
 } from '@/payload-types'
-import { getServerSideURL } from '@/utilities/url'
+import { getServerSideURL } from '@/utilities/url/utils'
 
 export const PostSchema = (props: Post) => {
   if (!props) return null

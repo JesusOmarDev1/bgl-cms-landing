@@ -4,7 +4,7 @@ import React from 'react'
 import RichText from '@/components/RichText'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { CircleCheck, InfoIcon, OctagonAlert, TriangleAlert } from 'lucide-react'
-import { cn } from '@/utilities/ui'
+import { cn } from '@/utilities/ui/cn'
 
 type Props = {
   className?: string

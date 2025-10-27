@@ -4,8 +4,8 @@
  */
 
 import type { CollectionBeforeChangeHook } from 'payload'
-import { replaceDoubleCurlys } from '@/utilities/string'
-import { serializeLexical } from '@/utilities/content'
+import { replaceDoubleCurlys } from '@/utilities/string/replaceDoubleCurlys'
+import { serializeLexical } from '@/utilities/content/serializeLexical'
 
 interface Email {
   emailTo: string

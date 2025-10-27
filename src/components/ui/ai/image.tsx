@@ -1,4 +1,4 @@
-import { cn } from '@/utilities/ui'
+import { cn } from '@/utilities/ui/cn'
 import type { Experimental_GeneratedImage } from 'ai'
 
 export type ImageProps = Experimental_GeneratedImage & {

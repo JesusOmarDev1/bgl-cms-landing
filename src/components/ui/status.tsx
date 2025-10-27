@@ -1,6 +1,6 @@
 import type { ComponentProps, HTMLAttributes } from 'react'
 import { Badge } from '@/components/ui/badge'
-import { cn } from '@/utilities/ui'
+import { cn } from '@/utilities/ui/cn'
 export type StatusProps = ComponentProps<typeof Badge> & {
   status: 'online' | 'offline' | 'maintenance' | 'degraded'
 }

@@ -10,7 +10,7 @@ import {
   useRef,
   useState,
 } from 'react'
-import { cn } from '@/utilities/ui'
+import { cn } from '@/utilities/ui/cn'
 import {
   AnimatePresence,
   motion,
@@ -88,7 +88,7 @@ function Dock({
       }}
       className="mx-2 flex max-w-full items-end overflow-x-auto"
     >
-      <motion.div
+      <div
         onMouseMove={({ pageX }) => {
           isHovered.set(1)
           mouseX.set(pageX)
@@ -106,7 +106,7 @@ function Dock({
         aria-label="Application dock"
       >
         <DockProvider value={{ mouseX, spring, distance, magnification }}>{children}</DockProvider>
-      </motion.div>
+      </div>
     </motion.div>
   )
 }

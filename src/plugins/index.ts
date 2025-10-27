@@ -12,27 +12,33 @@ import { activityLogPlugin } from '@payload-bites/activity-log'
 import { auditFieldsPlugin } from '@payload-bites/audit-fields'
 
 import { Page, Post, Service, Manual, Product } from '@/payload-types'
-import { getServerSideURL } from '@/utilities/url'
+import { getServerSideURL } from '@/utilities/url/utils'
 import { isAdminOrEditor } from '@/access/isAdminOrEditor'
 import { isAdmin } from '@/access/isAdmin'
 import { anyone } from '@/access/anyone'
-import { getCloudfareAdapter } from '@/utilities/config'
-import { revalidateRedirects } from '@/utilities/payload'
+import { getCloudfareAdapter } from '@/utilities/config/storage'
+import { revalidateRedirects } from '@/utilities/payload/hooks/revalidateRedirects'
 
 const generateTitle: GenerateTitle<Post | Page | Service | Manual | Product> = ({ doc }) => {
-  return doc?.title ? `${doc.title}` : 'BGL BASCULAS INDUSTRIALES'
+  // Evitar referencias circulares extrayendo solo las propiedades necesarias
+  const title = typeof doc?.title === 'string' ? doc.title : ''
+
+  return title ? `${title}` : 'BGL BASCULAS INDUSTRIALES'
 }
 
 const generateURL: GenerateURL<Post | Page | Service | Manual | Product> = ({ doc }) => {
   const url = getServerSideURL()
 
-  return doc?.slug ? `${url}/${doc.slug}` : url
+  // Evitar referencias circulares extrayendo solo las propiedades necesarias
+  const slug = typeof doc?.slug === 'string' ? doc.slug : ''
+
+  return slug ? `${url}/${slug}` : url
 }
 
 export const plugins: Plugin[] = [
   getCloudfareAdapter(),
   redirectsPlugin({
-    collections: ['posts', 'pages'],
+    collections: ['pages'],
     overrides: {
       fields: ({ defaultFields }) => {
         return defaultFields.map((field) => {
@@ -61,15 +67,22 @@ export const plugins: Plugin[] = [
                         admin: {
                           description: 'Seleccione si desea redirigir a una URL interna o externa.',
                         },
-                        options: subfield.options?.map((option: any) => ({
-                          ...option,
-                          label:
-                            option.value === 'reference'
-                              ? 'Referencia interna'
-                              : option.value === 'custom'
-                                ? 'URL personalizada'
-                                : option.label,
-                        })) || [
+                        options: subfield.options?.map((option: unknown) => {
+                          if (typeof option === 'object' && option !== null) {
+                            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                            const optionObj = option as any
+                            return {
+                              ...optionObj,
+                              label:
+                                optionObj.value === 'reference'
+                                  ? 'Referencia interna'
+                                  : optionObj.value === 'custom'
+                                    ? 'URL personalizada'
+                                    : optionObj.label,
+                            }
+                          }
+                          return option
+                        }) || [
                           { label: 'Referencia interna', value: 'reference' },
                           { label: 'URL personalizada', value: 'custom' },
                         ],
@@ -110,6 +123,7 @@ export const plugins: Plugin[] = [
   seoPlugin({
     generateTitle,
     generateURL,
+    uploadsCollection: 'media',
   }),
   searchPlugin({
     collections: ['posts', 'products', 'manuals', 'services'],

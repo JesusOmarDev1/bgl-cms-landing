@@ -3,7 +3,7 @@
 import { Badge } from '@/components/ui/badge'
 import { Carousel, type CarouselApi, CarouselContent, CarouselItem } from '@/components/ui/carousel'
 import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/hover-card'
-import { cn } from '@/utilities/ui'
+import { cn } from '@/utilities/ui/cn'
 import { ArrowLeftIcon, ArrowRightIcon } from 'lucide-react'
 import {
   type ComponentProps,

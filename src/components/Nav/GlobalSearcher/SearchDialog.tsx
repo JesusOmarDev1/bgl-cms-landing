@@ -9,7 +9,6 @@ import {
   CommandItem,
   CommandList,
 } from '@/components/ui/command'
-import { ChevronRightIcon, SearchIcon, Loader2 } from 'lucide-react'
 import { useDebounce } from '@/utilities/hooks/useDebounceWindowed'
 import Link from 'next/link'
 import { searchContent, loadMoreSearchResults } from './searchAction'
@@ -17,6 +16,8 @@ import { getNavIcon } from '@/components/Nav/navIconMap'
 import type { SearchResult } from './types'
 import { getCollectionLabels, SEARCH_SETTINGS } from './config'
 import { groupResultsByCollection } from './utils'
+import { SearchIcon } from 'lucide-react'
+import { Button } from '@/components/ui/button'
 
 interface SearchDialogProps {
   initialResults: SearchResult[]
@@ -79,29 +80,14 @@ const SearchResultItem: React.FC<{
       key={item.id}
       href={`/admin/collections/${collection}/${item.id}`}
       onClick={onSelect}
-      className="no-underline hover:underline"
+      className="no-underline"
     >
-      <CommandItem className="cursor-pointer px-2">
-        {Icon && <Icon className="mr-2 size-4 md:size-6 lg:size-8 shrink-0 dark:stroke-zinc-50" />}
+      <CommandItem className="cursor-pointer px-4 py-3 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors">
+        {Icon && <Icon className="mr-3 size-5 shrink-0 text-zinc-600 dark:text-zinc-400" />}
         <div className="flex flex-col flex-1 min-w-0">
-          <span className="truncate font-medium text-base">{item.title || 'Sin título'}</span>
-
-          {/* Meta descripción */}
-          {item.meta?.description && (
-            <span className="text-sm text-zinc-500 truncate">{item.meta.description}</span>
-          )}
-
-          {/* Información específica de productos */}
-          {collection === 'products' && 'brand' in item && (item.brand || item.model) && (
-            <span className="text-xs text-zinc-400 truncate">
-              {[item.brand, item.model].filter(Boolean).join(' - ')}
-            </span>
-          )}
-
-          {/* Descripción alternativa */}
-          {!item.meta?.description && 'description' in item && item.description && (
-            <span className="text-sm text-zinc-500 truncate">{item.description}</span>
-          )}
+          <span className="truncate font-medium text-base text-zinc-900 dark:text-zinc-100">
+            {item.title || 'Sin título'}
+          </span>
         </div>
       </CommandItem>
     </Link>
@@ -195,7 +181,16 @@ export const SearchDialog: React.FC<SearchDialogProps> = ({ initialResults }) =>
     return () => {
       abortController.abort()
     }
-  }, [debouncedQuery, initialResults, setResults, setTotalDocs, setHasMore, setError, setLoading])
+  }, [
+    debouncedQuery,
+    initialResults,
+    setResults,
+    setTotalDocs,
+    setHasMore,
+    setError,
+    setLoading,
+    setCurrentPage,
+  ])
 
   // Agrupar resultados por colección
   const groupedResults = useMemo(() => groupResultsByCollection(results), [results])
@@ -227,7 +222,17 @@ export const SearchDialog: React.FC<SearchDialogProps> = ({ initialResults }) =>
     } finally {
       setLoadingMore(false)
     }
-  }, [debouncedQuery, results, currentPage, loadingMore])
+  }, [
+    debouncedQuery,
+    results,
+    currentPage,
+    loadingMore,
+    setLoadingMore,
+    setError,
+    setResults,
+    setHasMore,
+    setCurrentPage,
+  ])
 
   return (
     <>
@@ -255,35 +260,60 @@ export const SearchDialog: React.FC<SearchDialogProps> = ({ initialResults }) =>
           placeholder="Buscar publicaciones, productos, manuales..."
           value={query}
           onValueChange={setQuery}
+          className="w-full border-0 bg-transparent outline-none text-base placeholder:text-zinc-500 dark:placeholder:text-zinc-400 px-4 py-4 border-b border-zinc-200 dark:border-zinc-800"
         />
 
         {/* Indicador de resultados */}
         {query && !loading && results.length > 0 && (
-          <div className="px-3 py-2 text-xs text-zinc-500 dark:text-zinc-500 border-b border-zinc-200 dark:border-zinc-800">
-            {results.length} de {totalDocs} resultados
-            {hasMore && ' (hay más disponibles)'}
+          <div className="px-4 py-3 text-sm text-zinc-600 dark:text-zinc-400 border-b border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900/50">
+            <div className="flex items-center justify-between">
+              <span>
+                {results.length} de {totalDocs} resultados
+              </span>
+              {hasMore && (
+                <span className="text-xs text-zinc-500 dark:text-zinc-500">
+                  Hay más disponibles
+                </span>
+              )}
+            </div>
           </div>
         )}
-        <CommandList>
+
+        <CommandList className="max-h-[400px] overflow-y-auto">
           {loading ? (
-            <div className="py-6 text-center text-sm text-zinc-500 flex items-center justify-center gap-2">
-              <Loader2 className="size-4 animate-spin" />
+            <div className="py-8 text-center text-sm text-zinc-500 flex items-center justify-center gap-2">
+              <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-zinc-500"></div>
               Buscando...
             </div>
           ) : error ? (
-            <div className="py-6 text-center text-sm text-red-500">{error}</div>
+            <div className="py-8 text-center text-sm text-red-500 bg-red-50 dark:bg-red-900/20 mx-4 my-2 rounded-lg border border-red-200 dark:border-red-800">
+              {error}
+            </div>
           ) : results.length === 0 ? (
-            <CommandEmpty>
-              {query ? 'No se encontraron resultados' : 'Escribe para buscar'}
+            <CommandEmpty className="py-8 text-center text-zinc-500 dark:text-zinc-400">
+              {query ? (
+                <div className="space-y-2">
+                  <div className="text-base">No se encontraron resultados</div>
+                  <div className="text-sm opacity-75">Intenta con otros términos de búsqueda</div>
+                </div>
+              ) : (
+                <div className="space-y-2">
+                  <div className="text-base">Escribe para buscar</div>
+                  <div className="text-sm opacity-75">
+                    Busca en publicaciones, productos y manuales
+                  </div>
+                </div>
+              )}
             </CommandEmpty>
           ) : (
             <>
               {Object.entries(groupedResults).map(([collection, items]) => {
-                const label = collectionLabels[collection] || collection
+                const label =
+                  collectionLabels[collection as keyof typeof collectionLabels] || collection
 
                 return (
                   <CommandGroup key={collection} heading={label}>
-                    {items.map((item) => (
+                    {items.map((item: SearchResult) => (
                       <SearchResultItem
                         key={item.id}
                         item={item}
@@ -297,30 +327,30 @@ export const SearchDialog: React.FC<SearchDialogProps> = ({ initialResults }) =>
 
               {/* Botón Ver más para búsquedas */}
               {query && hasMore && (
-                <div className="border-t border-zinc-200 dark:border-zinc-800 p-3 space-y-2">
-                  <button
+                <div className="border-t border-zinc-200 dark:border-zinc-800 p-4 space-y-3 bg-zinc-50 dark:bg-zinc-900/50">
+                  <Button
+                    variant={'secondary'}
                     onClick={handleLoadMore}
                     disabled={loadingMore}
-                    className="flex items-center justify-center gap-2 w-full py-2 px-4 text-sm text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors rounded-md hover:bg-zinc-100 dark:hover:bg-zinc-800 disabled:opacity-50 disabled:cursor-not-allowed border border-zinc-200 dark:border-zinc-700"
+                    className="flex items-center justify-center gap-2 w-full py-3 px-4 text-sm font-medium text-zinc-700 dark:text-zinc-300 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors rounded-lg hover:bg-white dark:hover:bg-zinc-800 disabled:opacity-50 disabled:cursor-not-allowed border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 shadow-sm"
                   >
                     {loadingMore ? (
                       <>
-                        <Loader2 className="size-4 animate-spin" />
+                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-zinc-500"></div>
                         Cargando más...
                       </>
                     ) : (
                       <>
                         <span>Ver más resultados</span>
-                        <ChevronRightIcon className="size-4" />
                       </>
                     )}
-                  </button>
+                  </Button>
 
                   {/* Enlace a página de búsqueda completa */}
                   <Link
                     href={`/search?q=${encodeURIComponent(query)}`}
                     onClick={handleSelect}
-                    className="flex items-center justify-center gap-2 w-full py-1 text-xs text-zinc-500 dark:text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300 transition-colors"
+                    className="flex items-center justify-center gap-2 w-full py-2 text-sm text-zinc-500 dark:text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300 transition-colors rounded-md hover:bg-white dark:hover:bg-zinc-800"
                   >
                     <span>Ver todos los resultados ({totalDocs}) en página completa</span>
                   </Link>
@@ -329,8 +359,8 @@ export const SearchDialog: React.FC<SearchDialogProps> = ({ initialResults }) =>
 
               {/* Enlace para resultados iniciales sin búsqueda */}
               {!query && results.length > 0 && (
-                <div className="border-t border-zinc-200 dark:border-zinc-800 p-2">
-                  <div className="text-center text-xs text-zinc-500 dark:text-zinc-500 py-2">
+                <div className="border-t border-zinc-200 dark:border-zinc-800 p-4 bg-zinc-50 dark:bg-zinc-900/50">
+                  <div className="text-center text-sm text-zinc-500 dark:text-zinc-500 py-2">
                     Mostrando documentos recientes. Escribe para buscar contenido específico.
                   </div>
                 </div>

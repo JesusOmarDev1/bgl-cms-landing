@@ -1,8 +1,8 @@
 import type { CollectionConfig } from 'payload'
 
 import { slugField } from '@/fields/slug'
-import { populatePublishedAt } from '@/utilities/payload/hooks'
-import { generatePreviewPath } from '@/utilities/url'
+import { populatePublishedAt } from '@/utilities/payload/hooks/populatePublishedAt'
+import { generatePreviewPath } from '@/utilities/url/generatePreviewPath'
 import { revalidateDelete, revalidatePage } from './hooks/revalidatePage'
 
 import {

@@ -1,7 +1,7 @@
 /**
  * URL utility functions
  */
-import canUseDOM from '../browser'
+import canUseDOM from '../browser/canUseDOM'
 
 const NEXT_PUBLIC_SERVER_URL = process.env.VERCEL_PROJECT_PRODUCTION_URL
   ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`

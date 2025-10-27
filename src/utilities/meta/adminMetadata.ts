@@ -1,5 +1,5 @@
 import type { Config } from 'payload'
-import { app } from '../config'
+import { app } from '../config/app'
 
 /**
  * Admin panel metadata configuration

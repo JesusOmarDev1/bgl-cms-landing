@@ -8,7 +8,7 @@ import { Card } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Clock, Copy, Check, Truck, TicketCheck, CircleDollarSign, Ticket } from 'lucide-react'
 import { Link } from 'next-view-transitions'
-import { cn } from '@/utilities/client'
+import { cn } from '@/utilities/ui/cn'
 import Share from '@/components/ui/share'
 import { Separator } from '@/components/ui/separator'
 import {

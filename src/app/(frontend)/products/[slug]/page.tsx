@@ -10,7 +10,7 @@ import RichText from '@/components/RichText'
 import type { Product } from '@/payload-types'
 
 import { ProductHero } from '@/heros/ProductHero'
-import { generateMeta } from '@/utilities/meta'
+import { generateMeta } from '@/utilities/meta/generateMeta'
 import PageClient from './page.client'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
 

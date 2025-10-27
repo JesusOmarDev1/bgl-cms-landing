@@ -1,4 +1,4 @@
-import { getCachedGlobal } from '@/utilities/payload'
+import { getCachedGlobal } from '@/utilities/payload/getGlobals'
 import React from 'react'
 import type { Coupon as CouponsType } from '@/payload-types'
 import { CouponsClient } from './Component.client'

@@ -1,5 +1,5 @@
 'use client'
-import { useClickableCard } from '@/utilities/ui'
+import { useClickableCard } from '@/utilities/ui/useClickableCard'
 import { Link } from 'next-view-transitions'
 import React, { Suspense } from 'react'
 

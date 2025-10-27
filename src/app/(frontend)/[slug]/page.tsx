@@ -10,7 +10,7 @@ import { RenderBlocks } from '@/blocks/RenderBlocks'
 import PageClient from './page.client'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
 import { PageSchema } from '@/components/Schema'
-import { generateMeta } from '@/utilities/meta'
+import { generateMeta } from '@/utilities/meta/generateMeta'
 
 export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise })
@@ -48,9 +48,7 @@ export default async function Page({ params: paramsPromise }: Args) {
   const { slug = 'inicio' } = await paramsPromise
   const url = '/' + slug
 
-  let page: RequiredDataFromCollectionSlug<'pages'> | null
-
-  page = await queryPageBySlug({
+  const page = await queryPageBySlug({
     slug,
   })
 

@@ -12,7 +12,7 @@ import {
   type CarouselApi,
 } from '@/components/ui/carousel'
 import { Product } from '@/payload-types'
-import { cn } from '@/utilities/ui'
+import { cn } from '@/utilities/ui/cn'
 import Autoplay from 'embla-carousel-autoplay'
 
 interface ProductImageCarouselProps {

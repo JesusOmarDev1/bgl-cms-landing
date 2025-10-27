@@ -13,7 +13,7 @@ import {
 } from '@payloadcms/ui'
 
 import './index.scss'
-import { formatSlug } from '@/utilities/string'
+import formatSlug from '@/utilities/string/formatSlug'
 
 type SlugComponentProps = {
   fieldToUse: string

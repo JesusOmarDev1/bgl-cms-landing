@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useEffect, useRef } from 'react'
-import { useNetworkStatus } from '@/utilities/hooks/useNetworkStatus'
+import useNetworkStatus from '@/utilities/hooks/useNetworkStatus'
 import { toast } from 'sonner'
 import { Wifi, WifiOff } from 'lucide-react'
 

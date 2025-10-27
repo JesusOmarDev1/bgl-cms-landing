@@ -10,7 +10,7 @@ import {
   useContext,
 } from 'react'
 import { Button } from '@/components/ui/button'
-import { cn } from '@/utilities/ui'
+import { cn } from '@/utilities/ui/cn'
 
 type BannerContextProps = {
   show: boolean

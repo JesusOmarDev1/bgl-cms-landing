@@ -13,7 +13,7 @@ import {
   useRef,
   useState,
 } from 'react'
-import { cn } from '@/utilities/ui'
+import { cn } from '@/utilities/ui/cn'
 
 type RatingContextValue = {
   value: number

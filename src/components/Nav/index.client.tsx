@@ -9,7 +9,7 @@ import LinkWithDefault from 'next/link'
 import { NavPreferences } from 'payload'
 import { FC, Fragment } from 'react'
 import { getNavIcon } from './navIconMap'
-import { cn } from '@/utilities/ui'
+import { cn } from '@/utilities/ui/cn'
 
 type Props = {
   groups: NavGroupType[]

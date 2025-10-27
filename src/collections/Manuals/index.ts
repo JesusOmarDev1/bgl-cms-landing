@@ -14,7 +14,7 @@ import { isAdminOrEditor } from '@/access/isAdminOrEditor'
 import { isAdmin } from '@/access/isAdmin'
 import { isAuthenticatedOrPublished } from '@/access/isLoggedInOrPublished'
 import { contentLexicalEditor } from '@/fields/contentLexical'
-import { generatePreviewPath } from '@/utilities/url'
+import { generatePreviewPath } from '@/utilities/url/generatePreviewPath'
 
 export const Manuals: CollectionConfig<'manuals'> = {
   slug: 'manuals',

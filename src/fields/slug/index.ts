@@ -1,4 +1,4 @@
-import { formatSlug } from '@/utilities/payload'
+import formatSlug from '@/utilities/payload/hooks/formatSlug'
 import type { CheckboxField, TextField } from 'payload'
 
 type Overrides = {

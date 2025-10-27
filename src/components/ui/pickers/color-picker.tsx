@@ -3,7 +3,7 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
-import { cn } from '@/utilities/ui'
+import { cn } from '@/utilities/ui/cn'
 
 // Color utility functions
 const hexToHsv = (hex: string): [number, number, number] => {

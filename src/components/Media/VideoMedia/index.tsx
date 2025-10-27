@@ -13,12 +13,12 @@ import {
   VideoPlayerVolumeRange,
 } from '@/components/ui/video-player'
 
-import { cn } from '@/utilities/ui'
+import { cn } from '@/utilities/ui/cn'
 import React, { useEffect, useRef } from 'react'
 
 import type { Props as MediaProps } from '../types'
 
-import { getMediaUrl } from '@/utilities/media'
+import { getMediaUrl } from '@/utilities/media/getMediaUrl'
 
 export const VideoMedia: React.FC<MediaProps> = (props) => {
   const { onClick, resource, videoClassName } = props

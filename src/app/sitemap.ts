@@ -1,5 +1,5 @@
 import type { MetadataRoute } from 'next'
-import { getServerSideURL } from '@/utilities/url'
+import { getServerSideURL } from '@/utilities/url/utils'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = getServerSideURL()

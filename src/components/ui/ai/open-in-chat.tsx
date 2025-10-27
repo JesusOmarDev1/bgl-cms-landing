@@ -7,7 +7,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { cn } from '@/utilities/ui'
+import { cn } from '@/utilities/ui/cn'
 import { ChevronDownIcon, ExternalLinkIcon, MessageCircleIcon } from 'lucide-react'
 import { type ComponentProps, createContext, useContext } from 'react'
 

@@ -4,7 +4,7 @@
 
 import * as React from 'react'
 import { createContext, useContext } from 'react'
-import { cn } from '@/utilities/ui'
+import { cn } from '@/utilities/ui/cn'
 
 type StepperOrientation = 'horizontal' | 'vertical'
 type StepState = 'active' | 'completed' | 'inactive' | 'loading'

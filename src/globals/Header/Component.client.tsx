@@ -11,7 +11,7 @@ import { Link } from 'next-view-transitions'
 import { ThemeSelector } from '@/providers/Theme/ThemeSelector'
 import { SearchIcon } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { cn } from '@/utilities/client'
+import { cn } from '@/utilities/ui/cn'
 import { HeaderSheetNav } from './Sheet'
 import { StaticLogo } from '@/components/Logo/StaticLogo'
 
@@ -46,7 +46,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data, display = 'fix
       )}
     >
       <div className="flex flex-col">
-        <motion.div
+        <div
           id="scroll-indicator"
           style={{
             scaleX: scrollYProgress,

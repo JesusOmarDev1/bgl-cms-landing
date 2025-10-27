@@ -1,6 +1,6 @@
 'use client'
 
-import { cn } from '@/utilities/ui'
+import { cn } from '@/utilities/ui/cn'
 import { Button } from '@/components/ui/button'
 import { ButtonGroup } from '@/components/ui/button-group'
 import {
@@ -614,7 +614,7 @@ function MapLocateControl({
     onLocationError?: (error: ErrorEvent) => void
   }) {
   const map = useMap()
-  const [isLocating, setIsLocating] = useDebounceLoadingState(200)
+  const [isLocating, setIsLocating] = useDebounceLoadingState(300)
   const [position, setPosition] = useState<LatLngExpression | null>(null)
 
   function startLocating() {
@@ -1037,7 +1037,7 @@ function MapDrawEdit({
     L.drawLocal.edit.handlers.remove.tooltip = {
       text: 'Click on a shape to remove.',
     }
-  }, [mapDrawHandleIcon])
+  }, [L, mapDrawHandleIcon])
 
   return (
     <MapDrawActionButton
@@ -1127,20 +1127,31 @@ function useLeaflet() {
 
   useEffect(() => {
     if (L && LeafletDraw) return
+
     if (typeof window !== 'undefined') {
-      if (!L) {
-        setL(require('leaflet'))
+      const loadLibraries = async () => {
+        try {
+          if (!L) {
+            const leafletModule = await import('leaflet')
+            setL(leafletModule.default || leafletModule)
+          }
+          if (!LeafletDraw) {
+            const leafletDrawModule = await import('leaflet-draw')
+            setLeafletDraw(leafletDrawModule.default || leafletDrawModule)
+          }
+        } catch (error) {
+          console.error('Error loading Leaflet libraries:', error)
+        }
       }
-      if (!LeafletDraw) {
-        setLeafletDraw(require('leaflet-draw'))
-      }
+
+      loadLibraries()
     }
   }, [L, LeafletDraw])
 
   return { L, LeafletDraw }
 }
 
-function useDebounceLoadingState(delay = 200) {
+function useDebounceLoadingState(delay = 300) {
   const [isLoading, setIsLoading] = useState(false)
   const [showLoading, setShowLoading] = useState(false)
   const timeoutRef = useRef<NodeJS.Timeout | null>(null)

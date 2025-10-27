@@ -2,7 +2,7 @@
 import { formatHex, oklch } from 'culori'
 import QR from 'qrcode'
 import { type HTMLAttributes, useEffect, useState } from 'react'
-import { cn } from '@/utilities/ui'
+import { cn } from '@/utilities/ui/cn'
 export type QRCodeProps = HTMLAttributes<HTMLDivElement> & {
   data: string
   foreground?: string

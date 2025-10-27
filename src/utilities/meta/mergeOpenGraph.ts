@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { getServerSideURL } from '../url'
+import { getServerSideURL } from '../url/utils'
 import { APP_DESCRIPTION, APP_NAME } from '../config/app'
 
 const defaultOpenGraph: Metadata['openGraph'] = {

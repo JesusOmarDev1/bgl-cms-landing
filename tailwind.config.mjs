@@ -52,6 +52,9 @@ const config = {
         shine: 'shine 3s ease-out infinite',
         'gradient-flow': 'gradientFlow 10s ease 0s infinite normal none running',
         move: 'move 5s linear infinite',
+        'gradient-x': 'gradient-x 3s ease infinite',
+        float: 'float 3s ease-in-out infinite',
+        shimmer: 'shimmer 2s infinite',
       },
       borderRadius: {
         lg: 'var(--radius)',
@@ -103,6 +106,9 @@ const config = {
         error: 'hsl(var(--error))',
         warning: 'hsl(var(--warning))',
       },
+      backgroundSize: {
+        '300%': '300%',
+      },
       fontFamily: {
         sans: ['var(--font-body)'],
         serif: ['var(--font-serif)'],
@@ -130,6 +136,24 @@ const config = {
         move: {
           '0%': { transform: 'translateX(-200px)' },
           '100%': { transform: 'translateX(200px)' },
+        },
+        'gradient-x': {
+          '0%, 100%': {
+            'background-size': '200% 200%',
+            'background-position': 'left center',
+          },
+          '50%': {
+            'background-size': '200% 200%',
+            'background-position': 'right center',
+          },
+        },
+        float: {
+          '0%, 100%': { transform: 'translateY(0px)' },
+          '50%': { transform: 'translateY(-2px)' },
+        },
+        shimmer: {
+          '0%': { backgroundPosition: '-200% 0' },
+          '100%': { backgroundPosition: '200% 0' },
         },
       },
       typography: () => ({

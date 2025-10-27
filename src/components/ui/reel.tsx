@@ -13,7 +13,7 @@ import type {
 import { createContext, useCallback, useContext, useEffect, useRef, useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Progress } from '@/components/ui/progress'
-import { cn } from '@/utilities/ui'
+import { cn } from '@/utilities/ui/cn'
 
 // Explicit type for reel items
 export type ReelItem = {

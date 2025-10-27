@@ -1,7 +1,7 @@
 import type { QRCodeBlock as QRCodeBlockProps } from 'src/payload-types'
 
 import React, { Suspense } from 'react'
-import { cn } from '@/utilities/ui'
+import { cn } from '@/utilities/ui/cn'
 import { QRCode } from '@/components/ui/qr-code'
 import { Skeleton } from '@/components/ui/skeleton'
 

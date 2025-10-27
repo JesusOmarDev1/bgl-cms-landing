@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useCallback } from 'react'
-import useCopyToClipboard from './useCopyToClipboard'
+import { useCopyToClipboard } from './useCopyToClipboard'
 import { toast } from 'sonner'
 
 interface ShareData {

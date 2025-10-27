@@ -2,7 +2,7 @@ import type { ButtonBlock as ButtonBlockProps } from 'src/payload-types'
 
 import React from 'react'
 import { Button } from '@/components/ui/button'
-import { cn } from '@/utilities/ui'
+import { cn } from '@/utilities/ui/cn'
 import { Link } from 'next-view-transitions'
 
 type Props = {

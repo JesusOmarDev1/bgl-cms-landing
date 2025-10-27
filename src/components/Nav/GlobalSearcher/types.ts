@@ -1,91 +1,17 @@
 import type { Where } from 'payload'
+import type { SEARCHABLE_COLLECTIONS } from './config'
 
-// Tipos específicos para las colecciones
-export type CollectionSlug =
-  | 'posts'
-  | 'products'
-  | 'manuals'
-  | 'services'
-  | 'pages'
-  | 'suppliers'
-  | 'clients'
+// Tipos generados automáticamente a partir de la configuración
+export type CollectionSlug = keyof typeof SEARCHABLE_COLLECTIONS
 
-// Metadatos específicos por tipo
-export interface SearchMeta {
-  title?: string | null
-  description?: string | null
-  image?:
-    | {
-        id: string | number
-        url?: string
-        alt?: string
-      }
-    | string
-    | number
-    | null
-}
-
-// Resultado de búsqueda base
-export interface BaseSearchResult {
+// Resultado de búsqueda simplificado y escalable
+export interface SearchResult {
   id: string
   title: string
   slug?: string
-  meta?: SearchMeta | null
   collection: CollectionSlug
   updatedAt: string
 }
-
-// Extensiones específicas por colección
-export interface PostSearchResult extends BaseSearchResult {
-  collection: 'posts'
-  publishedAt?: string | null
-  categories?: Array<{
-    id: string | number
-    title: string
-  }> | null
-}
-
-export interface ProductSearchResult extends BaseSearchResult {
-  collection: 'products'
-  brand?: string | null
-  model?: string | null
-  stock?: string | number | null
-  description?: string | null
-}
-
-export interface ManualSearchResult extends BaseSearchResult {
-  collection: 'manuals'
-  description?: string | null
-}
-
-export interface ServiceSearchResult extends BaseSearchResult {
-  collection: 'services'
-  description?: string | null
-}
-
-export interface PageSearchResult extends BaseSearchResult {
-  collection: 'pages'
-  description?: string | null
-}
-
-export interface SupplierSearchResult extends BaseSearchResult {
-  collection: 'suppliers'
-  description?: string | null
-}
-export interface ClientSearchResult extends BaseSearchResult {
-  collection: 'clients'
-  description?: string | null
-}
-
-// Unión de todos los tipos de resultados
-export type SearchResult =
-  | PostSearchResult
-  | ProductSearchResult
-  | ManualSearchResult
-  | ServiceSearchResult
-  | PageSearchResult
-  | SupplierSearchResult
-  | ClientSearchResult
 
 // Respuesta de búsqueda
 export interface SearchResponse {
@@ -105,13 +31,12 @@ export interface SearchParams {
   collections?: CollectionSlug[]
 }
 
-// Configuración de búsqueda por colección
+// Configuración de búsqueda por colección (generada automáticamente)
 export interface CollectionSearchConfig {
-  slug: CollectionSlug
+  slug: string
   label: string
   searchFields: string[]
   selectFields: Record<string, boolean>
-  icon?: string
 }
 
 // Condiciones de búsqueda

@@ -7,7 +7,7 @@ import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 import React from 'react'
 import PageClient from './page.client'
-import { generalMetadata } from '@/utilities/meta'
+import { generalMetadata } from '@/utilities/meta/generalMetadata'
 
 export const dynamic = 'force-static'
 export const revalidate = 600
@@ -31,29 +31,6 @@ export default async function Page() {
       populatedAuthors: true,
       updatedAt: true,
       heroImage: true,
-    },
-  })
-
-  const lastPost = await payload.find({
-    collection: 'posts',
-    depth: 1,
-    limit: 1,
-    overrideAccess: false,
-    sort: 'publishedAt',
-    pagination: false,
-    select: {
-      title: true,
-      slug: true,
-      categories: true,
-      meta: true,
-      content: true,
-      publishedAt: true,
-      authors: true,
-      populatedAuthors: true,
-      updatedAt: true,
-      heroImage: true,
-      brand: true,
-      model: true,
     },
   })
 

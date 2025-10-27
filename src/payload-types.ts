@@ -1490,15 +1490,10 @@ export interface Redirect {
      * Seleccione si desea redirigir a una URL interna o externa.
      */
     type?: ('reference' | 'custom') | null;
-    reference?:
-      | ({
-          relationTo: 'posts';
-          value: number | Post;
-        } | null)
-      | ({
-          relationTo: 'pages';
-          value: number | Page;
-        } | null);
+    reference?: {
+      relationTo: 'pages';
+      value: number | Page;
+    } | null;
     url?: string | null;
   };
   createdBy?: {

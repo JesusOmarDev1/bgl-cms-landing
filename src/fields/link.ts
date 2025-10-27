@@ -1,4 +1,4 @@
-import { deepMerge } from '@/utilities/data'
+import { deepMerge } from '@/utilities/data/deepMerge'
 import type { Field, GroupField } from 'payload'
 
 export type LinkAppearances = 'default'

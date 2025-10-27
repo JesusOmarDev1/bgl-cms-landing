@@ -11,7 +11,7 @@ import RichText from '@/components/RichText'
 import type { Media, Post } from '@/payload-types'
 
 import { PostHero } from '@/heros/PostHero'
-import { generateMeta } from '@/utilities/meta'
+import { generateMeta } from '@/utilities/meta/generateMeta'
 import PageClient from './page.client'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
 import { MediaSchema, PostSchema } from '@/components/Schema'
@@ -56,6 +56,7 @@ export default async function Post({ params: paramsPromise }: Args) {
   return (
     <article className="py-4">
       <Script
+        id={`schema-${post.slug}`}
         type="application/ld+json"
         strategy="lazyOnload"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}

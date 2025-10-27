@@ -1,8 +1,8 @@
 'use client'
 
 import { Button } from '@/components/ui/button'
-import { cn } from '@/utilities/ui'
-import useCopyToClipboard from '@/utilities/hooks/useCopyToClipboard'
+import { cn } from '@/utilities/ui/cn'
+import { useCopyToClipboard } from '@/utilities/hooks/useCopyToClipboard'
 import { CheckIcon, CopyIcon } from 'lucide-react'
 import type { ComponentProps, HTMLAttributes, ReactNode } from 'react'
 import { createContext, useContext } from 'react'

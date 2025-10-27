@@ -15,7 +15,7 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { Textarea } from '@/components/ui/textarea'
-import { cn } from '@/utilities/ui'
+import { cn } from '@/utilities/ui/cn'
 import type { ChatStatus, FileUIPart } from 'ai'
 import {
   ImageIcon,

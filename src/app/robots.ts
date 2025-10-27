@@ -1,4 +1,4 @@
-import { getServerSideURL } from '@/utilities/url'
+import { getServerSideURL } from '@/utilities/url/utils'
 import type { MetadataRoute } from 'next'
 
 export default function robots(): MetadataRoute.Robots {

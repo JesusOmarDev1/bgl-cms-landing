@@ -10,7 +10,7 @@ import RichText from '@/components/RichText'
 import type { Media, Manual } from '@/payload-types'
 
 import { ServiceHero } from '@/heros/ServiceHero'
-import { generateMeta } from '@/utilities/meta'
+import { generateMeta } from '@/utilities/meta/generateMeta'
 import PageClient from './page.client'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
 import { MediaSchema, ManualSchema } from '@/components/Schema'
@@ -56,6 +56,7 @@ export default async function Post({ params: paramsPromise }: Args) {
   return (
     <article className="py-4">
       <Script
+        id={`schema-${service.slug}`}
         type="application/ld+json"
         strategy="lazyOnload"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schema).replace(/</g, '\\u003c') }}

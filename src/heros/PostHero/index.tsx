@@ -8,8 +8,8 @@ import { readingTime } from 'reading-time-estimator'
 import { AspectRatio } from '@/components/ui/aspect-ratio'
 import Categories from '@/components/ui/categories'
 import Share from '@/components/ui/share'
-import { formatAuthors } from '@/utilities/content'
-import { formatDateTime } from '@/utilities/date'
+import { formatAuthors } from '@/utilities/content/formatAuthors'
+import { formatDateTime } from '@/utilities/date/formatDateTime'
 
 export const PostHero: React.FC<{
   post: Post

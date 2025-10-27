@@ -13,7 +13,7 @@ import {
   NavigationMenuTrigger,
   NavigationMenuContent,
 } from '@/components/ui/navigation-menu'
-import { cn } from '@/utilities/ui'
+import { cn } from '@/utilities/ui/cn'
 import { getIconComponent } from '@/fields/iconPicker'
 
 type MenuSection = {

@@ -12,7 +12,7 @@ import {
   useRef,
   useState,
 } from 'react'
-import { cn } from '@/utilities/ui'
+import { cn } from '@/utilities/ui/cn'
 
 export type DeckProps = HTMLAttributes<HTMLDivElement>
 
@@ -210,7 +210,7 @@ const DeckCard = ({ children, onSwipe, threshold, style, exitDirection }: DeckCa
   const castedChildren = children as ReactElement<HTMLAttributes<HTMLDivElement>>
 
   return (
-    <motion.div
+    <div
       animate={exitDirection ? { x: exitX, opacity: 0 } : undefined}
       className="absolute inset-0 cursor-grab active:cursor-grabbing"
       drag="x"
@@ -231,7 +231,7 @@ const DeckCard = ({ children, onSwipe, threshold, style, exitDirection }: DeckCa
           castedChildren.props.className,
         ),
       })}
-    </motion.div>
+    </div>
   )
 }
 

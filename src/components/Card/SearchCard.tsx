@@ -1,34 +1,60 @@
 'use client'
-import { useClickableCard } from '@/utilities/ui'
-import { Link } from 'next-view-transitions'
+import Link from 'next/link'
 import React, { Suspense } from 'react'
-
-import { Media } from '@/components/Media'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card'
+import { Card, CardContent, CardTitle } from '../ui/card'
+import { Badge } from '../ui/badge'
 import { Skeleton } from '../ui/skeleton'
 import { AspectRatio } from '../ui/aspect-ratio'
-import { Badge } from '../ui/badge'
+import { Media } from '../Media'
+import {
+  FileText as FileTextIcon,
+  Package as PackageIcon,
+  BookOpen as BookOpenIcon,
+  Settings as SettingsIcon,
+} from 'lucide-react'
+import type { Media as MediaType } from '@/payload-types'
 
-// Mapeo de tipos de documentos
-const documentTypeLabels: Record<string, string> = {
-  posts: 'Publicación',
-  products: 'Producto',
-  manuals: 'Manual',
-  services: 'Servicio',
+// Mapeo de tipos de documentos con iconos y colores
+const documentTypeConfig: Record<
+  string,
+  {
+    label: string
+    icon: React.ComponentType<{ className?: string }>
+  }
+> = {
+  posts: {
+    label: 'Publicación',
+    icon: FileTextIcon,
+  },
+  products: {
+    label: 'Producto',
+    icon: PackageIcon,
+  },
+  manuals: {
+    label: 'Manual',
+    icon: BookOpenIcon,
+  },
+  services: {
+    label: 'Servicio',
+    icon: SettingsIcon,
+  },
 }
+
+// Tipo para imágenes de media (compatible con el componente Media)
+type MediaResource = MediaType | string | number | null
 
 // Tipo para elementos de la colección search
 export type SearchResultData = {
   id: string | number
   title?: string | null
   slug?: string | null
-  content?: any
-  heroImage?: any
+  content?: unknown
+  heroImage?: MediaResource
   publishedAt?: string | null
   meta?: {
     title?: string | null
     description?: string | null
-    image?: any
+    image?: MediaResource
   } | null
   categories?: Array<{
     relationTo?: string
@@ -42,76 +68,84 @@ export type SearchResultData = {
 }
 
 // Search image component
-const SearchImage: React.FC<{ imageToUse: any; documentType: string }> = ({
-  imageToUse,
-  documentType,
-}) => (
-  <div className="relative">
-    <Badge variant="secondary" className="absolute top-3 right-3 z-10 text-xs">
-      {documentType}
-    </Badge>
-    <Suspense fallback={<Skeleton className="h-56 w-full" />}>
-      {imageToUse && typeof imageToUse !== 'string' && typeof imageToUse !== 'number' ? (
-        <AspectRatio ratio={1 / 1} className="relative">
-          <Media priority resource={imageToUse} fill />
-        </AspectRatio>
-      ) : (
-        <div
-          role="img"
-          aria-label="Imagen no disponible"
-          className="text-center flex items-center justify-center h-56 w-full bg-muted/20 rounded-md"
-        >
-          <span className="text-muted-foreground text-sm">No se encontró imagen</span>
-        </div>
-      )}
-    </Suspense>
-  </div>
-)
+const SearchImage: React.FC<{
+  imageToUse: MediaResource
+  typeConfig: (typeof documentTypeConfig)[string]
+}> = ({ imageToUse, typeConfig }) => {
+  const IconComponent = typeConfig.icon
+
+  return (
+    <div className="relative group overflow-hidden">
+      <Suspense fallback={<Skeleton className="h-64 w-full" />}>
+        {imageToUse &&
+        (typeof imageToUse === 'object' ||
+          typeof imageToUse === 'string' ||
+          typeof imageToUse === 'number') ? (
+          <AspectRatio ratio={1} className="relative">
+            <Media resource={imageToUse} fill />
+          </AspectRatio>
+        ) : (
+          <div
+            role="img"
+            aria-label="Imagen no disponible"
+            className="text-center flex flex-col items-center justify-center h-64 w-full bg-muted/30"
+          >
+            <IconComponent className="h-12 w-12 text-muted-foreground mb-3" />
+            <span className="text-muted-foreground text-sm">Sin imagen</span>
+          </div>
+        )}
+      </Suspense>
+    </div>
+  )
+}
 
 export const SearchCard: React.FC<{
   className?: string
   doc?: SearchResultData
-}> = ({ doc, className }) => {
-  const { link } = useClickableCard({})
-
+  index?: number
+}> = ({ doc, className, index: _index = 0 }) => {
   if (!doc) return null
 
   const { slug, meta, title, doc: docRef, heroImage } = doc
-  const { description, image: metaImage } = meta || {}
-
   const href = `/${docRef.relationTo}/${slug}`
-  const displayTitle = title || meta?.title
-  const displayDescription = description?.replace(/\s+/g, ' ').trim()
-  const imageToUse = heroImage || metaImage
-  const documentTypeLabel = documentTypeLabels[docRef.relationTo] || docRef.relationTo
+  const displayTitle = title || meta?.title || 'Sin título'
+  const documentType = docRef.relationTo
+  const typeConfig = documentTypeConfig[documentType] || documentTypeConfig.posts
 
   return (
-    <Card role="article" className={`h-fit max-w-96 relative z-10 ${className || ''}`}>
-      <div className="flex flex-col gap-4">
-        <CardHeader className="px-0">
-          <SearchImage imageToUse={imageToUse} documentType={documentTypeLabel} />
-        </CardHeader>
+    <div className={className}>
+      <Card className="pb-0">
+        <CardContent className="p-0">
+          {/* Badge flotante en la esquina superior derecha */}
+          <div className="relative">
+            <Badge
+              variant="secondary"
+              className="absolute top-4 right-4 z-10 text-xs gap-1.5 bg-background/95 backdrop-blur-sm border shadow-sm rounded-full px-3 py-1"
+            >
+              <typeConfig.icon className="h-3 w-3" />
+              {typeConfig.label}
+            </Badge>
 
-        <CardContent className="flex flex-col gap-3 py-1">
-          <div className="space-y-2">
-            <CardTitle className="text-lg font-semibold line-clamp-2 leading-tight">
-              <Link
-                className="not-prose hover:underline transition-colors"
-                href={href}
-                ref={link.ref}
-              >
+            {/* Image Section */}
+            <SearchImage imageToUse={heroImage || meta?.image || null} typeConfig={typeConfig} />
+          </div>
+
+          {/* Content Section */}
+          <div className="p-6 space-y-4">
+            <CardTitle className="text-xl font-bold leading-tight line-clamp-2 text-foreground">
+              <Link href={href} className="hover:text-primary transition-colors hover:underline">
                 {displayTitle}
               </Link>
             </CardTitle>
 
-            {displayDescription && (
-              <CardDescription className="text-sm text-muted-foreground line-clamp-3 leading-relaxed">
-                {displayDescription}
-              </CardDescription>
+            {meta?.description && (
+              <p className="text-muted-foreground line-clamp-3 leading-relaxed text-sm">
+                {meta.description}
+              </p>
             )}
           </div>
         </CardContent>
-      </div>
-    </Card>
+      </Card>
+    </div>
   )
 }
