@@ -25,43 +25,64 @@ const columnFields: Field[] = [
     name: 'size',
     type: 'select',
     label: {
-      en: 'Column Size',
-      es: 'Tamaño de Columna',
+      en: 'Column Width',
+      es: 'Ancho de Columna',
     },
     admin: {
       description: {
-        en: 'Choose the width of this column',
-        es: 'Elige el ancho de esta columna',
+        en: 'Choose how much space this column takes. Auto adjusts based on number of columns.',
+        es: 'Elige cuánto espacio ocupa esta columna. Se ajusta automáticamente según el número de columnas.',
       },
       width: '50%',
     },
-    defaultValue: 'medium',
+    defaultValue: 'auto',
     options: [
       {
         label: {
-          en: 'Small',
-          es: 'Pequeño',
+          en: '🔄 Auto (Equal Width)',
+          es: '🔄 Automático (Ancho Igual)',
         },
-        value: 'small',
+        value: 'auto',
       },
       {
         label: {
-          en: 'Medium',
-          es: 'Mediano',
+          en: '📱 1/4 Width (25%)',
+          es: '📱 1/4 de Ancho (25%)',
         },
-        value: 'medium',
+        value: 'quarter',
       },
       {
         label: {
-          en: 'Large',
-          es: 'Grande',
+          en: '📄 1/3 Width (33%)',
+          es: '📄 1/3 de Ancho (33%)',
         },
-        value: 'large',
+        value: 'third',
       },
       {
         label: {
-          en: 'Full Width',
-          es: 'Ancho Completo',
+          en: '📋 1/2 Width (50%)',
+          es: '📋 1/2 de Ancho (50%)',
+        },
+        value: 'half',
+      },
+      {
+        label: {
+          en: '📊 2/3 Width (66%)',
+          es: '📊 2/3 de Ancho (66%)',
+        },
+        value: 'two-thirds',
+      },
+      {
+        label: {
+          en: '📺 3/4 Width (75%)',
+          es: '📺 3/4 de Ancho (75%)',
+        },
+        value: 'three-quarters',
+      },
+      {
+        label: {
+          en: '🖥️ Full Width (100%)',
+          es: '🖥️ Ancho Completo (100%)',
         },
         value: 'full',
       },
@@ -291,17 +312,91 @@ export const Content: Block = {
   slug: 'content',
   labels: {
     singular: {
-      en: 'Content Block',
-      es: 'Bloque de Contenido',
+      en: '📝 Multi-Column Layout',
+      es: '📝 Layout Multi-Columna',
     },
     plural: {
-      en: 'Content Blocks',
-      es: 'Bloques de Contenido',
+      en: '📝 Multi-Column Layouts',
+      es: '📝 Layouts Multi-Columna',
     },
   },
   interfaceName: 'ContentBlock',
 
   fields: [
+    {
+      name: 'layoutType',
+      type: 'select',
+      label: {
+        en: 'Quick Layout',
+        es: 'Layout Rápido',
+      },
+      admin: {
+        description: {
+          en: '🚀 Choose a preset layout or use "Custom" for manual control',
+          es: '🚀 Elige un layout predefinido o usa "Personalizado" para control manual',
+        },
+        width: '50%',
+      },
+      defaultValue: 'custom',
+      options: [
+        {
+          label: {
+            en: '🎯 Custom Layout',
+            es: '🎯 Layout Personalizado',
+          },
+          value: 'custom',
+        },
+        {
+          label: {
+            en: '📱 Single Column (100%)',
+            es: '📱 Una Columna (100%)',
+          },
+          value: 'single',
+        },
+        {
+          label: {
+            en: '📋 Two Equal Columns (50% | 50%)',
+            es: '📋 Dos Columnas Iguales (50% | 50%)',
+          },
+          value: 'two-equal',
+        },
+        {
+          label: {
+            en: '📊 Two Unequal (33% | 67%)',
+            es: '📊 Dos Desiguales (33% | 67%)',
+          },
+          value: 'two-unequal',
+        },
+        {
+          label: {
+            en: '📺 Two Unequal (67% | 33%)',
+            es: '📺 Dos Desiguales (67% | 33%)',
+          },
+          value: 'two-unequal-reverse',
+        },
+        {
+          label: {
+            en: '🖥️ Three Equal Columns',
+            es: '🖥️ Tres Columnas Iguales',
+          },
+          value: 'three-equal',
+        },
+        {
+          label: {
+            en: '📄 Sidebar Left (25% | 75%)',
+            es: '📄 Sidebar Izquierda (25% | 75%)',
+          },
+          value: 'sidebar-left',
+        },
+        {
+          label: {
+            en: '📄 Sidebar Right (75% | 25%)',
+            es: '📄 Sidebar Derecha (75% | 25%)',
+          },
+          value: 'sidebar-right',
+        },
+      ],
+    },
     {
       name: 'columns',
       label: {
@@ -311,23 +406,26 @@ export const Content: Block = {
       type: 'array',
       labels: {
         singular: {
-          en: 'Content Column',
-          es: 'Columna de Contenido',
+          en: 'Column',
+          es: 'Columna',
         },
         plural: {
-          en: 'Content Columns',
-          es: 'Columnas de Contenido',
+          en: 'Columns',
+          es: 'Columnas',
         },
       },
       admin: {
         description: {
-          en: 'Add columns to create your layout. Each column can have different sizes and content.',
-          es: 'Añade columnas para crear tu layout. Cada columna puede tener diferentes tamaños y contenido.',
+          en: '📝 Add content to each column. Use the Quick Layout above for common arrangements.',
+          es: '📝 Añade contenido a cada columna. Usa el Layout Rápido arriba para arreglos comunes.',
         },
         initCollapsed: true,
+        components: {
+          RowLabel: '@/blocks/Content/RowLabel#ColumnRowLabel',
+        },
       },
       minRows: 1,
-      maxRows: 12,
+      maxRows: 6,
       fields: columnFields,
     },
   ],

@@ -8,37 +8,34 @@ export const Code: Block = {
       es: 'Código',
     },
     plural: {
-      en: 'Code Blocks',
-      es: 'Bloques de Código',
+      en: 'Codes',
+      es: 'Codigos',
     },
   },
   interfaceName: 'CodeBlock',
   fields: [
     {
       name: 'language',
+      label: {
+        en: 'Language',
+        es: 'Lenguaje',
+      },
       type: 'select',
-      defaultValue: 'typescript',
+      defaultValue: 'json',
       options: [
         {
           label: {
-            en: 'Typescript',
-            es: 'Typescript',
+            en: 'JSON',
+            es: 'JSON',
           },
-          value: 'typescript',
+          value: 'json',
         },
         {
           label: {
-            en: 'JavaScript',
-            es: 'JavaScript',
+            en: 'Yaml',
+            es: 'Yaml',
           },
-          value: 'javascript',
-        },
-        {
-          label: {
-            en: 'CSS',
-            es: 'CSS',
-          },
-          value: 'css',
+          value: 'yaml',
         },
       ],
     },

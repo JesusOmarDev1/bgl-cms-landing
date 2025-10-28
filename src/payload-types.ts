@@ -182,6 +182,7 @@ export interface Page {
       | MediaBlock
       | FormBlock
       | FAQBlock
+      | ClientsLoopBlock
       | PostArchiveBlock
       | ServiceArchiveBlock
     )[];
@@ -401,14 +402,29 @@ export interface User {
  */
 export interface ContentBlock {
   /**
-   * Add columns to create your layout. Each column can have different sizes and content.
+   * 🚀 Choose a preset layout or use "Custom" for manual control
+   */
+  layoutType?:
+    | (
+        | 'custom'
+        | 'single'
+        | 'two-equal'
+        | 'two-unequal'
+        | 'two-unequal-reverse'
+        | 'three-equal'
+        | 'sidebar-left'
+        | 'sidebar-right'
+      )
+    | null;
+  /**
+   * 📝 Add content to each column. Use the Quick Layout above for common arrangements.
    */
   columns?:
     | {
         /**
-         * Choose the width of this column
+         * Choose how much space this column takes. Auto adjusts based on number of columns.
          */
-        size?: ('small' | 'medium' | 'large' | 'full') | null;
+        size?: ('auto' | 'quarter' | 'third' | 'half' | 'two-thirds' | 'three-quarters' | 'full') | null;
         richText?: {
           root: {
             type: string;
@@ -767,6 +783,93 @@ export interface FAQBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'faq';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ClientsLoopBlock".
+ */
+export interface ClientsLoopBlock {
+  /**
+   * Select the clients to display in the loop. Only clients with hero images will be shown.
+   */
+  clients: (number | Client)[];
+  /**
+   * Speed of the animation in pixels per second. Higher values = faster movement.
+   */
+  speed?: number | null;
+  /**
+   * Direction of the animation movement
+   */
+  direction?: ('left' | 'right') | null;
+  /**
+   * Height of the client logos in pixels
+   */
+  logoHeight?: number | null;
+  /**
+   * Space between logos in pixels
+   */
+  gap?: number | null;
+  /**
+   * Pause the animation when hovering over the component
+   */
+  pauseOnHover?: boolean | null;
+  /**
+   * Add fade out effect at the edges for a smoother look
+   */
+  fadeOut?: boolean | null;
+  /**
+   * Scale up logos slightly when hovering over them
+   */
+  scaleOnHover?: boolean | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'clientsLoop';
+}
+/**
+ * Administra los clientes del sitio: crea, edita y elimina clientes
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "clients".
+ */
+export interface Client {
+  id: number;
+  title: string;
+  companyName?: string | null;
+  heroImage?: (number | null) | Media;
+  content?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  contact?: string | null;
+  email?: string | null;
+  phone?: string | null;
+  address?: string | null;
+  website?: string | null;
+  slug: string;
+  slugLock?: boolean | null;
+  createdBy?: {
+    relationTo: 'users';
+    value: number | User;
+  } | null;
+  lastModifiedBy?: {
+    relationTo: 'users';
+    value: number | User;
+  } | null;
+  updatedAt: string;
+  createdAt: string;
+  deletedAt?: string | null;
+  _status?: ('draft' | 'published') | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1292,52 +1395,6 @@ export interface Supplier {
   slugLock?: boolean | null;
   credit?: string | null;
   discount?: number | null;
-  createdBy?: {
-    relationTo: 'users';
-    value: number | User;
-  } | null;
-  lastModifiedBy?: {
-    relationTo: 'users';
-    value: number | User;
-  } | null;
-  updatedAt: string;
-  createdAt: string;
-  deletedAt?: string | null;
-  _status?: ('draft' | 'published') | null;
-}
-/**
- * Administra los clientes del sitio: crea, edita y elimina clientes
- *
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "clients".
- */
-export interface Client {
-  id: number;
-  title: string;
-  companyName?: string | null;
-  heroImage?: (number | null) | Media;
-  content?: {
-    root: {
-      type: string;
-      children: {
-        type: string;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
-  contact?: string | null;
-  email?: string | null;
-  phone?: string | null;
-  address?: string | null;
-  website?: string | null;
-  slug: string;
-  slugLock?: boolean | null;
   createdBy?: {
     relationTo: 'users';
     value: number | User;
@@ -1912,6 +1969,7 @@ export interface PagesSelect<T extends boolean = true> {
               mediaBlock?: T | MediaBlockSelect<T>;
               formBlock?: T | FormBlockSelect<T>;
               faq?: T | FAQBlockSelect<T>;
+              clientsLoop?: T | ClientsLoopBlockSelect<T>;
               'post-archive'?: T | PostArchiveBlockSelect<T>;
               'service-archive'?: T | ServiceArchiveBlockSelect<T>;
             };
@@ -1951,6 +2009,7 @@ export interface CallToActionBlockSelect<T extends boolean = true> {
  * via the `definition` "ContentBlock_select".
  */
 export interface ContentBlockSelect<T extends boolean = true> {
+  layoutType?: T;
   columns?:
     | T
     | {
@@ -2001,6 +2060,22 @@ export interface FAQBlockSelect<T extends boolean = true> {
         answer?: T;
         id?: T;
       };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ClientsLoopBlock_select".
+ */
+export interface ClientsLoopBlockSelect<T extends boolean = true> {
+  clients?: T;
+  speed?: T;
+  direction?: T;
+  logoHeight?: T;
+  gap?: T;
+  pauseOnHover?: T;
+  fadeOut?: T;
+  scaleOnHover?: T;
   id?: T;
   blockName?: T;
 }
@@ -4108,6 +4183,92 @@ export interface QRCodeBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'qr-code-block';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "DownloadLinkBlock".
+ */
+export interface DownloadLinkBlock {
+  /**
+   * Select the PDF file to download
+   */
+  file: number | Media;
+  /**
+   * Display text for the download link
+   */
+  title: string;
+  /**
+   * Optional description of the PDF content
+   */
+  description?: string | null;
+  /**
+   * Choose how the download link should be displayed
+   */
+  variant?: ('default' | 'card' | 'button') | null;
+  /**
+   * Display the file size next to the download link
+   */
+  showFileSize?: boolean | null;
+  /**
+   * Open the PDF in a new browser tab
+   */
+  openInNewTab?: boolean | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'downloadLink';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TableBlock".
+ */
+export interface TableBlock {
+  /**
+   * Optional caption/title for the table
+   */
+  caption?: string | null;
+  /**
+   * Define the column headers for your table
+   */
+  headers?:
+    | {
+        text: string;
+        align?: ('left' | 'center' | 'right') | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Add data rows to your table
+   */
+  rows?:
+    | {
+        /**
+         * Enter the data for each cell in this row
+         */
+        cells?:
+          | {
+              content: string;
+              align?: ('left' | 'center' | 'right') | null;
+              /**
+               * Mark this cell as a row header (will be bold)
+               */
+              isHeader?: boolean | null;
+              id?: string | null;
+            }[]
+          | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Choose the visual style for your table
+   */
+  variant?: ('default' | 'striped' | 'compact' | 'specs') | null;
+  /**
+   * Enable horizontal scrolling on small screens
+   */
+  responsive?: boolean | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'table';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

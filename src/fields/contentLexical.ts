@@ -28,6 +28,8 @@ import { Code } from '../blocks/Code/config'
 import { Button } from '../blocks/Button/config'
 import { MediaBlock } from '../blocks/MediaBlock/config'
 import { QRCodeBlock } from '@/blocks/QRCodeBlock/config'
+import { DownloadLink } from '../blocks/DownloadLink/config'
+import { Table } from '../blocks/Table/config'
 
 export const contentLexicalEditor = lexicalEditor({
   features: ({ rootFeatures }) => {
@@ -35,7 +37,9 @@ export const contentLexicalEditor = lexicalEditor({
       ...rootFeatures,
       ParagraphFeature(),
       HeadingFeature({ enabledHeadingSizes: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'] }),
-      BlocksFeature({ blocks: [Banner, Code, Button, MediaBlock, QRCodeBlock] }),
+      BlocksFeature({
+        blocks: [Banner, Code, Button, MediaBlock, QRCodeBlock, DownloadLink, Table],
+      }),
       FixedToolbarFeature({ applyToFocusedEditor: true }),
       InlineToolbarFeature(),
       UnderlineFeature(),

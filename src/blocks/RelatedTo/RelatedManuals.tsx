@@ -29,7 +29,6 @@ export const RelatedManuals: React.FC<RelatedManualsProps> = (props) => {
               key={index}
               doc={{
                 slug: doc.slug,
-                categories: doc.categories,
                 meta: doc.meta,
                 title: doc.title,
                 publishedAt: doc.publishedAt,
@@ -37,7 +36,6 @@ export const RelatedManuals: React.FC<RelatedManualsProps> = (props) => {
                 heroImage: doc.heroImage,
               }}
               relationTo="manuals"
-              showCategories
             />
           )
         })}

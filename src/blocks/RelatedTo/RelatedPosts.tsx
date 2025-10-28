@@ -29,17 +29,13 @@ export const RelatedPosts: React.FC<RelatedPostsProps> = (props) => {
               key={index}
               doc={{
                 slug: doc.slug,
-                categories: doc.categories,
                 meta: doc.meta,
                 title: doc.title,
                 publishedAt: doc.publishedAt,
                 content: doc.content,
-                authors: doc.authors,
-                populatedAuthors: doc.populatedAuthors,
                 heroImage: doc.heroImage,
               }}
               relationTo="posts"
-              showCategories
             />
           )
         })}
