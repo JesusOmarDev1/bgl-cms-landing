@@ -278,6 +278,7 @@ export interface Media {
     };
     [k: string]: unknown;
   } | null;
+  prefix?: string | null;
   createdBy?: {
     relationTo: 'users';
     value: number | User;
@@ -402,29 +403,14 @@ export interface User {
  */
 export interface ContentBlock {
   /**
-   * 🚀 Choose a preset layout or use "Custom" for manual control
+   * Choose how to divide the content space
    */
-  layoutType?:
-    | (
-        | 'custom'
-        | 'single'
-        | 'two-equal'
-        | 'two-unequal'
-        | 'two-unequal-reverse'
-        | 'three-equal'
-        | 'sidebar-left'
-        | 'sidebar-right'
-      )
-    | null;
+  layoutType?: ('single' | 'two-equal' | 'main-sidebar' | 'sidebar-main' | 'content-aside' | 'aside-content') | null;
   /**
-   * 📝 Add content to each column. Use the Quick Layout above for common arrangements.
+   * Add content to each column based on the layout type selected above
    */
   columns?:
     | {
-        /**
-         * Choose how much space this column takes. Auto adjusts based on number of columns.
-         */
-        size?: ('auto' | 'quarter' | 'third' | 'half' | 'two-thirds' | 'three-quarters' | 'full') | null;
         richText?: {
           root: {
             type: string;
@@ -2013,7 +1999,6 @@ export interface ContentBlockSelect<T extends boolean = true> {
   columns?:
     | T
     | {
-        size?: T;
         richText?: T;
         id?: T;
       };
@@ -2148,6 +2133,7 @@ export interface PostsSelect<T extends boolean = true> {
 export interface MediaSelect<T extends boolean = true> {
   title?: T;
   content?: T;
+  prefix?: T;
   createdBy?: T;
   lastModifiedBy?: T;
   updatedAt?: T;

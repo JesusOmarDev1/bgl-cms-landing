@@ -30,12 +30,6 @@ export const Users: CollectionConfig = {
   defaultSort: '-createdAt', // Más recientes primero
 
   // 🔐 Access Control
-  access: {
-    create: isAdmin,
-    read: isAdminOrSelf,
-    update: isAdminOrSelf,
-    delete: isAdmin,
-  },
 
   // 🚀 Performance: DefaultPopulate optimizado
   defaultPopulate: {

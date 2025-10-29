@@ -22,73 +22,6 @@ import { FullscreenEditorFeature } from '@payload-bites/fullscreen-editor'
 
 const columnFields: Field[] = [
   {
-    name: 'size',
-    type: 'select',
-    label: {
-      en: 'Column Width',
-      es: 'Ancho de Columna',
-    },
-    admin: {
-      description: {
-        en: 'Choose how much space this column takes. Auto adjusts based on number of columns.',
-        es: 'Elige cuánto espacio ocupa esta columna. Se ajusta automáticamente según el número de columnas.',
-      },
-      width: '50%',
-    },
-    defaultValue: 'auto',
-    options: [
-      {
-        label: {
-          en: '🔄 Auto (Equal Width)',
-          es: '🔄 Automático (Ancho Igual)',
-        },
-        value: 'auto',
-      },
-      {
-        label: {
-          en: '📱 1/4 Width (25%)',
-          es: '📱 1/4 de Ancho (25%)',
-        },
-        value: 'quarter',
-      },
-      {
-        label: {
-          en: '📄 1/3 Width (33%)',
-          es: '📄 1/3 de Ancho (33%)',
-        },
-        value: 'third',
-      },
-      {
-        label: {
-          en: '📋 1/2 Width (50%)',
-          es: '📋 1/2 de Ancho (50%)',
-        },
-        value: 'half',
-      },
-      {
-        label: {
-          en: '📊 2/3 Width (66%)',
-          es: '📊 2/3 de Ancho (66%)',
-        },
-        value: 'two-thirds',
-      },
-      {
-        label: {
-          en: '📺 3/4 Width (75%)',
-          es: '📺 3/4 de Ancho (75%)',
-        },
-        value: 'three-quarters',
-      },
-      {
-        label: {
-          en: '🖥️ Full Width (100%)',
-          es: '🖥️ Ancho Completo (100%)',
-        },
-        value: 'full',
-      },
-    ],
-  },
-  {
     name: 'richText',
     type: 'richText',
     editor: lexicalEditor({
@@ -312,12 +245,12 @@ export const Content: Block = {
   slug: 'content',
   labels: {
     singular: {
-      en: '📝 Multi-Column Layout',
-      es: '📝 Layout Multi-Columna',
+      en: 'Multi-Column Layout',
+      es: 'Layout Multi-Columna',
     },
     plural: {
-      en: '📝 Multi-Column Layouts',
-      es: '📝 Layouts Multi-Columna',
+      en: 'Multi-Column Layouts',
+      es: 'Layouts Multi-Columna',
     },
   },
   interfaceName: 'ContentBlock',
@@ -327,73 +260,59 @@ export const Content: Block = {
       name: 'layoutType',
       type: 'select',
       label: {
-        en: 'Quick Layout',
-        es: 'Layout Rápido',
+        en: 'Layout Type',
+        es: 'Tipo de Layout',
       },
       admin: {
         description: {
-          en: '🚀 Choose a preset layout or use "Custom" for manual control',
-          es: '🚀 Elige un layout predefinido o usa "Personalizado" para control manual',
+          en: 'Choose how to divide the content space',
+          es: 'Elige cómo dividir el espacio del contenido',
         },
         width: '50%',
       },
-      defaultValue: 'custom',
+      defaultValue: 'single',
       options: [
         {
           label: {
-            en: '🎯 Custom Layout',
-            es: '🎯 Layout Personalizado',
-          },
-          value: 'custom',
-        },
-        {
-          label: {
-            en: '📱 Single Column (100%)',
-            es: '📱 Una Columna (100%)',
+            en: 'Single Column',
+            es: 'Una Columna',
           },
           value: 'single',
         },
         {
           label: {
-            en: '📋 Two Equal Columns (50% | 50%)',
-            es: '📋 Dos Columnas Iguales (50% | 50%)',
+            en: 'Two Equal (50% | 50%)',
+            es: 'Dos Iguales (50% | 50%)',
           },
           value: 'two-equal',
         },
         {
           label: {
-            en: '📊 Two Unequal (33% | 67%)',
-            es: '📊 Dos Desiguales (33% | 67%)',
+            en: 'Main + Sidebar (75% | 25%)',
+            es: 'Principal + Sidebar (75% | 25%)',
           },
-          value: 'two-unequal',
+          value: 'main-sidebar',
         },
         {
           label: {
-            en: '📺 Two Unequal (67% | 33%)',
-            es: '📺 Dos Desiguales (67% | 33%)',
+            en: 'Sidebar + Main (25% | 75%)',
+            es: 'Sidebar + Principal (25% | 75%)',
           },
-          value: 'two-unequal-reverse',
+          value: 'sidebar-main',
         },
         {
           label: {
-            en: '🖥️ Three Equal Columns',
-            es: '🖥️ Tres Columnas Iguales',
+            en: 'Content + Aside (60% | 40%)',
+            es: 'Contenido + Aside (60% | 40%)',
           },
-          value: 'three-equal',
+          value: 'content-aside',
         },
         {
           label: {
-            en: '📄 Sidebar Left (25% | 75%)',
-            es: '📄 Sidebar Izquierda (25% | 75%)',
+            en: 'Aside + Content (40% | 60%)',
+            es: 'Aside + Contenido (40% | 60%)',
           },
-          value: 'sidebar-left',
-        },
-        {
-          label: {
-            en: '📄 Sidebar Right (75% | 25%)',
-            es: '📄 Sidebar Derecha (75% | 25%)',
-          },
-          value: 'sidebar-right',
+          value: 'aside-content',
         },
       ],
     },
@@ -416,8 +335,8 @@ export const Content: Block = {
       },
       admin: {
         description: {
-          en: '📝 Add content to each column. Use the Quick Layout above for common arrangements.',
-          es: '📝 Añade contenido a cada columna. Usa el Layout Rápido arriba para arreglos comunes.',
+          en: 'Add content to each column based on the layout type selected above',
+          es: 'Añade contenido a cada columna según el tipo de layout seleccionado arriba',
         },
         initCollapsed: true,
         components: {
@@ -425,7 +344,7 @@ export const Content: Block = {
         },
       },
       minRows: 1,
-      maxRows: 6,
+      maxRows: 2,
       fields: columnFields,
     },
   ],

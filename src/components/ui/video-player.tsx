@@ -18,10 +18,12 @@ import {
   MediaLoadingIndicator,
   MediaCaptionsButton,
   MediaPipButton,
+  MediaPlaybackRateButton,
 } from 'media-chrome/react'
 
 import type { ComponentProps, CSSProperties } from 'react'
 import { cn } from '@/utilities/ui/cn'
+import { getClientSideURL } from '@/utilities/url/utils'
 
 export type VideoPlayerProps = ComponentProps<typeof MediaController>
 
@@ -159,8 +161,18 @@ export const VideoPlayerPipButton = ({ className, ...props }: VideoPlayerPipButt
   <MediaPipButton className={cn('p-2.5', className)} {...props} />
 )
 
+export type VideoPlayerPlaybackRateButtonProps = ComponentProps<typeof MediaPlaybackRateButton>
+
+export const VideoPlayerPlaybackRateButton = ({
+  className,
+  ...props
+}: VideoPlayerPlaybackRateButtonProps) => (
+  <MediaPlaybackRateButton className={cn('p-2.5', className)} {...props} />
+)
+
 export type VideoPlayerContentProps = ComponentProps<'video'> & {
   source: string | undefined | null
+  sources?: Array<{ src: string; type: string; label?: string; res?: string }>
   onClick?: () => void
   onDoubleClick?: () => void
 }
@@ -168,30 +180,46 @@ export type VideoPlayerContentProps = ComponentProps<'video'> & {
 export const VideoPlayerContent = ({
   className,
   source,
+  sources,
   onClick,
   onDoubleClick,
   ...props
-}: VideoPlayerContentProps) => (
-  <video
-    slot="media"
-    playsInline
-    preload="metadata"
-    className={cn(
-      'mt-0 mb-0 [&::-webkit-media-controls]:hidden [&::-webkit-media-controls-enclosure]:hidden',
-      className,
-    )}
-    suppressHydrationWarning
-    onClick={onClick}
-    onDoubleClick={onDoubleClick}
-    style={{
-      ...props.style,
-      // Ocultar completamente los controles nativos
-      WebkitAppearance: 'none',
-      appearance: 'none',
-    }}
-    {...props}
-  >
-    <source src={source || ''} type="video/mp4" />
-    Tu navegador no soporta el video.
-  </video>
-)
+}: VideoPlayerContentProps) => {
+  // Determinar si usar crossOrigin basado en la URL
+  const clientUrl = getClientSideURL()
+  const isLocalUrl = source?.startsWith(clientUrl) || source?.startsWith('/api/')
+  const crossOriginValue = isLocalUrl ? undefined : 'anonymous'
+
+  return (
+    <video
+      slot="media"
+      playsInline
+      preload="metadata"
+      crossOrigin={crossOriginValue}
+      className={cn(
+        'mt-0 mb-0 [&::-webkit-media-controls]:hidden [&::-webkit-media-controls-enclosure]:hidden',
+        className,
+      )}
+      suppressHydrationWarning
+      onClick={onClick}
+      onDoubleClick={onDoubleClick}
+      style={{
+        ...props.style,
+        // Ocultar completamente los controles nativos
+        WebkitAppearance: 'none',
+        appearance: 'none',
+      }}
+      {...props}
+    >
+      {/* Si hay múltiples fuentes, usarlas */}
+      {sources && sources.length > 0 ? (
+        sources.map((src, index) => (
+          <source key={index} src={src.src} type={src.type} data-res={src.res} />
+        ))
+      ) : (
+        <source src={source || ''} type="video/mp4" />
+      )}
+      Tu navegador no soporta el video.
+    </video>
+  )
+}

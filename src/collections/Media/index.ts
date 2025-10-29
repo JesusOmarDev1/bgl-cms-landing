@@ -63,11 +63,16 @@ export const Media: CollectionConfig = {
       'image/gif',
       'video/mp4',
       'video/m3u8',
+      'video/webm',
+      'application/pdf',
     ],
     adminThumbnail: 'thumbnail',
     focalPoint: true,
     crop: false,
     displayPreview: true,
+    // Deshabilitar directorio estático local (usamos S3/R2)
+    staticDir: undefined,
+
     formatOptions: {
       format: 'webp',
       options: {

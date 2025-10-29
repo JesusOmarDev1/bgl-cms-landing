@@ -9,12 +9,14 @@ import { getClientSideURL } from '../url/utils'
 export const getMediaUrl = (url: string | null | undefined, cacheTag?: string | null): string => {
   if (!url) return ''
 
-  // Check if URL already has http/https protocol
+  // Si la URL ya tiene protocolo (http/https), es una URL completa
+  // Esto incluye URLs firmadas generadas por el S3 storage adapter
   if (url.startsWith('http://') || url.startsWith('https://')) {
     return cacheTag ? `${url}?${cacheTag}` : url
   }
 
-  // Otherwise prepend client-side URL
+  // Para URLs relativas, usar la URL base del cliente
+  // Esto es un fallback para casos donde no se use S3 storage
   const baseUrl = getClientSideURL()
   return cacheTag ? `${baseUrl}${url}?${cacheTag}` : `${baseUrl}${url}`
 }

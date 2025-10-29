@@ -8,9 +8,29 @@ import { s3Storage } from '@payloadcms/storage-s3'
 export function getCloudfareAdapter() {
   return s3Storage({
     collections: {
-      [Media.slug]: true,
+      [Media.slug]: {
+        prefix: 'media',
+
+        signedDownloads: {
+          shouldUseSignedURL: ({ filename }: { filename: string }) => {
+            const videoExtensions = ['.mp4', '.webm', '.m3u8']
+            return videoExtensions.some((ext) => filename.toLowerCase().endsWith(ext))
+          },
+          expiresIn: 3600, // 1 hour
+        },
+      },
     },
+
+    // Bucket privado por defecto
+    acl: 'private',
+
+    // Deshabilitar almacenamiento local
+    disableLocalStorage: true,
+
+    // Configuración del bucket
     bucket: process.env.S3_BUCKET || '',
+
+    // Configuración de AWS SDK para Cloudflare R2
     config: {
       credentials: {
         accessKeyId: process.env.S3_ACCESS_KEY_ID || '',
@@ -18,6 +38,8 @@ export function getCloudfareAdapter() {
       },
       region: 'auto',
       endpoint: process.env.S3_ENDPOINT || '',
+      // Configuraciones específicas para R2
+      forcePathStyle: true,
     },
   })
 }
