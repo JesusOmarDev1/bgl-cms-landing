@@ -1,4 +1,5 @@
 'use client'
+import 'hls-video-element'
 
 import {
   MediaControlBar,
@@ -10,7 +11,15 @@ import {
   MediaTimeDisplay,
   MediaTimeRange,
   MediaVolumeRange,
+  MediaDurationDisplay,
+  MediaFullscreenButton,
+  MediaTooltip,
+  MediaPreviewThumbnail,
+  MediaLoadingIndicator,
+  MediaCaptionsButton,
+  MediaPipButton,
 } from 'media-chrome/react'
+
 import type { ComponentProps, CSSProperties } from 'react'
 import { cn } from '@/utilities/ui/cn'
 
@@ -34,6 +43,7 @@ export const VideoPlayer = ({ style, ...props }: VideoPlayerProps) => (
       ...variables,
       ...style,
     }}
+    suppressHydrationWarning
     {...props}
   />
 )
@@ -92,19 +102,93 @@ export const VideoPlayerMuteButton = ({ className, ...props }: VideoPlayerMuteBu
   <MediaMuteButton className={cn('p-2.5', className)} {...props} />
 )
 
+export type VideoPlayerFullscreenButtonProps = ComponentProps<typeof MediaFullscreenButton>
+
+export const VideoPlayerFullscreenButton = ({
+  className,
+  ...props
+}: VideoPlayerFullscreenButtonProps) => (
+  <MediaFullscreenButton className={cn('p-2.5', className)} {...props} />
+)
+
+export type VideoPlayerDurationDisplayProps = ComponentProps<typeof MediaDurationDisplay>
+
+export const VideoPlayerDurationDisplay = ({
+  className,
+  ...props
+}: VideoPlayerDurationDisplayProps) => (
+  <MediaDurationDisplay className={cn('p-2.5', className)} {...props} />
+)
+
+export type VideoPlayerTooltipProps = ComponentProps<typeof MediaTooltip>
+
+export const VideoPlayerTooltip = ({ className, ...props }: VideoPlayerTooltipProps) => (
+  <MediaTooltip className={cn('p-2.5', className)} {...props} />
+)
+
+export type VideoPlayerPreviewThumbnailProps = ComponentProps<typeof MediaPreviewThumbnail>
+
+export const VideoPlayerPreviewThumbnail = ({
+  className,
+  ...props
+}: VideoPlayerPreviewThumbnailProps) => (
+  <MediaPreviewThumbnail className={cn('p-2.5', className)} {...props} />
+)
+
+export type VideoPlayerLoadingIndicatorProps = ComponentProps<typeof MediaLoadingIndicator>
+
+export const VideoPlayerLoadingIndicator = ({
+  className,
+  ...props
+}: VideoPlayerLoadingIndicatorProps) => (
+  <MediaLoadingIndicator className={cn('p-2.5', className)} {...props} />
+)
+
+export type VideoPlayerCaptionsButtonProps = ComponentProps<typeof MediaCaptionsButton>
+
+export const VideoPlayerCaptionsButton = ({
+  className,
+  ...props
+}: VideoPlayerCaptionsButtonProps) => (
+  <MediaCaptionsButton className={cn('p-2.5', className)} {...props} />
+)
+
+export type VideoPlayerPipButtonProps = ComponentProps<typeof MediaPipButton>
+
+export const VideoPlayerPipButton = ({ className, ...props }: VideoPlayerPipButtonProps) => (
+  <MediaPipButton className={cn('p-2.5', className)} {...props} />
+)
+
 export type VideoPlayerContentProps = ComponentProps<'video'> & {
-  source: string | undefined
+  source: string | undefined | null
+  onClick?: () => void
+  onDoubleClick?: () => void
 }
 
-export const VideoPlayerContent = ({ className, source, ...props }: VideoPlayerContentProps) => (
+export const VideoPlayerContent = ({
+  className,
+  source,
+  onClick,
+  onDoubleClick,
+  ...props
+}: VideoPlayerContentProps) => (
   <video
     slot="media"
     playsInline
-    autoPlay
-    muted
-    preload="none"
-    loop
-    className={cn('mt-0 mb-0', className)}
+    preload="metadata"
+    className={cn(
+      'mt-0 mb-0 [&::-webkit-media-controls]:hidden [&::-webkit-media-controls-enclosure]:hidden',
+      className,
+    )}
+    suppressHydrationWarning
+    onClick={onClick}
+    onDoubleClick={onDoubleClick}
+    style={{
+      ...props.style,
+      // Ocultar completamente los controles nativos
+      WebkitAppearance: 'none',
+      appearance: 'none',
+    }}
     {...props}
   >
     <source src={source || ''} type="video/mp4" />
