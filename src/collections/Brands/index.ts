@@ -3,6 +3,7 @@ import type { CollectionConfig } from 'payload'
 import { slugField } from '@/fields/slug'
 import { isAdminOrEditor } from '@/access/isAdminOrEditor'
 import { anyone } from '@/access/anyone'
+import { isAdminOrEditorOrTechnician } from '@/access/isAdminOrEditorOrTechnician'
 
 export const Brands: CollectionConfig = {
   slug: 'brands',
@@ -15,8 +16,8 @@ export const Brands: CollectionConfig = {
   defaultSort: 'createdAt',
   access: {
     read: anyone,
-    create: isAdminOrEditor,
-    update: isAdminOrEditor,
+    create: isAdminOrEditorOrTechnician,
+    update: isAdminOrEditorOrTechnician,
     delete: isAdminOrEditor,
   },
   defaultPopulate: {

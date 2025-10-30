@@ -7,6 +7,8 @@ const NEXT_PUBLIC_SERVER_URL = process.env.VERCEL_PROJECT_PRODUCTION_URL
   ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
   : undefined || process.env.__NEXT_PRIVATE_ORIGIN || 'http://localhost:3000'
 
+const isDev = process.env.NODE_ENV === 'development'
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   poweredByHeader: false,
@@ -46,7 +48,7 @@ const nextConfig = {
       },
     ],
     domains: ['*.r2.cloudflarestorage.com', '*.r2.dev'],
-    unoptimized: true, // Disable Sharp optimization to avoid Turbopack issues
+    unoptimized: isDev ? true : false,
   },
   webpack: (webpackConfig) => {
     webpackConfig.resolve.extensionAlias = {
@@ -73,49 +75,77 @@ const nextConfig = {
         headers: createSecureHeaders({
           // Disable the global frameGuard to allow specific rules for /admin
           frameGuard: false,
-          // Keep your other existing security policies here
-          contentSecurityPolicy: {
-            directives: {
-              defaultSrc: ["'self'"],
-              styleSrc: ["'self'", "'unsafe-inline'"],
-              scriptSrc: [
-                "'self'",
-                "'unsafe-eval'",
-                "'unsafe-inline'",
-                'https://cdn.jsdelivr.net',
-                'https://unpkg.com',
-                'https://esm.sh',
-              ],
-              imgSrc: [
-                "'self'",
-                'data:',
-                'https:',
-                'blob:',
-                'https://*.cloudflare.com',
-                'https://*.r2.cloudflarestorage.com',
-                'https://*.r2.dev',
-              ],
-              connectSrc: ["'self'", 'https:', 'wss:'],
-              fontSrc: ["'self'", 'https:', 'data:'],
-              objectSrc: ["'none'"],
-              mediaSrc: [
-                "'self'",
-                'https://*.r2.cloudflarestorage.com',
-                'https://*.r2.dev',
-                'blob:',
-                'data:',
-              ],
-              workerSrc: ["'self'", 'blob:'],
-              childSrc: ["'self'", 'blob:'],
-              formAction: ["'self'"],
-              upgradeInsecureRequests: [],
-            },
-          },
+          // More permissive CSP for development, stricter for production
+          contentSecurityPolicy: isDev
+            ? false
+            : {
+                directives: {
+                  defaultSrc: ["'self'"],
+                  styleSrc: ["'self'", "'unsafe-inline'"],
+                  scriptSrc: [
+                    "'self'",
+                    "'unsafe-eval'", // Required for some libraries and dev tools
+                    "'unsafe-inline'",
+                    'https://cdn.jsdelivr.net',
+                    'https://unpkg.com',
+                    'https://esm.sh',
+                    // Add specific domains for libraries that might need eval
+                    'https://www.googletagmanager.com',
+                    'https://www.google-analytics.com',
+                    // Development specific - Next.js HMR and dev tools
+                    ...(isDev
+                      ? [
+                          "'unsafe-eval'",
+                          "'unsafe-inline'",
+                          'http://localhost:*',
+                          'ws://localhost:*',
+                          'webpack://',
+                          'data:',
+                          'blob:',
+                          // Allow eval for development debugging
+                          "'wasm-unsafe-eval'",
+                        ]
+                      : []),
+                  ],
+                  imgSrc: [
+                    "'self'",
+                    'data:',
+                    'https:',
+                    'blob:',
+                    'https://*.cloudflare.com',
+                    'https://*.r2.cloudflarestorage.com',
+                    'https://*.r2.dev',
+                  ],
+                  connectSrc: [
+                    "'self'",
+                    'https:',
+                    'wss:',
+                    'ws:',
+                    // Development specific
+                    ...(isDev
+                      ? ['http://localhost:*', 'ws://localhost:*', 'wss://localhost:*']
+                      : []),
+                  ],
+                  fontSrc: ["'self'", 'https:', 'data:'],
+                  objectSrc: ["'none'"],
+                  mediaSrc: [
+                    "'self'",
+                    'https://*.r2.cloudflarestorage.com',
+                    'https://*.r2.dev',
+                    'blob:',
+                    'data:',
+                  ],
+                  workerSrc: ["'self'", 'blob:'],
+                  childSrc: ["'self'", 'blob:'],
+                  frameSrc: ["'self'", 'blob:', 'data:'],
+                  formAction: ["'self'"],
+                },
+              },
 
           xssProtection: 'sanitize',
           referrerPolicy: 'strict-origin-when-cross-origin',
           xContentTypeOptions: 'nosniff',
-          strictTransportSecurity: 'max-age=31536000; includeSubDomains; preload',
+          strictTransportSecurity: isDev ? false : 'max-age=31536000; includeSubDomains; preload',
           permissionsPolicy: {
             camera: [],
             microphone: [],

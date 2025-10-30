@@ -3,12 +3,13 @@ import type { StaticImageData } from 'next/image'
 
 import type { CallToActionBlock as CTABlockProps } from '@/payload-types'
 
-import RichText from '@/components/RichText'
 import { Media } from '@/components/Media'
 import { AspectRatio } from '@/components/ui/aspect-ratio'
+import { cn } from '@/utilities/ui/cn'
 
 type Props = CTABlockProps & {
   staticImage?: StaticImageData
+  className?: string
 }
 
 export const CallToActionBlock: React.FC<Props> = ({
@@ -18,16 +19,17 @@ export const CallToActionBlock: React.FC<Props> = ({
   content,
   image,
   staticImage,
+  className,
 }) => {
   // Default variant (original)
   if (variant === 'default') {
     return (
-      <div className="container">
+      <div className={cn('container', className)}>
         <div className="bg-card rounded border-border border p-4 flex flex-col gap-8">
           <div className="max-w-3xl flex items-center">
             <div className="flex flex-col gap-2">
               {headline && <h2 className="text-2xl md:text-3xl font-bold">{headline}</h2>}
-              {content && <RichText className="mb-0" data={content} enableGutter={false} />}
+              {content && <p className="mb-0">{content}</p>}
             </div>
           </div>
         </div>
@@ -38,7 +40,10 @@ export const CallToActionBlock: React.FC<Props> = ({
   // CTA Section 3 - Image on Left
   if (variant === 'section-3') {
     return (
-      <section className="md:bg-background bg-primary" aria-labelledby="cta-heading">
+      <section
+        className={cn('md:bg-background bg-primary', className)}
+        aria-labelledby="cta-heading"
+      >
         <div className="container-padding-x bg-primary container mx-auto py-8 md:rounded-xl md:p-8">
           <div className="mx-auto flex max-w-xl flex-col items-center gap-8 md:max-w-full lg:flex-row lg:gap-16">
             {/* Image */}
@@ -88,11 +93,9 @@ export const CallToActionBlock: React.FC<Props> = ({
                 )}
                 {content && (
                   <div className="w-full">
-                    <RichText
-                      className="mb-0 text-center lg:text-left [&_p]:text-primary-foreground/80 [&_p]:text-base [&_p]:leading-relaxed [&_p]:mb-0"
-                      data={content}
-                      enableGutter={false}
-                    />
+                    <p className="mb-0 text-center lg:text-left text-primary-foreground/80 text-base leading-relaxed">
+                      {content}
+                    </p>
                   </div>
                 )}
               </div>
@@ -106,7 +109,10 @@ export const CallToActionBlock: React.FC<Props> = ({
   // CTA Section 5 - Image on Right
   if (variant === 'section-5') {
     return (
-      <section className="md:bg-background bg-primary py-0 lg:py-24" aria-labelledby="cta-heading">
+      <section
+        className={cn('md:bg-background bg-primary py-0 lg:py-24', className)}
+        aria-labelledby="cta-heading"
+      >
         <div className="md:container md:mx-auto">
           <div className="bg-primary w-full overflow-hidden pt-16 md:max-w-7xl md:rounded-xl lg:pl-16">
             <div className="flex flex-col gap-8 lg:flex-row lg:gap-12">
@@ -128,11 +134,9 @@ export const CallToActionBlock: React.FC<Props> = ({
                   )}
                   {content && (
                     <div className="w-full">
-                      <RichText
-                        className="mb-0 text-center lg:text-left [&_p]:text-primary-foreground/80 [&_p]:text-base [&_p]:leading-relaxed [&_p]:mb-0"
-                        data={content}
-                        enableGutter={false}
-                      />
+                      <p className="mb-0 text-center lg:text-left text-primary-foreground/80 text-base leading-relaxed">
+                        {content}
+                      </p>
                     </div>
                   )}
                 </div>
@@ -174,7 +178,7 @@ export const CallToActionBlock: React.FC<Props> = ({
   // CTA Section 6 - Two Buttons Horizontal
   if (variant === 'section-6') {
     return (
-      <section className="bg-background" aria-labelledby="cta-heading">
+      <section className={cn('bg-background', className)} aria-labelledby="cta-heading">
         <div className="container mx-auto">
           <div className="bg-primary px-6 py-16 sm:rounded-xl md:p-16">
             <div className="flex w-full flex-col items-center justify-between gap-8 text-center md:flex-row md:text-left">
@@ -188,11 +192,9 @@ export const CallToActionBlock: React.FC<Props> = ({
                   </h2>
                 )}
                 {content && (
-                  <RichText
-                    className="mb-0 [&_p]:text-primary-foreground/80 [&_p]:text-base [&_p]:leading-relaxed [&_p]:mb-0"
-                    data={content}
-                    enableGutter={false}
-                  />
+                  <p className="mb-0 text-primary-foreground/80 text-base leading-relaxed">
+                    {content}
+                  </p>
                 )}
               </div>
             </div>
@@ -205,7 +207,7 @@ export const CallToActionBlock: React.FC<Props> = ({
   // CTA Section 7 - Centered with Single Button
   if (variant === 'section-7') {
     return (
-      <section className="bg-background" aria-labelledby="cta-heading">
+      <section className={cn('bg-background', className)} aria-labelledby="cta-heading">
         <div className="container mx-auto">
           <div className="bg-primary px-6 py-16 sm:rounded-xl md:p-16">
             <div className="mx-auto flex w-full max-w-xl flex-col items-center gap-8 text-center">

@@ -10,6 +10,8 @@ import type {
   CallToActionBlock as CTABlockProps,
   MediaBlock as MediaBlockProps,
   QRCodeBlock as QRCodeBlockProps,
+  TableBlock as TableBlockProps,
+  DownloadLinkBlock as DownloadLinkBlockProps,
 } from '@/payload-types'
 import { CodeBlockProps } from '@/blocks/Code/Component'
 
@@ -22,6 +24,8 @@ export type NodeTypes =
       | CodeBlockProps
       | ButtonBlockProps
       | QRCodeBlockProps
+      | TableBlockProps
+      | DownloadLinkBlockProps
     >
 
 export type RichTextProps = {

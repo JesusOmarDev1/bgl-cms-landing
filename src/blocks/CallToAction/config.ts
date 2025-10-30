@@ -1,7 +1,5 @@
 import type { Block } from 'payload'
 
-import { contentLexicalEditor } from '@/fields/contentLexical'
-
 export const CallToAction: Block = {
   slug: 'cta',
   interfaceName: 'CallToActionBlock',
@@ -91,12 +89,11 @@ export const CallToAction: Block = {
     },
     {
       name: 'content',
-      type: 'richText',
+      type: 'textarea',
       label: {
         en: 'Content',
         es: 'Contenido',
       },
-      editor: contentLexicalEditor,
       admin: {
         description: {
           en: 'Additional content below the headline',
@@ -106,6 +103,7 @@ export const CallToAction: Block = {
           siblingData?.variant === 'section-3' ||
           siblingData?.variant === 'section-5' ||
           siblingData?.variant === 'section-6',
+        rows: 4,
       },
     },
     {

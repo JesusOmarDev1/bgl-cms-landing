@@ -10,11 +10,11 @@ import {
   PreviewField,
 } from '@payloadcms/plugin-seo/fields'
 import { slugField } from '@/fields/slug'
-import { isAdminOrEditor } from '@/access/isAdminOrEditor'
 import { isAdmin } from '@/access/isAdmin'
 import { isAuthenticatedOrPublished } from '@/access/isLoggedInOrPublished'
 import { contentLexicalEditor } from '@/fields/contentLexical'
 import { generatePreviewPath } from '@/utilities/url/generatePreviewPath'
+import { isAdminOrEditorOrTechnician } from '@/access/isAdminOrEditorOrTechnician'
 
 export const Manuals: CollectionConfig<'manuals'> = {
   slug: 'manuals',
@@ -37,8 +37,8 @@ export const Manuals: CollectionConfig<'manuals'> = {
   },
   access: {
     read: isAuthenticatedOrPublished,
-    create: isAdminOrEditor,
-    update: isAdminOrEditor,
+    create: isAdminOrEditorOrTechnician,
+    update: isAdminOrEditorOrTechnician,
     delete: isAdmin,
   },
   defaultPopulate: {

@@ -26,13 +26,33 @@ const generateTitle: GenerateTitle<Post | Page | Service | Manual | Product> = (
   return title ? `${title}` : 'BGL BASCULAS INDUSTRIALES'
 }
 
-const generateURL: GenerateURL<Post | Page | Service | Manual | Product> = ({ doc }) => {
+// Configuración de rutas por colección
+const COLLECTION_URL_MAPPING: Record<string, string> = {
+  services: '/services',
+  manuals: '/manuals',
+  products: '/products',
+  posts: '/posts',
+  pages: '', // Las páginas van directamente en la raíz
+}
+
+const generateURL: GenerateURL<Post | Page | Service | Manual | Product> = ({
+  doc,
+  collectionConfig,
+}) => {
   const url = getServerSideURL()
 
   // Evitar referencias circulares extrayendo solo las propiedades necesarias
   const slug = typeof doc?.slug === 'string' ? doc.slug : ''
 
-  return slug ? `${url}/${slug}` : url
+  if (!slug) return url
+
+  // Obtener el prefijo de URL desde la configuración
+  const collectionSlug = collectionConfig?.slug
+  const urlPrefix = collectionSlug
+    ? (COLLECTION_URL_MAPPING[collectionSlug] ?? `/${collectionSlug}`)
+    : ''
+
+  return `${url}${urlPrefix}/${slug}`.replace(/\/+/g, '/') // Evitar dobles barras
 }
 
 export const plugins: Plugin[] = [
@@ -51,6 +71,7 @@ export const plugins: Plugin[] = [
               },
             }
           } else if ('name' in field && field.name === 'to') {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             const toField = field as any
             return {
               ...toField,
@@ -59,7 +80,8 @@ export const plugins: Plugin[] = [
                 description: 'Necesitará reconstruir el sitio web cuando cambie este campo.',
               },
               fields: toField.fields
-                ? toField.fields.map((subfield: any) => {
+                ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                  toField.fields.map((subfield: any) => {
                     if (subfield.name === 'type') {
                       return {
                         ...subfield,
@@ -67,18 +89,17 @@ export const plugins: Plugin[] = [
                         admin: {
                           description: 'Seleccione si desea redirigir a una URL interna o externa.',
                         },
-                        options: subfield.options?.map((option: unknown) => {
+                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                        options: subfield.options?.map((option: any) => {
                           if (typeof option === 'object' && option !== null) {
-                            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                            const optionObj = option as any
                             return {
-                              ...optionObj,
+                              ...option,
                               label:
-                                optionObj.value === 'reference'
+                                option.value === 'reference'
                                   ? 'Referencia interna'
-                                  : optionObj.value === 'custom'
+                                  : option.value === 'custom'
                                     ? 'URL personalizada'
-                                    : optionObj.label,
+                                    : option.label,
                             }
                           }
                           return option

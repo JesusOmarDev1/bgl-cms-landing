@@ -231,21 +231,7 @@ export interface CallToActionBlock {
   /**
    * Additional content below the headline
    */
-  content?: {
-    root: {
-      type: string;
-      children: {
-        type: string;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
+  content?: string | null;
   /**
    * Image displayed alongside the CTA content
    */
@@ -369,7 +355,7 @@ export interface User {
   /**
    * Roles y permisos del usuario en el sistema
    */
-  roles?: ('admin' | 'editor' | 'user')[] | null;
+  roles?: ('admin' | 'editor' | 'technician' | 'user')[] | null;
   createdBy?: {
     relationTo: 'users';
     value: number | User;
@@ -4132,7 +4118,7 @@ export interface BannerBlock {
  * via the `definition` "CodeBlock".
  */
 export interface CodeBlock {
-  language?: ('json' | 'yaml') | null;
+  language?: 'json' | null;
   code: string;
   id?: string | null;
   blockName?: string | null;

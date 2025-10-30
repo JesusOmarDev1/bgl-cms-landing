@@ -10,34 +10,13 @@ import {
   TableCaption,
 } from '@/components/ui/table'
 
-interface TableHeader {
-  text: string
-  align?: 'left' | 'center' | 'right'
-}
-
-interface TableCell {
-  content: string
-  align?: 'left' | 'center' | 'right'
-  isHeader?: boolean
-}
-
-interface TableRow {
-  cells: TableCell[]
-}
-
-interface TableBlockProps {
-  caption?: string | null
-  headers?: TableHeader[] | null
-  rows?: TableRow[] | null
-  variant?: 'default' | 'striped' | 'compact' | 'specs' | null
-  responsive?: boolean | null
-}
+import type { TableBlock as TableBlockProps } from '@/payload-types'
 
 type Props = {
   className?: string
 } & TableBlockProps
 
-const getAlignmentClass = (align?: string) => {
+const getAlignmentClass = (align?: string | null) => {
   switch (align) {
     case 'center':
       return 'text-center'
@@ -65,15 +44,16 @@ export const TableBlock: React.FC<Props> = ({
   }
 
   // Ensure all rows have the same number of cells as headers
-  const normalizedRows = rows.map((row) => {
-    const cells = [...(row.cells || [])]
-    // Pad with empty cells if needed
-    while (cells.length < headers.length) {
-      cells.push({ content: '', align: 'left', isHeader: false })
-    }
-    // Trim excess cells
-    return { ...row, cells: cells.slice(0, headers.length) }
-  })
+  const normalizedRows =
+    rows?.map((row) => {
+      const cells = [...(row.cells || [])]
+      // Pad with empty cells if needed
+      while (cells.length < headers.length) {
+        cells.push({ content: '', align: 'left', isHeader: false })
+      }
+      // Trim excess cells
+      return { ...row, cells: cells.slice(0, headers.length) }
+    }) || []
 
   const tableVariantClass = {
     default: '',

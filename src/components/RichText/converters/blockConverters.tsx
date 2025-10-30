@@ -6,6 +6,8 @@ import { BannerBlock } from '@/blocks/Banner/Component'
 import { ButtonBlock } from '@/blocks/Button/Component'
 import { CallToActionBlock } from '@/blocks/CallToAction/Component'
 import { QRCodeBlock } from '@/blocks/QRCodeBlock/Component'
+import { TableBlock } from '@/blocks/Table/Component'
+import { DownloadLinkBlock } from '@/blocks/DownloadLink/Component'
 
 import type {
   BannerBlock as BannerBlockProps,
@@ -13,26 +15,28 @@ import type {
   CallToActionBlock as CTABlockProps,
   MediaBlock as MediaBlockProps,
   QRCodeBlock as QRCodeBlockProps,
+  TableBlock as TableBlockProps,
+  DownloadLinkBlock as DownloadLinkBlockProps,
 } from '@/payload-types'
 import { CodeBlockProps } from '@/blocks/Code/Component'
 
 export const blockConverters = {
   banner: ({ node }: { node: SerializedBlockNode<BannerBlockProps> }) => (
-    <BannerBlock className="col-start-2 mb-4" {...node.fields} />
+    <BannerBlock className="my-4" {...node.fields} />
   ),
 
   button: ({ node }: { node: SerializedBlockNode<ButtonBlockProps> }) => {
     const { align, ...rest } = node.fields
-    return <ButtonBlock className="col-start-2 mb-4" align={align ?? undefined} {...rest} />
+    return <ButtonBlock className="my-4" align={align ?? undefined} {...rest} />
   },
 
   'qr-code-block': ({ node }: { node: SerializedBlockNode<QRCodeBlockProps> }) => (
-    <QRCodeBlock className="col-start-2 mb-4" {...node.fields} />
+    <QRCodeBlock className="my-4" {...node.fields} />
   ),
 
   mediaBlock: ({ node }: { node: SerializedBlockNode<MediaBlockProps> }) => (
     <MediaBlock
-      className="col-start-1 col-span-3"
+      className="my-4"
       imgClassName="m-0"
       {...node.fields}
       captionClassName="mx-auto max-w-4xl"
@@ -42,10 +46,18 @@ export const blockConverters = {
   ),
 
   code: ({ node }: { node: SerializedBlockNode<CodeBlockProps> }) => (
-    <CodeBlock className="col-start-2" {...node.fields} />
+    <CodeBlock className="my-4" {...node.fields} />
   ),
 
   cta: ({ node }: { node: SerializedBlockNode<CTABlockProps> }) => (
-    <CallToActionBlock {...node.fields} />
+    <CallToActionBlock className="my-4" {...node.fields} />
+  ),
+
+  table: ({ node }: { node: SerializedBlockNode<TableBlockProps> }) => (
+    <TableBlock className="my-4" {...node.fields} />
+  ),
+
+  downloadLink: ({ node }: { node: SerializedBlockNode<DownloadLinkBlockProps> }) => (
+    <DownloadLinkBlock className="my-4" {...node.fields} />
   ),
 }

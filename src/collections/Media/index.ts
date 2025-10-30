@@ -3,6 +3,7 @@ import type { CollectionConfig } from 'payload'
 import { isAdminOrEditor } from '@/access/isAdminOrEditor'
 import { anyone } from '@/access/anyone'
 import { contentLexicalEditor } from '@/fields/contentLexical'
+import { isAdminOrEditorOrTechnician } from '@/access/isAdminOrEditorOrTechnician'
 
 export const Media: CollectionConfig = {
   slug: 'media',
@@ -14,9 +15,9 @@ export const Media: CollectionConfig = {
   ],
   access: {
     read: anyone,
-    create: isAdminOrEditor,
-    update: isAdminOrEditor,
-    delete: isAdminOrEditor,
+    create: isAdminOrEditorOrTechnician,
+    update: isAdminOrEditorOrTechnician,
+    delete: isAdminOrEditorOrTechnician,
   },
   labels: {
     singular: {

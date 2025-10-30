@@ -4,6 +4,7 @@ import { slugField } from '@/fields/slug'
 import { isAdminOrEditor } from '@/access/isAdminOrEditor'
 import { anyone } from '@/access/anyone'
 import { colorPickerField } from '@/fields/colorPicker'
+import { isAdminOrEditorOrTechnician } from '@/access/isAdminOrEditorOrTechnician'
 
 export const Categories: CollectionConfig = {
   slug: 'categories',
@@ -16,8 +17,8 @@ export const Categories: CollectionConfig = {
   defaultSort: 'createdAt',
   access: {
     read: anyone,
-    create: isAdminOrEditor,
-    update: isAdminOrEditor,
+    create: isAdminOrEditorOrTechnician,
+    update: isAdminOrEditorOrTechnician,
     delete: isAdminOrEditor,
   },
   labels: {

@@ -12,6 +12,10 @@ export const securityFields: Field[] = [
       en: 'User Roles',
       es: 'Roles de Usuario',
     },
+    access: {
+      create: isAdminFieldLevel,
+      update: isAdminFieldLevel,
+    },
     admin: {
       description: 'Roles y permisos del usuario en el sistema',
     },
@@ -23,6 +27,10 @@ export const securityFields: Field[] = [
       {
         label: 'Editor',
         value: 'editor',
+      },
+      {
+        label: 'Tecnico',
+        value: 'technician',
       },
       {
         label: 'Usuario',

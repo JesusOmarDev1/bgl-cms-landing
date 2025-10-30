@@ -5,16 +5,7 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { PdfIcon } from '@/assets/files/pdf'
 
-import type { Media } from '@/payload-types'
-
-interface DownloadLinkBlockProps {
-  file?: string | Media | null
-  title?: string | null
-  description?: string | null
-  variant?: 'default' | 'card' | 'button' | null
-  showFileSize?: boolean | null
-  openInNewTab?: boolean | null
-}
+import type { Media, DownloadLinkBlock as DownloadLinkBlockProps } from '@/payload-types'
 
 type Props = {
   className?: string
@@ -39,10 +30,23 @@ export const DownloadLinkBlock: React.FC<Props> = ({
 }) => {
   if (!file || !title) return null
 
-  const mediaFile = file as Media
-  const fileUrl = typeof mediaFile === 'object' && mediaFile?.url ? mediaFile.url : ''
-  const fileName = typeof mediaFile === 'object' && mediaFile?.filename ? mediaFile.filename : ''
-  const fileSize = typeof mediaFile === 'object' && mediaFile?.filesize ? mediaFile.filesize : 0
+  // Handle different file types (Media object, ID number, or string URL)
+  let fileUrl = ''
+  let fileName = ''
+  let fileSize = 0
+
+  if (typeof file === 'object' && file !== null) {
+    // file is a Media object
+    const mediaFile = file as Media
+    fileUrl = mediaFile.url || ''
+    fileName = mediaFile.filename || ''
+    fileSize = mediaFile.filesize || 0
+  } else if (typeof file === 'string') {
+    // file is a URL string
+    fileUrl = file
+    fileName = file.split('/').pop() || ''
+  }
+  // If file is a number (ID), we can't resolve it here without additional data
 
   if (!fileUrl) return null
 

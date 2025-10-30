@@ -3,14 +3,15 @@ import type { CollectionConfig } from 'payload'
 import { slugField } from '@/fields/slug'
 import { isAdminOrEditor } from '@/access/isAdminOrEditor'
 import { anyone } from '@/access/anyone'
+import { isAdminOrEditorOrTechnician } from '@/access/isAdminOrEditorOrTechnician'
 
 export const Models: CollectionConfig = {
   slug: 'models',
   trash: true,
   access: {
     read: anyone,
-    create: isAdminOrEditor,
-    update: isAdminOrEditor,
+    create: isAdminOrEditorOrTechnician,
+    update: isAdminOrEditorOrTechnician,
     delete: isAdminOrEditor,
   },
   labels: {

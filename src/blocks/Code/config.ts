@@ -30,13 +30,6 @@ export const Code: Block = {
           },
           value: 'json',
         },
-        {
-          label: {
-            en: 'Yaml',
-            es: 'Yaml',
-          },
-          value: 'yaml',
-        },
       ],
     },
     {
