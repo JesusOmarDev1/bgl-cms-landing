@@ -8,6 +8,36 @@ import { isAdminOrEditorOrTechnician } from '@/access/isAdminOrEditorOrTechnicia
 export const Models: CollectionConfig = {
   slug: 'models',
   trash: true,
+  indexes: [
+    // Index for brand-based filtering (most critical - used in Products collection)
+    {
+      fields: ['brand'],
+    },
+    // Compound index for brand and title (filtering models by brand and sorting)
+    {
+      fields: ['brand', 'title'],
+    },
+    // Index for model lookups by title (used in admin UI and search)
+    {
+      fields: ['title'],
+    },
+    // Index for slug-based queries (for potential model pages)
+    {
+      fields: ['slug'],
+    },
+    // Compound index for sorting and filtering by creation date
+    {
+      fields: ['createdAt', 'title'],
+    },
+    // Index for trash functionality (deletedAt field from trash: true)
+    {
+      fields: ['deletedAt', 'title'],
+    },
+    // Compound index for brand and slug (hierarchical URL structure)
+    {
+      fields: ['brand', 'slug'],
+    },
+  ],
   access: {
     read: anyone,
     create: isAdminOrEditorOrTechnician,

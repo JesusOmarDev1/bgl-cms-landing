@@ -1,12 +1,15 @@
 import type { GlobalConfig } from 'payload'
 
 import { revalidateAnnouncements } from './hooks/revalidateAnnouncements'
+import { anyone } from '@/access/anyone'
+import { isAdminOrEditor } from '@/access/isAdminOrEditor'
 
 export const Announcements: GlobalConfig = {
   slug: 'announcements',
   label: 'Anuncios',
   access: {
-    read: () => true,
+    read: isAdminOrEditor,
+    update: isAdminOrEditor,
   },
   hooks: {
     afterChange: [revalidateAnnouncements],

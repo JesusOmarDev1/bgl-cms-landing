@@ -1,6 +1,6 @@
 import type { Block } from 'payload'
 
-import { contentLexicalEditor } from '@/fields/contentLexical'
+import { basicLexicalEditor } from '@/fields/basicLexical'
 
 export const FAQ: Block = {
   slug: 'faq',
@@ -42,7 +42,7 @@ export const FAQ: Block = {
         {
           name: 'answer',
           type: 'richText',
-          editor: contentLexicalEditor,
+          editor: basicLexicalEditor,
           label: {
             en: 'Answer',
             es: 'Respuesta',

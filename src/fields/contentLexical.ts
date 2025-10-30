@@ -30,6 +30,7 @@ import { MediaBlock } from '../blocks/MediaBlock/config'
 import { QRCodeBlock } from '@/blocks/QRCodeBlock/config'
 import { DownloadLink } from '../blocks/DownloadLink/config'
 import { Table } from '../blocks/Table/config'
+import { Stepper } from '../blocks/Stepper/config'
 
 export const contentLexicalEditor = lexicalEditor({
   features: ({ rootFeatures }) => {
@@ -38,7 +39,7 @@ export const contentLexicalEditor = lexicalEditor({
       ParagraphFeature(),
       HeadingFeature({ enabledHeadingSizes: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'] }),
       BlocksFeature({
-        blocks: [Banner, Code, Button, MediaBlock, QRCodeBlock, DownloadLink, Table],
+        blocks: [Banner, Code, Button, MediaBlock, QRCodeBlock, DownloadLink, Table, Stepper],
       }),
       FixedToolbarFeature({ applyToFocusedEditor: true }),
       InlineToolbarFeature(),

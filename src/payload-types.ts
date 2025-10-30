@@ -177,6 +177,7 @@ export interface Page {
   title: string;
   content: {
     layout: (
+      | HerosBlock
       | CallToActionBlock
       | ContentBlock
       | MediaBlock
@@ -213,32 +214,61 @@ export interface Page {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "CallToActionBlock".
+ * via the `definition` "HerosBlock".
  */
-export interface CallToActionBlock {
+export interface HerosBlock {
   /**
-   * Select the style variant for the CTA section
+   * Choose the hero section style based on visual impact needed
    */
-  variant: 'default' | 'section-3' | 'section-5' | 'section-6' | 'section-7';
+  variant: 'high-impact' | 'medium-impact' | 'low-impact' | 'custom';
   /**
-   * Small text above the headline (e.g., "CTA Section")
+   * Main headline text - will be displayed prominently
    */
-  label?: string | null;
+  headline?: string | null;
   /**
-   * Main headline text (will be displayed large)
+   * Supporting text below the headline
    */
-  headline: string;
+  subheadline?: string | null;
   /**
-   * Additional content below the headline
+   * Add up to 2 action buttons
    */
-  content?: string | null;
+  buttons?:
+    | {
+        text: string;
+        url?: string | null;
+        variant?: ('default' | 'outline') | null;
+        id?: string | null;
+      }[]
+    | null;
   /**
-   * Image displayed alongside the CTA content
+   * Full-screen background image for high impact hero
    */
-  image?: (number | null) | Media;
+  backgroundImage?: (number | null) | Media;
+  /**
+   * Image or video for the medium impact layout
+   */
+  media?: (number | null) | Media;
+  /**
+   * Fully customizable rich text content for maximum flexibility
+   */
+  customContent?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
   id?: string | null;
   blockName?: string | null;
-  blockType: 'cta';
+  blockType: 'heros';
 }
 /**
  * Administra los archivos del sitio: crea, edita y elimina archivos
@@ -382,6 +412,35 @@ export interface User {
       }[]
     | null;
   password?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CallToActionBlock".
+ */
+export interface CallToActionBlock {
+  /**
+   * Select the style variant for the CTA section
+   */
+  variant: 'default' | 'section-3' | 'section-5' | 'section-6' | 'section-7';
+  /**
+   * Small text above the headline (e.g., "CTA Section")
+   */
+  label?: string | null;
+  /**
+   * Main headline text (will be displayed large)
+   */
+  headline: string;
+  /**
+   * Additional content below the headline
+   */
+  content?: string | null;
+  /**
+   * Image displayed alongside the CTA content
+   */
+  image?: (number | null) | Media;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'cta';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -997,13 +1056,70 @@ export interface ServiceArchiveBlock {
   limit?: number | null;
   selectedDocs?:
     | {
-        relationTo: 'posts';
-        value: number | Post;
+        relationTo: 'services';
+        value: number | Service;
       }[]
     | null;
   id?: string | null;
   blockName?: string | null;
   blockType: 'service-archive';
+}
+/**
+ * Administra los servicios del sitio: crea, edita y elimina servicios
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "services".
+ */
+export interface Service {
+  id: number;
+  title: string;
+  heroImage: number | Media;
+  relatedServices?: (number | Service)[] | null;
+  content: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  meta?: {
+    title?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
+    image?: (number | null) | Media;
+    description?: string | null;
+  };
+  slug: string;
+  slugLock?: boolean | null;
+  publishedAt?: string | null;
+  price?: number | null;
+  discount?: number | null;
+  /**
+   * Se aplica el 16% de IVA al precio final
+   */
+  iva?: boolean | null;
+  total?: number | null;
+  createdBy?: {
+    relationTo: 'users';
+    value: number | User;
+  } | null;
+  lastModifiedBy?: {
+    relationTo: 'users';
+    value: number | User;
+  } | null;
+  updatedAt: string;
+  createdAt: string;
+  deletedAt?: string | null;
+  _status?: ('draft' | 'published') | null;
 }
 /**
  * Administra los productos del sitio: crea, edita y elimina artículos
@@ -1367,63 +1483,6 @@ export interface Supplier {
   slugLock?: boolean | null;
   credit?: string | null;
   discount?: number | null;
-  createdBy?: {
-    relationTo: 'users';
-    value: number | User;
-  } | null;
-  lastModifiedBy?: {
-    relationTo: 'users';
-    value: number | User;
-  } | null;
-  updatedAt: string;
-  createdAt: string;
-  deletedAt?: string | null;
-  _status?: ('draft' | 'published') | null;
-}
-/**
- * Administra los servicios del sitio: crea, edita y elimina servicios
- *
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "services".
- */
-export interface Service {
-  id: number;
-  title: string;
-  heroImage: number | Media;
-  relatedServices?: (number | Service)[] | null;
-  content: {
-    root: {
-      type: string;
-      children: {
-        type: string;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  };
-  meta?: {
-    title?: string | null;
-    /**
-     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
-     */
-    image?: (number | null) | Media;
-    description?: string | null;
-  };
-  slug: string;
-  slugLock?: boolean | null;
-  publishedAt?: string | null;
-  price?: number | null;
-  discount?: number | null;
-  /**
-   * Se aplica el 16% de IVA al precio final
-   */
-  iva?: boolean | null;
-  total?: number | null;
   createdBy?: {
     relationTo: 'users';
     value: number | User;
@@ -1936,6 +1995,7 @@ export interface PagesSelect<T extends boolean = true> {
         layout?:
           | T
           | {
+              heros?: T | HerosBlockSelect<T>;
               cta?: T | CallToActionBlockSelect<T>;
               content?: T | ContentBlockSelect<T>;
               mediaBlock?: T | MediaBlockSelect<T>;
@@ -1962,6 +2022,28 @@ export interface PagesSelect<T extends boolean = true> {
   createdAt?: T;
   deletedAt?: T;
   _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "HerosBlock_select".
+ */
+export interface HerosBlockSelect<T extends boolean = true> {
+  variant?: T;
+  headline?: T;
+  subheadline?: T;
+  buttons?:
+    | T
+    | {
+        text?: T;
+        url?: T;
+        variant?: T;
+        id?: T;
+      };
+  backgroundImage?: T;
+  media?: T;
+  customContent?: T;
+  id?: T;
+  blockName?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -4094,21 +4176,7 @@ export interface TaskSchedulePublish {
 export interface BannerBlock {
   style: 'info' | 'warning' | 'destructive' | 'success';
   title: string;
-  content: {
-    root: {
-      type: string;
-      children: {
-        type: string;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  };
+  content: string;
   id?: string | null;
   blockName?: string | null;
   blockType: 'banner';
@@ -4241,6 +4309,64 @@ export interface TableBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'table';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "StepperBlock".
+ */
+export interface StepperBlock {
+  /**
+   * Optional title displayed above the stepper
+   */
+  title?: string | null;
+  /**
+   * Optional description displayed below the title
+   */
+  description?: string | null;
+  /**
+   * Add the steps for your stepper process
+   */
+  steps?:
+    | {
+        /**
+         * Title for this step
+         */
+        stepTitle: string;
+        /**
+         * Content displayed in this step
+         */
+        stepContent: string;
+        /**
+         * Optional image or video to display in this step
+         */
+        stepMedia?: (number | null) | Media;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Customize the behavior and appearance of the stepper
+   */
+  settings?: {
+    /**
+     * Text displayed on the back button
+     */
+    backButtonText?: string | null;
+    /**
+     * Text displayed on the next button
+     */
+    nextButtonText?: string | null;
+    /**
+     * Text displayed on the complete button (last step)
+     */
+    completeButtonText?: string | null;
+    /**
+     * Prevent users from clicking on step indicators to navigate
+     */
+    disableStepIndicators?: boolean | null;
+  };
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'stepper';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

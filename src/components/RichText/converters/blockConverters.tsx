@@ -8,6 +8,7 @@ import { CallToActionBlock } from '@/blocks/CallToAction/Component'
 import { QRCodeBlock } from '@/blocks/QRCodeBlock/Component'
 import { TableBlock } from '@/blocks/Table/Component'
 import { DownloadLinkBlock } from '@/blocks/DownloadLink/Component'
+import { StepperBlock } from '@/blocks/Stepper/Component'
 
 import type {
   BannerBlock as BannerBlockProps,
@@ -17,8 +18,9 @@ import type {
   QRCodeBlock as QRCodeBlockProps,
   TableBlock as TableBlockProps,
   DownloadLinkBlock as DownloadLinkBlockProps,
+  CodeBlock as CodeBlockProps,
+  StepperBlock as StepperBlockProps,
 } from '@/payload-types'
-import { CodeBlockProps } from '@/blocks/Code/Component'
 
 export const blockConverters = {
   banner: ({ node }: { node: SerializedBlockNode<BannerBlockProps> }) => (
@@ -55,6 +57,10 @@ export const blockConverters = {
 
   table: ({ node }: { node: SerializedBlockNode<TableBlockProps> }) => (
     <TableBlock className="my-4" {...node.fields} />
+  ),
+
+  stepper: ({ node }: { node: SerializedBlockNode<StepperBlockProps> }) => (
+    <StepperBlock className="my-4" {...node.fields} />
   ),
 
   downloadLink: ({ node }: { node: SerializedBlockNode<DownloadLinkBlockProps> }) => (

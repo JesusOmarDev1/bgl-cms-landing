@@ -57,10 +57,10 @@ export default async function RootLayout({ children }: { children: React.ReactNo
             media="(prefers-color-scheme: dark)"
           />
         </head>
-        <body>
+        <body className="min-h-screen flex flex-col">
           <Providers>
             <Header />
-            <div className="mt-36">{children}</div>
+            <main className="flex-1 mt-36">{children}</main>
             <Chatbot />
             <Coupons />
             <Footer />

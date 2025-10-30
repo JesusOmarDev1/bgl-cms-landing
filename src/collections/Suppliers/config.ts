@@ -14,6 +14,54 @@ export const Suppliers: CollectionConfig = {
     {
       fields: ['title', 'slug'],
     },
+    // Index for supplier lookups by title (used in admin UI and search)
+    {
+      fields: ['title'],
+    },
+    // Index for slug-based queries (for potential supplier pages)
+    {
+      fields: ['slug'],
+    },
+    // Index for company name searches and sorting
+    {
+      fields: ['companyName'],
+    },
+    // Compound index for company name and title (business directory functionality)
+    {
+      fields: ['companyName', 'title'],
+    },
+    // Index for credit-based queries (business management)
+    {
+      fields: ['credit'],
+    },
+    // Index for discount-based queries (business management)
+    {
+      fields: ['discount'],
+    },
+    // Compound index for credit and discount (supplier terms management)
+    {
+      fields: ['credit', 'discount'],
+    },
+    // Index for published status filtering (draft/published)
+    {
+      fields: ['_status'],
+    },
+    // Compound index for published suppliers sorted by title
+    {
+      fields: ['_status', 'title'],
+    },
+    // Compound index for sorting and filtering by creation date
+    {
+      fields: ['createdAt', 'title'],
+    },
+    // Index for trash functionality (deletedAt field from trash: true)
+    {
+      fields: ['deletedAt', 'title'],
+    },
+    // Index for email-based lookups (contact management)
+    {
+      fields: ['email'],
+    },
   ],
   access: {
     read: isAdminOrEditor,

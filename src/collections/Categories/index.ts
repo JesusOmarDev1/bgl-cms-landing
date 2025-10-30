@@ -13,6 +13,30 @@ export const Categories: CollectionConfig = {
     {
       fields: ['title', 'slug'],
     },
+    // Index for category lookups by title (used in admin UI and search)
+    {
+      fields: ['title'],
+    },
+    // Index for slug-based queries (for category pages)
+    {
+      fields: ['slug'],
+    },
+    // Index for hierarchical queries (parent-child relationships)
+    {
+      fields: ['parent'],
+    },
+    // Compound index for sorting and filtering by creation date
+    {
+      fields: ['createdAt', 'title'],
+    },
+    // Index for trash functionality (deletedAt field from trash: true)
+    {
+      fields: ['deletedAt', 'title'],
+    },
+    // Compound index for hierarchical sorting (parent categories first, then by title)
+    {
+      fields: ['parent', 'title'],
+    },
   ],
   defaultSort: 'createdAt',
   access: {

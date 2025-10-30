@@ -1,5 +1,4 @@
 import type { Field } from 'payload'
-import { contentLexicalEditor } from '@/fields/contentLexical'
 
 export const generalFields: Field[] = [
   {
@@ -44,7 +43,6 @@ export const generalFields: Field[] = [
   {
     name: 'content',
     type: 'richText',
-    editor: contentLexicalEditor,
     label: {
       en: 'Content',
       es: 'Contenido',

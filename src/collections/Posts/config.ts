@@ -26,6 +26,42 @@ export const Posts: CollectionConfig<'posts'> = {
     {
       fields: ['title', 'slug'],
     },
+    // Index for post lookups by title (used in admin UI and search)
+    {
+      fields: ['title'],
+    },
+    // Index for slug-based queries (critical for frontend routing)
+    {
+      fields: ['slug'],
+    },
+    // Index for published status filtering (draft/published)
+    {
+      fields: ['_status'],
+    },
+    // Compound index for published posts sorted by publication date (blog chronology)
+    {
+      fields: ['_status', 'publishedAt'],
+    },
+    // Compound index for published posts sorted by title
+    {
+      fields: ['_status', 'title'],
+    },
+    // Index for publication date sorting (chronological blog listing)
+    {
+      fields: ['publishedAt'],
+    },
+    // Compound index for sorting and filtering by creation date
+    {
+      fields: ['createdAt', 'title'],
+    },
+    // Index for trash functionality (deletedAt field from trash: true)
+    {
+      fields: ['deletedAt', 'title'],
+    },
+    // Compound index for sitemap generation (published posts by update date)
+    {
+      fields: ['_status', 'updatedAt'],
+    },
   ],
   defaultSort: 'createdAt',
   labels: {
@@ -159,7 +195,7 @@ export const Posts: CollectionConfig<'posts'> = {
   versions: {
     drafts: {
       autosave: {
-        interval: 100,
+        interval: 300,
       },
       schedulePublish: true,
     },

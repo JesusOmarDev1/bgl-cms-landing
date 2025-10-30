@@ -81,12 +81,6 @@ export default buildConfig({
           width: 768,
           height: 1024,
         },
-        {
-          label: 'Escritorio',
-          name: 'desktop',
-          width: 1440,
-          height: 900,
-        },
       ],
     },
     meta: adminMetadata,

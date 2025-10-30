@@ -7,10 +7,37 @@ import { isAdminOrEditor } from '@/access/isAdminOrEditor'
 
 export const FormSubmissions: CollectionConfig = {
   slug: 'form-submissions',
+  indexes: [
+    // Index for querying submissions by form (most common query pattern)
+    {
+      fields: ['form'],
+    },
+    // Compound index for form submissions sorted by creation date (newest first)
+    {
+      fields: ['form', 'createdAt'],
+    },
+    // Index for sorting all submissions by creation date (admin interface)
+    {
+      fields: ['createdAt'],
+    },
+    // Index for filtering by email notification status
+    {
+      fields: ['skipEmailNotification'],
+    },
+    // Compound index for form submissions with email notification status
+    {
+      fields: ['form', 'skipEmailNotification'],
+    },
+    // Compound index for sorting by update date (useful for admin interface)
+    {
+      fields: ['updatedAt', 'form'],
+    },
+  ],
   labels: {
     singular: 'Envío de Formulario',
     plural: 'Envíos de Formularios',
   },
+  defaultSort: 'createdAt',
   access: {
     // Permitir que cualquiera pueda crear envíos (desde el frontend) y admins/editores desde el panel
     create: ({ req }) => {

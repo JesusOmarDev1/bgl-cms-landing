@@ -1,13 +1,12 @@
 import type { GlobalConfig } from 'payload'
 
 import { isAdminOrEditor } from '@/access/isAdminOrEditor'
-import { anyone } from '@/access/anyone'
 import { revalidateCoupons } from './hooks/revalidateCoupons'
 
 export const Coupons: GlobalConfig = {
   slug: 'coupons',
   access: {
-    read: anyone,
+    read: isAdminOrEditor,
     update: isAdminOrEditor,
   },
   label: {

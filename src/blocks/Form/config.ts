@@ -1,7 +1,5 @@
 import type { Block } from 'payload'
 
-import { contentLexicalEditor } from '@/fields/contentLexical'
-
 export const FormBlock: Block = {
   slug: 'formBlock',
   interfaceName: 'FormBlock',
@@ -31,7 +29,6 @@ export const FormBlock: Block = {
       admin: {
         condition: (_, { enableIntro }) => Boolean(enableIntro),
       },
-      editor: contentLexicalEditor,
       label: {
         en: 'Intro Content',
         es: 'Contenido de Introducción',

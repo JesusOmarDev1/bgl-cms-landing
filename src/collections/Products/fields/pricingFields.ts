@@ -15,6 +15,7 @@ export const pricingFields: Field[] = [
       access: {
         read: isAdminOrEditorFieldLevel,
         update: isAdminOrEditorFieldLevel,
+        create: isAdminOrEditorFieldLevel,
       },
       admin: {
         description: 'Precio base del producto antes de descuentos e impuestos',
@@ -39,6 +40,7 @@ export const pricingFields: Field[] = [
       access: {
         read: isAdminOrEditorFieldLevel,
         update: isAdminOrEditorFieldLevel,
+        create: isAdminOrEditorFieldLevel,
       },
       admin: {
         description: 'Descuento en pesos mexicanos a aplicar al precio base',
@@ -67,6 +69,7 @@ export const pricingFields: Field[] = [
     access: {
       read: isAdminOrEditorFieldLevel,
       update: isAdminOrEditorFieldLevel,
+      create: isAdminOrEditorFieldLevel,
     },
   },
   ...NumberField(
@@ -114,7 +117,8 @@ export const pricingFields: Field[] = [
       },
       access: {
         read: isAdminOrEditorFieldLevel,
-        update: () => false, // Solo lectura, se calcula automáticamente
+        update: isAdminOrEditorFieldLevel,
+        create: isAdminOrEditorFieldLevel,
       },
     },
     {

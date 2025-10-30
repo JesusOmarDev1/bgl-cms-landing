@@ -38,11 +38,6 @@ export const FooterClient: React.FC<FooterClientProps> = ({ data }) => {
   const followUsSection = data?.followUsSection
   const copyrightText = data?.copyrightText
 
-  const handleSocialClick = (platform: string, url: string) => {
-    // Analytics tracking could be added here
-    console.log(`Social link clicked: ${platform} - ${url}`)
-  }
-
   const renderSection = (section: any, defaultTitle: string) => {
     if (!section || !section.items || section.items.length === 0) return null
 
@@ -74,7 +69,7 @@ export const FooterClient: React.FC<FooterClientProps> = ({ data }) => {
   }
 
   return (
-    <footer className="w-full bg-background">
+    <footer className="w-full mt-auto bg-background">
       <div className="container min-w-full px-8 pt-12 pb-4">
         <div className="grid grid-cols-2 gap-8 md:grid-cols-3 lg:grid-cols-6">
           {/* Product Section */}
@@ -114,7 +109,6 @@ export const FooterClient: React.FC<FooterClientProps> = ({ data }) => {
                         className="text-muted-foreground transition-all hover:text-foreground hover:scale-125"
                         aria-label={social.platform}
                         title={`Red social - ${social.platform}`}
-                        onClick={() => handleSocialClick(social.platform, social.url)}
                       >
                         <Icon className="size-8" />
                       </Link>

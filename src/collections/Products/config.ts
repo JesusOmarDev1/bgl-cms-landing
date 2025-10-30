@@ -29,6 +29,10 @@ export const Products: CollectionConfig = {
       fields: ['slug'],
       unique: true, // Slug debe ser único
     },
+    // Index for title-slug compound queries (admin interface)
+    {
+      fields: ['title', 'slug'],
+    },
 
     // Índices compuestos para consultas comunes
     {
@@ -37,7 +41,6 @@ export const Products: CollectionConfig = {
     {
       fields: ['brand', 'type'], // Para filtros combinados marca + tipo
     },
-
     {
       fields: ['stock', '_status'], // Para productos en stock y publicados
     },
@@ -45,6 +48,9 @@ export const Products: CollectionConfig = {
     // Índices para búsquedas y filtros específicos
     {
       fields: ['title'], // Para búsquedas por título (text search)
+    },
+    {
+      fields: ['brand'], // Para filtros por marca (muy común)
     },
     {
       fields: ['model'], // Para filtros por modelo
@@ -56,13 +62,28 @@ export const Products: CollectionConfig = {
       fields: ['createdAt'], // Para ordenamiento por fecha de creación
     },
 
-    // Índice para búsquedas de texto completo (si se usa)
+    // Índices adicionales para funcionalidad específica
     {
-      fields: ['title'], // Para búsquedas por título
+      fields: ['status'], // Para filtros por estado del producto (active, discontinued, etc.)
+    },
+    {
+      fields: ['type'], // Para filtros por tipo de producto (general, scale, consumable)
+    },
+    {
+      fields: ['deletedAt', 'title'], // Para funcionalidad de papelera
+    },
+    {
+      fields: ['_status', 'updatedAt'], // Para sitemap y contenido actualizado
+    },
+    {
+      fields: ['brand', 'model'], // Para filtros combinados marca-modelo
+    },
+    {
+      fields: ['_status', 'total'], // Para productos publicados ordenados por precio
     },
   ],
 
-  defaultSort: '-publishedAt', // Más recientes primero
+  defaultSort: 'createdAt',
 
   // 🔐 Access Control
   access: {
@@ -174,31 +195,12 @@ export const Products: CollectionConfig = {
             }),
             MetaTitleField({
               hasGenerateFn: true,
-              overrides: {
-                label: {
-                  en: 'Title for SEO',
-                  es: 'Título para SEO',
-                },
-              },
             }),
             MetaImageField({
               relationTo: 'media',
-              overrides: {
-                label: {
-                  en: 'Image for SEO',
-                  es: 'Imagen para SEO',
-                },
-              },
             }),
 
-            MetaDescriptionField({
-              overrides: {
-                label: {
-                  en: 'Description for SEO',
-                  es: 'Descripción para SEO',
-                },
-              },
-            }),
+            MetaDescriptionField({}),
             PreviewField({
               // if the `generateUrl` function is configured
               hasGenerateFn: true,
@@ -252,7 +254,7 @@ export const Products: CollectionConfig = {
   versions: {
     drafts: {
       autosave: {
-        interval: 100, // We set this interval for optimal live preview
+        interval: 300, // We set this interval for optimal live preview
       },
       schedulePublish: true,
     },

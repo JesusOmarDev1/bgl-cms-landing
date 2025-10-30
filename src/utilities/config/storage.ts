@@ -13,8 +13,8 @@ export function getCloudfareAdapter() {
 
         signedDownloads: {
           shouldUseSignedURL: ({ filename }: { filename: string }) => {
-            const videoExtensions = ['.mp4', '.webm', '.m3u8']
-            return videoExtensions.some((ext) => filename.toLowerCase().endsWith(ext))
+            const extensions = ['.mp4', '.webm', '.m3u8', '.pdf']
+            return extensions.some((ext) => filename.toLowerCase().endsWith(ext))
           },
           expiresIn: 3600, // 1 hour
         },
@@ -28,16 +28,16 @@ export function getCloudfareAdapter() {
     disableLocalStorage: true,
 
     // Configuración del bucket
-    bucket: process.env.S3_BUCKET || '',
+    bucket: process.env.S3_BUCKET,
 
     // Configuración de AWS SDK para Cloudflare R2
     config: {
       credentials: {
-        accessKeyId: process.env.S3_ACCESS_KEY_ID || '',
-        secretAccessKey: process.env.S3_SECRET || '',
+        accessKeyId: process.env.S3_ACCESS_KEY_ID,
+        secretAccessKey: process.env.S3_SECRET,
       },
-      region: 'auto',
-      endpoint: process.env.S3_ENDPOINT || '',
+      region: process.env.S3_REGION,
+      endpoint: process.env.S3_ENDPOINT,
       // Configuraciones específicas para R2
       forcePathStyle: true,
     },

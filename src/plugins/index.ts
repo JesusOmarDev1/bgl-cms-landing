@@ -19,40 +19,14 @@ import { anyone } from '@/access/anyone'
 import { getCloudfareAdapter } from '@/utilities/config/storage'
 import { revalidateRedirects } from '@/utilities/payload/hooks/revalidateRedirects'
 
-const generateTitle: GenerateTitle<Post | Page | Service | Manual | Product> = ({ doc }) => {
-  // Evitar referencias circulares extrayendo solo las propiedades necesarias
-  const title = typeof doc?.title === 'string' ? doc.title : ''
-
-  return title ? `${title}` : 'BGL BASCULAS INDUSTRIALES'
+const generateTitle: GenerateTitle<Post | Page> = ({ doc }) => {
+  return doc?.title ? `${doc.title}` : 'BGL BASCULAS INDUSTRIALES'
 }
 
-// Configuración de rutas por colección
-const COLLECTION_URL_MAPPING: Record<string, string> = {
-  services: '/services',
-  manuals: '/manuals',
-  products: '/products',
-  posts: '/posts',
-  pages: '', // Las páginas van directamente en la raíz
-}
-
-const generateURL: GenerateURL<Post | Page | Service | Manual | Product> = ({
-  doc,
-  collectionConfig,
-}) => {
+const generateURL: GenerateURL<Post | Page> = ({ doc }) => {
   const url = getServerSideURL()
 
-  // Evitar referencias circulares extrayendo solo las propiedades necesarias
-  const slug = typeof doc?.slug === 'string' ? doc.slug : ''
-
-  if (!slug) return url
-
-  // Obtener el prefijo de URL desde la configuración
-  const collectionSlug = collectionConfig?.slug
-  const urlPrefix = collectionSlug
-    ? (COLLECTION_URL_MAPPING[collectionSlug] ?? `/${collectionSlug}`)
-    : ''
-
-  return `${url}${urlPrefix}/${slug}`.replace(/\/+/g, '/') // Evitar dobles barras
+  return doc?.slug ? `${url}/${doc.slug}` : url
 }
 
 export const plugins: Plugin[] = [
@@ -124,7 +98,7 @@ export const plugins: Plugin[] = [
       admin: {
         description:
           'Esta es una colección de redirecciones de URL que se crean en el CMS. Estas redirecciones son utilizadas por el sitio web.',
-        group: 'Contenido',
+        group: 'Control Interno',
       },
       hooks: {
         afterChange: [revalidateRedirects],
@@ -160,7 +134,7 @@ export const plugins: Plugin[] = [
       admin: {
         description:
           'Esta es una colección de resultados de búsqueda generados automáticamente. Estos resultados son utilizados por la búsqueda global del sitio y se actualizan automáticamente a medida que se crean o actualizan documentos en el CMS.',
-        group: 'Contenido',
+        group: 'Control Interno',
       },
       access: {
         read: anyone,

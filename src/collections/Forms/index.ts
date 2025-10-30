@@ -1,10 +1,31 @@
 import type { CollectionConfig } from 'payload'
 import { isAdminOrEditor } from '@/access/isAdminOrEditor'
 import { isAdmin } from '@/access/isAdmin'
-import { contentLexicalEditor } from '@/fields/contentLexical'
 
 export const Forms: CollectionConfig = {
   slug: 'forms',
+  indexes: [
+    // Index for form lookups by title (used in admin UI and FormBlock selection)
+    {
+      fields: ['title'],
+    },
+    // Index for active/inactive status filtering
+    {
+      fields: ['active'],
+    },
+    // Compound index for active forms sorted by title
+    {
+      fields: ['active', 'title'],
+    },
+    // Compound index for sorting and filtering by creation date
+    {
+      fields: ['createdAt', 'title'],
+    },
+    // Compound index for sorting by update date (useful for admin interface)
+    {
+      fields: ['updatedAt', 'title'],
+    },
+  ],
   labels: {
     singular: 'Formulario',
     plural: 'Formularios',
@@ -15,6 +36,7 @@ export const Forms: CollectionConfig = {
     group: 'Contenido',
     defaultColumns: ['title', 'type', 'updatedAt'],
   },
+  defaultSort: 'createdAt',
   access: {
     read: isAdminOrEditor,
     create: isAdminOrEditor,
@@ -408,7 +430,6 @@ export const Forms: CollectionConfig = {
               name: 'message',
               type: 'richText',
               label: 'Mensaje',
-              editor: contentLexicalEditor,
               required: true,
             },
           ],
@@ -447,7 +468,6 @@ export const Forms: CollectionConfig = {
           name: 'confirmationMessage',
           type: 'richText',
           label: 'Mensaje de confirmación',
-          editor: contentLexicalEditor,
           admin: {
             description: 'Mensaje que se muestra después de enviar el formulario',
             condition: (data, siblingData) => {

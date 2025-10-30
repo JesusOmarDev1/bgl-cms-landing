@@ -25,6 +25,42 @@ export const Pages: CollectionConfig<'pages'> = {
     {
       fields: ['title', 'slug'],
     },
+    // Index for page lookups by title (used in admin UI and search)
+    {
+      fields: ['title'],
+    },
+    // Index for slug-based queries (critical for frontend routing)
+    {
+      fields: ['slug'],
+    },
+    // Index for published status filtering (draft/published)
+    {
+      fields: ['_status'],
+    },
+    // Compound index for published pages sorted by publication date
+    {
+      fields: ['_status', 'publishedAt'],
+    },
+    // Compound index for published pages sorted by title
+    {
+      fields: ['_status', 'title'],
+    },
+    // Index for publication date sorting (chronological listing)
+    {
+      fields: ['publishedAt'],
+    },
+    // Compound index for sorting and filtering by creation date
+    {
+      fields: ['createdAt', 'title'],
+    },
+    // Index for trash functionality (deletedAt field from trash: true)
+    {
+      fields: ['deletedAt', 'title'],
+    },
+    // Compound index for sitemap generation (published pages by update date)
+    {
+      fields: ['_status', 'updatedAt'],
+    },
   ],
   defaultSort: 'createdAt',
   labels: {
@@ -108,32 +144,17 @@ export const Pages: CollectionConfig<'pages'> = {
             }),
             MetaTitleField({
               hasGenerateFn: true,
-              overrides: {
-                label: {
-                  en: 'Title for SEO',
-                  es: 'Título para SEO',
-                },
-              },
             }),
             MetaImageField({
               relationTo: 'media',
-              overrides: {
-                label: {
-                  en: 'Image for SEO',
-                  es: 'Imagen para SEO',
-                },
-              },
             }),
-            MetaDescriptionField({
-              overrides: {
-                label: {
-                  en: 'Description for SEO',
-                  es: 'Descripción para SEO',
-                },
-              },
-            }),
+
+            MetaDescriptionField({}),
             PreviewField({
+              // if the `generateUrl` function is configured
               hasGenerateFn: true,
+
+              // field paths to match the target field for data
               titlePath: 'meta.title',
               descriptionPath: 'meta.description',
             }),
@@ -152,7 +173,7 @@ export const Pages: CollectionConfig<'pages'> = {
   versions: {
     drafts: {
       autosave: {
-        interval: 100,
+        interval: 300,
       },
       schedulePublish: true,
     },

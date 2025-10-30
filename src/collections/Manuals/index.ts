@@ -12,7 +12,6 @@ import {
 import { slugField } from '@/fields/slug'
 import { isAdmin } from '@/access/isAdmin'
 import { isAuthenticatedOrPublished } from '@/access/isLoggedInOrPublished'
-import { contentLexicalEditor } from '@/fields/contentLexical'
 import { generatePreviewPath } from '@/utilities/url/generatePreviewPath'
 import { isAdminOrEditorOrTechnician } from '@/access/isAdminOrEditorOrTechnician'
 
@@ -23,8 +22,43 @@ export const Manuals: CollectionConfig<'manuals'> = {
     {
       fields: ['title', 'slug'],
     },
+    // Index for manual lookups by title (used in admin UI and search)
+    {
+      fields: ['title'],
+    },
+    // Index for slug-based queries (for manual detail pages)
+    {
+      fields: ['slug'],
+    },
+    // Index for published status filtering (draft/published)
+    {
+      fields: ['_status'],
+    },
+    // Compound index for published manuals sorted by publication date
+    {
+      fields: ['_status', 'publishedAt'],
+    },
+    // Compound index for published manuals sorted by title
+    {
+      fields: ['_status', 'title'],
+    },
+    // Index for publication date sorting (chronological listing)
+    {
+      fields: ['publishedAt'],
+    },
+    // Compound index for sorting and filtering by creation date
+    {
+      fields: ['createdAt', 'title'],
+    },
+    // Index for trash functionality (deletedAt field from trash: true)
+    {
+      fields: ['deletedAt', 'title'],
+    },
+    // Compound index for sitemap generation (published manuals by update date)
+    {
+      fields: ['_status', 'updatedAt'],
+    },
   ],
-  defaultSort: 'createdAt',
   labels: {
     singular: {
       en: 'Manual',
@@ -35,6 +69,7 @@ export const Manuals: CollectionConfig<'manuals'> = {
       es: 'Manuales',
     },
   },
+  defaultSort: 'createdAt',
   access: {
     read: isAuthenticatedOrPublished,
     create: isAdminOrEditorOrTechnician,
@@ -99,7 +134,6 @@ export const Manuals: CollectionConfig<'manuals'> = {
             {
               name: 'content',
               type: 'richText',
-              editor: contentLexicalEditor,
               label: {
                 en: 'Content',
                 es: 'Contenido',
@@ -167,31 +201,12 @@ export const Manuals: CollectionConfig<'manuals'> = {
             }),
             MetaTitleField({
               hasGenerateFn: true,
-              overrides: {
-                label: {
-                  en: 'Title for SEO',
-                  es: 'Título para SEO',
-                },
-              },
             }),
             MetaImageField({
               relationTo: 'media',
-              overrides: {
-                label: {
-                  en: 'Image for SEO',
-                  es: 'Imagen para SEO',
-                },
-              },
             }),
 
-            MetaDescriptionField({
-              overrides: {
-                label: {
-                  en: 'Description for SEO',
-                  es: 'Descripción para SEO',
-                },
-              },
-            }),
+            MetaDescriptionField({}),
             PreviewField({
               // if the `generateUrl` function is configured
               hasGenerateFn: true,
@@ -237,7 +252,7 @@ export const Manuals: CollectionConfig<'manuals'> = {
   versions: {
     drafts: {
       autosave: {
-        interval: 100, // We set this interval for optimal live preview
+        interval: 300, // We set this interval for optimal live preview
       },
       schedulePublish: true,
     },

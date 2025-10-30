@@ -1,4 +1,3 @@
-import type { CheckboxField } from '../types'
 import type { FieldErrorsImpl, FieldValues, UseFormRegister } from 'react-hook-form'
 
 import { useFormContext } from 'react-hook-form'
@@ -9,6 +8,7 @@ import React from 'react'
 
 import { Error } from '../Error'
 import { Width } from '../Width'
+import { CheckboxField } from '../types'
 
 export const Checkbox: React.FC<
   CheckboxField & {

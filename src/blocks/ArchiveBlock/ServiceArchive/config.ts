@@ -1,6 +1,6 @@
 import type { Block } from 'payload'
 
-import { contentLexicalEditor } from '@/fields/contentLexical'
+import { basicLexicalEditor } from '@/fields/basicLexical'
 
 export const ServiceArchiveBlock: Block = {
   slug: 'service-archive',
@@ -10,7 +10,7 @@ export const ServiceArchiveBlock: Block = {
     {
       name: 'introContent',
       type: 'richText',
-      editor: contentLexicalEditor,
+      editor: basicLexicalEditor,
       label: {
         en: 'Intro Content',
         es: 'Contenido de Introducción',
@@ -47,7 +47,7 @@ export const ServiceArchiveBlock: Block = {
       admin: {
         condition: (_, siblingData) => siblingData.populateBy === 'collection',
       },
-      defaultValue: 'posts',
+      defaultValue: 'services',
       label: {
         en: 'Relation To',
         es: 'Relación Con',
@@ -96,7 +96,7 @@ export const ServiceArchiveBlock: Block = {
         en: 'Selected Documents',
         es: 'Documentos Seleccionados',
       },
-      relationTo: ['posts'],
+      relationTo: ['services'],
     },
   ],
   labels: {

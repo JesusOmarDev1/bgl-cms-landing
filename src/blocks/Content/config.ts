@@ -1,12 +1,9 @@
 import type { Block, Field } from 'payload'
 
-import { contentLexicalEditor } from '@/fields/contentLexical'
-
 const columnFields: Field[] = [
   {
     name: 'richText',
     type: 'richText',
-    editor: contentLexicalEditor,
     label: {
       en: 'Content',
       es: 'Contenido',

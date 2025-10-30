@@ -3,8 +3,8 @@ import type { CollectionConfig } from 'payload'
 import { slugField } from '@/fields/slug'
 import { isAdminOrEditor } from '@/access/isAdminOrEditor'
 import { isAdmin } from '@/access/isAdmin'
-import { contentLexicalEditor } from '@/fields/contentLexical'
 import { TelephoneField } from '@/fields/telephone'
+import { basicLexicalEditor } from '@/fields/basicLexical'
 
 export const Clients: CollectionConfig = {
   slug: 'clients',
@@ -12,6 +12,34 @@ export const Clients: CollectionConfig = {
   indexes: [
     {
       fields: ['title', 'slug'],
+    },
+    // Index for client lookups by title (used in admin UI and search)
+    {
+      fields: ['title'],
+    },
+    // Index for slug-based queries (for potential client pages)
+    {
+      fields: ['slug'],
+    },
+    // Index for ClientsLoop block queries (filtering by heroImage presence)
+    {
+      fields: ['heroImage'],
+    },
+    // Compound index for sorting and filtering by creation date
+    {
+      fields: ['createdAt', 'title'],
+    },
+    // Index for trash functionality (deletedAt field from trash: true)
+    {
+      fields: ['deletedAt', 'title'],
+    },
+    // Index for draft/published status (from versions.drafts: true)
+    {
+      fields: ['_status', 'title'],
+    },
+    // Compound index for company name searches and sorting
+    {
+      fields: ['companyName', 'title'],
     },
   ],
   defaultSort: 'createdAt',
@@ -82,7 +110,7 @@ export const Clients: CollectionConfig = {
             {
               name: 'content',
               type: 'richText',
-              editor: contentLexicalEditor,
+              editor: basicLexicalEditor,
               label: {
                 en: 'Content',
                 es: 'Contenido',

@@ -12,6 +12,22 @@ export const Brands: CollectionConfig = {
     {
       fields: ['title', 'slug'],
     },
+    // Index for brand lookups by title (used in admin UI and search)
+    {
+      fields: ['title'],
+    },
+    // Index for slug-based queries (for potential brand pages)
+    {
+      fields: ['slug'],
+    },
+    // Compound index for sorting and filtering by creation date
+    {
+      fields: ['createdAt', 'title'],
+    },
+    // Index for trash functionality (deletedAt field from trash: true)
+    {
+      fields: ['deletedAt', 'title'],
+    },
   ],
   defaultSort: 'createdAt',
   access: {

@@ -27,7 +27,7 @@ export const Users: CollectionConfig = {
     },
   ],
 
-  defaultSort: '-createdAt', // Más recientes primero
+  defaultSort: 'createdAt',
 
   // 🔐 Access Control
   access: {

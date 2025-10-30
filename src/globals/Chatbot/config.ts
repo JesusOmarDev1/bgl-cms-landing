@@ -1,12 +1,11 @@
 import type { GlobalConfig } from 'payload'
 
 import { isAdminOrEditor } from '@/access/isAdminOrEditor'
-import { anyone } from '@/access/anyone'
 
 export const Chatbot: GlobalConfig = {
   slug: 'chatbot',
   access: {
-    read: anyone,
+    read: isAdminOrEditor,
     update: isAdminOrEditor,
   },
   label: {

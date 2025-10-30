@@ -18,13 +18,14 @@ import { UnderlineFeatureClient as UnderlineFeatureClient_e70f5e05f09f93e00b997e
 import { InlineToolbarFeatureClient as InlineToolbarFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { FixedToolbarFeatureClient as FixedToolbarFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { BlocksFeatureClient as BlocksFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
-import { HeadingFeatureClient as HeadingFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
-import { ParagraphFeatureClient as ParagraphFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { RowLabel as RowLabel_74d0799d2046ec656376226cd84fe3b8 } from '@/blocks/Button/RowLabel'
 import { RowLabel as RowLabel_cc49dcb9b0af3257bcb76e750c43ee71 } from '@/blocks/MediaBlock/RowLabel'
 import { HeaderRowLabel as HeaderRowLabel_85e66fee2f6e15a3d73d9076bcf15fbc } from '@/blocks/Table/RowLabel'
 import { CellRowLabel as CellRowLabel_85e66fee2f6e15a3d73d9076bcf15fbc } from '@/blocks/Table/RowLabel'
 import { DataRowLabel as DataRowLabel_85e66fee2f6e15a3d73d9076bcf15fbc } from '@/blocks/Table/RowLabel'
+import { RowLabel as RowLabel_af43e1091244567a38a5bf40d60d8c19 } from '@/blocks/Stepper/RowLabel'
+import { HeadingFeatureClient as HeadingFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
+import { ParagraphFeatureClient as ParagraphFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { ColumnRowLabel as ColumnRowLabel_51c3dfee50eb83899fbad8523b6b162e } from '@/blocks/Content/RowLabel'
 import { RowLabel as RowLabel_7a0a1ede3caede510531ae1d1981b8cd } from '@/blocks/FAQ/RowLabel'
 import { OverviewComponent as OverviewComponent_a8a977ebc872c5d5ea7ee689724c0860 } from '@payloadcms/plugin-seo/client'
@@ -96,13 +97,14 @@ export const importMap = {
   "@payloadcms/richtext-lexical/client#InlineToolbarFeatureClient": InlineToolbarFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   "@payloadcms/richtext-lexical/client#FixedToolbarFeatureClient": FixedToolbarFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   "@payloadcms/richtext-lexical/client#BlocksFeatureClient": BlocksFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
-  "@payloadcms/richtext-lexical/client#HeadingFeatureClient": HeadingFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
-  "@payloadcms/richtext-lexical/client#ParagraphFeatureClient": ParagraphFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   "@/blocks/Button/RowLabel#RowLabel": RowLabel_74d0799d2046ec656376226cd84fe3b8,
   "@/blocks/MediaBlock/RowLabel#RowLabel": RowLabel_cc49dcb9b0af3257bcb76e750c43ee71,
   "@/blocks/Table/RowLabel#HeaderRowLabel": HeaderRowLabel_85e66fee2f6e15a3d73d9076bcf15fbc,
   "@/blocks/Table/RowLabel#CellRowLabel": CellRowLabel_85e66fee2f6e15a3d73d9076bcf15fbc,
   "@/blocks/Table/RowLabel#DataRowLabel": DataRowLabel_85e66fee2f6e15a3d73d9076bcf15fbc,
+  "@/blocks/Stepper/RowLabel#RowLabel": RowLabel_af43e1091244567a38a5bf40d60d8c19,
+  "@payloadcms/richtext-lexical/client#HeadingFeatureClient": HeadingFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
+  "@payloadcms/richtext-lexical/client#ParagraphFeatureClient": ParagraphFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   "@/blocks/Content/RowLabel#ColumnRowLabel": ColumnRowLabel_51c3dfee50eb83899fbad8523b6b162e,
   "@/blocks/FAQ/RowLabel#RowLabel": RowLabel_7a0a1ede3caede510531ae1d1981b8cd,
   "@payloadcms/plugin-seo/client#OverviewComponent": OverviewComponent_a8a977ebc872c5d5ea7ee689724c0860,

@@ -2,7 +2,7 @@ import type { CollectionConfig } from 'payload'
 
 import { isAdminOrEditor } from '@/access/isAdminOrEditor'
 import { anyone } from '@/access/anyone'
-import { contentLexicalEditor } from '@/fields/contentLexical'
+import { basicLexicalEditor } from '@/fields/basicLexical'
 
 export const Certificates: CollectionConfig = {
   slug: 'certificates',
@@ -62,7 +62,7 @@ export const Certificates: CollectionConfig = {
         en: 'Content',
         es: 'Contenido',
       },
-      editor: contentLexicalEditor,
+      editor: basicLexicalEditor,
     },
   ],
 }

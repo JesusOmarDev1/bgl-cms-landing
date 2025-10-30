@@ -23,6 +23,50 @@ export const Services: CollectionConfig = {
     {
       fields: ['title', 'slug'],
     },
+    // Index for service lookups by title (used in admin UI and search)
+    {
+      fields: ['title'],
+    },
+    // Index for slug-based queries (critical for frontend routing)
+    {
+      fields: ['slug'],
+    },
+    // Index for published status filtering (draft/published)
+    {
+      fields: ['_status'],
+    },
+    // Compound index for published services sorted by publication date
+    {
+      fields: ['_status', 'publishedAt'],
+    },
+    // Compound index for published services sorted by title
+    {
+      fields: ['_status', 'title'],
+    },
+    // Index for publication date sorting (chronological listing)
+    {
+      fields: ['publishedAt'],
+    },
+    // Index for price-based sorting (service pricing)
+    {
+      fields: ['total'],
+    },
+    // Compound index for published services sorted by price
+    {
+      fields: ['_status', 'total'],
+    },
+    // Compound index for sorting and filtering by creation date
+    {
+      fields: ['createdAt', 'title'],
+    },
+    // Index for trash functionality (deletedAt field from trash: true)
+    {
+      fields: ['deletedAt', 'title'],
+    },
+    // Compound index for sitemap generation (published services by update date)
+    {
+      fields: ['_status', 'updatedAt'],
+    },
   ],
   defaultSort: 'createdAt',
   access: {
@@ -92,30 +136,12 @@ export const Services: CollectionConfig = {
             }),
             MetaTitleField({
               hasGenerateFn: true,
-              overrides: {
-                label: {
-                  en: 'Title for SEO',
-                  es: 'Título para SEO',
-                },
-              },
             }),
             MetaImageField({
               relationTo: 'media',
-              overrides: {
-                label: {
-                  en: 'Image for SEO',
-                  es: 'Imagen para SEO',
-                },
-              },
             }),
-            MetaDescriptionField({
-              overrides: {
-                label: {
-                  en: 'Description for SEO',
-                  es: 'Descripción para SEO',
-                },
-              },
-            }),
+
+            MetaDescriptionField({}),
             PreviewField({
               hasGenerateFn: true,
               titlePath: 'meta.title',

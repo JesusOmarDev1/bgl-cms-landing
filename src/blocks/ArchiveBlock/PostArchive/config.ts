@@ -1,16 +1,15 @@
 import type { Block } from 'payload'
 
-import { contentLexicalEditor } from '@/fields/contentLexical'
+import { basicLexicalEditor } from '@/fields/basicLexical'
 
 export const PostArchiveBlock: Block = {
   slug: 'post-archive',
   interfaceName: 'PostArchiveBlock',
-
   fields: [
     {
       name: 'introContent',
       type: 'richText',
-      editor: contentLexicalEditor,
+      editor: basicLexicalEditor,
       label: {
         en: 'Intro Content',
         es: 'Contenido de Introducción',

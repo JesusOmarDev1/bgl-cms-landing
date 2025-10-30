@@ -8,6 +8,9 @@ import React, {
   ReactNode,
 } from 'react'
 import { motion, AnimatePresence, Variants } from 'motion/react'
+import { Button, ButtonProps } from '@/components/ui/button'
+import { Progress } from '@/components/ui/progress'
+import { Check } from 'lucide-react'
 
 interface StepperProps extends HTMLAttributes<HTMLDivElement> {
   children: ReactNode
@@ -18,8 +21,8 @@ interface StepperProps extends HTMLAttributes<HTMLDivElement> {
   stepContainerClassName?: string
   contentClassName?: string
   footerClassName?: string
-  backButtonProps?: React.ButtonHTMLAttributes<HTMLButtonElement>
-  nextButtonProps?: React.ButtonHTMLAttributes<HTMLButtonElement>
+  backButtonProps?: Omit<ButtonProps, 'onClick' | 'children'>
+  nextButtonProps?: Omit<ButtonProps, 'onClick' | 'children'>
   backButtonText?: string
   nextButtonText?: string
   disableStepIndicators?: boolean
@@ -89,7 +92,6 @@ export default function Stepper({
     >
       <div
         className={`mx-auto w-full max-w-md rounded-4xl shadow-xl ${stepCircleContainerClassName}`}
-        style={{ border: '1px solid #222' }}
       >
         <div className={`${stepContainerClassName} flex w-full items-center p-8`}>
           {stepsArray.map((_, index) => {
@@ -136,25 +138,18 @@ export default function Stepper({
           <div className={`px-8 pb-8 ${footerClassName}`}>
             <div className={`mt-10 flex ${currentStep !== 1 ? 'justify-between' : 'justify-end'}`}>
               {currentStep !== 1 && (
-                <button
+                <Button
                   onClick={handleBack}
-                  className={`duration-350 rounded px-2 py-1 transition ${
-                    currentStep === 1
-                      ? 'pointer-events-none opacity-50 text-neutral-400'
-                      : 'text-neutral-400 hover:text-neutral-700'
-                  }`}
+                  variant="ghost"
+                  disabled={currentStep === 1}
                   {...backButtonProps}
                 >
                   {backButtonText}
-                </button>
+                </Button>
               )}
-              <button
-                onClick={isLastStep ? handleComplete : handleNext}
-                className="duration-350 flex items-center justify-center rounded-full bg-green-500 py-1.5 px-3.5 font-medium tracking-tight text-white transition hover:bg-green-600 active:bg-green-700"
-                {...nextButtonProps}
-              >
-                {isLastStep ? 'Complete' : nextButtonText}
-              </button>
+              <Button onClick={isLastStep ? handleComplete : handleNext} {...nextButtonProps}>
+                {isLastStep ? 'Completar' : nextButtonText}
+              </Button>
             </div>
           </div>
         )}
@@ -286,17 +281,17 @@ function StepIndicator({
     >
       <motion.div
         variants={{
-          inactive: { scale: 1, backgroundColor: '#222', color: '#a3a3a3' },
-          active: { scale: 1, backgroundColor: '#5227FF', color: '#5227FF' },
-          complete: { scale: 1, backgroundColor: '#5227FF', color: '#3b82f6' },
+          inactive: { scale: 1, backgroundColor: '#222', color: '#fff' },
+          active: { scale: 1, backgroundColor: '#dc2626', color: '#fff' },
+          complete: { scale: 1, backgroundColor: '#dc2626', color: '#fff' },
         }}
         transition={{ duration: 0.3 }}
         className="flex h-8 w-8 items-center justify-center rounded-full font-semibold"
       >
         {status === 'complete' ? (
-          <CheckIcon className="h-4 w-4 text-black" />
+          <Check className="h-4 w-4 text-white" />
         ) : status === 'active' ? (
-          <div className="h-3 w-3 rounded-full bg-[#060010]" />
+          <div className="h-3 w-3 rounded-full bg-white" />
         ) : (
           <span className="text-sm">{step}</span>
         )}
@@ -310,42 +305,9 @@ interface StepConnectorProps {
 }
 
 function StepConnector({ isComplete }: StepConnectorProps) {
-  const lineVariants: Variants = {
-    incomplete: { width: 0, backgroundColor: 'transparent' },
-    complete: { width: '100%', backgroundColor: '#5227FF' },
-  }
-
   return (
-    <div className="relative mx-2 h-0.5 flex-1 overflow-hidden rounded bg-neutral-600">
-      <motion.div
-        className="absolute left-0 top-0 h-full"
-        variants={lineVariants}
-        initial={false}
-        animate={isComplete ? 'complete' : 'incomplete'}
-        transition={{ duration: 0.4 }}
-      />
+    <div className="mx-2 flex-1">
+      <Progress value={isComplete ? 100 : 0} className="h-0.5 bg-neutral-600" />
     </div>
-  )
-}
-
-interface CheckIconProps extends React.SVGProps<SVGSVGElement> {}
-
-function CheckIcon(props: CheckIconProps) {
-  return (
-    <svg {...props} fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-      <motion.path
-        initial={{ pathLength: 0 }}
-        animate={{ pathLength: 1 }}
-        transition={{
-          delay: 0.1,
-          type: 'tween',
-          ease: 'easeOut',
-          duration: 0.3,
-        }}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        d="M5 13l4 4L19 7"
-      />
-    </svg>
   )
 }

@@ -40,6 +40,8 @@ export const pricingFields: Field[] = [
       },
       access: {
         read: isAdminOrEditorFieldLevel,
+        update: isAdminOrEditorFieldLevel,
+        create: isAdminOrEditorFieldLevel,
       },
     },
     {
@@ -63,6 +65,8 @@ export const pricingFields: Field[] = [
       },
       access: {
         read: isAdminOrEditorFieldLevel,
+        update: isAdminOrEditorFieldLevel,
+        create: isAdminOrEditorFieldLevel,
       },
     },
     {
@@ -86,6 +90,8 @@ export const pricingFields: Field[] = [
     },
     access: {
       read: isAdminOrEditorFieldLevel,
+      update: isAdminOrEditorFieldLevel,
+      create: isAdminOrEditorFieldLevel,
     },
   },
   ...NumberField(
@@ -127,6 +133,8 @@ export const pricingFields: Field[] = [
       },
       access: {
         read: isAdminOrEditorFieldLevel,
+        update: isAdminOrEditorFieldLevel,
+        create: isAdminOrEditorFieldLevel,
       },
     },
     {
