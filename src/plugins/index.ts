@@ -1,4 +1,3 @@
-import { payloadCloudPlugin } from '@payloadcms/payload-cloud'
 import { nestedDocsPlugin } from '@payloadcms/plugin-nested-docs'
 import { redirectsPlugin } from '@payloadcms/plugin-redirects'
 import { seoPlugin } from '@payloadcms/plugin-seo'
@@ -10,14 +9,17 @@ import { beforeSyncWithSearch } from '@/search/beforeSync'
 import { importExportPlugin } from '@payloadcms/plugin-import-export'
 import { activityLogPlugin } from '@payload-bites/activity-log'
 import { auditFieldsPlugin } from '@payload-bites/audit-fields'
+import { sentryPlugin } from '@payloadcms/plugin-sentry'
+import * as Sentry from '@sentry/nextjs'
 
-import { Page, Post, Service, Manual, Product } from '@/payload-types'
+import { Page, Post } from '@/payload-types'
 import { getServerSideURL } from '@/utilities/url/utils'
 import { isAdminOrEditor } from '@/access/isAdminOrEditor'
 import { isAdmin } from '@/access/isAdmin'
 import { anyone } from '@/access/anyone'
-import { getCloudfareAdapter } from '@/utilities/config/storage'
+import { getBucketAdapter } from '@/utilities/config/bucket'
 import { revalidateRedirects } from '@/utilities/payload/hooks/revalidateRedirects'
+import { isProd } from '@/utilities/payload/isProd'
 
 const generateTitle: GenerateTitle<Post | Page> = ({ doc }) => {
   return doc?.title ? `${doc.title}` : 'BGL BASCULAS INDUSTRIALES'
@@ -30,7 +32,7 @@ const generateURL: GenerateURL<Post | Page> = ({ doc }) => {
 }
 
 export const plugins: Plugin[] = [
-  getCloudfareAdapter(),
+  getBucketAdapter(),
   redirectsPlugin({
     collections: ['pages'],
     overrides: {
@@ -243,5 +245,11 @@ export const plugins: Plugin[] = [
     createdByLabel: 'Creado por',
     lastModifiedByLabel: 'Modificado por',
   }),
-  payloadCloudPlugin(),
+  sentryPlugin({
+    options: {
+      captureErrors: [400, 403],
+      debug: !isProd,
+    },
+    Sentry,
+  }),
 ]

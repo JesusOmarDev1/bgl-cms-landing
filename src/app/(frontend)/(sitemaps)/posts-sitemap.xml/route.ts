@@ -8,7 +8,7 @@ const getPostsSitemap = unstable_cache(
     const payload = await getPayload({ config })
     const SITE_URL =
       process.env.NEXT_PUBLIC_SERVER_URL ||
-      process.env.VERCEL_PROJECT_PRODUCTION_URL ||
+      process.env.NEXT_PROJECT_PRODUCTION_URL ||
       'https://example.com'
 
     const results = await payload.find({

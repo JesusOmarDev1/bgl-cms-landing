@@ -1,0 +1,198 @@
+# CodeQL Advanced Security Analysis
+# Performs comprehensive security analysis for JavaScript/TypeScript codebase
+# Includes dependency scanning, vulnerability detection, and code quality checks
+#
+name: 'CodeQL Advanced Security Analysis'
+
+on:
+  push:
+    branches: ['main', 'develop']
+    paths:
+      - 'src/**/*.ts'
+      - 'src/**/*.tsx'
+      - 'src/**/*.js'
+      - 'src/**/*.jsx'
+      - 'scripts/**/*.ts'
+      - 'scripts/**/*.js'
+      - 'package.json'
+      - 'pnpm-lock.yaml'
+      - '.github/workflows/codeql.yml'
+  pull_request:
+    branches: ['main', 'develop']
+    paths:
+      - 'src/**/*.ts'
+      - 'src/**/*.tsx'
+      - 'src/**/*.js'
+      - 'src/**/*.jsx'
+      - 'scripts/**/*.ts'
+      - 'scripts/**/*.js'
+      - 'package.json'
+      - 'pnpm-lock.yaml'
+  schedule:
+    # Run weekly security scan on Tuesdays at 11:15 UTC
+    - cron: '15 11 * * 2'
+  workflow_dispatch:
+    inputs:
+      scan_level:
+        description: 'Security scan level'
+        required: false
+        default: 'standard'
+        type: choice
+        options:
+          - standard
+          - extended
+          - full
+
+env:
+  SCAN_LEVEL: ${{ github.event.inputs.scan_level || 'standard' }}
+
+jobs:
+  analyze:
+    name: Security Analysis (${{ matrix.language }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      # Required for CodeQL analysis
+      security-events: write
+      # Required to fetch internal or private CodeQL packs
+      packages: read
+      # Required for workflows in private repositories
+      actions: read
+      contents: read
+      # Required for dependency review
+      pull-requests: read
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - language: javascript-typescript
+            build-mode: none
+            queries: security-extended,security-and-quality
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          # Fetch full history for better analysis
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22.11.0'
+          cache: 'pnpm'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: latest
+          run_install: false
+
+      - name: Cache dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.pnpm-store
+            node_modules
+            .next/cache
+          key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-
+
+      - name: Install dependencies
+        run: |
+          pnpm install --frozen-lockfile --prefer-offline
+          # Verify critical security packages
+          pnpm audit --audit-level=high --prod
+
+      - name: Validate package integrity
+        run: |
+          # Check for known vulnerabilities in dependencies
+          pnpm dlx audit-ci --config .audit-ci.json || echo "Audit warnings found, continuing with analysis"
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v4
+        with:
+          languages: ${{ matrix.language }}
+          build-mode: ${{ matrix.build-mode }}
+          # Enhanced security queries based on scan level
+          queries: |
+            ${{ env.SCAN_LEVEL == 'full' && 'security-extended,security-and-quality,code-scanning/javascript/frameworks/next' || 
+                env.SCAN_LEVEL == 'extended' && 'security-extended,security-and-quality' || 
+                'security-and-quality' }}
+          # Custom configuration for Next.js/Payload CMS projects
+          config: |
+            paths:
+              - src
+              - scripts
+              - pages
+              - app
+              - components
+              - blocks
+              - utilities
+            paths-ignore:
+              - node_modules
+              - .next
+              - dist
+              - build
+              - coverage
+              - '**/*.test.ts'
+              - '**/*.test.tsx'
+              - '**/*.spec.ts'
+              - '**/*.spec.tsx'
+
+      - name: Pre-analysis validation
+        run: |
+          # Validate TypeScript configuration
+          pnpm exec tsc --noEmit --skipLibCheck || echo "TypeScript validation completed with warnings"
+
+          # Check for common security patterns
+          echo "Checking for potential security issues..."
+
+          # Look for hardcoded secrets (basic check) in src and scripts
+          if grep -r "password\|secret\|key\|token" src/ scripts/ --include="*.ts" --include="*.tsx" --include="*.js" --include="*.jsx" | grep -v "// @ts-ignore" | grep -v "placeholder" | head -5; then
+            echo "⚠️ Potential hardcoded credentials found - will be analyzed by CodeQL"
+          fi
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v4
+        with:
+          category: '/language:${{matrix.language}}'
+          # Upload results even if there are findings
+          upload: true
+          # Wait for processing to complete
+          wait-for-processing: true
+
+      - name: Security Summary
+        if: always()
+        run: |
+          echo "## 🔒 Security Analysis Complete" >> $GITHUB_STEP_SUMMARY
+          echo "- **Language**: ${{ matrix.language }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Scan Level**: ${{ env.SCAN_LEVEL }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Queries Used**: ${{ matrix.queries }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Timestamp**: $(date -u)" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Check the **Security** tab for detailed findings and recommendations." >> $GITHUB_STEP_SUMMARY
+
+  dependency-review:
+    name: Dependency Security Review
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    permissions:
+      contents: read
+      pull-requests: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Dependency Review
+        uses: actions/dependency-review-action@v4
+        with:
+          # Fail on critical vulnerabilities
+          fail-on-severity: critical
+          # Allow moderate vulnerabilities with review
+          warn-on-severity: moderate
+          # Comment on PR with findings
+          comment-summary-in-pr: true

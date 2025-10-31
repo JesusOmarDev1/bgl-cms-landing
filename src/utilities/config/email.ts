@@ -1,6 +1,7 @@
 import { nodemailerAdapter } from '@payloadcms/email-nodemailer'
 import { resendAdapter } from '@payloadcms/email-resend'
 import nodemailer from 'nodemailer'
+import { isProd } from '@/utilities/payload/isProd'
 
 /**
  * Get the appropriate email adapter based on environment
@@ -8,19 +9,7 @@ import nodemailer from 'nodemailer'
  */
 
 export function getEmailAdapter() {
-  const isProduction = process.env.NODE_ENV === 'production'
-
-  if (isProduction) {
-    if (!process.env.RESEND_API_KEY || !process.env.RESEND_DEFAULT_EMAIL) {
-      throw new Error('RESEND_API_KEY y RESEND_DEFAULT_EMAIL son necesarios en producción')
-    }
-
-    return resendAdapter({
-      defaultFromAddress: process.env.RESEND_DEFAULT_USER,
-      defaultFromName: process.env.RESEND_DEFAULT_NAME,
-      apiKey: process.env.RESEND_API_KEY,
-    })
-  } else {
+  if (!isProd) {
     if (!process.env.NODEMAILER_USER || !process.env.NODEMAILER_PASS) {
       throw new Error('NODEMAILER_USER y NODEMAILER_PASS son necesarios en desarrollo')
     }
@@ -35,6 +24,16 @@ export function getEmailAdapter() {
           pass: process.env.NODEMAILER_PASS,
         },
       }),
+    })
+  } else {
+    if (!process.env.RESEND_API_KEY || !process.env.RESEND_DEFAULT_EMAIL) {
+      throw new Error('RESEND_API_KEY y RESEND_DEFAULT_EMAIL son necesarios en producción')
+    }
+
+    return resendAdapter({
+      defaultFromAddress: process.env.RESEND_DEFAULT_USER,
+      defaultFromName: process.env.RESEND_DEFAULT_NAME,
+      apiKey: process.env.RESEND_API_KEY,
     })
   }
 }

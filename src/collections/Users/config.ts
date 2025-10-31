@@ -5,6 +5,7 @@ import { isAdminOrSelf } from '@/access/isAdminOrSelf'
 import { personalFields } from './fields/personalFields'
 import { securityFields } from './fields/securityFields'
 import { validateUser } from './hooks/validateUser'
+import { isProd } from '@/utilities/payload/isProd'
 
 export const Users: CollectionConfig = {
   slug: 'users',
@@ -76,7 +77,7 @@ export const Users: CollectionConfig = {
     useAPIKey: false,
     depth: 2,
     cookies: {
-      secure: process.env.NODE_ENV === 'production',
+      secure: isProd,
       sameSite: 'Lax',
     },
   },

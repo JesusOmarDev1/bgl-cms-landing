@@ -3,8 +3,8 @@
  */
 import canUseDOM from '../browser/canUseDOM'
 
-const NEXT_PUBLIC_SERVER_URL = process.env.VERCEL_PROJECT_PRODUCTION_URL
-  ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+const NEXT_PUBLIC_SERVER_URL = process.env.NEXT_PROJECT_PRODUCTION_URL
+  ? `https://${process.env.NEXT_PROJECT_PRODUCTION_URL}`
   : process.env.__NEXT_PRIVATE_ORIGIN || 'http://localhost:3000'
 
 /**
@@ -25,8 +25,8 @@ export function absoluteUrl(path: string): string {
 export function getServerSideURL(): string {
   let url = process.env.NEXT_PUBLIC_SERVER_URL
 
-  if (!url && process.env.VERCEL_PROJECT_PRODUCTION_URL) {
-    return `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+  if (!url && process.env.NEXT_PROJECT_PRODUCTION_URL) {
+    return `https://${process.env.NEXT_PROJECT_PRODUCTION_URL}`
   }
 
   if (!url) {
@@ -49,8 +49,8 @@ export function getClientSideURL(): string {
     return `${protocol}//${domain}${port ? `:${port}` : ''}`
   }
 
-  if (process.env.VERCEL_PROJECT_PRODUCTION_URL) {
-    return `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+  if (process.env.NEXT_PROJECT_PRODUCTION_URL) {
+    return `https://${process.env.NEXT_PROJECT_PRODUCTION_URL}`
   }
 
   return process.env.NEXT_PUBLIC_SERVER_URL || ''

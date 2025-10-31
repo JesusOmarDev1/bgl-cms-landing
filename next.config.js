@@ -1,13 +1,12 @@
 import { withPayload } from '@payloadcms/next/withPayload'
 import { createSecureHeaders } from 'next-secure-headers'
+import { isProd } from '@/utilities/payload/isProd'
 
 import redirects from './redirects.js'
 
-const NEXT_PUBLIC_SERVER_URL = process.env.VERCEL_PROJECT_PRODUCTION_URL
-  ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+const NEXT_PUBLIC_SERVER_URL = process.env.NEXT_PROJECT_PRODUCTION_URL
+  ? `https://${process.env.NEXT_PROJECT_PRODUCTION_URL}`
   : undefined || process.env.__NEXT_PRIVATE_ORIGIN || 'http://localhost:3000'
-
-const isDev = process.env.NODE_ENV === 'development'
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -48,7 +47,7 @@ const nextConfig = {
       },
     ],
     domains: ['*.r2.cloudflarestorage.com', '*.r2.dev'],
-    unoptimized: isDev ? true : false,
+    unoptimized: isProd ? false : true,
   },
   webpack: (webpackConfig) => {
     webpackConfig.resolve.extensionAlias = {
@@ -76,36 +75,18 @@ const nextConfig = {
           // Disable the global frameGuard to allow specific rules for /admin
           frameGuard: false,
           // More permissive CSP for development, stricter for production
-          contentSecurityPolicy: isDev
-            ? false
-            : {
+          contentSecurityPolicy: isProd
+            ? {
                 directives: {
                   defaultSrc: ["'self'"],
                   styleSrc: ["'self'", "'unsafe-inline'"],
                   scriptSrc: [
                     "'self'",
-                    "'unsafe-eval'", // Required for some libraries and dev tools
-                    "'unsafe-inline'",
                     'https://cdn.jsdelivr.net',
                     'https://unpkg.com',
-                    'https://esm.sh',
-                    // Add specific domains for libraries that might need eval
+                    'https://maps.googleapis.com',
                     'https://www.googletagmanager.com',
                     'https://www.google-analytics.com',
-                    // Development specific - Next.js HMR and dev tools
-                    ...(isDev
-                      ? [
-                          "'unsafe-eval'",
-                          "'unsafe-inline'",
-                          'http://localhost:*',
-                          'ws://localhost:*',
-                          'webpack://',
-                          'data:',
-                          'blob:',
-                          // Allow eval for development debugging
-                          "'wasm-unsafe-eval'",
-                        ]
-                      : []),
                   ],
                   imgSrc: [
                     "'self'",
@@ -115,16 +96,68 @@ const nextConfig = {
                     'https://*.cloudflare.com',
                     'https://*.r2.cloudflarestorage.com',
                     'https://*.r2.dev',
+                    'https://*.tile.openstreetmap.org',
+                    'https://maps.googleapis.com',
+                    'https://maps.gstatic.com',
+                  ],
+                  connectSrc: ["'self'", 'https:', 'wss:', 'https://maps.googleapis.com'],
+                  fontSrc: ["'self'", 'https:', 'data:'],
+                  objectSrc: ["'none'"],
+                  mediaSrc: [
+                    "'self'",
+                    'https://*.r2.cloudflarestorage.com',
+                    'https://*.r2.dev',
+                    'blob:',
+                    'data:',
+                  ],
+                  workerSrc: ["'self'", 'blob:'],
+                  childSrc: ["'self'", 'blob:'],
+                  frameSrc: ["'self'", 'blob:', 'data:'],
+                  formAction: ["'self'"],
+                },
+              }
+            : {
+                directives: {
+                  defaultSrc: ["'self'"],
+                  styleSrc: ["'self'", "'unsafe-inline'"],
+                  scriptSrc: [
+                    "'self'",
+                    "'unsafe-eval'", // Required for development tools
+                    "'unsafe-inline'",
+                    'https://cdn.jsdelivr.net',
+                    'https://unpkg.com',
+                    'https://esm.sh',
+                    'https://maps.googleapis.com',
+                    'https://www.googletagmanager.com',
+                    'https://www.google-analytics.com',
+                    'http://localhost:*',
+                    'ws://localhost:*',
+                    'webpack://',
+                    'data:',
+                    'blob:',
+                    "'wasm-unsafe-eval'",
+                  ],
+                  imgSrc: [
+                    "'self'",
+                    'data:',
+                    'https:',
+                    'blob:',
+                    'https://*.cloudflare.com',
+                    'https://*.r2.cloudflarestorage.com',
+                    'https://*.r2.dev',
+                    'https://*.tile.openstreetmap.org',
+                    'https://maps.googleapis.com',
+                    'https://maps.gstatic.com',
                   ],
                   connectSrc: [
                     "'self'",
                     'https:',
                     'wss:',
                     'ws:',
-                    // Development specific
-                    ...(isDev
-                      ? ['http://localhost:*', 'ws://localhost:*', 'wss://localhost:*']
-                      : []),
+                    'http://localhost:*',
+                    'ws://localhost:*',
+                    'wss://localhost:*',
+                    'https://maps.googleapis.com',
                   ],
                   fontSrc: ["'self'", 'https:', 'data:'],
                   objectSrc: ["'none'"],
@@ -145,7 +178,7 @@ const nextConfig = {
           xssProtection: 'sanitize',
           referrerPolicy: 'strict-origin-when-cross-origin',
           xContentTypeOptions: 'nosniff',
-          strictTransportSecurity: isDev ? false : 'max-age=31536000; includeSubDomains; preload',
+          strictTransportSecurity: !isProd ? false : 'max-age=31536000; includeSubDomains; preload',
           permissionsPolicy: {
             camera: [],
             microphone: [],
@@ -184,3 +217,39 @@ const nextConfig = {
 }
 
 export default withPayload(nextConfig, { devBundleServerPackages: false })
+
+// Injected content via Sentry wizard below
+
+const { withSentryConfig } = require('@sentry/nextjs')
+
+module.exports = withSentryConfig(module.exports, {
+  // For all available options, see:
+  // https://www.npmjs.com/package/@sentry/webpack-plugin#options
+
+  org: 'bgl-basculas-industriales',
+  project: 'bgl-cms-landing',
+
+  // Only print logs for uploading source maps in production and CI
+  silent: !isProd && !process.env.CI,
+
+  // For all available options, see:
+  // https://docs.sentry.io/platforms/javascript/guides/nextjs/manual-setup/
+
+  // Upload a larger set of source maps for prettier stack traces (increases build time)
+  widenClientFileUpload: true,
+
+  // Uncomment to route browser requests to Sentry through a Next.js rewrite to circumvent ad-blockers.
+  // This can increase your server load as well as your hosting bill.
+  // Note: Check that the configured route will not match with your Next.js middleware, otherwise reporting of client-
+  // side errors will fail.
+  // tunnelRoute: "/monitoring",
+
+  // Keep Sentry logger statements in production for monitoring
+  disableLogger: !isProd,
+
+  // Enables automatic instrumentation of Vercel Cron Monitors. (Does not yet work with App Router route handlers.)
+  // See the following for more information:
+  // https://docs.sentry.io/product/crons/
+  // https://vercel.com/docs/cron-jobs
+  automaticVercelMonitors: false,
+})
